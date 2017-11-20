@@ -1,0 +1,622 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates>
+<template name="I Have A Dream" > 
+  <description>
+    Use this template to send a political compaign like Sonko's.
+</description>
+  <context>
+    <from>techmaster.hunter.mail@gmail.com</from>
+    <subject>Hunter Task Process Request</subject>
+    <toList>hillangat@gmail.com,techmaster.hunter.mail@gmail.com</toList>
+    <ccList>hklangats@gmail.com,elawryl@facebook.com</ccList>
+    <contentType>text/html</contentType>
+    <miscelaneous>
+      <config>
+        <key>exclusive</key>
+        <value>true</value>
+      </config>
+      <config>
+        <key>isAllBcc</key>
+        <value>true</value>
+      </config>
+      <config>
+        <key>contentKey</key>
+        <value>#TEMPLATE_EMAIL_CONTENTS#</value>
+      </config>
+      <config>
+        <key>kipTest2</key>
+        <value>kip testing miscelaneous configurations.</value>
+      </config>
+      <config>
+        <key>kipTest3</key>
+        <value>kip testing miscelaneous configurations.</value>
+      </config>
+    </miscelaneous>
+  </context>
+  <template>
+    <![CDATA[
+		<div style="width:75%;position:relative;margin-left:5%;border:1px solid rgb(170,209,219);background-color:rgb(232,243,246);border-radius:5px;" >
+		<div  style="width:96%;position:relative;margin:2%;height:96%;border:1px solid rgb(170,209,219);background-color:rgb(242,248,250);border-radius:5px;" >
+		<table style="table-layout:fixed;height:100%;width:100%;" >
+		<tr>
+		<td style="width:60%;" >
+		<div style="height:100%;display:block;padding:20px;margin-top:0px;" >
+		<h3>
+		<b>
+		<center>I HAVE A DREAM
+		</center>
+		</b>
+		</h3>
+		<p style="text-align:left;">I have a dream that one day down in Alabama, with its 
+		vicious racists, with its governor having his lips dripping with the 
+		words of interposition and nullification ? one day right there in 
+		Alabama little black boys and black girls will be able to join hands 
+		with little white boys and white girls as sisters and brothers.
+		</p>
+		<p style="text-align:left;">I have a dream today.
+		</p>
+		<p style="text-align:left;">I have a dream that one day every valley shall be exalted and every 
+		hill and mountain shall be made low, the rough places will be made 
+		plain, and the crooked places will be made straight, and the glory of 
+		the Lord shall be revealed and all flesh shall see it together.
+		</p>            
+		<p style='text-align:left;'> Dr. Martin Luther King Jnr. 
+		</p>
+		<br>
+		<p style='text-align:left;font-size:10px;'>
+		#TEMPLATE_EMAIL_CONTENTS#
+		</p>
+		</div>
+		</td>
+		<td  style="width:40%;" >
+		<div style="height:100%;display:block;padding:20px;margin-top:0px;" >
+		<table>
+		<tr>
+		<td> 
+		<img style="border:1px solid rgb(220,235,240);border-radius:4px;" src="https://upload.wikimedia.org/wikipedia/commons/b/bb/Uhuru_Kenyatta_Official.jpg" alt="Uhuru Kenyatta" width="100%" height="80%" /> 
+		</td>
+		</tr>
+		<tr>
+		<td>
+		<h3>
+		<center>Uhuru Kenyatta, 2017 
+		</center>                   
+		</h3>
+		</td>
+		</tr>
+		</table>
+		</div>
+		</td>
+		</tr>
+		</table>
+		</div>
+		</div>
+		]]>
+  </template>
+  <content>
+			<![CDATA[
+				<div style="width:75%;position:relative;margin-left:5%;border:1px solid rgb(170,209,219);background-color:rgb(232,243,246);border-radius:5px;" >
+		<div  style="width:96%;position:relative;margin:2%;height:96%;border:1px solid rgb(170,209,219);background-color:rgb(242,248,250);border-radius:5px;" >
+		<table style="table-layout:fixed;height:100%;width:100%;" >
+		<tr>
+		<td style="width:60%;" >
+		<div style="height:100%;display:block;padding:20px;margin-top:0px;" >
+		<h3>
+		<b>
+		<center>I HAVE A DREAM
+		</center>
+		</b>
+		</h3>
+		<p style="text-align:left;">I have a dream that one day down in Alabama, with its 
+		vicious racists, with its governor having his lips dripping with the 
+		words of interposition and nullification ? one day right there in 
+		Alabama little black boys and black girls will be able to join hands 
+		with little white boys and white girls as sisters and brothers.
+		</p>
+		<p style="text-align:left;">I have a dream today.
+		</p>
+		<p style="text-align:left;">I have a dream that one day every valley shall be exalted and every 
+		hill and mountain shall be made low, the rough places will be made 
+		plain, and the crooked places will be made straight, and the glory of 
+		the Lord shall be revealed and all flesh shall see it together.
+		</p>            
+		<p style='text-align:left;'> Dr. Martin Luther King Jnr. 
+		</p>
+		<br>
+		<p style='text-align:left;font-size:10px;'>
+		#TEMPLATE_EMAIL_CONTENTS#
+		</p>
+		</div>
+		</td>
+		<td  style="width:40%;" >
+		<div style="height:100%;display:block;padding:20px;margin-top:0px;" >
+		<table>
+		<tr>
+		<td> 
+		<img style="border:1px solid rgb(220,235,240);border-radius:4px;" src="https://upload.wikimedia.org/wikipedia/commons/b/bb/Uhuru_Kenyatta_Official.jpg" alt="Uhuru Kenyatta" width="100%" height="80%" /> 
+		</td>
+		</tr>
+		<tr>
+		<td>
+		<h3>
+		<center>Uhuru Kenyatta, 2017 
+		</center>                   
+		</h3>
+		</td>
+		</tr>
+		</table>
+		</div>
+		</td>
+		</tr>
+		</table>
+		</div>
+		</div> 
+
+			]]>
+		</content>
+  <attachments>
+    <attachment key="kenyattaOfficialPortrait" type="embedded" >Kenyatta Official Portrait</attachment>
+  </attachments>
+</template>
+	<template name="taskpProcessRequestNotification" > 
+		<description>
+			Used to send an email when system starts processing a task.
+		</description>
+		<context>
+			<from>techmaster.hunter.mail@gmail.com</from>
+			<subject>Hunter Task Process Request</subject>
+			<toList>hillangat@gmail.com,techmaster.hunter.mail@gmail.com</toList>
+			<ccList>hklangats@gmail.com,elawryl@facebook.com</ccList>
+			<contentType>text/html</contentType>
+			<miscelaneous>
+				<config>
+					<key>kipTest</key>
+					<value>kip testing miscelaneous configurations.</value>
+				</config>
+				<config>
+					<key>exclusive</key>
+					<value>true</value>
+				</config>
+				<config>
+					<key>isAllBcc</key>
+					<value>true</value>
+				</config>
+				<config>
+					<key>kipTest2</key>
+					<value>kip testing miscelaneous configurations.</value>
+				</config>
+				<config>
+					<key>kipTest3</key>
+					<value>kip testing miscelaneous configurations.</value>
+				</config>
+			</miscelaneous>
+		</context>
+		<content>
+			<![CDATA[
+				<table  padding="20" width="632" cellspacing="0" cellpadding="0" align="center" bgcolor="#EEF9FA">
+					<tbody>
+						<tr>
+							<td>
+								  <div with="632" style="padding:20px;border:1px solid #D6EAEE;border-radius:5px;"  >
+								  
+									Dear ##FRST_NAM## ##LST_NAM##, <br/>
+										
+									<p>
+										Processing request of task with the objective <span style='color:#C64C4C' >"##TSK_OBJCTV##"</span> has been submitted and system has
+										initiated the processing. You will be notified via email when the processing has been completed.
+									</p>
+									
+									<p>
+										Thank you for choosing Techmaster Hunter for your targeted advertising needs! </br></br>
+									</p>
+									
+									<br/>
+									<p style="font-size:11px;color:#1F0600;" >
+										This email is intended for Techmaster Hunters receivers only and it may contain confidential information.
+										If this email is not meant for you, please completely delete it. Sending this email to unintended people 
+										or using it in any way that can expose confidential information or in any way infringe the rights 
+										or properties of any individual or company is a criminal offense and you shall be prosecuted to the fullest extend of the law.
+									</p>
+								  
+								  </div>
+							  </td>
+						</tr>
+					</tbody>
+				</table>
+			]]>
+		</content>
+	</template>
+	<template name="Sonko Mbuvi Template" > 
+		<description>
+			Use this template to send a political compaign like Sonko's.
+		</description>
+		<context>
+			<from>techmaster.hunter.mail@gmail.com</from>
+			<subject>Hunter Task Process Request</subject>
+			<toList>hillangat@gmail.com,techmaster.hunter.mail@gmail.com</toList>
+			<ccList>hklangats@gmail.com,elawryl@facebook.com</ccList>
+			<contentType>text/html</contentType>
+			<miscelaneous>
+				<config>
+					<key>exclusive</key>
+					<value>true</value>
+				</config>
+				<config>
+					<key>isAllBcc</key>
+					<value>true</value>
+				</config>
+				<config>
+					<key>kipTest</key>
+					<value>kip testing miscelaneous configurations.</value>
+				</config>
+				<config>
+					<key>kipTest2</key>
+					<value>kip testing miscelaneous configurations.</value>
+				</config>
+				<config>
+					<key>kipTest3</key>
+					<value>kip testing miscelaneous configurations.</value>
+				</config>
+			</miscelaneous>
+		</context>
+		<content>
+			<![CDATA[
+				<table  padding="20" width="632" cellspacing="0" cellpadding="0" align="center" bgcolor="#0A0A0A" style='color:white;' >      
+  <tbody>
+    <tr>
+      <td>
+        <img src='http://localhost:8080/Hunter/static/resources/images/emlTmpltImgs/sonko_mbuvi_picture.png' width="708px" height="229px" >
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <div  width="632" style="padding:10px;min-height:100px;font-size:15px;" >
+          My fellow Nairobians, <br/><br/>     Four score and seven years ago our fathers 
+          brought forth on this continent a new nation, conceived in liberty, and dedicated 
+          to the proposition that all men are created equal.      Now we are engaged in a 
+          great civil war, testing whether that nation, or any nation so conceived and so 
+          dedicated, can long endure. We are met on a great battlefield of that war. We 
+          have come to dedicate a portion of that field, as a final resting place for 
+          those who here gave their lives that that nation might live. It is altogether 
+          fitting and proper that we should do this.      But, in a larger sense, we 
+          can not dedicate, we can not consecrate, we can not hallow this ground.
+          The brave men, living and dead, who struggled here, have consecrated it, 
+          far above our poor power to add or detract. The world will little note, 
+          nor long remember what we say here, but it can never forget what they did here. 
+          It is for us the living, rather, to be dedicated here to the unfinished work which 
+          they who fought here have thus far so nobly advanced. It is rather for us to be 
+          here dedicated to the great task remaining before us?that from these honored 
+          dead we take increased devotion to that cause for which they gave the last 
+          full measure of devotion?that we here highly resolve that these dead shall 
+          not have died in vain?that this nation, under God, shall have a new birth of 
+          freedom?and that government of the people, by the people, for the people, 
+          shall not perish from the earth.
+          
+          <div style='font-size:22px;font-weight:bold;'><br/>
+            	Nairobi Senator,<br/>           
+            	Sen. Sonko Mbuvi.<br/>           
+            	For Nairobi Governor, 2017          
+          </div>
+        
+        </div>
+      </td>
+    </tr>
+  </tbody>
+</table>       
+
+			]]>
+		</content>
+		<template>
+			<![CDATA[
+				<table  padding="20" width="632" cellspacing="0" cellpadding="0" align="center" bgcolor="#0A0A0A" style='color:white;' >
+					<tbody>
+						<tr>
+							<td>
+								<img src='cid:HUNTER_CID_REF=SonkoMbuviHorizontalPhoto' width="708px" height="229px" >
+							</td>
+						</tr>
+						<tr>
+						<td>
+								<div  width="632" style="padding:10px;min-height:100px;font-size:15px;" >
+									#TEMPLATE_EMAIL_CONTENTS#
+								</div>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			]]>
+		</template>
+		<attachments>
+			<attachment key="SonkoMbuviHorizontalPhoto" type="embedded" >Sonko Mbuvi Top Photo</attachment>
+		</attachments>
+	</template>
+	<template name="taskEmailClient" >
+		<description>
+			Type task email template
+		</description>
+		<context>
+			<from>techmaster.hunter.mail@gmail.com</from>
+			<subject>GOP Primary Elections Heating Up</subject>
+			<toList>hillangat@gmail.com,techmaster.hunter.mail@gmail.com</toList>
+			<ccList>hklangats@gmail.com,elawryl@facebook.com</ccList>
+			<contentType>text/html</contentType>
+			<miscelaneous>
+				<config>
+					<key>exclusive</key>
+					<value>false</value>
+				</config>
+				<config>
+					<key>isAllBcc</key>
+					<value>true</value>
+				</config>
+				<config>
+					<key>kipTest</key>
+					<value>kip testing miscelaneous configurations.</value>
+				</config>
+				<config>
+					<key>kipTest2</key>
+					<value>kip testing miscelaneous configurations.</value>
+				</config>
+				<config>
+					<key>kipTest3</key>
+					<value>kip testing miscelaneous configurations.</value>
+				</config>
+			</miscelaneous>
+		</context>
+		<content>
+			<![CDATA[
+				<html>
+					<body style='with:100%;' >
+						<div style="with:60%;height:100%;align:center;" >
+							<table style='with:200px;align:center;table-layout:fixed;background-color:#F6FCFF;border:1px solid #DAEAF0;' >
+								<tr>
+									<td>
+										##EMAIL_CONTENT##
+									</td>
+								</tr>
+							</table>
+							<br/>
+								<p style="font-size:11px;color:#1F0600;" >
+									This email is intended for Techmaster Hunters receivers only and it may contain confidential information.
+									If this email is not meant for you, please completely delete it. Sending this email to unintended people 
+									or using it in any way that can expose confidential information or in any way infringe the rights 
+									or properties of any individual or company is a criminal offense and you shall be prosecuted to the fullest extend of the law.
+								</p>
+						</div>
+					</body>
+				</html>
+			]]>
+		</content>
+	</template>
+	<template name="GOP Debate Template" >
+		<description>
+			Used to send an email when system starts processing a task.
+		</description>
+		<context>
+			<from>techmaster.hunter.mail@gmail.com</from>
+			<subject>Hunter Task Process Request</subject>
+			<toList>hillangat@gmail.com,techmaster.hunter.mail@gmail.com</toList>
+			<ccList>hklangats@gmail.com,elawryl@facebook.com</ccList>
+			<contentType>text/html</contentType>
+			<miscelaneous>
+				<config>
+					<key>exclusive</key>
+					<value>false</value>
+				</config>
+				<config>
+					<key>isAllBcc</key>
+					<value>true</value>
+				</config>
+				<config>
+					<key>kipTest</key>
+					<value>kip testing miscelaneous configurations.</value>
+				</config>
+				<config>
+					<key>kipTest2</key>
+					<value>kip testing miscelaneous configurations.</value>
+				</config>
+				<config>
+					<key>kipTest3</key>
+					<value>kip testing miscelaneous configurations.</value>
+				</config>
+			</miscelaneous>
+		</context>
+		<content>
+			<![CDATA[
+				<table  padding="20" width="632" cellspacing="0" cellpadding="0" align="center" bgcolor="#EEF9FA">
+				<tbody>
+				<tr>
+				<td>
+				  <div with="632" style="padding:20px;border:1px solid #D6EAEE;border-radius:5px;"  >
+				  
+					<p></p><p>RANCHO MIRAGE, Calif. &mdash; President Obama on Tuesday challenged Republicans to offer a plausible rationale for refusing to consider a Supreme Court candidate to replace Justice Antonin Scalia, and he pledged to nominate someone with an &ldquo;outstanding legal mind&rdquo; who cares about democracy and the rule of law. &ldquo;The Constitution is pretty clear about what is supposed to happen now,&rdquo; Mr. Obama said during a news conference after a meeting in California with leaders of Southeast Asia. He said the Constitution demanded that a president nominate someone for the court and the Senate either confirms or rejects. &ldquo;There&rsquo;s no unwritten law that says that it can only be done on off years,&rdquo; Mr. Obama said. &ldquo;That&rsquo;s not in the constitutional text.&rdquo; </p><p></p><p>RANCHO MIRAGE, Calif. &mdash; President Obama on Tuesday challenged Republicans to offer a plausible rationale for refusing to consider a Supreme Court candidate to replace Justice Antonin Scalia, and he pledged to nominate someone with an &ldquo;outstanding legal mind&rdquo; who cares about democracy and the rule of law. &ldquo;The Constitution is pretty clear about what is supposed to happen now,&rdquo; Mr. Obama said during a news conference after a meeting in California with leaders of Southeast Asia. He said the Constitution demanded that a president <g class="gr_ gr_78 gr-alert gr_gramm Grammar multiReplace" data-gr-id="78" id="78">nominate</g> someone for the court and the Senate either confirms or rejects. &ldquo;There&rsquo;s no unwritten law that says that it can only be done on off years,&rdquo; Mr. Obama said. &ldquo;That&rsquo;s not in the constitutional text.&rdquo; </p><p></p><p>RANCHO MIRAGE, Calif. &mdash; President Obama on Tuesday challenged Republicans to offer a plausible rationale for refusing to consider a Supreme Court candidate to replace Justice Antonin Scalia, and he pledged to nominate someone with an &ldquo;outstanding legal mind&rdquo; who cares about democracy and the rule of law. &ldquo;The Constitution is pretty clear about what is supposed to happen now,&rdquo; Mr. Obama said during a news conference after a meeting in California with leaders of Southeast Asia. He said the Constitution demanded that a president nominate someone for the court and the Senate either confirms or rejects. &ldquo;There&rsquo;s no unwritten law that says that it can only be done on off years,&rdquo; Mr. Obama said. &ldquo;That&rsquo;s not in the constitutional text.&rdquo; </p>
+				  
+				  </div>
+				  </td>
+				</tr>
+				</tbody>
+				</table>
+			]]>
+		</content>
+		<template>
+			<![CDATA[
+				<table  padding="20" width="632" cellspacing="0" cellpadding="0" align="center" bgcolor="#EEF9FA">
+				<tbody>
+				<tr>
+				<td>
+				  <div with="632" style="padding:20px;border:1px solid #D6EAEE;border-radius:5px;"  >
+				  
+					#TEMPLATE_EMAIL_CONTENTS#
+				  
+				  </div>
+				  </td>
+				</tr>
+				</tbody>
+				</table>
+			]]>
+		</template>
+	</template>
+	<template name="Tech Master Candidate Image" >
+		<description>
+			Used to send an email when system starts processing a task.
+		</description>
+		<context>
+			<from>techmaster.hunter.mail@gmail.com</from>
+			<subject>Hunter Task Process Request</subject>
+			<toList>hillangat@gmail.com,techmaster.hunter.mail@gmail.com</toList>
+			<ccList>hklangats@gmail.com,elawryl@facebook.com</ccList>
+			<contentType>text/html</contentType>
+			<miscelaneous>
+				<config>
+					<key>exclusive</key>
+					<value>false</value>
+				</config>
+				<config>
+					<key>isAllBcc</key>
+					<value>true</value>
+				</config>
+				<config>
+					<key>kipTest</key>
+					<value>kip testing miscelaneous configurations.</value>
+				</config>
+				<config>
+					<key>kipTest2</key>
+					<value>kip testing miscelaneous configurations.</value>
+				</config>
+				<config>
+					<key>kipTest3</key>
+					<value>kip testing miscelaneous configurations.</value>
+				</config>
+			</miscelaneous>
+		</context>
+		<content>
+			<![CDATA[
+				<table  padding="20" width="632" cellspacing="0" cellpadding="0" align="left" bgcolor="#EEF9FA">
+					<tbody>
+						<tr>
+							<td>
+								  <div with="632" style="color:white;padding:20px;border:1px solid #D6EAEE;border-radius:5px;background-color:#0D142F;"  >
+								  
+									<img alt="fff" align="left" style="margin-right:20px;margin-bottom:20px;border:1px solid #DBE3EE;border-radius:2px;"  height="150" src="https://pbs.twimg.com/profile_images/3497293273/e25b422024532a6f240686a76c5364ef.jpeg" width="150" />
+				
+					<p>
+Fellow Kenyans, Today , work begins.<br>
+The time has come, not to ask what community we come from but rather  what dreams we share. The time has come not to ask what political party  we belong to but rather what partnerships we can build. The time has  come to<br>
+ask , not who we voted for, but what future we are devoted to.<br>
+&nbsp;</p>
+									
+									<p>Fellow Kenyans we must move forward together. Let us remember  that although we may not be bound together by ethnicity, or cultural  practices or religious conviction – our kinship rests solidly upon the  fact that we have all been adopted by Kenya’s borders; we are all  children of this nation, we are all bound to one constitution which  calls us to rise above our individual ideologies and march to our  national anthem.&nbsp;</p>
+									<p>That anthem reminds us of the fundamental  principles upon which our prosperity must be built. It calls us to  reflect on the power of peace; to recall the supreme value of freedom;  to believe, once more, in the beauty of service<br>
+and brotherhood; to aspire each day, to the dignity that results from  hard work, and to contend for the hope that justice brings.</p>
+<p>Brothers and sisters; Fellow Kenyans – let us move forward,  together, in the spirit of our anthem and in the spirit of our  constitution being confident that if we turn neither to the left nor to  the right of our national values, we, as a people, will see the promised  land of prosperity that our forbearers set out for.<br>
+<br>
+God bless you, God bless the Republic of Kenya and God bless Africa.</p>
+<h4>
+H.E. HON. UHURU KENYATTA, C.G.H.,<br/>
+PRESIDENT AND COMMANDER-IN-CHIEF OF THE DEFENCE FORCES OF THE REPUBLIC OF KENYA
+					</h4>				 
+									
+									
+									
+									Tech masters.
+								  </div>
+							  </td>
+						</tr>
+					</tbody>
+				</table>
+			]]>
+		</content>
+		<template>
+			<![CDATA[
+				<table  padding="20" width="632" cellspacing="0" cellpadding="0" align="left" bgcolor="#EEF9FA">
+					<tbody>
+						<tr>
+							<td>
+								  <div with="632" style="padding:20px;border:1px solid #D6EAEE;border-radius:5px;background-color:#0D142F;color:white;"  >
+									<img src='cid:HUNTER_CID_REF=uhuruKenyattaProfilePhoto' alt="fff" align="left" style="margin-right:20px;margin-bottom:20px;border:1px solid #DBE3EE;border-radius:4px;"  height="150" width="150" />
+								  	#TEMPLATE_EMAIL_CONTENTS#
+								  	<br/>
+								  	<h4>
+H.E. HON. UHURU KENYATTA, C.G.H.,<br/>
+PRESIDENT AND COMMANDER-IN-CHIEF OF THE DEFENCE FORCES OF THE REPUBLIC OF KENYA
+					</h4>	
+								  </div>
+							  </td>
+						</tr>
+					</tbody>
+				</table>
+			]]>
+		</template>
+		<attachments>
+			<attachment key="uhuruKenyattaProfilePhoto" type="embedded" >Uhuru Kenyatta Profile Photo</attachment>
+		</attachments>
+	</template>
+	<template name="Hunter Radial Universe" >
+		<description>
+			This has a background image radial background image
+		</description>
+		<context>
+			<from>techmaster.hunter.mail@gmail.com</from>
+			<subject>Hunter Task Process Request</subject>
+			<toList>hillangat@gmail.com,techmaster.hunter.mail@gmail.com</toList>
+			<ccList>hklangats@gmail.com,elawryl@facebook.com</ccList>
+			<contentType>text/html</contentType>
+			<miscelaneous>
+				<config>
+					<key>exclusive</key>
+					<value>false</value>
+				</config>
+				<config>
+					<key>isAllBcc</key>
+					<value>true</value>
+				</config>
+				<config>
+					<key>kipTest</key>
+					<value>kip testing miscelaneous configurations.</value>
+				</config>
+				<config>
+					<key>kipTest2</key>
+					<value>kip testing miscelaneous configurations.</value>
+				</config>
+				<config>
+					<key>kipTest3</key>
+					<value>kip testing miscelaneous configurations.</value>
+				</config>
+			</miscelaneous>
+		</context>
+		<content>
+			<![CDATA[
+				<table  padding="20" width="632" cellspacing="0" cellpadding="0" align="left"  >
+				<tbody>
+				<tr>
+				<td>
+				  <div with="632" style="color:white;padding:20px;border:1px solid #D6EAEE;border-radius:5px;background-image:url('http://www.maverickagency.ca/wp-content/uploads/2015/11/background-colors.jpg')" >
+				  
+					<p></p><p>RANCHO MIRAGE, Calif. &mdash; President Obama on Tuesday challenged Republicans to offer a plausible rationale for refusing to consider a Supreme Court candidate to replace Justice Antonin Scalia, and he pledged to nominate someone with an &ldquo;outstanding legal mind&rdquo; who cares about democracy and the rule of law. &ldquo;The Constitution is pretty clear about what is supposed to happen now,&rdquo; Mr. Obama said during a news conference after a meeting in California with leaders of Southeast Asia. He said the Constitution demanded that a president nominate someone for the court and the Senate either confirms or rejects. &ldquo;There&rsquo;s no unwritten law that says that it can only be done on off years,&rdquo; Mr. Obama said. &ldquo;That&rsquo;s not in the constitutional text.&rdquo; </p><p></p><p>RANCHO MIRAGE, Calif. &mdash; President Obama on Tuesday challenged Republicans to offer a plausible rationale for refusing to consider a Supreme Court candidate to replace Justice Antonin Scalia, and he pledged to nominate someone with an &ldquo;outstanding legal mind&rdquo; who cares about democracy and the rule of law. &ldquo;The Constitution is pretty clear about what is supposed to happen now,&rdquo; Mr. Obama said during a news conference after a meeting in California with leaders of Southeast Asia. He said the Constitution demanded that a president <g class="gr_ gr_78 gr-alert gr_gramm Grammar multiReplace" data-gr-id="78" id="78">nominate</g> someone for the court and the Senate either confirms or rejects. &ldquo;There&rsquo;s no unwritten law that says that it can only be done on off years,&rdquo; Mr. Obama said. &ldquo;That&rsquo;s not in the constitutional text.&rdquo; </p><p></p><p>RANCHO MIRAGE, Calif. &mdash; President Obama on Tuesday challenged Republicans to offer a plausible rationale for refusing to consider a Supreme Court candidate to replace Justice Antonin Scalia, and he pledged to nominate someone with an &ldquo;outstanding legal mind&rdquo; who cares about democracy and the rule of law. &ldquo;The Constitution is pretty clear about what is supposed to happen now,&rdquo; Mr. Obama said during a news conference after a meeting in California with leaders of Southeast Asia. He said the Constitution demanded that a president nominate someone for the court and the Senate either confirms or rejects. &ldquo;There&rsquo;s no unwritten law that says that it can only be done on off years,&rdquo; Mr. Obama said. &ldquo;That&rsquo;s not in the constitutional text.&rdquo; </p>
+				  
+				  </div>
+				  </td>
+				</tr>
+				</tbody>
+				</table>
+			]]>
+		</content>
+		<template>
+			<![CDATA[
+				<table  padding="20" width="632" cellspacing="0" cellpadding="0" align="center" bgcolor="#EEF9FA">
+				<tbody>
+				<tr>
+				<td>
+				  <div with="632" style="padding:20px;border:1px solid #D6EAEE;border-radius:5px;"  >
+				  
+					#TEMPLATE_EMAIL_CONTENTS#
+				  
+				  </div>
+				  </td>
+				</tr>
+				</tbody>
+				</table>
+			]]>
+		</template>
+	</template>
+</templates>

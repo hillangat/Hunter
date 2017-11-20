@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+	
+	<class name="com.techmaster.hunter.obj.beans.Message"  abstract="true" table="MSG" lazy="true">
+		
+		<id name="msgId" type="java.lang.Long" column="MSG_ID">
+			<generator class="assigned" />
+		</id>
+		
+		<property name="msgDeliveryStatus" column="MSG_DEL_STS" type="java.lang.String"  />
+		<property name="msgLifeStatus" column="MSG_LIF_STS"  type="java.lang.String"/>
+		<property name="msgSendDate" column="MSG_SEND_DATE"  type="java.util.Date"/>
+		<property name="msgTaskType" column="MSG_TSK_TYP"  type="java.lang.String"/>
+		<property name="msgText" column="MSG_TXT"  type="java.lang.String" length="4000"/>
+		<property name="desiredReceivers" column="DSRD_RCVRS"  type="java.lang.Integer"/>
+		<property name="actualReceivers" column="ACTL_RCVRS"  type="java.lang.Integer"/>
+		<property name="confirmedReceivers" column="CNFRMD_RCVRS"  type="java.lang.Integer"/>
+		<property name="msgOwner" column="MSG_OWNER"  type="java.lang.String"/>
+		<property name="cretDate" column="CRET_DATE"  type="java.util.Date"/>
+		<property name="lastUpdate" column="LST_UPDT_DATE"  type="java.util.Date"/>
+		<property name="createdBy" column="CRTD_BY" type="java.lang.String"  />
+		<property name="lastUpdatedBy" column="LST_UPDTD_BY" type="java.lang.String"  />
+		
+		<many-to-one name="provider" class="com.techmaster.hunter.obj.beans.ServiceProvider" cascade="none" fetch="select" lazy="false" />  
+		
+		<!-- <set name="receivers" table="ADDRESS" cascade="none"  inverse="false" lazy="false"  fetch="select"> 
+            <key>
+                <column name="userId" /> 
+            </key>
+            <one-to-many class="com.kendo.kip.beans.Address" />
+        </set>
+		 -->
+		<union-subclass name="com.techmaster.hunter.obj.beans.TextMessage" table="TXT_MSG">
+			<property name="text" column="TXT" type="java.lang.String" length="4000" />
+			<property name="disclaimer" column="DISCLAIMER" type="java.lang.String" />
+			<property name="fromPhone" column="FROM_PHONE"  type="java.lang.String" />
+			<property name="toPhone" column="TO_PHONE" type="java.lang.String"  /> 
+			<property name="pageable" column="PG_BL" type="org.hibernate.type.YesNoType" />
+			<property name="pageWordCount" column="PG_WRD_CNT" type="java.lang.Integer" />
+		</union-subclass>
+		
+		<union-subclass name="com.techmaster.hunter.obj.beans.EmailMessage" table="EMAIL_MSG">
+			<property name="eSubject" column="EMAIL_SUBJECT" type="java.lang.String" />
+			<property name="eBody" column="EMAIL_BODY" type="java.lang.String" />
+			<property name="eFooter" column="FROM_PHONE"  type="java.lang.String" />
+			<property name="toList" column="EMAIL_TO_LIST" type="java.lang.String"  /> 
+			<property name="eFrom" column="EMAIL_FROM" type="java.lang.String" />
+			<property name="ccList" column="EMAIL_CC_LIST" type="java.lang.String" />
+			<property name="multiPart" column="MT_PRT" type="org.hibernate.type.YesNoType" />
+			<property name="hasAttachment" column="HS_ATTCHMNT" type="org.hibernate.type.YesNoType" />
+			<property name="attchmntBnId" column="ATTCHMTNT_BN_ID" type="java.lang.Long" />
+			<property name="attchmtntFileType" column="ATTCHMNT_FLE_TYP" type="java.lang.String" />
+			<property name="contentType" column="CNTNT_TYP" type="java.lang.String" />
+			<property name="replyTo" column="RPLY_TO" type="java.lang.String" />
+			<property name="priority" column="PRRTY" type="java.lang.Integer" />
+			<property name="emailTemplateName" column="EML_TMPLT_NAM" type="java.lang.String" />
+			<property name="messageAttachments" column="MSG_ATTCHMENTS" type="java.lang.String" length="4000" />
+			
+			<set name="messageAttachmentMetadata" cascade="save-update,delete" table="MSG_MSG_ATTCHMNT_MT_DATA">
+        		<key column="MSG_ID"/>
+         		<many-to-many column="M_DATA_ID" class="com.techmaster.hunter.obj.beans.MessageAttachmentMetadata"/>
+      		</set>
+      		
+		</union-subclass>
+		
+		<union-subclass name="com.techmaster.hunter.obj.beans.MediaMessage" table="MEDIA_MSG">
+			<property name="msgFileName" column="MSG_FL_NAM" type="java.lang.String" />
+			<property name="mediaTye" column="MEDIA_TYP" type="java.lang.String" />
+			<property name="msgDesc" column="MSG_DESC"  type="java.lang.String" />
+			<property name="fileOriginalName" column="FL_ORGNL_NAM" type="java.lang.String"  /> 
+			<property name="contents" column="MSG_CONTENTS" type="java.lang.String" />
+			<property name="size" column="CONTENTS_SIZE" type="java.lang.Integer" />
+			<property name="fromPhone" column="FROM_PHONE" type="java.lang.String" />
+			<property name="toPhone" column="TO_PHONE" type="java.lang.String" />
+		</union-subclass>
+		
+		<union-subclass name="com.techmaster.hunter.obj.beans.SocialMessage" table="SCL_MSG">
+			<property name="socialMsgId" column="SCL_MSG_ID" type="java.lang.Long" />
+			<property name="externalId" column="EXTRNL_ID" type="java.lang.String" />
+			<property name="description" column="DSCPTN"  type="java.lang.String" />
+			<property name="socialPost" column="SCL_PST" type="java.lang.String"  /> 
+			<property name="socialPostType" column="SCL_PST_TYP" type="java.lang.String" />
+			<property name="originalFileFormat" column="ORGNL_FL_NAM" type="java.lang.String" />
+			<property name="mediaType" column="MDA_TYPE" type="java.lang.String" />
+			<property name="socialPostAction" column="SCL_PST_ACTN" type="java.lang.String" length="30" />
+			<property name="useRemoteMedia" column="US_RMT_MDA"  type="org.hibernate.type.YesNoType" /> 
+			
+			<one-to-one name="socialMedia" class="com.techmaster.hunter.obj.beans.HunterSocialMedia" cascade="all"  ></one-to-one>
+			<many-to-one name="defaultSocialApp" class="com.techmaster.hunter.obj.beans.HunterSocialApp" column="DFLT_SCL_APP" not-null="false"/>
+			
+			<set name="hunterSocialGroups" cascade="save-update" table="SCL_MSG_SCL_GRPS">
+        		<key column="MSG_ID"/>
+         		<many-to-many column="GP_ID" class="com.techmaster.hunter.obj.beans.HunterSocialGroup"/>
+      		</set>
+			
+		</union-subclass>
+		
+	</class>
+	
+</hibernate-mapping>

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+	
+	<class name="com.techmaster.hunter.obj.beans.HunterSocialMedia"  table="HNTR_SCL_MDA" lazy="true" abstract="false" > 
+		
+		<id name="mediaId" type="java.lang.Long" column="MDA_ID">
+			<generator class="assigned" />
+		</id>
+		
+		<property name="mediaName" column="MDA_NAM" type="java.lang.String"  not-null="true"  length="2000" />
+		<property name="mediaType" column="MDA_TYP"  type="java.lang.String"  not-null="true"/>
+		<property name="mediaDescription" column="MDA_DSC"  type="java.lang.String" length="2000" /> 
+		<property name="clientName" column="CLNT_NAM"  type="java.lang.String" unique="false" not-null = "true" />  
+		<property name="dstrbtnDrctns" column="DSTRBTN_DRCTNS"  type="java.lang.String" length="4000"  />
+		<property name="byteSize" column="BYT_SZ"  type="java.lang.Integer" />
+		<property name="hunterOwned" column="HNTR_OWND"  type="org.hibernate.type.YesNoType" />
+		<property name="mediaData" column="MDA_DATA" />
+		<property name="userSpecs" column="USR_SPCFCTNS"  type="java.lang.String"   not-null="true" length="4000" /> 
+		<property name="fileFormat" column="FL_FRMT"  type="java.lang.String" length="10" />
+		<property name="originalFileName" column="ORGNL_FL_NAM"  type="java.lang.String"  length="2000" />
+		
+		<property name="mimeType" column="MM_TYP"  type="java.lang.String" length="50" /> 
+		<property name="channelType" column="CHNNL_TYP"  type="java.lang.String" length="50" /> 
+		<property name="durationInSecs" column="DRTN_IN_SEC"  type="java.lang.Double" />  
+		<property name="mediaSuffix" column="MDA_SFFX"  type="java.lang.String" length="10" not-null="true" />  
+		<property name="width" column="WDHT"  type="java.lang.Integer" />
+		<property name="remoteURL" column="RMT_URL"  type="java.lang.String" />
+		<property name="localURL" column="LCL_URL"  type="java.lang.String"  length="2000" />
+		
+		<component name="auditInfo">
+			<property name="cretDate" column="CRET_DATE"  type="java.util.Date"  not-null="true"/>
+			<property name="lastUpdate" column="LST_UPDATE"  type="java.util.Date"  not-null="true" />
+			<property name="createdBy" column="CRTD_BY"  type="java.lang.String"  not-null="true" />
+			<property name="lastUpdatedBy" column="LST_UPDTD_BY"  type="java.lang.String"  not-null="true" />
+		</component>
+		
+	</class>
+	
+</hibernate-mapping>

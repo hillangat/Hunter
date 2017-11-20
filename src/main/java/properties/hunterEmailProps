@@ -1,0 +1,9 @@
+mail.smtp.host=smtp.gmail.com
+mail.stmp.user=abc@gmail.com
+mail.smtp.auth=true
+mail.smtp.starttls.enable=true
+mail.smtp.password=password
+mail.smtp.socketFactory.port=465
+mail.smtp.socketFactory.class=javax.net.ssl.SSLSocketFactory
+mail.smtp.auth=true
+mail.smtp.port=465

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+    <class name="com.techmaster.hunter.obj.beans.ServiceProvider" table="SRVC_PRVDR" lazy="true" >  
+        <id name="providerId" type="java.lang.Long">
+            <column name="PROVIDER_ID" />
+            <generator class="increment" />
+        </id>
+        <property name="providerName" type="java.lang.String">
+            <column name="PROVIDER_NAM" />
+        </property>
+        <property name="cstPrAudMsg" type="java.lang.Float">
+            <column name="CST_PR_AUDIO_MSG" />
+        </property>
+         <property name="cstPrTxtMsg" type="java.lang.Float">
+            <column name="CST_PR_TXT_MSG" />
+        </property>
+    </class>
+</hibernate-mapping>

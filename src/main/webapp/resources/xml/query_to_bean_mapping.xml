@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<maps>
+	<map id='HunterUserJson'>
+		<field dbName='USR_ID'   	fieldName='userId'  yesNo='no' type='java.lang.Long' />
+		<field dbName='FRST_NAM' 	fieldName='firstName'  yesNo='no' type='java.lang.String' />
+		<field dbName='LST_NAM'  	fieldName='lastName'  yesNo='no' type='java.lang.String' />
+		<field dbName='MDDL_NAM' 	fieldName='middleName'  yesNo='no'  type='java.lang.String' />
+		<field dbName='EMAIL'    	fieldName='email'  yesNo='no' type='java.lang.String'/>
+		<field dbName='PHN_NUMBR' 	fieldName='phoneNumber'  yesNo='no' type='java.lang.String' />
+		<field dbName='USR_TYP' 	fieldName='userType'  yesNo='no' type='java.lang.String' />
+		<field dbName='USR_NAM' 	fieldName='userName'  yesNo='no' type='java.lang.String' />
+		<field dbName='ACTIV' 		fieldName='active'  yesNo='true' type='java.lang.Boolean' />
+		<field dbName='CRET_DATE' 	fieldName='cretDate' yesNo='no' type='java.lang.String' />
+		<field dbName='LST_UPDATE' 	fieldName='lastUpdate' yesNo='no' type='java.lang.String' />
+		<field dbName='CRTD_BY' 	fieldName='createdBy' yesNo='no' type='java.lang.String' />
+		<field dbName='LST_UPDTD_BY' fieldName='lastUpdatedBy' yesNo='no' type='java.lang.String' />
+	</map>
+	<map id='HunterClientJson'>
+		<field dbName='HNTR_CLNT_ID' fieldName='clientId'  yesNo='no' type='java.lang.Long' />
+		<field dbName='CLNT_TL_BDGT' fieldName='budget'  yesNo='no' type='java.lang.Float' />
+		<field dbName='FRST_NAM' 	fieldName='firstName'  yesNo='no' type='java.lang.String' />
+		<field dbName='LST_NAM'  	fieldName='lastName'  yesNo='no' type='java.lang.String' />
+		<field dbName='EMAIL'    	fieldName='email'  yesNo='no' type='java.lang.String'/>
+		<field dbName='USR_NAM' 	fieldName='userName'  yesNo='no' type='java.lang.String' />
+		<field dbName='IS_RCVR' 	fieldName='receiver'  yesNo='true' type='java.lang.Boolean' />
+		<field dbName='CRET_DATE' 	fieldName='createdDate' yesNo='no' type='java.lang.String' />
+		<field dbName='LST_UPDATE' 	fieldName='updatedOn' yesNo='no' type='java.lang.String' />
+		<field dbName='CRTD_BY' 	fieldName='createdBy' yesNo='no' type='java.lang.String' />
+		<field dbName='LST_UPDTD_BY' fieldName='updatedBy' yesNo='no' type='java.lang.String' />
+	</map>	
+</maps>

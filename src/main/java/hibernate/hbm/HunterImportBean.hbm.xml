@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+    <class name="com.techmaster.hunter.imports.beans.HunterImportBean" table="HNTR_IMPRT_BN" >
+        
+        <id name="importId" type="java.lang.Long">
+            <column name="IMPRT_ID" />
+            <generator class="increment" />
+        </id>
+        
+        <property name="originalFileName" type="java.lang.String">
+            <column name="ORGNL_FL_NAM" />
+        </property>
+        <property name="byteLen" type="java.lang.Double">
+            <column name="BYT_LEN" />
+        </property>
+        <property name="beanName" type="java.lang.String">
+            <column name="BEAN_NAM" />
+        </property>
+        <property name="excelBlob" >
+            <column name="EXL_BLOB" />
+        </property>
+        <property name="status" type="java.lang.String">
+            <column name="STS" />
+        </property>
+        
+        <component name="auditInfo" class="com.techmaster.hunter.obj.beans.AuditInfo">
+         	<property name="cretDate" column="CRET_DATE"  type="java.util.Date"/>
+			<property name="lastUpdate" column="LST_UPDT_DATE"  type="java.util.Date"/>
+			<property name="createdBy" column="CRTD_BY" type="java.lang.String"  />
+			<property name="lastUpdatedBy" column="LST_UPDTD_BY" type="java.lang.String"  />
+      	</component>
+        
+        
+    </class>
+</hibernate-mapping>

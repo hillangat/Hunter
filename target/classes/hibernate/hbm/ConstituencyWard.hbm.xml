@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+    
+	<class name="com.techmaster.hunter.obj.beans.ConstituencyWard"  abstract="false" table="CNSTTNCY_WRD" lazy="true">
+	
+		<id name="wardId" type="java.lang.Long" column="WRD_ID">
+			<generator class="increment" />
+		</id>
+		
+		<property name="wardName" column="WRD_NAM" type="java.lang.String" />
+		<property name="wardPopulation" column="WRD_PPLTN"  type="java.lang.Integer" />
+		<property name="hunterPopulation" column="HNTR_PPLTN" type="java.lang.Integer" />
+		<property name="mapDots" column="MP_DTS" type="java.lang.String" length="4000" />
+		<property name="constituencyId" column="CNSTTNCY_ID" type="java.lang.Long" /> 
+		<property name="constituencyWardCode" column="CNSTTNCY_WRD_CODE" type="java.lang.String" />
+		
+		<component name="auditInfo" class="com.techmaster.hunter.obj.beans.AuditInfo">
+         	<property name="cretDate" column="CRET_DATE"  type="java.util.Date"/>
+			<property name="lastUpdate" column="LST_UPDT_DATE"  type="java.util.Date"/>
+			<property name="createdBy" column="CRTD_BY" type="java.lang.String"  />
+			<property name="lastUpdatedBy" column="LST_UPDTD_BY" type="java.lang.String"  />
+      	</component>
+		
+	</class>
+	
+</hibernate-mapping>

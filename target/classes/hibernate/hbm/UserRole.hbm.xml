@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+    
+	<class name="com.techmaster.hunter.obj.beans.UserRole"  abstract="false" table="USER_ROLE" lazy="true">
+	
+		<id name="roleId" type="java.lang.Long" column="ROLE_ID">
+			<generator class="increment" />
+		</id>
+		
+		<property name="roleName" column="RL_NAM" type="java.lang.String" length="100"  not-null="true" />
+		<property name="roleShortName" column="RL_SHRT_NAM" type="java.lang.String" length="100"  not-null="true" />
+		<property name="roleLevel" column="RL_LVL" type="java.lang.Integer"  not-null="true"  />
+		<property name="roleDesc" column="RL_DESC" type="java.lang.String" length="4000"  not-null="false"   /> 
+		
+	</class>
+	
+</hibernate-mapping>

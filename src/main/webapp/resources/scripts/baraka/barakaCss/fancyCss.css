@@ -1,0 +1,365 @@
+@CHARSET "ISO-8859-1";
+
+.fancybox-custom .fancybox-skin {
+	box-shadow: 0 0 50px #222;
+}
+
+body {
+	margin: 0 auto;
+	background-color: #A0B6A4;
+}
+
+#fancyCover {
+	position: absolute;
+	min-height: 90%;
+	width: 70%;
+	background-color: #E3EEE5;
+	border-radius: 5px;
+	margin-left: 15%;
+	margin-top: 2%;
+}
+
+#contents {
+	text-align: center;
+	margin-top: 10px;
+}
+
+#topDiv {
+	height: 70px;
+	width: 100%;
+	position: relative;
+	background-image:
+		url("http://localhost:8080/Baraka/static/resources/gfx/icon_background_baraka_resized.jpg");
+	margin-bottom: 10px;
+	border-radius: 5px;
+	text-align: center;
+}
+
+#divInTopDiv {
+	height: 70px;
+	width: 100%;
+	position: relative;
+	margin-bottom: 10px;
+	border-radius: 5px;
+	text-align: center;
+	background-color: rgba(7, 63, 91, 0.7);
+}
+
+#barakaName {
+	color: white;
+	font-size: 30px;
+	text-shadow: 1px 1px #428BAF;
+}
+
+#fancyWeather {
+	/* border:1px solid #7ABCB5; */
+	border-radius: 3px;
+	height: 500px;
+	width: 60%;
+	background-repeat: no-repeat;
+	margin: 0 auto;
+	border-radius: 5px;
+	padding-top: 2%;
+	background-size: 100% 100%;
+	background-image:
+		url("http://localhost:8080/Baraka/static/resources/gfx/beautiful-winter-scenewallpapers.jpg");
+}
+
+#fancyWeatherTodayDetails {
+	border-radius: 4px;
+	margin-left: 10%;
+	width: 80%;
+	height: 50%;
+	margin-top: 3%;
+	z-index: 900px;
+	color: white;
+	background-color: rgba(0, 0, 0, 0.6);
+}
+
+#fancyWeatherFocusDetails {
+	border-radius: 4px;
+	margin-left: 10%;
+	margin-top: 2%;
+	width: 80%;
+	height: 35%;
+	position: relative;
+	color: white;
+	background-color: rgba(0, 0, 0, 0.6);
+}
+
+.hoverToFocus:hover {
+	background-color: red;
+}
+
+.refreshWeatherDataIconCss {
+	transform: rotate(45deg);
+	-ms-transform: rotate(45deg); /* IE 9 */
+	-moz-transform: rotate(45deg); /* Firefox */
+	-webkit-transform: rotate(45deg); /* Safari and Chrome */
+	-o-transform: rotate(45deg); /* Opera */
+}
+
+/* New Links In Fancy Admin */
+#linkTable {
+	width: 80%;
+	margin: 0 auto;
+}
+
+.menuNamesClass {
+	text-align: center;
+	width: 16%;
+}
+
+#linkTr {
+	background-color: #A0B6A4;
+	height: 35px;
+	width: 100%;
+}
+
+.menuNamesClass:hover {
+	background-color: #D5E8D8;
+	text-align: center;
+	font-size: 18px;
+}
+
+#linkDiv {
+	margin-bottom: 20px;
+	margin-top: -12px;
+	width: 90%;
+	margin-left: 5%;
+}
+
+.fancyMenuRealLinksTd:hover {
+	background-color: #E7F7EB;
+	font-size: 18px;
+}
+
+#fancyPopupDiv {
+	width: 12%;
+	min-height: 12%;
+	background-color: red;
+	margin-left: 14%;
+	margin-bottom: 1%;
+	z-index: 1000px;
+	margin-top: -21px;
+	border-bottom-left-radius: 5px;
+	border-bottom-right-radius: 5px;
+	position: absolute;
+	/* box-shadow: 4px 4px 4px #9AC4A2; */
+	border-right: 2px solid #A0B6A4;
+	border-bottom: 2px solid #A0B6A4;
+	border-left: 1px solid #A0B6A4;
+	border-top: 1px solid #A0B6A4;
+	background-image: -ms-linear-gradient(top, #FFFFFF 0%, #FFFFFF 50%, #B5CABA 100%);
+	background-image: -moz-linear-gradient(top, #FFFFFF 0%, #FFFFFF 50%, #B5CABA 100%);
+	background-image: -o-linear-gradient(top, #FFFFFF 0%, #FFFFFF 50%, #B5CABA 100%);
+	background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0, #FFFFFF),
+		color-stop(0.5, #FFFFFF), color-stop(1, #B5CABA));
+	background-image: -webkit-linear-gradient(top, #FFFFFF 0%, #FFFFFF 50%, #B5CABA 100%);
+	background-image: linear-gradient(to bottom, #FFFFFF 0%, #FFFFFF 50%, #B5CABA 100%);
+}
+
+#jbosCoverDiv {
+	background-color: #EBF7EE;
+	width: 82%;
+	margin-left: 10%;
+	height: 650px;
+	border: 1px solid #C3DFC8;
+	border-radius: 4px;
+}
+
+#barakaJobAppRight {
+	width: 30%;
+	margin-left: 50%;
+	height: 78%;
+	position: absolute;
+}
+
+#barakaJobAppLeft {
+	width: 70%;
+	margin-left: 0%;
+	height: 82%;
+	border-right: 1px solid #C3DFC8;
+}
+
+.clickButtons {
+	background-color: #A6D0AE;
+	border-radius: 4px;
+	border: 1px solid #81B98D;
+	text-align: center;
+}
+
+.button {
+	color: #000;
+	background-color: #BBDCC3;
+	border: 1px solid #9DC4A6;
+	padding: 4px;
+	border-radius: 3px;
+	font-size: 15px;
+	width: 300px;
+	text-align: center;
+}
+
+#fancySearchTableResults th {
+	background-color: #CCE5E0;
+	border-bottom: 1px solid #67928A;
+	height: 30px;
+	font-weight: bold
+}
+
+#fancySearchTableResults {
+	margin-top: 18px;
+	width: 90%;
+	margin-left: 5%;
+	border: 1px solid #5F978C;
+	border-radius: 3p
+}
+
+.loginForms {
+	background-color: #EBF6EF;
+	font-size: 15px;
+	border: 1px solid #999999;
+	border-radius: 3px;
+	margin-top: 40px;
+	width: 46%;
+	padding: 30px;
+	margin-left: 27%;
+}
+
+.loginButton {
+	color: #000;
+	border: 1px solid #9DC4A6;
+	padding: 4px;
+	border-radius: 3px;
+	font-size: 12px;
+	width: 80px;
+}
+
+.errors {
+	color: red;
+}
+
+.editProfileFormClass {
+	width: 100%;
+}
+
+.hidden {
+	display: none;
+}
+
+.input {
+	color: #000;
+	background-color: #E7F6F0;
+	padding: 4px;
+	font-size: 14px;
+	border-radius: 3px;
+	font-family: Courier New, Courier, Times Roman, Times, Sans, Sans Serif;
+	border: 1px solid #B3D8C9;
+}
+
+.button {
+	color: #000;
+	border: 1px solid #9DC4A6;
+	padding: 4px;
+	border-radius: 3px;
+	font-size: 15px;
+	width: 150px;
+}
+
+.brakaKendoWidgetDivs {
+	margin-bottom: 10px;
+	border-bottom: 1px solid #CEE1D2;
+	margin-top: 10px;
+	width: 35%;
+	font-size: 13px;
+	text-align: center;
+}
+
+#highlighToBuy:hover {
+	background-color: #6187A1;
+	border: 1px solid white;
+}
+
+#highlighToBuy {
+	border: 1px solid white;
+	border-radius: 3px;
+	background-color: #003333;
+	color: white;
+}
+
+#notification {
+	margin-top: 1px;
+	width: 15%;
+	margin-left: 84%;
+}
+
+#fancySearchInput {
+	width: 200px;
+	height: 25px;
+	z-index: 5000;
+	margin-left: 45%;
+	float: right;
+	padding-top: 4px;
+	font-size: 17px;
+	padding-left: 6px;
+	font-family: Courier New, Courier, Sans-Serif, Times New Roman;
+	border-radius: 4px;
+	padding-right: 8px;
+	border: 1px solid #92B9B9;
+	background-image: -ms-linear-gradient(top, #FFFFFF 0%, #FFFFFF 50%, #D6EEEE 100%);
+	background-image: -moz-linear-gradient(top, #FFFFFF 0%, #FFFFFF 50%, #D6EEEE 100%);
+	background-image: -o-linear-gradient(top, #FFFFFF 0%, #FFFFFF 50%, #D6EEEE 100%);
+	background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0, #FFFFFF),
+		color-stop(0.5, #FFFFFF), color-stop(1, #D6EEEE));
+	background-image: -webkit-linear-gradient(top, #FFFFFF 0%, #FFFFFF 50%, #D6EEEE 100%);
+	background-image: linear-gradient(to bottom, #FFFFFF 0%, #FFFFFF 50%, #D6EEEE 100%);
+	/* box-shadow: 4px 4px 4px #9FC7C7; */
+	text-shadow: 2px 2px #D6EEEE;
+}
+
+#fancySearchResult {
+	min-height: 45px;
+	width: 60%;
+	margin-left: 20%;
+	border: 1px solid #708474;
+	background-color: #DAECDD;
+	border-radius: 4px;
+	-webkit-box-shadow: 0 0 20px #9EC0A4;
+	box-shadow: 0 0 20px #9EC0A4;
+}
+
+#imageContainer{
+	margin-left:75%;
+	width:20%;
+	height:150px;
+	border:1px solid #B7D0BB;
+	border-radius:5px;
+	position:absolute;
+	margin-top:220px;
+	margin-left:60%;
+}
+
+
+#createCommodityLeft{
+	width:60%;
+	margin-left:20%;
+	height:320px;
+	mmargin-top:90px;
+	padding-top:10px;		
+	background-color: #D6E8D9;
+	border-radius:5px;
+}
+
+#fancyCreateNewCommodity{
+	margin-left:20px;
+	margin-top:12px;
+}
+
+#grid{
+	width:70%;
+	margin:0 auto;
+}
+
+#fancyCreateNewCommodity{
+	
+}

@@ -1,0 +1,52 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE hibernate-configuration PUBLIC
+"-//Hibernate/Hibernate Configuration DTD//EN"
+"http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+<session-factory>
+	<property name="connection.url">jdbc:oracle:thin:@localhost:1521:orcl</property>
+	<property name="connection.driver_class">oracle.jdbc.driver.OracleDriver</property>
+	<property name="dialect">org.hibernate.dialect.Oracle9Dialect</property>
+	<property name="connection.username">system</property>
+	<property name="connection.password">kip1990</property>
+	<property name="hbm2ddl.auto">update</property>
+	<property name="show_sql">false</property>
+	<property name="format_sql">false</property> 
+	<property name="use_sql_comments">true</property>
+	
+	<mapping resource="hibernate/hbm/Message.hbm.xml" /> 
+	<mapping resource="hibernate/hbm/ServiceProvider.hbm.xml" />
+	<mapping resource="hibernate/hbm/HunterUser.hbm.xml" />
+	<mapping resource="hibernate/hbm/HunterCreditCard.hbm.xml" />
+	<mapping resource="hibernate/hbm/TaskMessageReceiver.hbm.xml" />
+	<mapping resource="hibernate/hbm/ReceiverRegion.hbm.xml" />
+	<mapping resource="hibernate/hbm/Task.hbm.xml" />
+	<mapping resource="hibernate/hbm/HunterAddress.hbm.xml" />
+	<mapping resource="hibernate/hbm/GateWayMessage.hbm.xml" />
+	<mapping resource="hibernate/hbm/HunterClient.hbm.xml" />
+	<mapping resource="hibernate/hbm/Constituency.hbm.xml" />
+	<mapping resource="hibernate/hbm/ConstituencyWard.hbm.xml" />
+	<mapping resource="hibernate/hbm/Country.hbm.xml" />
+	<mapping resource="hibernate/hbm/County.hbm.xml" />
+	<mapping resource="hibernate/hbm/State.hbm.xml" />
+	<mapping resource="hibernate/hbm/HunterMessageReceiver.hbm.xml" />
+	<mapping resource="hibernate/hbm/ReceiverGroup.hbm.xml" />
+	<mapping resource="hibernate/hbm/HunterImportBean.hbm.xml" />
+	<mapping resource="hibernate/hbm/UserRole.hbm.xml" />
+	<mapping resource="hibernate/hbm/ReceiverGroupJson.hbm.xml" />
+	<mapping resource="hibernate/hbm/ReceiverGroupReceiver.hbml.xml" />
+	<mapping resource="hibernate/hbm/TaskHistory.hbm.xml" />
+	<mapping resource="hibernate/hbm/UserLoginBean.hbm.xml" />
+	<mapping resource="hibernate/hbm/TaskProcessJob.hbm.xml" />
+	<mapping resource="hibernate/hbm/HunterRawReceiver.hbm.xml" />
+	<mapping resource="hibernate/hbm/HunterRawReceiverUser.hbm.xml" />
+	<mapping resource="hibernate/hbm/UserProfPhoto.hbm.xml" />
+	<mapping resource="hibernate/hbm/MessageAttachmentBean.hbm.xml" />
+	<mapping resource="hibernate/hbm/MessageAttachmentMetadata.hbm.xml" />
+	<mapping resource="hibernate/hbm/EmailTemplateObj.hbm.xml" />
+	<mapping resource="hibernate/hbm/HunterSocialMedia.hbm.xml" />
+	<mapping resource="hibernate/hbm/HunterSocialRegion.hbm.xml" />
+	<mapping resource="hibernate/hbm/HunterSocialGroup.hbm.xml" />
+	<mapping resource="hibernate/hbm/HunterSocialApp.hbm.xml" />
+</session-factory>
+</hibernate-configuration>

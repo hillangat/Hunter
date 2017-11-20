@@ -1,0 +1,26 @@
+Step 1: Open COMMAND PROMPT
+
+Step 2: Type sqlplus /nolog 
+This command helps you to log into the sqlPlus Editor.
+*Note- there is a space between sqlplus and /nolog
+
+Step 3: Enter command CONNECT SYS as SYSDBA; 
+
+This command helps you to connect to the SQL Server as Database Administrator.
+
+Here SYSDBA is the ROLEName.
+
+Oh wait, you are not yet connected… , SYS is the userName, now you have to enter the password to get connected
+
+Step 4: Next Enter SYS_password
+You will see the command “SQL>Connected”
+Now you are the ADMINISTRATOR. So, you can control your SQL Server, which means you can control your DB Account even.
+
+Let’s see how …
+
+Step 5: Next Enter the following command
+
+select username,password,account_status from dba_users;
+
+This command retrieves the UserName , Password and Account status of all the accounts in your SQL Server.
+You will also find your Oracle DB name that is “LOCKED” and the LOCK that is TIMED.

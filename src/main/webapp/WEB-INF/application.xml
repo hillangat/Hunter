@@ -1,0 +1,110 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+	
+    <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+        <property name="driverClassName" value="oracle.jdbc.driver.OracleDriver"/>
+        <property name="url" value="jdbc:oracle:thin:@localhost:1521:orcl"/>
+        <property name="username" value="system"/>
+        <property name="password" value="kip1990"/>
+    </bean>
+    
+	<bean id="sessionFactory" class="org.springframework.orm.hibernate4.LocalSessionFactoryBean"  autowire="byName" >
+	    <property name="dataSource" ref="dataSource" />
+	    <property name="configLocation" value="classpath:hibernate/hibernate/hibernate.cfg.xml" />
+	</bean>
+	
+	<bean name="hunterSessionFactory" class="com.techmaster.hunter.util.HunterSessionFactory" factory-method="getInstance" >
+		<property name="sessionFactory" ref="sessionFactory" ></property>
+	</bean>	
+
+	<bean name="hunterHibernateHelper" class="com.techmaster.hunter.util.HunterHibernateHelper" autowire="byName" >
+		<property name="hunterSessionFactory" ref="hunterSessionFactory" ></property>
+	</bean>
+	
+
+	<bean id="messageDao" class="com.techmaster.hunter.dao.impl.MessageDaoImpl"/>
+	<bean id="serviceProviderDao" class="com.techmaster.hunter.dao.impl.ServiceProviderDaoImpl"/>
+	<bean id="gateWayMessageDao" class="com.techmaster.hunter.dao.impl.GateWayMessageDaoImpl"/>
+	
+	<bean id="hunterUserDetailService" class="com.techmaster.hunter.security.HunterUserDetailService"/>
+	<bean id="hunterAuthenticationEntryPoint" class="com.techmaster.hunter.security.HunterAuthenticationEntryPoint"/>
+	<bean id="hunterAuthSuccessHandler" class="com.techmaster.hunter.security.HunterAuthSuccessHandler"/>
+	<bean id="hunterHttpLogoutSuccessHandler" class="com.techmaster.hunter.security.HunterHttpLogoutSuccessHandler"/>
+	<bean id="hunterAuthFailureHandler" class="com.techmaster.hunter.security.HunterAuthFailureHandler"/>
+	
+	<bean id="taskMessageReceiver" class="com.techmaster.hunter.dao.impl.TaskMessageReceiverDaoImpl"/>
+	<bean id="receiverRegionDao" class="com.techmaster.hunter.dao.impl.ReceiverRegionDaoImpl"/>
+	<bean id="taskDao" class="com.techmaster.hunter.dao.impl.TaskDaoImpl"/>
+	<bean id="hunterClientDao" class="com.techmaster.hunter.dao.impl.HunterClientDaoImpl"/>
+	<bean id="taskManager" class="com.techmaster.hunter.task.TaskManagerImpl"/>
+	<bean id="hunterMessageReceiverDao" class="com.techmaster.hunter.dao.impl.HunterMessageReceiverDaoImpl"/>
+	<bean id="regionService" class="com.techmaster.hunter.region.RegionServiceImpl"/>
+	<bean id="receiverGroupDao" class="com.techmaster.hunter.dao.impl.ReceiverGroupDaoImpl"/>
+	<bean id="hunterImportBeanDao" class="com.techmaster.hunter.dao.impl.HunterImportBeanDaoImpl"/>
+	<bean id="receiverGroupReceiverDao" class="com.techmaster.hunter.dao.impl.ReceiverGroupReceiverDaoImpl"/>
+	<bean id="receiverGroupJsonDao" class="com.techmaster.hunter.dao.impl.ReceiverGroupJsonDaoImpl"/>
+	<bean id="taskHistoryDao" class="com.techmaster.hunter.dao.impl.TaskHistoryDaoImpl"/>
+	<bean id="userRoleDao" class="com.techmaster.hunter.dao.impl.UserRoleDaoImpl"/>
+	
+	<bean id="hunterCreditCardDao" class="com.techmaster.hunter.dao.impl.HunterCreditCardDaoImpl"/>
+	<bean id="hunterAddressDao" class="com.techmaster.hunter.dao.impl.HunterAddressDaoImpl" />
+	<bean id="hunterUserDao" class="com.techmaster.hunter.dao.impl.HunterUserDaoImpl"/>
+	
+	<bean id="hunterRawReceiverDao" class="com.techmaster.hunter.dao.impl.HunterRawReceiverDaoImpl"/>
+	<bean id="hunterRawReceiverUserDao" class="com.techmaster.hunter.dao.impl.HunterRawReceiverUserDaoImpl"/>
+	<bean id="rawReceiverService" class="com.techmaster.hunter.rawreceivers.RawReceiverServiceImpl"/>
+	<bean id="messageAttachmentBeanDao" class="com.techmaster.hunter.dao.impl.MessageAttachmentBeanDaoImpl"/>
+	<bean id="emailTemplateObjDao" class="com.techmaster.hunter.dao.impl.EmailTemplateObjDaoImpl"/>
+	<bean id="hunterMessageDaoHelper" class="com.techmaster.hunter.dao.impl.HunterMessageDaoHelper"/>
+	
+	<bean name="gateWayClientHelper" class="com.techmaster.hunter.gateway.beans.GateWayClientHelper" factory-method="getInstance" >
+		<property name="regionService" ref="regionService" />
+		<property name="hunterJDBCExecutor" ref="hunterJDBCExecutor"/> 
+		<property name="hunterJacksonMapper" ref="hunterJacksonMapper"/> 
+		<property name="messageDao" ref="messageDao"/>
+		<property name="taskDao" ref="taskDao"/>     
+	</bean>
+	
+	<bean name="hunterDaoFactory" class="com.techmaster.hunter.dao.impl.HunterDaoFactory" factory-method="getInstance" >
+		<property name="daosMap">
+			<map>
+				<entry key="messageDao" value-ref="messageDao" />
+				<entry key="serviceProviderDao" value-ref="serviceProviderDao" />
+				<entry key="gateWayMessageDao" value-ref="gateWayMessageDao" />
+				<entry key="hunterAddressDao" value-ref="hunterAddressDao" />
+				<entry key="hunterCreditCardDao" value-ref="hunterCreditCardDao" />
+				<entry key="receiverRegionDao" value-ref="receiverRegionDao" />
+				<entry key="taskDao" value-ref="taskDao" />
+				<entry key="hunterClientDao" value-ref="hunterClientDao" />
+				<entry key="hunterMessageReceiverDao" value-ref="hunterMessageReceiverDao" />
+				<entry key="receiverGroupDao" value-ref="receiverGroupDao" />
+				<entry key="hunterImportBeanDao" value-ref="hunterImportBeanDao" />
+				<entry key="receiverGroupReceiverDao" value-ref="receiverGroupReceiverDao" />
+				<entry key="receiverGroupJsonDao" value-ref="receiverGroupJsonDao" />
+				<entry key="taskHistoryDao" value-ref="taskHistoryDao" />
+				<entry key="userRoleDao" value-ref="userRoleDao" />
+				<entry key="hunterUserDao" value-ref="hunterUserDao" />
+				<entry key="hunterJDBCExecutor" value-ref="hunterJDBCExecutor" />
+				<entry key="regionService" value-ref="regionService" />
+				<entry key="hunterJacksonMapper" value-ref="hunterJacksonMapper" />
+				<entry key="jdbcTemplate" value-ref="jdbcTemplate" />
+				<entry key="hunterRawReceiverDao" value-ref="hunterRawReceiverDao" />
+				<entry key="hunterRawReceiverUserDao" value-ref="hunterRawReceiverUserDao" />
+				<entry key="rawReceiverService" value-ref="rawReceiverService" />
+				<entry key="messageAttachmentBeanDao" value-ref="messageAttachmentBeanDao" />
+				<entry key="emailTemplateObjDao" value-ref="emailTemplateObjDao" />
+				<entry key="taskManager" value-ref="taskManager" />
+				<entry key="hunterHibernateHelper" value-ref="hunterHibernateHelper" />
+				<entry key="sessionFactory" value-ref="sessionFactory" />
+				<entry key="hunterMessageDaoHelper" value-ref="hunterMessageDaoHelper" />
+				<entry key="hunterSessionFactory" value-ref="hunterSessionFactory" />
+			</map>
+		</property>
+	</bean>
+	
+	
+
+
+
+</beans>

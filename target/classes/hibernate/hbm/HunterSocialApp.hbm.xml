@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+    
+	<class name="com.techmaster.hunter.obj.beans.HunterSocialApp"  abstract="false" table="HNTR_SCL_APP" lazy="true" >
+	
+		<id name="appId" type="java.lang.Long" column="APP_ID">
+			<generator class="increment" />
+		</id>
+		
+		<property name="appName" column="APP_NAM" type="java.lang.String" length="100" not-null="true" /> 
+		<property name="appDesc" column="APP_DESC"  type="java.lang.String"  length="200" not-null="true"  />
+		<property name="extrnlId" column="EXTRNL_ID" type="java.lang.String" not-null="true"  />
+		<property name="extrnalPassCode" column="EXTRNL_PSS_CDE" type="java.lang.String"  not-null="true"   />
+		<property name="socialType" column="SCL_TYP" type="java.lang.String" length="50"  not-null="true"   />
+		<property name="appConfigs" column="APP_CNFGS" type="blob" /> 
+		
+		<component name="auditInfo" class="com.techmaster.hunter.obj.beans.AuditInfo">
+         	<property name="cretDate" column="CRET_DATE"  type="java.util.Date"/>
+			<property name="lastUpdate" column="LST_UPDT_DATE"  type="java.util.Date"/>
+			<property name="createdBy" column="CRTD_BY" type="java.lang.String"  />
+			<property name="lastUpdatedBy" column="LST_UPDTD_BY" type="java.lang.String"  />
+      	</component>
+      	
+	</class>
+	
+</hibernate-mapping>

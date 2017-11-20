@@ -1,0 +1,5 @@
+
+/*
+	Please do not delete this folder. 
+	It's being used to store temporary files in runtime.
+/*

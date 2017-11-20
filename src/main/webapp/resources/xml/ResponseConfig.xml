@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<clients>
+    <client clientName="CM" >
+        <configs>
+	        	<config configType="respStatus" >
+	        		<metadata code="400" method="" errorText="(none)" errorDesc="No HTTP GET or POST was used to send your request"  />
+			        <metadata code="200" method="BOTH"  errorText="An unexpected error occurred. Check the provided values. Contact CM for support."  />
+			        <metadata code="200" method="BOTH"  errorText="" errorDesc="The request was accepted"  />
+			        <metadata code="200" method="BOTH"  errorText="Error: ERROR No account found for the given authentication" errorDesc="No account found for the provided product token."  />
+			        <metadata code="200" method="BOTH"  errorText="Error: ERROR Insufficient balance." errorDesc="You are out of trial messages. Order new messages via your dashboard."  />
+			        <metadata code="200" method="BOTH"  errorText="Error: ERROR Message is unroutable." errorDesc="Your request could not be routed. Contact CM for support."  />
+			        <metadata code="200" method="POST"  errorText="Error: ERROR Invalid product token." errorDesc="Invalid or missing product token"  />
+			        <metadata code="200" method="POST"  errorText="Error: ERROR No FROM field found in a MSG node." errorDesc="The ‘FROM’ element is missing within the ‘MSG’ element"  />
+			        <metadata code="200" method="POST"  errorText="Error: ERROR A MESSAGES node requires at least one MSG node" errorDesc="A MSG node within the MESSAGE node is required and is missing."  />
+			        <metadata code="200" method="POST"  errorText="Error: ERROR No phonenumbers found. Message will not be sent." errorDesc="The MSISDN value for the TO element is missing"  />
+			        <metadata code="200" method="POST"  errorText="Error: ERROR Rejected: Gsm is not a number." errorDesc="The value for the TO element is not a valid MSISDN"  />
+			        <metadata code="200" method="GET"  errorText="Error: ERROR Parameter 'producttoken' contains an invalid value: 'producttoken'" errorDesc="Invalid or missing product token"  />
+			        <metadata code="200" method="GET"  errorText="Error: ERROR No sender name provided" errorDesc="‘from’ parameter is missing or it’s value was empty"  />
+			        <metadata code="200" method="GET"  errorText="Error: ERROR Parameter 'to' contains an invalid value: 'msisdn'" errorDesc="The value for the ‘to’ parameter is not a valid MSISDN"  />
+			        <metadata code="200" method="GET"  errorText="Error: ERROR Parameter 'body' is required" errorDesc="The value for the ‘body’ parameter is missing"  />
+	        	</config>
+				<config configType="deliveryStatus">
+					<metadata>
+						<code>5</code>
+						<text>Undelivered. No details.</text>
+						<desc>The message has been confirmed as undelivered but no detailed information related to the failure is known.
+						</desc>
+					</metadata>
+					<metadata>
+						<code>7</code>
+						<text>Failed. Insufficient Credit.</text>
+						<desc>Used to indicate to the client that the message has not yet been delivered due to insufficient subscriber credit but is being retried within the network.
+						</desc>
+					</metadata>
+					<metadata>
+						<code>8</code>
+						<text>Failed. Message Expired.</text>
+						<desc>Temporary Used when a message expired (could not be delivered within the life time of the message) within the operator SMSC but is not associated with a reason for failure.
+						</desc>
+					</metadata>
+					<metadata>
+						<code>20</code>
+						<text>Failed. Message in undeliverable form.</text>
+						<desc>Used when a message in its current form is undeliverable.</desc>
+					</metadata>
+					<metadata>
+						<code>21</code>
+						<text>Retried. Check credit balance.</text>
+						<desc>Temporary Only occurs where the operator accepts the message
+							before performing the subscriber credit check. If there is
+							insufficient credit then the operator will retry the message until
+							the subscriber tops up or the message expires. If the message expires
+							and the last failure reason is related to credit then this error code
+							will be used.
+						</desc>
+					</metadata>
+					<metadata>
+						<code>22</code>
+						<text>Rejected. Insufficient credit.</text>
+						<desc>Temporary Only occurs where the operator performs the subscriber
+							credit check before accepting the message and rejects messages if
+							there are insufficient funds available.
+						</desc>
+					</metadata>
+					<metadata>
+						<code>23</code>
+						<text>Rejected. Incorrect, invalid or blacklisted subscriber.</text>
+						<desc>Used when the message is undeliverable due to an incorrect /
+							invalid / blacklisted / permanently barred MSISDN for this operator.
+							This MSISDN should not be used again for message submissions to this
+							operator.
+						</desc>
+					</metadata>
+					<metadata>
+						<code>24</code>
+						<text>Failed. Subscriber unavailable.</text>
+						<desc>Used when a message is undeliverable because the subscriber is
+							temporarily absent, e.g. his/her phone is switch off, he/she cannot
+							be located on the network.
+						</desc>
+					</metadata>
+					<metadata>
+						<code>25</code>
+						<text>Failed. Operator network issue.</text>
+						<desc>Used when the message has failed due to a temporary condition in
+							the operator network. This could be related to the SS7 layer, SMSC or
+							gateway.
+						</desc>
+					</metadata>
+					<metadata>
+						<code>26</code>
+						<text>Failed. Phone problems(simcard full, memory, etc)</text>
+						<desc>Used when a message has failed due to a temporary phone related
+							error, e.g. SIM card full, SME busy, memory exceeded etc. This does
+							not mean the phone is unable to receive this type of message/content
+							(refer to error code 27).
+						</desc>
+					</metadata>
+					<metadata>
+						<code>27</code>
+						<text>Failed. Subscriber handset incompatible.</text>
+						<desc>Permanent Used when a handset is permanently incompatible or
+							unable to receive this type of message.
+						</desc>
+					</metadata>
+					<metadata>
+						<code>28</code>
+						<text>Failed. Operator spam suspicion.</text>
+						<desc>Used if a message fails or is rejected due to suspicion of SPAM
+							on the operator network. This could indicate in some geographies that
+							the operator has no record of the mandatory MO required for an MT.
+						</desc>
+					</metadata>
+					<metadata>
+						<code>29</code>
+						<text>Failed. Content Not Permitted.</text>
+						<desc>Used when this specific content is not permitted on the network
+							shortcode.</desc>
+					</metadata>
+					<metadata>
+						<code>30</code>
+						<text>Failed. Subscriber exceeded spend limit.</text>
+						<desc>Used when message fails or is rejected because the subscriber
+							has reached the predetermined spend limit for the current billing
+							period.
+						</desc>
+					</metadata>
+					<metadata>
+						<code>31</code>
+						<text>Failed. Subscriber account issue.</text>
+						<desc>Used when the MSISDN is for a valid subscriber on the operator
+							but the message fails or is rejected because the subscriber is unable
+							to be billed, e.g. the subscriber account is suspended (either
+							voluntarily or involuntarily), the subscriber is not enabled for
+							bill-tophone services, the subscriber is not eligible for
+							bill-to-phone services, etc.
+						</desc>
+					</metadata>
+					<metadata>
+						<code>33</code>
+						<text>Failed. Adult content. Parental Lock.</text>
+						<desc>Used when the subscriber cannot receive adult content because of
+							a parental lock.
+						</desc>
+					</metadata>
+					<metadata>
+						<code>34</code>
+						<text>Failed. Adult content. Parental Lock.</text>
+						<desc>Permanent Used when the subscriber cannot receive adult content
+							because they have previously failed the age verification process.
+						</desc>
+					</metadata>
+					<metadata>
+						<code>35</code>
+						<text>Failed. Adult content. Parental Lock.</text>
+						<desc>Temporary Used when the subscriber cannot receive adult content
+							because they have not previously completed age verification.
+						</desc>
+					</metadata>
+					<metadata>
+						<code>36</code>
+						<text>Failed. Adult content. Parental Lock.</text>
+						<desc>Temporary Used when the subscriber cannot receive adult content
+							because a temporary communication error prevents their status being
+							verified on the age verification platform.
+						</desc>
+					</metadata>
+					<metadata>
+						<code>37</code>
+						<text>Failed. Subscriber blacklisted.</text>
+						<desc>The MSISDN is on the national blacklist (currently only for NL:
+							SMS Dienstenfilter)
+						</desc>
+					</metadata>
+			</config>
+    	</configs>
+    </client>
+</clients>

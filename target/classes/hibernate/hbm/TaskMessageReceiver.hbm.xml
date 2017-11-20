@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+	
+	<class name="com.techmaster.hunter.obj.beans.TaskMessageReceiver" table="TSK_MSG_RCVR" lazy="true">
+		
+		<id name="receiverId" type="java.lang.Long" column="RCVR_ID">
+			<generator class="assigned" />
+		</id>
+		
+		<property name="receiverContact" column="RCVR_CNTCT" type="java.lang.String"  not-null="true" /> 
+		<property name="receiverType" column="RCVR_TYP"  type="java.lang.String"  not-null="true" />
+		<property name="receiverRegionLevel" column="RCVR_RGN_LVL"  type="java.lang.String" not-null="true" />
+		<property name="blocked" column="RCVR_BLCKD" type="org.hibernate.type.YesNoType" />
+		<property name="random" column="RNDM" type="org.hibernate.type.YesNoType" />
+		<property name="taskId" column="TSK_ID"  type="java.lang.Long" not-null="true" />
+		<property name="active" column="ACTV" type="org.hibernate.type.YesNoType" />
+		<property name="countryName" column="CNTRY_NAM"  type="java.lang.String"  not-null="true" />
+		<property name="stateName" column="STATE_NAM"  type="java.lang.String"  />
+		<property name="countyName" column="CNTY_NAM"  type="java.lang.String"  />
+		<property name="consName" column="CONS_NAM"  type="java.lang.String"   />
+		<property name="consWardName" column="WRD_NAM"  type="java.lang.String"  />
+		<property name="receiverRegionLevelName" column="RCVR_RGN_LVL_NAM"  type="java.lang.String"  length="100" not-null="true" />
+		
+		 <component name="auditInfo" class="com.techmaster.hunter.obj.beans.AuditInfo">
+         	<property name="cretDate" column="CRET_DATE"  type="java.util.Date"/>
+			<property name="lastUpdate" column="LST_UPDT_DATE"  type="java.util.Date"/>
+			<property name="createdBy" column="CRTD_BY" type="java.lang.String"  />
+			<property name="lastUpdatedBy" column="LST_UPDTD_BY" type="java.lang.String"  />
+      	</component>
+		
+		
+		
+	</class>
+	
+</hibernate-mapping>

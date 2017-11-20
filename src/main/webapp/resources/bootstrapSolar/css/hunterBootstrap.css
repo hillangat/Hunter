@@ -1,0 +1,82 @@
+.loginNavBar {
+	height:40px;
+}
+a {
+   outline: 0;
+}
+
+.hunterSolarInput {
+	background-color: #D4E4EE;
+	border-radius: 4px;
+	border: 1px solid #A3BAC7;
+	padding:4px;
+}
+
+#loginTable {
+	border-spacing: 5px;
+}
+
+#loginTable tbody tr td {
+	padding: 10px;
+	margin: 4px;
+}
+
+.hunterBootstrapSolarErrors {
+	color: #FD9292;
+}
+
+.hidden {
+	display:none;
+}
+
+
+.example_wrapper  {
+	width:90% !important;
+	margin-left:5% !important;
+}
+
+.table-striped tr:nth-child(even) {
+	background-color: #093B47 !important;
+}
+
+.hunterDataTable {
+	border: 1px solid #145161 !important;
+}
+
+.hunterDataTable tr:hover td {
+	background-color: #124E5C;
+}
+
+.dataTables_info, .dataTables_length, .dataTables_filter label {
+	color: #61A5B6 !important;
+	background-color: #093B47
+}
+
+.previous disabled {
+	color: red !important;
+}
+
+
+#example_previous:hover {
+	color:gray !important;
+}
+
+.paginate_button:hover {
+	background-color:red;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

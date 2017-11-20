@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configs socialType="Facebook" externalId="1188666857860363" internalId="1"  >
+	<socialProfile>
+		<userName></userName>
+		<password></password>
+		<firstName></firstName>
+		<middleName></middleName>
+		<lastName></lastName>
+	</socialProfile>
+	<configs>
+		<config>
+			<label>appName</label>
+			<value></value>
+		</config>
+		<config>
+			<label>appSecret</label>
+			<value></value>
+		</config>
+		<config>
+			<label>apiVersion</label>
+			<value></value>
+		</config>
+	</configs>
+</configs>

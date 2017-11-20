@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<clients>
+    <client clientName="CM" clientId="1" >
+        <configurations>
+            <context>
+                <security>
+                	<userName>techmaster</userName>
+            		<password>mastertech.90kd?.?458456</password>
+	            </security>
+	            <messageType>Text</messageType>
+	            <methods>
+	                <method defaultMethod="true" active="true" type="GET" url="https://sgw01.cm.nl/gateway.ashx"  />
+	                <method defaultMethod="false" active="false" type="POST" url="https://sgw01.cm.nl/gateway.ashx"  />
+	            </methods>
+	            <preempt>
+	            	<receivers>17324704894,25472614975</receivers>
+	            	<percentage>80</percentage>
+	            </preempt>
+	           <batch batchType="singular" batchNo="100" batchMark="200" />
+	           <worker workerDefault="false" workerName="GET_ONE_REQ_PR_MSG"  />
+	           <denomination>EUR</denomination>
+            </context>
+            <configs>
+                <config>
+                    <label>UUID</label>
+                    <value>b9dc662c-254a-4947-948a-a28acb0f17e3</value>
+                </config>
+                <config>
+                    <label>txtPrice</label>
+                    <value>007</value>
+                </config>
+                <config>
+                    <label>mediaPrice</label>
+                    <value>007</value>
+                </config>
+                <config>
+                    <label>voicedPrice</label>
+                    <value>007</value>
+                </config>
+                <config>
+                    <label>callPrice</label>
+                    <value>007</value>
+                </config>
+                <config>
+                    <label>hunterBalance</label>
+                    <value>100</value>
+                </config>
+                <config>
+                    <label>blncMsgCnt</label>
+                    <value>007</value>
+                </config>
+                 <config>
+                    <label>hunterRating</label>
+                    <value>100</value>
+                </config>
+                <config>
+                    <label>sender</label>
+                    <value>TechMasters</value>
+                </config>
+            </configs>
+        </configurations>
+    </client>
+    <client clientName="OZEKI" clientId="2" >
+        <configurations>
+            <context>
+                <security>
+                	<userName>admin</userName>
+            		<password>hunterAdmin.1900</password>
+	            </security>
+	            <messageType>Text</messageType>
+	            <methods>
+	                <method defaultMethod="false" active="false" type="GET" url="http://127.0.0.1:9501/api"  />
+	                <method defaultMethod="true" active="true" type="POST" url="http://127.0.0.1:9501/api"  />
+	            </methods> 
+	            <preempt>
+	            	<receivers>17324704894,25472614975</receivers>
+	            	<percentage>100</percentage>
+	            </preempt>
+	            <batch batchType="multiple" batchNo="100" batchMark="200" />
+	            <worker workerDefault="false" workerName="GET_MUL_REQ_PR_MSG"  />
+	            <denomination>EUR</denomination>
+            </context>
+            <connConfigs>
+            	<config>
+					<label>Content-Type</label>
+					<value>application/x-www-form-urlencoded</value>
+				</config>
+				<config>
+					<label>Connection</label>
+					<value>keep-alive</value>
+				</config>
+				<config>
+					<label>Keep-Alive</label>
+					<value>300</value>
+				</config>
+				<config>
+					<label>messagetype</label>
+					<value>SMS:TEXT</value>
+				</config>
+				<config>
+					<label>Accept-Charset</label>
+					<value>ISO-8859-1,utf-8;q=0.7,*;q=0.7</value>
+				</config>
+            </connConfigs>
+            <configs>
+				<config>
+					<label>messagetype</label>
+					<value>SMS:TEXT</value>
+				</config>
+			</configs>
+        </configurations>
+    </client>
+    <client clientName="Hunter Email" clientId="3" >
+        <configurations>
+            <context>
+                <security>
+                	<userName>techmaster.hunter.mail@gmail.com</userName>
+            		<password>hunter.admin.1900</password>
+	            </security>
+	            <batch batchType="multiple" batchNo="99" batchMark="99" /> 
+	            <worker workerDefault="false" workerName="DEFAULT_EMAIL_MUL_REQ_PR_MSG"  />
+	            <messageType>Email</messageType>
+	             <preempt>
+	            	<receivers>hillangat@gmail.com,hklangat@gmail.com</receivers>
+	            	<percentage>100</percentage>
+	            </preempt>
+            </context>
+            <configs>
+                <config>
+                    <label>from</label>
+                    <value>techmaster.hunter.mail@gmail.com</value>
+                </config>
+            </configs>
+        </configurations>
+    </client>
+    <client clientName="Hunter Social Facebook Client" clientId="3" >
+        <configurations>
+            <context>
+                <security>
+                	<userName></userName>
+            		<password></password>
+	            </security>
+	            <batch batchType="multiple" batchNo="99" batchMark="99" /> 
+	            <worker workerDefault="false" workerName="DEFAULT_HUNTER_SOCIAL_WORKER"  />
+	            <messageType>Social</messageType>
+	             <preempt>
+	            	<receivers></receivers>
+	            	<percentage></percentage>
+	            </preempt>
+            </context>
+            <configs>
+                <config>
+                    <label></label>
+                    <value></value>
+                </config>
+            </configs>
+        </configurations>
+    </client>
+</clients>

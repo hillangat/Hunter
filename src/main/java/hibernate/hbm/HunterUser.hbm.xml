@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+	
+	<class name="com.techmaster.hunter.obj.beans.HunterUser"  table="HNTR_USR" lazy="true" abstract="false" > 
+		
+		<id name="userId" type="java.lang.Long" column="USR_ID">
+			<generator class="assigned" />
+		</id>
+		
+		<property name="firstName" column="FRST_NAM" type="java.lang.String"  not-null="true" />
+		<property name="lastName" column="LST_NAM"  type="java.lang.String"  not-null="true"/>
+		<property name="middleName" column="MDDL_NAM"  type="java.lang.String" />
+		<property name="email" column="EMAIL"  type="java.lang.String" unique="true" not-null = "true" />  
+		<property name="phoneNumber" column="PHN_NUMBR"  type="java.lang.String" length="20"  />
+		<property name="userType" column="USR_TYP"  type="java.lang.String"  not-null="true" />
+		<property name="userName" column="USR_NAM"  type="java.lang.String"  not-null="true" unique="true"  />
+		<property name="active" column="ACTIV"  type="org.hibernate.type.YesNoType" />
+		<property name="password" column="PSSWRD"  type="java.lang.String"   not-null="true" />
+		<property name="profilePhoto" column="PRFL_PHOTO"  type="binary" />
+		
+		<property name="cretDate" column="CRET_DATE"  type="java.util.Date"  not-null="true"/>
+		<property name="lastUpdate" column="LST_UPDATE"  type="java.util.Date"  not-null="true" />
+		<property name="createdBy" column="CRTD_BY"  type="java.lang.String"  not-null="true" />
+		<property name="lastUpdatedBy" column="LST_UPDTD_BY"  type="java.lang.String"  not-null="true" />
+		
+		<set name="addresses" cascade="all" inverse="true" lazy="false" fetch="join">
+            <key>
+                <column name="USR_ID" not-null="true" /> 
+            </key>
+            <one-to-many class="com.techmaster.hunter.obj.beans.HunterAddress" />
+        </set>
+        
+        <set name="userRoles" cascade="save-update" table="HNTR_USR_RLS">
+        	<key column="USR_ID"/>
+         	<many-to-many column="ROLE_ID" class="com.techmaster.hunter.obj.beans.UserRole" lazy="false"  />
+      	</set>
+        
+		<set name="creditCards" table="HNTR_CRDT_CRD" cascade="all" inverse="true" lazy="false" fetch="join">
+            <key>
+                <column name="USR_ID" not-null="true"/> 
+            </key>
+            <one-to-many class="com.techmaster.hunter.obj.beans.HunterCreditCard" />
+        </set>
+        
+        <one-to-one name="userLoginBean" class="com.techmaster.hunter.obj.beans.UserLoginBean" lazy="false" cascade="all"   />
+        <one-to-one name="userProfPhoto" property-ref="userId" class="com.techmaster.hunter.obj.beans.UserProfPhoto" lazy="false" cascade="all"   />
+        
+	</class>
+	
+</hibernate-mapping>

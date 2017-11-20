@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+	
+	<class name="com.techmaster.hunter.obj.beans.HunterSocialGroup"  table="HNTR_SCL_GRP" lazy="true" abstract="false" > 
+		
+		<id name="groupId" type="java.lang.Long" column="GP_ID">
+			<generator class="increment"  />
+		</id>
+		
+		<property name="externalId" column="EXTRNL_ID" type="java.lang.String"  />
+		<property name="groupName" column="GRP_NAM" type="java.lang.String"  not-null="true"  length="400" />
+		<property name="groupDescription" column="GRP_DESC"  type="java.lang.String" length="250" />
+		<property name="socialType" column="SCL_TYP"  type="java.lang.String" length="50"  not-null="true" /> 
+		<property name="hunterOwned" column="HNTR_OWND"  type="org.hibernate.type.YesNoType" />	
+		<property name="acquired" column="IS_ACQRD"  type="org.hibernate.type.YesNoType" />
+		<property name="acquiredFromFullName" column="ACQRD_FRM_FL_NAM"  type="java.lang.String" length="4000"  />
+		<property name="receiversCount" column="RCVRS_CNT"  type="java.lang.Integer" />
+		<property name="clientUserName" column="CLTNT_USR_NAM"  type="java.lang.String" />
+		<property name="hunterGroupAdmin" column="HNTR_GRP_ADM" type="java.lang.String" length="200"   not-null="true" />
+		<property name="existent" column="EXSTNT"  type="org.hibernate.type.YesNoType" />
+		<property name="verifiedBy" column="VRFD_BY"  type="java.lang.String"  length="200" />
+		<property name="verifiedDate" column="VRFD_DTE"  type="java.util.Date" length="200" />
+		<property name="active" column="ACTV"  type="org.hibernate.type.YesNoType" />
+		<property name="status" column="STS"  type="java.lang.String" not-null="true" length="20"  />  
+		<property name="suspended" column="SSPNDD"  type="org.hibernate.type.YesNoType" />
+		<property name="suspensionDescription" column="SSPNDSN_DESC"  type="java.lang.String"  length="2000" />
+		<property name="delStatus" column="DEL_STS"  type="java.lang.String" not-null="true" length="20"  />
+		<property name="processData" column="PCSS_DATA" type="blob" /> 
+		
+		<many-to-one name="socialRegion" column="SCL_RGN_ID" class="com.techmaster.hunter.obj.beans.HunterSocialRegion" not-null="true" />
+		<many-to-one name="defaultSocialApp" column="DFLT_SCL_APP" class="com.techmaster.hunter.obj.beans.HunterSocialApp" not-null="true" />
+		 
+		<component name="auditInfo">
+			<property name="cretDate" column="CRET_DATE"  type="java.util.Date"  not-null="true"/>
+			<property name="lastUpdate" column="LST_UPDATE"  type="java.util.Date"  not-null="true" />
+			<property name="createdBy" column="CRTD_BY"  type="java.lang.String"  not-null="true" />
+			<property name="lastUpdatedBy" column="LST_UPDTD_BY"  type="java.lang.String"  not-null="true" />
+		</component>
+		
+	</class>
+	
+</hibernate-mapping>

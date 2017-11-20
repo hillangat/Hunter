@@ -1,0 +1,103 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+	
+	<bean name="hunterProcTypes" class="com.techmaster.hunter.dao.proc.HunterProcTypes" />
+	
+	<bean id="get_region_codes" class="com.techmaster.hunter.dao.proc.ProcedureHandler">
+		<constructor-arg name="jdbcTemplate" ref="jdbcTemplate" index="0" />
+		<constructor-arg name="procName" value="get_region_codes" index="1" />
+		<constructor-arg name="isFunction" value="false" index="2" />
+		<constructor-arg name="inParams" index="3">  
+			<map>  
+				<entry key="country_name"  value="#{hunterProcTypes.VARCHAR}"></entry>  
+				<entry key="county_name" value="#{hunterProcTypes.VARCHAR}"></entry>  
+				<entry key="state_name" value="#{hunterProcTypes.VARCHAR}"></entry>
+				<entry key="constituency_name" value="#{hunterProcTypes.VARCHAR}"></entry>
+				<entry key="constituency_ward_name" value="#{hunterProcTypes.VARCHAR}"></entry>
+			</map>  
+		</constructor-arg>
+		<constructor-arg name="outParams" index="4">  
+			<map>  
+				<entry key="country_code"  value="#{hunterProcTypes.VARCHAR}"></entry>
+				<entry key="county_code"  value="#{hunterProcTypes.VARCHAR}"></entry> 
+				<entry key="state_code"  value="#{hunterProcTypes.VARCHAR}"></entry> 
+				<entry key="constituency_code"  value="#{hunterProcTypes.VARCHAR}"></entry> 
+				<entry key="constituency_ward_code"  value="#{hunterProcTypes.VARCHAR}"></entry> 
+			</map>  
+		</constructor-arg> 
+	</bean>
+	
+	<bean id="GET_RGN_LVL_NMS_FOR_CNTIES" class="com.techmaster.hunter.dao.proc.ProcedureHandler">
+		<constructor-arg name="jdbcTemplate" ref="jdbcTemplate" index="0" />
+		<constructor-arg name="procName" value="GET_RGN_LVL_NMS_FOR_CNTIES" index="1" />
+		<constructor-arg name="isFunction" value="false" index="2" />
+		<constructor-arg name="inParams" index="3">  
+			<map>  
+				<entry key="COUNTRY_NAM"  value="#{hunterProcTypes.VARCHAR}"></entry>  
+				<entry key="CMM_SPRTD_CNTIS" value="#{hunterProcTypes.VARCHAR}"></entry>  
+			</map>  
+		</constructor-arg>
+		<constructor-arg name="outParams" index="4">  
+			<map>  
+				<entry key="OUTPUT_REGION_NAME"  value="#{hunterProcTypes.VARCHAR}"></entry>
+			</map>  
+		</constructor-arg> 
+	</bean>
+	
+	<bean id="get_region_names_for_ids" class="com.techmaster.hunter.dao.proc.ProcedureHandler">
+		<constructor-arg name="jdbcTemplate" ref="jdbcTemplate" index="0" />
+		<constructor-arg name="procName" value="get_region_names_for_ids" index="1" />
+		<constructor-arg name="isFunction" value="false" index="2" />
+		<constructor-arg name="inParams" index="3">
+			<map>   
+				<entry key="country_id"  value="#{hunterProcTypes.NUMERIC}"></entry>  
+				<entry key="county_id" value="#{hunterProcTypes.NUMERIC}"></entry>  
+				<entry key="constituency_id" value="#{hunterProcTypes.NUMERIC}"></entry>
+				<entry key="constituency_ward_id" value="#{hunterProcTypes.NUMERIC}"></entry>
+			</map>  
+		</constructor-arg>
+		<constructor-arg name="outParams" index="4">  
+			<map>  
+				<entry key="country_name"  value="#{hunterProcTypes.VARCHAR}"></entry>
+				<entry key="county_name"  value="#{hunterProcTypes.VARCHAR}"></entry> 
+				<entry key="constituency_name"  value="#{hunterProcTypes.VARCHAR}"></entry> 
+				<entry key="constituency_ward_name"  value="#{hunterProcTypes.VARCHAR}"></entry> 
+			</map>  
+		</constructor-arg> 
+	</bean>
+	
+	<bean id="get_generated_cid" class="com.techmaster.hunter.dao.proc.ProcedureHandler">
+		<constructor-arg name="jdbcTemplate" ref="jdbcTemplate" index="0" />
+		<constructor-arg name="procName" value="get_generated_cid" index="1" />
+		<constructor-arg name="isFunction" value="false" index="2" />
+		<constructor-arg name="inParams" index="3">
+			<map>   
+				<entry key="bean_id"  value="#{hunterProcTypes.NUMERIC}"></entry>  
+			</map>  
+		</constructor-arg>
+		<constructor-arg name="outParams" index="4">  
+			<map> 
+				<entry key="p_bean_cid"  value="#{hunterProcTypes.VARCHAR}"></entry>   
+			</map>  
+		</constructor-arg> 
+	</bean>
+	
+	<bean id="get_msg_ids_usng_attchmnt_id" class="com.techmaster.hunter.dao.proc.ProcedureHandler">
+		<constructor-arg name="jdbcTemplate" ref="jdbcTemplate" index="0" />
+		<constructor-arg name="procName" value="get_msg_ids_usng_attchmnt_id" index="1" />
+		<constructor-arg name="isFunction" value="false" index="2" />
+		<constructor-arg name="inParams" index="3">
+			<map>   
+				<entry key="p_attachment_id"  value="#{hunterProcTypes.NUMERIC}"></entry>  
+			</map>  
+		</constructor-arg>
+		<constructor-arg name="outParams" index="4">  
+			<map> 
+				<entry key="msg_ids"  value="#{hunterProcTypes.VARCHAR}"></entry>   
+			</map>  
+		</constructor-arg> 
+	</bean>
+	
+
+</beans>

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+	
+	<class name="com.techmaster.hunter.obj.beans.ReceiverRegion" table="RCVR_RGN" lazy="true">
+		
+		<id name="regionId" type="java.lang.Long" column="RGN_ID">
+			<generator class="assigned" />
+		</id>
+		
+		<property name="country" column="CNTRY" type="java.lang.String"  not-null="true" />
+		<property name="state" column="STATE"  type="java.lang.String"  />
+		<property name="hasState" column="HS_STATE"  type="org.hibernate.type.YesNoType" not-null="true" />
+		<property name="county" column="CNTY"  type="java.lang.String"  />
+		<property name="constituency" column="CNSTTNCY"  type="java.lang.String" />
+		<property name="city" column="CTY"  type="java.lang.String"  />
+		<property name="ward" column="WRD"  type="java.lang.String"  />
+		<property name="village" column="VLLG"  type="java.lang.String"   />
+		<property name="longitude" column="LNGTTD"  type="java.lang.Double" />
+		<property name="latitude" column="LTTD"  type="java.lang.Double" />
+		<property name="currentLevel" column="CRRNT_LVL"  type="java.lang.String" />
+		<property name="borderLongLats" column="BRDR_LGN_LTS"  type="java.lang.String" length="4000" />
+		
+		<component name="auditInfo" class="com.techmaster.hunter.obj.beans.AuditInfo">
+         	<property name="cretDate" column="CRET_DATE"  type="java.util.Date"/>
+			<property name="lastUpdate" column="LST_UPDT_DATE"  type="java.util.Date"/>
+			<property name="createdBy" column="CRTD_BY" type="java.lang.String"  />
+			<property name="lastUpdatedBy" column="LST_UPDTD_BY" type="java.lang.String"  />
+      	</component>
+		
+	</class>
+	
+</hibernate-mapping>

@@ -1,0 +1,413 @@
+@CHARSET "ISO-8859-1";
+
+body{
+	width:98%;
+	margin-left:1%;
+	background-color:#F9FEFF;
+	background-image: url("http://hdwallpaperia.com/wp-content/uploads/2014/01/Galaxy-Wallpaper-Beautiful-PC.jpg");
+	background-repeat: no-repeat;
+	background-size: cover;
+	font-family : courier new, courier, times new roman,sans serif;
+}
+
+
+#fieldProfileContainer{
+	background-color: #007486;
+	border:1px solid #729AB2;
+	width:60%;
+	margin-left: 20%;
+	border-radius : 4px;
+	min-height: 96%;
+	color:white;
+	padding : 10px;
+	filter: alpha(opacity=99);
+	opacity:.999999;
+	position:fixed;
+}
+
+#hunterFieldPopupContainer table[data-name='popup-action-button']a:hover{
+	background-color: red;
+}
+
+.fielProfilePicClass{
+	border : 1px solid white;
+	border-radius: 50%;
+	top: 5%;
+	
+	-webkit-box-shadow: 0 0 5px 2px #02BEDB;
+    -moz-box-shadow: 0 0 5px 2px #02BEDB;
+    box-shadow: 0 0 5px 2px #02BEDB;
+}
+
+
+
+.profileDetTables tr  td{
+	height: 23px;
+	border-bottom: 1px dotted #3D95A2;
+}
+
+.profileDetTables tr  td:first-child{
+	text-align: left;
+}
+
+.profileDetTables tr  td:nth-child(2) {
+	text-align: left;
+	padding-left: 20px;
+}
+
+#fieldProfileRawReceiversTable tbody tr td{
+	border-bottom: 1px solid #31828E;
+	height: 25px;
+}
+
+#fieldProfileRawReceiversTable thead tr th{
+	background-color :#178B9C;
+	height: 30px;
+	border-bottom:1px solid #4EE5FC;
+	text-align: left;
+}
+
+.newContactConfirmButton{
+	height: 25px;
+	width: 40px;
+	border:1px solid gray;
+	background-color: yellow;	
+}
+
+.newContactConfirmButton:hover{
+	background-color: red;	
+}
+
+ .hunterInputText{
+ 	border-radius:3px;
+ 	padding : 3px;
+ 	padding-left : 8px;
+ 	border : 1px solid #5DA0A8;
+ 	width:85%;
+ }
+
+
+#fieldProfileRawReceiversTable thead tr th a{
+	border : 1px solid white;	
+}
+
+.ui-btn ui-corner-all ui-icon-delete ui-btn-icon-notext{
+	border : 1px solid white;
+}
+
+#hunterFieldDefaultTemplate{
+	position:absolute;
+	z-index: 9999999999;
+	min-width: 10%;
+	min-height: 8%;
+	color:white;
+	border : 3px solid #40B9BD;
+	border-radius : 5px;
+	padding:4px;
+	background-color: #007486;
+}
+
+
+#hunterFieldPopupContainer{
+	width:100%;
+	height:100%;
+	position:relative;
+	font-size: 13px;
+	font-family: font-family : courier new, courier, times new roman,sans serif;
+}
+
+#hunterFieldPopupContainer tr td input{
+	margin-bottom:5px;
+	width:90%;
+	color:#009BF5;
+}
+
+#hunterFieldPopupContainer tr td select{
+	margin-bottom:5px;
+	width:100%;
+	color:#004065;
+}
+
+#fieldProfileDataTable thead{
+	color:#162755;
+	background-color: #9BF3FF;
+	font-size:13px;
+}
+
+.shadowAllConersGray{
+	-webkit-box-shadow: 0 0 5px 2px #F6F9FF;
+    -moz-box-shadow: 0 0 5px 2px #F6F9FF;
+    box-shadow: 0 0 5px 2px #F6F9FF;
+}
+
+#fieldProfileDataTable_wrapper label{
+	color:white;
+}
+
+#fieldProfileDataTable_info{
+	background-color: #9BF3FF;
+	padding:5px;
+	padding-top:10px;
+	margin-left:2%;
+	height:40px;
+	border-radius:2px;
+	margin-top:3px;
+}
+
+#fieldProfileDataTable_paginate{
+	background-color: #9BF3FF;
+	padding:5px;
+	margin-right:2%;
+	border-radius:2px;
+	margin-top:3px;
+}
+
+.ui-icon-home {
+   -moz-border-radius:0px;
+   -webkit-border-radius:0px;
+   border-radius:0px;
+   width:22px;
+   height:22px;
+   margin-top:-12px;/*Adjust this value to position the icon*/
+}
+
+#fieldProfileDataTable_length{
+	margin-top:15px;
+	margin-bottom:15px;
+	margin-left:18px;
+}
+
+#fieldProfileDataTable_filter input{
+	color:black;
+	height: 45px;
+	margin-right:5px;
+	border:1px solid white;
+	background-color: #9BF3FF;	
+	font-family: Courier New, Courier, Times New Roman, Sans Serif, Serif;
+	font-size:14px;
+	width: 250px;
+	padding-left:15px;
+}
+
+#downloadImportTempButt:hover{
+	color:white;
+	background-color:#5291B0;
+	border:4px solid white;
+}
+
+#importNewContactButt:hover{
+	color:white;
+	background-color:#5291B0;
+	border:4px solid white;
+}
+
+#popup-close-button:hover{
+	color:white;
+	border:4px solid white;
+}
+
+#defineAffirmButt:hover{
+	color:white;
+	border:4px solid white;
+}
+
+#fieldProfileDataTable_filter{
+	margin-top:15px;
+	margin-bottom:15px;
+	margin-right:16px;
+	color:black;
+}
+
+.hoverableDataTableButton:hover{
+	border:1px solid rgb(15,64,71);
+}
+
+
+#fieldProfileDataTable tbody td{
+	background-color: #09798A;
+	color:white;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* ::::::::::::::::::::::::::::::::::::::::::::: This is for popup :::::::::::::::::::::::::::::::::::::::::::::  */
+
+.popup {
+    width:100%;
+    height:100%;
+    display:none;
+    position:fixed;
+    top:0px;
+    left:0px;
+    background:rgba(28,68,74,0.75);
+}
+
+
+ 
+/* Inner */
+.popup-inner {
+    max-width:700px;
+    width:90%;
+    padding:20px;
+    padding-bottom:10px;
+    position:absolute;
+    top:50%;
+    left:50%;
+    -webkit-transform:translate(-50%, -50%);
+    transform:translate(-50%, -50%);
+    /* box-shadow:0px 2px 6px rgba(0,0,0,1); */
+    border-radius:5px;
+    background-color: #EFFAFC;
+    border:1px solid #071618;
+    
+    -webkit-box-shadow: 0 0 5px 2px #389DAC;
+    -moz-box-shadow: 0 0 5px 2px #389DAC;
+    box-shadow: 0 0 5px 2px #389DAC;
+}
+ 
+.popup-close {
+    width:30px;
+    height:30px;
+    display:inline-block;
+    position:absolute;
+    top:0px;
+    right:0px;
+    transition:ease 0.25s all;
+    -webkit-transform:translate(50%, -50%);
+    transform:translate(50%, -50%);
+    border-radius:50%;
+    border:1px solid white;
+    background:rgba(65,160,175,1);
+    font-family:Arial, Sans-Serif;
+    font-size:25px;
+    text-align:center;
+    line-height:100%;
+    color:#fff;
+    text-decoration:none;
+    
+}
+
+input{
+	background-color: #C0EFEC;
+}
+
+option{
+	background-color: #C0EFEC;
+}
+
+
+.dataTables_filter input{
+	border : 1px solid #499A94;
+	border-radius:3px;
+}
+
+select[name='fieldProfileDataTable_length']{
+	border : 1px solid #499A94;
+	border-radius:3px;
+	width:95px;
+	color:black;
+}
+
+
+#fieldProfileDataTable tbody tr td{
+	border-bottom : 1px dotted #0489AB;
+}
+
+select{
+	background-color: #C0EFEC;
+	color:#009BF5;
+}
+ 
+.popup-close:hover {
+    -webkit-transform:translate(50%, -50%) rotate(180deg);
+    transform:translate(50%, -50%) rotate(180deg);
+    background:rgba(0,0,0,0.8);
+    text-decoration:none;
+}sss
+
+
+
+
+
+/* ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::  */
+
+
+
+
+.uploadProfilePic {
+	-moz-box-shadow: 0px 0px 0px 2px #276873;
+	-webkit-box-shadow: 0px 0px 0px 2px #276873;
+	box-shadow: 0px 0px 0px 2px #276873;
+	background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #599bb3), color-stop(1, #408c99));
+	background:-moz-linear-gradient(top, #599bb3 5%, #408c99 100%);
+	background:-webkit-linear-gradient(top, #599bb3 5%, #408c99 100%);
+	background:-o-linear-gradient(top, #599bb3 5%, #408c99 100%);
+	background:-ms-linear-gradient(top, #599bb3 5%, #408c99 100%);
+	background:linear-gradient(to bottom, #599bb3 5%, #408c99 100%);
+	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#599bb3', endColorstr='#408c99',GradientType=0);
+	background-color:#599bb3;
+	-moz-border-radius:10px;
+	-webkit-border-radius:10px;
+	border-radius:10px;
+	border:1px solid #29668f;
+	display:inline-block;
+	cursor:pointer;
+	color:#ffffff;
+	font-family:Arial;
+	font-size:19px;
+	padding:12px 37px;
+	text-decoration:none;
+	text-shadow:0px 1px 0px #dbf6ff;
+}
+.uploadProfilePic:hover {
+	background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #408c99), color-stop(1, #599bb3));
+	background:-moz-linear-gradient(top, #408c99 5%, #599bb3 100%);
+	background:-webkit-linear-gradient(top, #408c99 5%, #599bb3 100%);
+	background:-o-linear-gradient(top, #408c99 5%, #599bb3 100%);
+	background:-ms-linear-gradient(top, #408c99 5%, #599bb3 100%);
+	background:linear-gradient(to bottom, #408c99 5%, #599bb3 100%);
+	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#408c99', endColorstr='#599bb3',GradientType=0);
+	background-color:#408c99;
+}
+
+
+.uploadProfilePic:active {
+	position:relative;
+	top:1px;
+}
+
+.ui-progressbar {
+	position: relative;
+}
+	
+.progress-label {
+	position: absolute;
+	left: 50%;
+	top: 4px;
+	font-weight: bold;
+	text-shadow: 1px 1px 0 #fff;
+}
+
+#hunterFieldPopupContainer button[id='importNewContainerSubButt']:hover{
+	border:1px solid red;
+}
+

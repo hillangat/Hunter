@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+    
+	<class name="com.techmaster.hunter.obj.beans.County"  abstract="false" table="CNTY" lazy="true">
+	
+		<id name="countyId" type="java.lang.Long" column="CNTY_ID">
+			<generator class="increment" />
+		</id>
+		
+		<property name="countyName" column="CNTY_NAM" type="java.lang.String" length="100"  />
+		<property name="countyPopulation" column="CNTY_CPTL"  type="java.lang.Integer" length="100"  />
+		<property name="hunterPopulation" column="HNTR_PPLTN" type="java.lang.Integer" />
+		<property name="hasState" column="HS_STATE" type="org.hibernate.type.YesNoType" />
+		<property name="mapDots" column="MAP_DTS" type="java.lang.String" length="4000"  />
+		<property name="countryId" column="CNTRY_ID" type="java.lang.Long" />
+		<property name="stateId" column="STATE_ID" type="java.lang.Long" />
+		<property name="countyCode" column="CNTY_CDE" type="java.lang.String" />
+		
+		<component name="auditInfo" class="com.techmaster.hunter.obj.beans.AuditInfo">
+         	<property name="cretDate" column="CRET_DATE"  type="java.util.Date"/>
+			<property name="lastUpdate" column="LST_UPDT_DATE"  type="java.util.Date"/>
+			<property name="createdBy" column="CRTD_BY" type="java.lang.String"  />
+			<property name="lastUpdatedBy" column="LST_UPDTD_BY" type="java.lang.String"  />
+      	</component>
+      	
+		<set name="constituencies" table="CNTTNCS" cascade="save-update" inverse="true" lazy="false" fetch="select" >
+            <key>
+                <column name="CNTY_ID" /> 
+            </key>
+            <one-to-many class="com.techmaster.hunter.obj.beans.Constituency" />
+        </set>
+		
+	</class>
+	
+</hibernate-mapping>

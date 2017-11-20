@@ -1,0 +1,248 @@
+@CHARSET "ISO-8859-1";
+
+body{
+	width:98%;
+	margin-left:1%;
+	background-color:#F9FEFF;
+}
+
+#createSocialMsgFieldsTable td:first-child {
+	border-bottom:1px solid #D8E8F0;
+}
+
+#createSocialMsgFieldsTable td {
+	height : 30px;
+}
+
+#taskTxtMsgViewTable td{
+	height:22px;
+	font-size:15px;
+	font-family:Courier New, Courier,Sans Serif,Times New Roman,Serif;
+	border-bottom:1px solid #D7ECF6;
+}
+
+#taskTxtMsgViewTable tr td:first-child {
+	font-weight: bold;
+	width:40%;
+}
+
+.k-invalid-msg{
+	color:red;
+}
+
+
+#menuUlId li{
+	font-size:15px;
+}
+
+.button {
+	color: #000;
+	background-color: #D9F4F5;
+	border: 1px solid #AFC1C0;
+	padding: 4px;
+	border-radius: 3px;
+	font-size: 15px;
+	width: 300px;
+	text-align: center;
+}
+
+.button:hover {
+	background-color: #C7E9EB;
+}
+
+.userDetailsDivs{
+	width:38%;
+	border-right:1px solid red;
+	margin-top:10px;
+	height:90%;
+}
+
+.hidden {
+	display : none;
+}
+
+.k-button k-upload-button {
+	width:98%;
+}
+
+.hunerKendoButton {
+	background-color:rgb(212,239,249);
+	border : 1px solid rgb(120,186,210);
+}
+
+#hunterLoginForm{
+	width:100%;
+	position:relative;
+	padding:10%;
+	margin-left:10%;
+}
+
+#loginCover{
+	width:30%;
+	margin-left:35%;
+	background-color:#E0F1F3;
+	border: 1px solid #B3D0D4;
+	height:25%;
+	margin-top:15%;
+	border-radius:4px;
+	position:relative;
+}
+
+.hunterInput {
+	color: #000;
+	background-color: #F0FFF3;
+	padding: 4px;
+	font-size: 14px;
+	border-radius: 3px;
+	font-family: Courier New, Courier, Times Roman, Times, Sans, Sans Serif;
+	border: 1px solid #BEE9C7;
+	margin: 1px;
+}
+
+.errors{
+	color:red;
+}
+
+#hunterHomeSlideShow{
+	width:76%;
+	margin-left:12%;
+	border: 1px solid #D8EBEF;
+	margin-top:4%;
+	height:300px;
+}
+
+.hunterSlideButtonClass{
+	 position:absolute;
+	 margin-top:5%;
+}
+
+.hunterSlideButtonCircleClass{
+	 background : url(http:localhost:8080/Hunter/static/resources/images/forwardImage);
+}
+
+#currentImagePosition{
+	position:absolute;
+	background : url(http:localhost:8080/Hunter/static/resources/images/forwardImage);
+}
+
+#hunterTopDiv{
+	height:50px;
+	position:relative;
+	/* background : url("../images/icon_strip.png"); */
+	opacity:2;
+	border-radius : 4px;
+	background-size: 100% 100%;
+	margin-top:-12px;
+}
+
+.homeCurrentTab{
+	background-color:#D2E3E6;	
+}
+
+.underLined{
+	border-bottom : 3px solid #93B1B7;
+}
+
+.rightAndLeftBottom{
+	border-right : 3px solid #93B1B7;
+	border-left : 3px solid #93B1B7;
+	border-bottom:3px solid #93B1B7;
+}
+
+.hunter-k-button{
+	background-color:rgb(212,239,249);
+	border : 1px solid rgb(120,186,210);
+}
+
+
+
+
+#hunterUserClientDetailsTable tr { 
+	height: 20px; 
+}
+
+#hunterUserClientTaskDetailsTable tr { 
+	height: 20px; 
+}
+#hunterUserClientTaskRegionTable tr { 
+	height: 20px; 
+}
+#hunterUserClientTaskMessageDetailsTable tr { 
+	height: 20px; 
+}
+
+.bold{
+	font-weight: bold;
+}
+
+.k-primary{
+	color:black;
+}
+
+.k-invalid-msg{
+	color:red;
+}
+
+.messageAttachmentsRecord{
+	paddign-left:20px;
+	width:100%;
+	height:25px;
+	border:1px solid rgb(163,216,216);
+	background-color:rgb(217,247,247);
+	margin:5px;
+	padding:3px;
+	font-size:14px;
+	font-weight:bold;
+	border-radius:4px;
+}
+
+.messageAttachmentsRecord:hover{
+	background-color:#BBE0E8;
+	border:1px solid #92BCC4;
+}
+
+#selRegionMessgReceiverGrid tr[role="row"]{
+	height:10px;
+}
+
+.socialMessageErrorMsgs {
+	height:30px;
+	border-bottom:1px solid #BAD4DB;;
+	color:#C40000;
+	font-family:Courier New, Courier, New Times Roman, sans serif;
+	font-size:16px;
+}
+
+.processSocialTskHeader {
+	text-align:left;
+	margin:0px;
+	color:#00040E;
+	font-size: 20px;
+	border-bottom:2px solid #BFDBE5;
+	font-weight: bold;
+	border-collapse: collapse;
+	background-color: #D7E9F2;
+	height:35px;
+}
+
+#processSocialGroupTable tbody td{
+	border-collapse: collapse;
+	border-bottom:1px solid #D2ECF2;
+}
+
+
+.sclMsgMediaMeans{
+  background-color:rgb(232,243,250);
+  width:94%;
+  height:40px;
+  border-radius:5px;
+  display:block;
+  padding-top:18px;
+  font-size:18px;
+  text-align:center;
+  border:1px solid rgb(192,209,220);
+  margin:auto;
+}
+.sclMsgMediaMeans:hover{
+  background-color : rgb(193, 231, 242);
+}

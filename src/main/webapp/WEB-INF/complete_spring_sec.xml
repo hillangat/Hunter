@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<cover>
+
+
+<http  entry-point-ref="loginUrlAuthenticationEntryPoint" use-expressions="true">
+		<intercept-url pattern="/includes/content/administration.jsp" access="hasAnyRole('ROLE_USER','ROLE_ADMIN')" />
+		<intercept-url pattern="/includes/content/userAdministration.jsp" access="hasAnyRole('ROLE_USER','ROLE_ADMIN')" />
+		<intercept-url pattern="/includes/content/groupAdministration.jsp" access="hasAnyRole('ROLE_USER','ROLE_ADMIN')" />
+		<intercept-url pattern="/includes/content/departmentAdministration.jsp" access="hasAnyRole('ROLE_USER','ROLE_ADMIN')" />
+		<intercept-url pattern="/includes/content/shiftAdministration.jsp" access="hasAnyRole('ROLE_USER','ROLE_ADMIN','ROLE_ADMIN')" />
+		<custom-filter position="FORM_LOGIN_FILTER" ref="userAuthenticationProcessingFilter" ></custom-filter>
+		<logout logout-url='/logout' />
+	</http>
+ 
+	<beans:bean id="loginUrlAuthenticationEntryPoint" class="org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint" >
+		<beans:property name="loginFormUrl" value="/login.jsp" />
+	</beans:bean>
+	
+	
+	<beans:bean id="loginSuccessHandler" class="org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler">
+		<beans:property name="defaultTargetUrl" value="/main.jsp" />
+	</beans:bean>
+ 
+	<beans:bean id="userAuthenticationProcessingFilter" class="org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter">
+		<beans:property name="authenticationManager" ref="authenticationManager" />
+		<beans:property name="authenticationFailureHandler" ref="loginMappingFailureHandler" />
+		<beans:property name="authenticationSuccessHandler" ref="loginSuccessHandler" />
+	</beans:bean>
+ 
+	<beans:bean id="loginMappingFailureHandler" class="org.springframework.security.web.authentication.ExceptionMappingAuthenticationFailureHandler">
+		<beans:property name="exceptionMappings" ref="failureUrlMap" />
+	</beans:bean>
+ 
+	<util:map id="failureUrlMap" map-class="java.util.HashMap">
+		<beans:entry key="org.springframework.security.authentication.BadCredentialsException" value="/login.jsp?errorMessage=bad.credentials" />
+		<beans:entry key="org.springframework.security.authentication.DisabledException" value="/login.jsp?errorMessage=disabled.user" />
+	</util:map>
+
+
+	<beans:bean id="loginSuccessHandler" class="org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler">
+		<beans:property name="defaultTargetUrl" value="/main.jsp" />
+	</beans:bean>
+ 
+	<beans:bean id="userAuthenticationProcessingFilter" class="org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter">
+		<beans:property name="authenticationManager" ref="authenticationManager" />
+		<beans:property name="authenticationFailureHandler" ref="loginMappingFailureHandler" />
+		<beans:property name="authenticationSuccessHandler" ref="loginSuccessHandler" />
+	</beans:bean>
+ 
+	<beans:bean id="loginMappingFailureHandler" class="org.springframework.security.web.authentication.ExceptionMappingAuthenticationFailureHandler">
+		<beans:property name="exceptionMappings" ref="failureUrlMap" />
+	</beans:bean>
+ 
+	<util:map id="failureUrlMap" map-class="java.util.HashMap">
+		<beans:entry key="org.springframework.security.authentication.BadCredentialsException" value="/login.jsp?errorMessage=bad.credentials" />
+		<beans:entry key="org.springframework.security.authentication.DisabledException" value="/login.jsp?errorMessage=disabled.user" />
+	</util:map>
+
+</cover>

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+	
+	<class name="com.techmaster.hunter.obj.beans.MessageAttachmentMetadata"  abstract="false" table="MSG_ATTCHMNT_MT_DATA" lazy="true">
+		
+		<id name="mDataId" type="java.lang.Long" column="M_DATA_ID">
+			<generator class="increment" />
+		</id>
+		
+		<property name="embedded" column="EMBDD" type="org.hibernate.type.YesNoType"   />
+		<property name="msgAttchmentBnId" column="MSG_ATTCHMNT_BN_ID"  type="java.lang.Long" />
+		<property name="msgId" column="MSG_ID"  type="java.lang.Long" />
+		<property name="url" column="URL"  type="java.lang.String"  length="4000" />
+		<property name="key" column="KEY"  type="java.lang.String" />
+		<property name="desc" column="DSC"  type="java.lang.String" length="250"   />
+		<property name="msgCid" column="MSG_CID"  type="java.lang.String" length="250" />
+		<property name="originalFileName" column="ORGNL_FL_NAM"  type="java.lang.String" length="1000" />
+		<property name="fileFormat" column="FL_FRMT"  type="java.lang.String" />
+		<property name="templateName" column="TMPLT_NAM"  type="java.lang.String" />
+		
+	</class>
+	
+</hibernate-mapping>

@@ -1,0 +1,50 @@
+<!-- <?xml version="1.0" encoding="UTF-8"?>
+
+ <beans:beans xmlns="http://www.springframework.org/schema/security"
+    xmlns:beans="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="
+    http://www.springframework.org/schema/beans 
+    http://www.springframework.org/schema/beans/spring-beans.xsd
+    http://www.springframework.org/schema/security 
+    http://www.springframework.org/schema/security/spring-security.xsd">
+    
+    
+    
+    <http pattern="/restful/**" create-session="stateless">
+	    <intercept-url pattern='/**' access='ROLE_REMOTE' />
+	    <http-basic />
+	 </http>
+    
+    
+    <http pattern="/hunter/login/page" security="none" />
+	<http pattern="/hunter/login/logout" security="none" />
+	<http pattern="/static/resources/**" security="none" />
+	
+	
+	<http auto-config="true">
+		<intercept-url pattern="/**" access="hasAnyRole('ROLE_USER','ROLE_ADMIN','ROLE_TASK_APPROVER','ROLE_TASK_PROCESSOR')" />
+		<intercept-url pattern="/rawReceiver/**" access="hasAnyRole('ROLE_RAW_USER','ROLE_ADMIN')" />
+		<intercept-url pattern="/admin/**" access="hasRole('ROLE_ADMIN')" />
+		<form-login login-page='/hunter/login/page' default-target-url="/hunter/home" authentication-failure-url="/hunter/login/page"  />
+		<logout logout-success-url="/hunter/login/logout" />
+		<csrf disabled="true" /> Cross Site forgery
+		<custom-filter ref="corsFilter" before="HEADERS_FILTER"  />		
+		<session-management>
+			Prevent the second user 
+	        <concurrency-control max-sessions="1" error-if-maximum-exceeded="true"/>
+	    </session-management>		
+	</http>
+	
+	<beans:bean id="corsFilter" class="com.techmaster.hunter.restconfig.CorsFilter" />
+	
+	<beans:bean name="hunterUserAuthenticationService" class="com.techmaster.hunter.security.HunterUserAuthenticationService"  >
+		 <beans:property name="hunterJDBCExecutor" ref="hunterJDBCExecutor" />
+	</beans:bean>
+	<beans:bean name="customAuthenticationProvider" class="com.techmaster.hunter.security.HunterAuthenticationProvider"  >
+		 <beans:property name="hunterUserAuthenticationService" ref="hunterUserAuthenticationService" />
+	</beans:bean>
+	<authentication-manager>
+		 <authentication-provider ref="customAuthenticationProvider"/>
+	</authentication-manager>
+</beans:beans> -->

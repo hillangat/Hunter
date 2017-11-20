@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+	
+	<class name="com.techmaster.hunter.obj.beans.HunterRawReceiverUser"  table="HNTR_RW_RCVR_USR" lazy="true" abstract="false" > 
+		
+		<id name="userId" type="java.lang.Long" column="USR_ID">
+			<generator class="increment" />
+		</id>
+		
+		<property name="compensation" column="CMNPSTN"  type="java.lang.Float"  />
+		<property name="allContctNo" column="ALL_CNTCT_NO"  type="java.lang.Integer"  />
+		<property name="vrfdContctNo" column="VRFD_CNTCT_NO"  type="java.lang.Integer"  />
+		<property name="country" column="CNTRY"  type="java.lang.String"  />
+		<property name="county" column="CNTY"  type="java.lang.String"  />
+		<property name="constituency" column="CNSTTNCY"  type="java.lang.String"  />
+		<property name="consWard" column="WRD"  type="java.lang.String"  />
+		<property name="village" column="VLLGE"  type="java.lang.String"  />
+		<property name="rawUserName" column="RW_USR_NAM"  type="java.lang.String"  />
+		
+		 <component name="auditInfo" class="com.techmaster.hunter.obj.beans.AuditInfo">
+         	<property name="cretDate" column="CRET_DATE"  type="java.util.Date"/>
+			<property name="lastUpdate" column="LST_UPDT_DATE"  type="java.util.Date"/>
+			<property name="createdBy" column="CRTD_BY" type="java.lang.String"  />
+			<property name="lastUpdatedBy" column="LST_UPDTD_BY" type="java.lang.String"  />
+      	</component>
+		
+	</class>
+	
+</hibernate-mapping>

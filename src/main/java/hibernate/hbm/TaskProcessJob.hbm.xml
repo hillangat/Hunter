@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+    <class name="com.techmaster.hunter.obj.beans.TaskProcessJob" table="TSK_PROCSS_JB" >
+        <id name="jobId" type="java.lang.Long">
+            <column name="JB_ID" />
+            <generator class="increment" />
+        </id>
+        <property name="taskId" type="java.lang.Long">
+            <column name="TSK_ID" />
+        </property>
+         <property name="docBlob" >
+            <column name="DOC_BLB" />
+        </property>
+        <property name="status" >
+            <column name="STS" />
+        </property>
+         <component name="auditInfo" class="com.techmaster.hunter.obj.beans.AuditInfo">
+         	<property name="cretDate" column="CRET_DATE"  type="java.util.Date"/>
+			<property name="lastUpdate" column="LST_UPDT_DATE"  type="java.util.Date"/>
+			<property name="createdBy" column="CRTD_BY" type="java.lang.String"  />
+			<property name="lastUpdatedBy" column="LST_UPDTD_BY" type="java.lang.String"  />
+      	</component>
+    </class>
+</hibernate-mapping>

@@ -1,0 +1,30 @@
+<template name="template name" > 
+  <description>
+    Template Description
+</description>
+  <context>
+    <from>from@gmail.com</from>
+    <subject>Default Template Subject</subject>
+    <toList>to1@gmail.com,to2@gmail.com</toList>
+    <ccList>to2@gmail.com,to13@facebook.com</ccList>
+    <contentType>Template Content Type</contentType>
+    <miscelaneous>
+      <config>
+        <key>exclusive</key>
+        <value>true</value>
+      </config>
+      <config>
+        <key>isAllBcc</key>
+        <value>true</value>
+      </config>
+    </miscelaneous>
+  </context>
+  <template>
+    <![CDATA[
+		Template template	
+	]]>
+  </template>
+  <attachments>
+    <attachment key="template attachment key" type="attachment type" >Attachment Display Test</attachment>
+  </attachments>
+</template>

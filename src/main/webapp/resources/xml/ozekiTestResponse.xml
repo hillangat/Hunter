@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<response>
+  <action>sendmessage</action>
+  <data>
+    <acceptreport0>
+      <statuscode0>0</statuscode0>
+      <statusmessage0>Message accepted for delivery</statusmessage0>
+      <messageid0>c4ce4d5e-b2d1-4399-bd2e-83dff97dfb19</messageid0>
+      <originator0>+44777888</originator0>
+      <recipient>06203105366</recipient>
+      <messagetype0>SMS:TEXT</messagetype0>
+      <messagedata0>Hello World</messagedata0>
+      <serviceprovider0 />
+    </acceptreport0>
+    <acceptreport1>
+      <statuscode1>0</statuscode1>
+      <statusmessage1>Message accepted for delivery</statusmessage1>
+      <messageid1>5ebae14b-8b58-4d99-979b-71e0bbd66132</messageid1>
+      <originator1>+44777888</originator1>
+      <recipient>06202222222</recipient>
+      <messagetype1>SMS:TEXT</messagetype1>
+      <messagedata1>Second Message</messagedata1>
+      <serviceprovider1 />
+    </acceptreport1>
+  </data>
+</response>

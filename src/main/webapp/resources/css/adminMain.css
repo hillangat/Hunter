@@ -1,0 +1,10 @@
+@CHARSET "ISO-8859-1";
+#hunterAdminMainCover{
+	width:100%;
+	height: 100%;
+	position:relative;
+	border-radius:5px;
+	border:1px solid #D5E4EB;
+	background-color: #EFF8FC;
+	min-height: 500px;
+}

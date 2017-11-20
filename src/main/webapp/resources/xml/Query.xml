@@ -1,0 +1,1441 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE xml>
+<queries>
+	<query id="getTaskHunterClientDetails">
+		<description>
+		    Returns the user id,first name, last name, user name.s
+		</description>
+		<statement>
+		  	SELECT 
+			  h.USR_ID,
+			  h.FRST_NAM,
+			  h.LST_NAM,
+			  h.USR_NAM
+			FROM 
+			  task t,
+			  HNTR_USR h,
+			  HNTR_CLINT c
+			WHERE t.HNTR_CLNT_ID = h.USR_ID
+			AND h.USR_ID         = c.HNTR_CLNT_ID
+			AND t.HNTR_CLNT_ID   = c.HNTR_CLNT_ID
+			AND t.TSK_ID         = ?
+		</statement>
+	</query>
+	<query id="updateTaskStatus">
+		<description>
+		   This updates the status of task for the given ID
+		</description>
+		<statement>
+			UPDATE task SET TSK_STS = ? WHERE TSK_ID = ?
+		</statement>
+	</query>
+	<query id="testingJDBCExec">
+		<description>
+		   Testing testing...
+		</description>
+		<statement>
+			SELECT * FROM GT_WY_MSG WHERE TSK_ID = ?
+		</statement>
+	</query>
+	<query id="getCountryNameAndId">
+		<description>
+		   gets country name and id as pairs for json object
+		</description>
+		<statement>
+			select  CNTRY_ID as countryId ,  CNTRY_NAM as CNTRY_NAM  from cntry
+		</statement>
+	</query>
+	<query id="getCountiesNameAndIdForSelCountry">
+		<description>
+		   gets country name and id as pairs for json object
+		</description>
+		<statement>
+			select  cty.CNTRY_ID as countryId, cty.CNTY_ID as countyId, cty.CNTY_NAM as countyName from CNTY cty where cty.CNTRY_ID = ?
+		</statement>
+	</query>
+	<query id="getCountiesNameAndIdForAll">
+		<description>
+		   gets country name and id as pairs for json object
+		</description>
+		<statement>
+			select  cty.CNTRY_ID as countryId, cty.CNTY_ID as countyId, cty.CNTY_NAM as countyName from CNTY cty
+		</statement>
+	</query>
+	<query id="getConstituenciesNameAndIdForSelCounty">
+		<description>
+		   Gets all constituencies for selected country.
+		</description>
+		<statement>
+			select  cns.CNTY_ID as COUNTY_ID, cns.CNSTTNCY_ID  as CONSTITUENCY_ID, cns.CNSTTNCY_NAM as CONSTITUENCY_NAME from CNSTTNCY cns where cns.CNTY_ID = ?
+		</statement>
+	</query>
+	<query id="getConstituenciesNameAndIdForAllCounties">
+		<description>
+		   Gets all constituencies.
+		</description>
+		<statement>
+			select  cns.CNTY_ID as COUNTY_ID, cns.CNSTTNCY_ID  as CONSTITUENCY_ID, cns.CNSTTNCY_NAM as CONSTITUENCY_NAME from CNSTTNCY cns
+		</statement>
+	</query>
+	<query id="getConstituencyWardsForSelCons">
+		<description>
+		   Gets all wards for selected constituency
+		</description>
+		<statement>
+			select  
+				cward.CNSTTNCY_ID as CNSTTNCY_ID, 
+				cward.WRD_ID  as WARD_ID, 
+				cward.WRD_NAM as WRD_NAME 
+			from 
+				CNSTTNCY_WRD cward 
+			where cward.CNSTTNCY_ID = ?
+		</statement>
+	</query>
+	<query id="getConstituencyWardsForAll">
+		<description>
+		   Gets all constituency wards
+		</description>
+		<statement>
+			select  cward.CNSTTNCY_ID as CNSTTNCY_ID, cward.WRD_ID  as WARD_ID, cward.WRD_NAM as WRD_NAME from CNSTTNCY_WRD cward;
+		</statement>
+	</query>
+	<query id="getMaxPhoneNumberForRandomReceiverInACountry">
+		<description>
+		   Gets a maximum number of phone number of given country in hunter message receivers.
+		</description>
+		<statement>
+			WITH numbers as (SELECT TO_NUMBER(rc.RCVR_CNTCT)"RCVR_CNTCT" FROM HNTR_MSG_RCVR rc WHERE rc.CNTRY_NAM = ?)
+			select max(nmbrs.RCVR_CNTCT) AS "MAX_CONTACT" from numbers nmbrs
+		</statement>
+	</query>
+	<query id="getCountryNameIdAndCodeForCountyId">
+		<description>
+		   Gets country name, code and id for countyId.
+		</description>
+		<statement>
+			SELECT 
+			  cn.CNTRY_ID as country_id, 
+			  ct.CNTRY_NAM as country_name, 
+			  ct.CNTRY_CODE as country_code,
+			  cn.CNTY_ID as county_id,
+			  cn.CNTY_NAM
+			FROM cnty cn, Cntry ct
+			where ct.CNTRY_ID = cn.CNTRY_ID
+			and cn.CNTY_ID = ?
+		</statement>
+	</query>
+	<query id="getCountryCountyConsNameIdAndForConsId">
+		<description>
+		   Gets country name, code and id for countyId.
+		</description>
+		<statement>
+			SELECT
+				cn.CNTRY_ID as country_id, 
+				ct.CNTRY_NAM as country_name, 
+				cn.CNTY_ID as county_id,
+				cn.CNTY_NAM,
+		        cns.CNSTTNCY_ID,
+		        cns.CNSTTNCY_NAM
+		    FROM 
+		        cnty cn, 
+		        Cntry ct,
+		        CNSTTNCY cns
+			WHERE ct.CNTRY_ID = cn.CNTRY_ID
+		    AND cn.CNTY_ID = cns.CNTY_ID
+		    AND cns.CNSTTNCY_ID = ?
+		</statement>
+	</query>
+	<query id="getCntryCntyCodeNameId">
+		<description>
+		   Gets country code, name and id, country code, name and id for given constituencyId
+		</description>
+		<statement>
+			SELECT 
+				cry.CNTRY_ID AS countryId, 
+				cry.CNTRY_CODE AS countryCode, 
+				cry.CNTRY_NAM AS countryName,
+				Y.CNTY_ID AS countyId, 
+				y.CNTY_CDE AS countyCode, 
+				Y.CNTY_NAM AS countyName  
+			FROM 
+			(
+				SELECT cn.CNTY_ID, cn.CNTY_CDE, cn.CNTY_NAM, cn.CNTRY_ID
+				FROM cnty cn, CNSTTNCY cns
+				WHERE cns.CNTY_ID = cn.CNTY_ID
+				AND cns.CNSTTNCY_ID = ?
+			)Y, 
+			CNTRY cry
+			WHERE cry.CNTRY_ID = Y.CNTRY_ID
+		</statement>
+	</query>
+	<query id="getCntryNmIdAndCdeCntyIdNmAndCdeFrCnsttncyId">
+		<description>
+		   Gets country code, name and id, country code, name and id for given constituencyId
+		</description>
+		<statement>
+			SELECT 
+				cry.CNTRY_ID , 
+				cry.CNTRY_CODE , 
+				cry.CNTRY_NAM,
+				Y.CNTY_ID, 
+				y.CNTY_CDE , 
+				Y.CNTY_NAM, 
+				Y.CNSTTNCY_ID, 
+				Y.CNSTTNCY_CDE, 
+				Y.CNSTTNCY_NAM   
+			FROM 
+			(
+				SELECT 
+					cn.CNTY_ID, 
+					cn.CNTY_CDE, 
+					cn.CNTY_NAM, 
+					cn.CNTRY_ID,
+					cns.CNSTTNCY_ID, 
+					cns.CNSTTNCY_CDE, 
+					cns.CNSTTNCY_NAM
+				FROM cnty cn, CNSTTNCY cns
+				WHERE cns.CNTY_ID = cn.CNTY_ID
+				AND cns.CNSTTNCY_ID = ?
+			)Y, 
+			CNTRY cry
+			WHERE cry.CNTRY_ID = Y.CNTRY_ID
+		</statement>
+	</query>
+	<query id="getCntryCntyConstyConswardIdCodeNameId">
+		<description>
+		   Gets country code, name and id, country code, name and id for given constituencyId
+		</description>
+		<statement>
+			select 
+			    cntr.CNTRY_ID, 
+			    cntr.CNTRY_CODE, 
+			    cntr.CNTRY_NAM,
+			    cn.CNTY_ID, 
+			    cn.CNTY_CDE, 
+			    cn.CNTY_NAM,
+			    cns.CNSTTNCY_ID, 
+			    cns.CNSTTNCY_CDE, 
+			    cns.CNSTTNCY_NAM,
+			    cnswrd.WRD_ID,
+			    cnswrd.CNSTTNCY_WRD_CODE, 
+			    cnswrd.WRD_NAM
+			from CNSTTNCY_WRD cnswrd, CNSTTNCY cns, CNTY cn, CNTRY cntr
+			where cnswrd.CNSTTNCY_ID = cns.CNSTTNCY_ID
+			and cns.CNTY_ID = cn.CNTY_ID
+			and cn.CNTRY_ID = cntr.CNTRY_ID
+			and  cnswrd.WRD_ID = ?
+		</statement>
+	</query>
+	<query id="getRegionIdsForNamesToWard">
+		<description>
+		   Pass the names of all the regions and get ward id : Country, county, State, Constituency, ConstituencyWard
+		</description>
+		<statement>
+			select 
+			    cntr.CNTRY_ID, 
+			    cntr.CNTRY_NAM,
+			    cn.CNTY_ID, 
+			    cn.CNTY_NAM,
+			    cns.CNSTTNCY_ID, 
+			    cns.CNSTTNCY_NAM,
+			    cnswrd.WRD_ID,
+			    cnswrd.WRD_NAM
+			from CNSTTNCY_WRD cnswrd, CNSTTNCY cns, CNTY cn, CNTRY cntr
+			where cnswrd.CNSTTNCY_ID = cns.CNSTTNCY_ID
+			and cns.CNTY_ID = cn.CNTY_ID
+			and cn.CNTRY_ID = cntr.CNTRY_ID
+			and cntr.CNTRY_NAM = ?
+			and cn.CNTY_NAM = ?
+			and cns.CNSTTNCY_NAM = ?
+			and  cnswrd.WRD_NAM = ?
+		</statement>
+	</query>
+	<query id="getRegionIdsForNamesToCons">
+		<description>
+		   Pass the names of all the regions and get ward id : Country, county, State, Constituency, ConstituencyWard
+		</description>
+		<statement>
+			select 
+			    cntr.CNTRY_ID, 
+			    cntr.CNTRY_NAM,
+			    cn.CNTY_ID, 
+			    cn.CNTY_NAM,
+			    cns.CNSTTNCY_ID, 
+			    cns.CNSTTNCY_NAM
+			from CNSTTNCY cns, CNTY cn, CNTRY cntr
+			where cns.CNTY_ID = cn.CNTY_ID
+			and cn.CNTRY_ID = cntr.CNTRY_ID
+			and cntr.CNTRY_NAM = ?
+			and cn.CNTY_NAM = ?
+			and cns.CNSTTNCY_NAM = ?
+		</statement>
+	</query>
+	<query id="getRegionIdsForNamesToCounty">
+		<description>
+		   Pass the names of all the regions and get ward id : Country, county, State, Constituency, ConstituencyWard
+		</description>
+		<statement>
+			select 
+			    cntr.CNTRY_ID, 
+			    cntr.CNTRY_NAM,
+			    cn.CNTY_ID, 
+			    cn.CNTY_NAM
+			from CNTY cn, CNTRY cntr
+			where cn.CNTRY_ID = cntr.CNTRY_ID
+			and cntr.CNTRY_NAM = ?
+			and cn.CNTY_NAM = ?
+		</statement>
+	</query>
+	<query id="getRgnLvlIdsAndNamesForConstituencies">
+		<description>
+		   Pass the names of all the regions and get ward id : Country, county, State, Constituency, ConstituencyWard
+		</description>
+		<statement>
+			    SELECT 
+			      cns.CNTY_ID, 
+			      cn.CNTY_NAM,
+			      cns.CNSTTNCY_ID,
+			      cns.CNSTTNCY_NAM,  
+			      cwrd.WRD_ID,
+			      cwrd.WRD_NAM
+			    FROM CNSTTNCY cns, CNTRY cntry, cnty cn, CNSTTNCY_WRD cwrd
+			    WHERE  cwrd.CNSTTNCY_ID = cns.CNSTTNCY_ID
+			    AND cn.CNTRY_ID = cntry.CNTRY_ID
+			    and cns.CNTY_ID = cn.CNTY_ID
+			    and cntry.CNTRY_ID = cn.CNTRY_ID
+			    and cn.CNTY_NAM = :countryName
+			    and cns.CNSTTNCY_NAM in (:constituencyNames)
+			    and cntry.CNTRY_NAM = :coutryName order by cn.CNTY_NAM, cns.CNSTTNCY_NAM asc
+		</statement>
+	</query>
+	<query id="getClientDetailsForTaskOwner">
+		<description>
+		   gets userid, user name and client id, passing user name.
+		</description>
+		<statement>
+			SELECT hu.USR_ID, hu.USR_NAM, hc.HNTR_CLNT_ID, hu.FRST_NAM, hu.LST_NAM, hu.EMAIL
+			FROM HNTR_CLINT hc, HNTR_USR hu
+			WHERE hc.HNTR_CLNT_ID = hu.USR_ID 
+			AND hu.USR_NAM = ?
+		</statement>
+	</query>
+	<query id="getClientDetailsForTaskOwnerForTaskId">
+		<description>
+		   gets userid, user name and client id, passing user name.
+		</description>
+		<statement>
+			SELECT hu.USR_ID, hu.USR_NAM, hc.HNTR_CLNT_ID, hu.FRST_NAM, hu.LST_NAM, hu.EMAIL, tsk.TSK_OBJCTV
+			FROM  HNTR_CLINT hc, HNTR_USR hu, TASK tsk
+			WHERE hc.HNTR_CLNT_ID = hu.USR_ID
+			AND hc.HNTR_CLNT_ID = tsk.HNTR_CLNT_ID
+			and tsk.TSK_ID = ?
+		</statement>
+	</query>
+	<query id="getHntrMsgRcvrsFrmRgn">
+		<description>
+		   gets userid, user name and client id, passing user name.
+		</description>
+		<statement>
+			FROM HunterMessageReceiver h 
+			WHERE h.receiverRegionLevel = :receiverRegionLevel 
+			AND h.receiverRegionLevelName = :receiverRegionLevelName
+			AND h.receiverType = :receiverType
+			AND h.active in (:active);
+		</statement>
+	</query>
+	<query id="getHntrMsgRcvrsFrConsWrdNames">
+		<description>
+		   gets hunter message receivers of given wards. Must supply all region names.
+		</description>
+		<statement>
+			FROM HunterMessageReceiver h 
+			WHERE h.countryName = :countryName 
+			AND h.countyName = :countyName
+			AND h.consName = :consName
+			AND h.consWardName IN(:consWardName)
+			AND h.receiverType = :receiverType
+			AND h.active in (:active)
+		</statement>
+	</query>
+	<query id="getHntrMsgRcvrsFrAllRegionsNames">
+		<description>
+		   Provide all region names and it will return corresponding Hunter Message receivers.
+		</description>
+		<statement>
+			FROM HunterMessageReceiver h 
+			WHERE h.countryName =:countryName 
+			AND h.countyName =:countyName
+			AND h.consName =:consName
+			AND h.consWardName =:consWardName
+			AND h.receiverType =:receiverType
+			AND h.active =:active
+		</statement>
+	</query>
+	<query id="getAllReceiverTypesAndContacts">
+		<description>
+		   returns receiver type and receiver contact for all contacts in the sytem for 
+		</description>
+		<statement>
+			SELECT distinct m.RCVR_CNTCT, m.RCVR_TYP FROM HNTR_MSG_RCVR m
+		</statement>
+	</query>
+	<query id="getNamesForIdsToRegionsTillWard">
+		<description>
+		   Pass the IDs for regions and it gives all respective names. 
+		</description>
+		<statement>
+			SELECT distinct m.RCVR_CNTCT, m.RCVR_TYP FROM HNTR_MSG_RCVR m
+		</statement>
+	</query>
+	<query id="getUserNameAndIdForTaskId">
+		<description>
+		   Returns user name and user id for owner of task id. 
+		</description>
+		<statement>
+			SELECT hu.USR_NAM, hu.USR_ID
+			FROM  HNTR_CLINT h, HNTR_USR hu, task t
+			WHERE h.HNTR_CLNT_ID = hu.USR_ID
+			and t.HNTR_CLNT_ID = h.HNTR_CLNT_ID
+			and hu.USR_ID = t.HNTR_CLNT_ID
+			AND t.TSK_ID = ?
+		</statement>
+	</query>
+	<query id="getUserRoleDetails">
+		<description>
+		    Returns user name, password and role name for given user name. 
+		    Returns just the user name and password if the user does not have any role.
+		</description>
+		<statement>
+			SELECT 
+			  CASE WHEN m.USR_NAM is null THEN m.USR_NAM_H3 ELSE m.USR_NAM END AS USR_NAM,
+			  CASE WHEN m.PSSWRD is null THEN m.PSSWRD_H3 ELSE m.PSSWRD END AS PSSWRD,
+			  CASE WHEN m.RL_NAM is null THEN m.RL_NAM_H3 ELSE  m.RL_NAM END AS RL_NAM
+			FROM (
+			    SELECT X.*,Y.* from (
+			    SELECT  
+			      h.USR_NAM ,
+			      h.PSSWRD ,
+			      u.RL_NAM  
+			    FROM 
+			      HNTR_USR h, 
+			      USER_ROLE u,
+			      HNTR_USR_RLS ur
+			    where 
+			      u.ROLE_ID = ur.ROLE_ID and
+			      ur.USR_ID = h.USR_ID and
+			      h.USR_NAM = ?
+			  )x
+			    FULL OUTER JOIN 
+			  (
+			    select h3.USR_NAM AS USR_NAM_H3 , h3.PSSWRD AS PSSWRD_H3, (select null from dual ) AS RL_NAM_H3 from HNTR_USR h3
+			    where h3.USR_NAM = ? and h3.USR_ID not in (select hu.USR_ID from HNTR_USR_RLS hu) and rownum = 1
+			  )y ON X.USR_NAM = Y.USR_NAM_H3
+			)m
+		</statement>
+	</query>
+	<query id="checkExistentForTaskAndReceiverGroup">
+		<description>
+		    Checks whether task, task group or both or them are existent. 
+		</description>
+		<statement>
+			select tsk.TSK_COUNT,grp.GRP_COUNT,tsk_grps.TSK_GROUP_COUNT
+			from 
+			(select count(task.TSK_ID) as TSK_COUNT from  task task where task.TSK_ID = ?)tsk, 
+			(select count(RCVR_GRP.GRP_ID) as GRP_COUNT from RCVR_GRP RCVR_GRP  where RCVR_GRP.GRP_ID = ? )grp,
+			(select count(*) as TSK_GROUP_COUNT from TSK_GRPS TSK_GRPS  where TSK_GRPS.TSK_ID = ? AND TSK_GRPS.GRP_ID = ? )tsk_grps
+		</statement>
+	</query>
+	<query id="getTotalTaskGroupsReceivers">
+		<description>
+		    Returns total receivers of all task groups.
+		</description>
+		<statement>
+			select NVL(SUM(CNT),0) "COUNT"  FROM (
+			SELECT rcvgrps.RCVR_CNT aS CNT
+			FROM TSK_GRPS tgrps, RCVR_GRP rcvgrps
+			where  tgrps.GRP_ID = rcvgrps.GRP_ID 
+			and tgrps.TSK_ID = ?
+			)x
+		</statement>
+	</query>
+	<query id="getTotalTaskGroupsForTaskId">
+		<description>
+		    Returns total number of receivers for a given task id.
+		</description>
+		<statement>
+			select NVL(SUM(CNT),0) "COUNT"  FROM (
+			SELECT count(*) AS CNT
+			FROM TSK_GRPS tgrps
+			where  tgrps.TSK_ID = ?
+			)x
+		</statement>
+	</query>
+	<query id="checkIfRegionAndTaskExist">
+		<description>
+		    Returns count of tasks, regions and tsk_regions. If null, returns zero.
+		</description>
+		<statement>
+			select tsk.TSK_COUNT,rgn.RGN_CNT,tsk_rgns.TSK_RGNS_COUNT
+			from 
+			(select count(task.TSK_ID) as TSK_COUNT from  task task where task.TSK_ID = ?)tsk, 
+			(select count(RCVR_RGN.RGN_ID) as RGN_CNT from RCVR_RGN RCVR_RGN  where RCVR_RGN.RGN_ID = ? )rgn,
+			(select count(*) as TSK_RGNS_COUNT from TSK_RGNS TSK_RGNS  where TSK_RGNS.TSK_ID = ? AND TSK_RGNS.RGN_ID = ? )tsk_rgns
+		</statement>
+	</query>
+	<query id="getClientDetailsData">
+		<description>
+		    Gets client details data for drop downs.
+		</description>
+		<statement>
+			SELECT clnt.HNTR_CLNT_ID, usr.FRST_NAM, usr.LST_NAM,usr.USR_NAM FROM HNTR_CLINT clnt, HNTR_USR usr
+			WHERE clnt.HNTR_CLNT_ID = usr.USR_ID
+		</statement>
+	</query>
+	<query id="updateRawReceiverCountsForFieldUser">
+		<description>
+		    It will update the counts of the receivers for a given user.
+		</description>
+		<statement>
+			update hntr_rw_rcvr_usr set all_cntct_no = (
+			select count( r.rcvr_cntct ) from hntr_rw_rcvr r where gvn_by_usr_nam = ?
+			)  where RW_USR_NAM = ?
+		</statement>
+	</query>
+	<query id="getDstntRwRcvrCntctForUser">
+		<description>
+		    Returns raw receiver contacts for given field user.
+		</description>
+		<statement>
+			select distinct rcvr_cntct from hntr_rw_rcvr where gvn_by_usr_nam = ?
+		</statement>
+	</query>
+	<query id="getRawReceiverUserData">
+		<description>
+		    Gets the details of a raw receiver user of the given user name.
+		</description>
+		<statement>
+			SELECT r.ALL_CNTCT_NO "all",
+			  CASE
+		          WHEN r.CMNPSTN = 0 THEN '0.00'
+		          ELSE r.CMNPSTN || ''
+		      END AS "compensation",
+			  r.CNSTTNCY "cons",
+			  r.CNTRY "country",
+			  r.CNTY "county",
+			  r.RW_USR_NAM "name",
+			  r.USR_ID "id",        
+			  CASE
+			    WHEN r.VLLGE IS NULL
+			    THEN ' '
+			    ELSE r.VLLGE
+			  END AS "village",
+	          (
+		          SELECT COUNT(*)
+		          FROM HNTR_RW_RCVR rcv
+		          WHERE rcv.GVN_BY_USR_NAM = r.RW_USR_NAM
+		          AND rcv.VRYFD            = 'Y'
+	          ) AS "verified",
+			  r.WRD "ward",
+			  u.PHN_NUMBR "phone",
+			  u.FRST_NAM "firstname",
+			  u.LST_NAM "lastname",
+        	  u.FRST_NAM || ' ' ||  u.LST_NAM "fullname",
+			  u.EMAIL "email",
+        	  NVL( (SELECT c.CNTRY_ID || '' FROM CNTRY c WHERE c.CNTRY_NAM = r.CNTRY), ' ' )"countryid",
+        	  NVL( (SELECT t.CNTY_ID || '' FROM CNTRY c, CNTY t WHERE c.CNTRY_ID = t.CNTRY_ID and  t.CNTY_NAM = r.CNTY ), ' ' )"countyid",
+        	  NVL( (SELECT n.CNSTTNCY_ID || '' FROM CNTRY c, CNTY t, CNSTTNCY n WHERE n.CNTY_ID = t.CNTY_ID and t.CNTRY_ID = c.CNTRY_ID and n.CNSTTNCY_NAM = r.CNSTTNCY  ), ' ' )"consid",
+        	  NVL( (SELECT w.WRD_ID || '' FROM CNTRY c, CNTY t, CNSTTNCY n, CNSTTNCY_WRD w WHERE n.CNTY_ID = t.CNTY_ID and t.CNTRY_ID = c.CNTRY_ID and w.CNSTTNCY_ID = n.CNSTTNCY_ID and w.WRD_NAM = r.WRD  ), ' ' )"wardid"
+			FROM HNTR_RW_RCVR_USR r
+			LEFT JOIN HNTR_USR u
+			ON r.RW_USR_NAM    = u.USR_NAM
+			WHERE r.RW_USR_NAM = ?
+		</statement>
+	</query>
+	<query id="getGroupImportBeanDetails">
+		<description>
+		    Gets group import bean details.
+		</description>
+		<statement>
+			SELECT usr.FRST_NAM || ' ' || usr.LST_NAM "FULL_NAM" ,X.ORGNL_FL_NAM,TO_CHAR(X.CRET_DATE, 'yyyy-MM-dd HH:mm:ss')"CRET_DATE",X.IMPRT_ID,X.STS   FROM (
+			  SELECT bn.CRET_DATE, bn.CRTD_BY,bn.ORGNL_FL_NAM, bn.IMPRT_ID, bn.STS FROM HNTR_IMPRT_BN bn WHERE ( 
+			  SELECT '''' || REPLACE( (SELECT grp.IMPRT_BN_IDS FROM RCVR_GRP grp WHERE grp.GRP_ID =  ?), ',',''',''' ) || '''' FROM dual
+			  ) LIKE ( '%' || '''' || bn.IMPRT_ID || '''' ||'%' ) ORDER BY  bn.CRET_DATE desc
+			)x, 
+			HNTR_USR usr
+			WHERE usr.USR_NAM = X.CRTD_BY
+		</statement>
+	</query>
+	<query id="getDstnctActvAppvdTskGrpRcvrs">
+		<description>
+		    Gets group import bean details.
+		</description>
+		<statement>
+		   SELECT distinct rcvs.RCVR_CNTCT FROM RCVRGRP_RCVRGRPRCVR grpRc, RCVR_GRP_RCVR rcvs, TASK tsk
+			WHERE grpRc.GRP_ID IN ( SELECT tgrp.GRP_ID FROM TSK_GRPS tgrp WHERE tgrp.TSK_ID = ? ) 
+			AND rcvs.RCVR_ID = grpRc.RCVR_ID
+			AND tsk.TSK_ID = ?
+			AND rcvs.ACTV = 'Y' 
+			AND rcvs.APPVD = 'Y'
+			AND lower(rcvs.RCVR_TYPE) = lower(tsk.TSK_MSG_TYP)
+		</statement>
+	</query>
+	<query id="getTskGrpRcvrCount">
+		<description>
+		    Gets group import bean details.
+		</description>
+		<statement>
+		   SELECT sum(rg.RCVR_CNT) FROM TSK_GRPS tg, RCVR_GRP rg 
+				WHERE tg.GRP_ID = rg.GRP_ID
+				AND tg.TSK_ID = ?
+		</statement>
+	</query>
+	<query id="getValidateDeleteTaskMessage">
+		<description>
+		    Gets group import bean details.
+		</description>
+		<statement>
+		  select 
+			  case 
+			    when TSK_LF_STS = 'Approved' 
+			    then 'Cannot delete message, Task is approved!' 
+			    when TSK_LF_STS = 'Review' 
+			    then 'Cannot delete message, Task is in Review status!'
+			    else 'Delete'
+			  end as LF_STATUS_MSG , 
+			  CASE 
+			    WHEN TSK_DEL_STS in('Processed')
+			    THEN 'Cannot delete message, Task delivery status not conceptual!'
+			     else 'Delete'
+			  end as DEL_STATUS_MSG    
+			from task where TSK_ID = ?
+		</statement>
+	</query>
+	<query id="getEmailMsgRefreshData">
+		<description>
+		    Gets email message details for to be used to refresh email ui.
+		</description>
+		<statement>
+		select 
+			  TO_CHAR(CRET_DATE, 'yyyy-MM-dd HH:mm:ss') as cretDate,
+			  TO_CHAR(LST_UPDT_DATE, 'yyyy-MM-dd HH:mm:ss') as lastUpdate ,
+			  CRTD_BY as createdBy,
+			  LST_UPDTD_BY as lastUpdatedBy,
+			  TO_CHAR(MSG_SEND_DATE, 'yyyy-MM-dd HH:mm:ss') as msgSendDate,
+			  MSG_LIF_STS as msgLifeStatus,
+			  CASE 
+			    WHEN HS_ATTCHMNT = 'Y'
+			    then 'true'
+			    else 'false'
+			  end 
+			  AS hasAttachment,
+        	  EMAIL_SUBJECT as E_SUBJECT,
+        	  EML_TMPLT_NAM AS EML_TMPLT_NAM
+			from EMAIL_MSG
+			where MSG_ID = ?
+		</statement>
+	</query>
+	<query id="getGroupReceiverContactForReceiverIds">
+		<description>
+		    Gets group receiver contacts for group receivers. Returns only approved and active receivers.
+		    The parameter must be comma separated is it's more than one.
+		</description>
+		<statement>
+		  select distinct r.RCVR_ID,r.RCVR_CNTCT from RCVR_GRP_RCVR r, RCVRGRP_RCVRGRPRCVR rg 
+		  where r.ACTV = 'Y' AND r.APPVD = 'Y' and rg.GRP_ID  in (:GRP_ID) and rg.RCVR_ID = r.RCVR_ID
+		</statement>
+	</query>
+	<query id="uncompleteTask">
+		<description>
+		    Used to make task draft approved again.
+		</description>
+		<statement>
+		  UPDATE task SET TSK_DEL_STS = 'Conceptual', TSK_LF_STS = 'Approved' WHERE tsk_id IN ( ? )
+		</statement>
+	</query>
+	<query id="validateHunterUserDelete">
+		<description>
+		    Gets validation data for deleting hunter user.
+		</description>
+		<statement>
+			SELECT tsk.TSK_ID, clnt.HNTR_CLNT_ID 
+			FROM HNTR_USR hu, HNTR_CLINT clnt, task tsk
+			WHERE hu.USR_ID = clnt.HNTR_CLNT_ID
+			AND hu.USR_ID = tsk.HNTR_CLNT_ID
+			AND tsk.HNTR_CLNT_ID = clnt.HNTR_CLNT_ID
+			and hu.USR_ID = ?
+		</statement>
+	</query>
+	<query id="getAddRoleValidationData">
+		<description>
+		    gets the name and the role of the role being validated.
+		</description>
+		<statement>
+			SELECT 
+			  us.RL_NAM,
+			  us.ROLE_ID,
+			  us.RL_SHRT_NAM
+			FROM 
+			  HNTR_USR_RLS rl,
+			  USER_ROLE us
+			WHERE rl.ROLE_ID = us.ROLE_ID
+			AND rl.USR_ID    = ?
+			AND us.ROLE_ID   = ?
+		</statement>
+	</query>
+	<query id="getUserRoleIdForUserId">
+		<description>
+		    gets comma separated roles already added to user id
+		</description>
+		<statement>
+	  		select listagg(ru.ROLE_ID, ',')  within group (order by ru.USR_ID) as "ROLE_IDS"
+			from HNTR_USR_RLS ru WHERE ru.USR_ID = ?
+		</statement>
+	</query>
+	<query id="getAllCommSprtdClientIDs">
+		<description>
+		    gets comma separated client ids for all clients in the system.
+		</description>
+		<statement>
+	  		select listagg(cl.hntr_clnt_id, ',')  within group (order by cl.hntr_clnt_id) as "CLIENT_IDS"
+			from hntr_clint cl
+		</statement>
+	</query>
+	<query id="getAllClientsDetails">
+		<description>
+		    gets comma separated client ids for all clients in the system.
+		</description>
+		<statement>
+	  		SELECT 
+			  us.FRST_NAM,
+			  us.LST_NAM,
+			  us.USR_ID,
+			  us.ACTIV,
+			  TO_CHAR(cl.CRET_DATE,'yyyy-MM-dd HH:mm:ss') AS CRET_DATE,
+			  cl.CRTD_BY,
+			  us.EMAIL,
+			  TO_CHAR(cl.LST_UPDATE,'yyyy-MM-dd HH:mm:ss') AS LST_UPDATE,
+			  cl.LST_UPDTD_BY,
+			  us.MDDL_NAM,
+			  us.PHN_NUMBR,
+			  us.USR_NAM,
+			  us.USR_TYP,
+			  cl.CLNT_TL_BDGT,
+			  cl.IS_RCVR
+			FROM 
+			  HNTR_USR us,
+			  HNTR_CLINT cl
+			WHERE us.USR_ID = cl.HNTR_CLNT_ID
+			ORDER BY cl.CRET_DATE DESC
+		</statement>
+	</query>
+	<query id="getNextRawReceiverVersion">
+		<description>
+		    This query will retrieve raw receiver version for a given contact.
+		</description>
+		<statement>
+	  		SELECT max(h.RCVR_VRSN) + 1
+	  		FROM HNTR_RW_RCVR h
+	  		WHERE h.RCVR_CNTCT = ?
+		</statement>
+	</query>
+	<query id="getTaskNamesForClientUserName">
+		<description>
+		    Returns comma separated task already existent task names
+		</description>
+		<statement>
+	  		SELECT listagg(t.TSK_NAM, ',') within group (order by t.TSK_NAM) as "TSK_NAMS"
+			FROM task t, HNTR_CLINT c, HNTR_USR u
+			WHERE t.HNTR_CLNT_ID = c.HNTR_CLNT_ID
+			AND c.HNTR_CLNT_ID = u.USR_ID
+			and u.USR_NAM = ?
+		</statement>
+	</query>
+	<query id="getUserLoginBeanDetails">
+		<description>
+		    user login bean details. Needs user id.
+		</description>
+		<statement>
+	  		SELECT ul.USR_ID, ul.FLD_LGN_CNT, ul.BLCKD FROM USR_LGN_BN ul, HNTR_USR hu where ul.USR_ID = hu.USR_ID
+			and hu.USR_NAM = ?
+		</statement>
+	</query>
+	<query id="getAllGroupsDetails">
+		<description>
+		    user login bean details. Needs user id.
+		</description>
+		<statement>
+		  	 SELECT 
+				  distinct
+				  grp.GRP_ID,
+				  grp.OWNR_USR_NAM,
+				  usr.FRST_NAM,
+				  usr.LST_NAM,
+				  grp.GRP_NAME,
+				  grp.GRP_DESC,
+				  CNT_DATA.RCVR_CNT, 
+				  grp.RCVR_TYP,
+          		  TO_CHAR(grp.CRET_DATE, 'yyyy-MM-dd HH:mm:ss')"CRET_DATE",
+				  grp.CRTD_BY,
+          		  TO_CHAR(grp.LST_UPDT_DATE, 'yyyy-MM-dd HH:mm:ss')"LST_UPDT_DATE",
+				  grp.LST_UPDTD_BY
+			  FROM RCVR_GRP grp,HNTR_USR usr,(
+			  select cnt.GRP_ID, count(cnt.GRP_ID) RCVR_CNT
+			    from RCVRGRP_RCVRGRPRCVR cnt
+			    group by cnt.GRP_ID
+			  UNION ALL
+			  (
+			  SELECT 
+			    p.GRP_ID,
+			    (SELECT 0 FROM DUAL) AS RCVR_CNT
+			    from RCVR_GRP p 
+			    WHERE p.GRP_ID NOT IN (SELECT cnt1.GRP_ID FROM RCVRGRP_RCVRGRPRCVR cnt1)
+			  )
+			)CNT_DATA where CNT_DATA.GRP_ID = grp.GRP_ID
+			and usr.USR_NAM = grp.OWNR_USR_NAM
+		</statement>
+	</query>
+	<query id="getAllTaskGroupReceiversForTask">
+		<description>
+		    Returns receivers details for all task groups of a given task id.
+		</description>
+		<statement>
+		  	select
+    		  	distinct
+			  	rgc.RCVR_ID,
+		        rgc.RCVR_CNTCT,
+		        rgc.RCVR_TYPE,
+		        rgc.APPVD,
+		        rgc.APPVR,
+		        TO_CHAR(rgc.CRET_DATE, 'yyyy-MM-dd HH:mm:ss')"CRET_DATE",
+		        rgc.CRTD_BY,
+		        TO_CHAR(rgc.LST_UPDT_DATE, 'yyyy-MM-dd HH:mm:ss')"LST_UPDT_DATE",
+		        rgc.LST_UPDTD_BY,
+		        rgc.ACTV
+			from 
+			  TSK_GRPS tg,
+			  RCVR_GRP_RCVR rgc,
+			  RCVRGRP_RCVRGRPRCVR rr
+			WHERE tg.GRP_ID = rr.GRP_ID
+			AND rgc.RCVR_ID = rr.RCVR_ID
+			AND rr.GRP_ID = tg.GRP_ID
+			and tg.TSK_ID = ?
+		</statement>
+	</query>
+	<query id="getPrcssTxtMssgeDtls">
+		<description>
+		    Returns a processed text message details for display on popup
+		</description>
+		<statement>
+		  	SELECT DISTINCT 
+			  TO_CHAR(msg.CRET_DATE, 'yyyy-MM-dd HH:mm:ss') AS create_date,
+			  TO_CHAR(msg.LST_UPDT_DATE, 'yyyy-MM-dd HH:mm:ss') AS last_update_date ,
+			  ( SELECT crt.FRST_NAM || ' ' || crt.LST_NAM || '(' || crt.USR_NAM  || ')' FROM HNTR_USR crt WHERE crt.USR_NAM = msg.CRTD_BY ) AS created_by,
+			  ( SELECT crt2.FRST_NAM || ' ' || crt2.LST_NAM || '(' || crt2.USR_NAM  || ')' FROM HNTR_USR crt2 WHERE crt2.USR_NAM = msg.LST_UPDTD_BY ) AS last_updated_by,
+			  TO_CHAR(msg.MSG_SEND_DATE, 'yyyy-MM-dd HH:mm:ss') AS message_send_date,
+			  msg.MSG_LIF_STS AS message_life_status,
+			  msg.MSG_TSK_TYP AS message_task_type,
+			  prv.PROVIDER_NAM AS provider_name,
+			  ('Ksh : ' || prv.CST_PR_TXT_MSG) AS cost_per_message,
+			  usr.FRST_NAM || ' ' || usr.LST_NAM || '(' || usr.USR_NAM  || ')' AS message_owner,
+			  msg.MSG_LIF_STS AS message_status,
+			  length(nvl(msg.MSG_TXT,0)) AS character_count,
+			  msg.ACTL_RCVRS AS total_receivers,
+			  replace(msg.MSG_TXT,CHR(10),'') AS message_text
+			FROM 
+			  TXT_MSG msg,
+			  SRVC_PRVDR prv,
+			  HNTR_USR usr
+			WHERE prv.PROVIDER_ID = msg.PROVIDER
+			AND usr.USR_NAM = msg.MSG_OWNER 
+			AND MSG_ID = ?
+		</statement>
+	</query>
+	<query id="getAllUsersWithRoleId">
+		<description>
+		    Returns all user names and role IDs for.
+		</description>
+		<statement>
+		  	SELECT 
+			  hu.usr_nam,
+			  ur.role_id  
+			FROM user_role ur, hntr_usr_rls hur, hntr_usr hu
+			WHERE ur.role_id = ?
+			AND hur.USR_ID = hu.usr_id
+			AND ur.role_id = hur.role_id
+			AND ur.role_id = ur.role_id
+		</statement>
+	</query>
+	<query id="updateHunterClient">
+		<description>
+		    Updated hunter client
+		</description>
+		<statement>
+		  	UPDATE hntr_clint SET 
+			  clnt_tl_bdgt = ?, 
+			  IS_RCVR = ?, 
+			  LST_UPDTD_BY = ?, 
+			  LST_UPDATE = sysdate 
+			WHERE HNTR_CLNT_ID = ?
+		</statement>
+	</query>
+	<query id="getAllClientsJsonData">
+		<description>
+		    Pulls up all clients data
+		</description>
+		<statement>
+		  	SELECT 
+			  hc.hntr_clnt_id, 
+			  hu.frst_nam,
+			  hu.lst_nam,
+			  hu.email,
+			  hu.usr_nam,
+			  hc.is_rcvr,
+			  hc.clnt_tl_bdgt,
+			  to_char(hc.cret_date, 'yyyy-MM-dd HH:mm:ss')"CRET_DATE",
+			  hc.crtd_by,
+			  to_char(hc.lst_update, 'yyyy-MM-dd HH:mm:ss')"LST_UPDATE",
+			  hc.lst_updtd_by  
+			FROM HNTR_CLINT hc, HNTR_USR hu
+			WHERE hc.hntr_clnt_id = hu.usr_id
+			order by hc.lst_update desc
+		</statement>
+	</query>
+	<query id="getMessageAttachmentJsonForId">
+		<description>
+		    Pulls up all clients data
+		</description>
+		<statement>
+		  	SELECT 
+			  bn.bean_id,
+			  bn.bean_desc,
+			  bn.bean_name,
+			  bn.fle_frmt,
+			  bn.fle_hght,
+			  bn.fle_sze,
+			  bn.fle_wdth,
+        	  TO_CHAR(bn.cret_date, 'yyyy-MM-dd HH:mm:ss')"CRET_DATE",
+			  bn.crtd_by,
+			  TO_CHAR(bn.lst_updt_date, 'yyyy-MM-dd HH:mm:ss')"LST_UPDT_DATE",
+			  bn.lst_updtd_by,
+			  bn.orgnl_fl_nam
+			FROM msg_attchmnt_bean bn
+			WHERE bn.bean_id = ?
+			ORDER BY bn.bean_id DESC
+		</statement>
+	</query>
+	<query id="getAllMessageAttachmentJson">
+		<description>
+		    Pulls up all clients data
+		</description>
+		<statement>
+		  	SELECT 
+			  bn.bean_id,
+			  bn.bean_desc,
+			  bn.bean_name,
+			  bn.fle_frmt,
+			  bn.fle_hght,
+			  bn.fle_sze,
+			  bn.fle_wdth,
+        	  TO_CHAR(bn.cret_date, 'yyyy-MM-dd HH:mm:ss')"CRET_DATE",
+			  bn.crtd_by,
+			  TO_CHAR(bn.lst_updt_date, 'yyyy-MM-dd HH:mm:ss')"LST_UPDT_DATE",
+			  bn.lst_updtd_by,
+			  bn.orgnl_fl_nam,
+			  bn.CID
+			FROM msg_attchmnt_bean bn
+			ORDER BY bn.bean_id DESC
+		</statement>
+	</query>
+	<query id="setGenCIdForMsgAttchmntBean">
+		<description>
+		    Generates a message attachment cid for a given message attachment.
+		</description>
+		<statement>
+		  	UPDATE MSG_ATTCHMNT_BEAN bn
+			SET bn.CID =
+			  (SELECT REGEXP_REPLACE( bn.BEAN_NAME, '[[:space:]]', '_' )
+			    || '_'
+			    || bn.BEAN_ID
+			    || '_'
+			    ||( SUBSTR(
+			    ( SELECT dbms_random.value(1,100000)||'''' FROM dual
+			    ), 0, 5 ) ) AS cid
+			  FROM dual
+			  ) where bn.BEAN_ID = ?
+		</statement>
+	</query>
+	<query id="getAllEmailTemplateObjJsons">
+		<description>
+		    Gets all email template objects jsons with no xml document.
+		</description>
+		<statement>
+		  	SELECT 
+			  obj.TMPLT_ID,
+			  obj.TMPLT_NAM,
+			  obj.TMPLT_DESC,
+			  obj.STS,
+			  TO_CHAR(obj.CRET_DATE, 'yyyy-MM-dd HH:mm:ss')"CRET_DATE",
+			  obj.LST_UPDT_DATE,
+			  TO_CHAR(obj.LST_UPDT_DATE, 'yyyy-MM-dd HH:mm:ss')"LST_UPDT_DATE",
+			  obj.LST_UPDTD_BY
+			FROM EML_TMPLT_OBJ obj
+		</statement>
+	</query>
+	<query id="getEmailTemplateObjJsonForId">
+		<description>
+		    Retrieves templateObject json for id
+		</description>
+		<statement>
+			SELECT 
+			  obj.TMPLT_ID,
+			  obj.TMPLT_NAM,
+			  obj.TMPLT_DESC,
+        	  obj.STS,
+			  TO_CHAR(obj.CRET_DATE, 'yyyy-MM-dd HH:mm:ss')"CRET_DATE",
+			  obj.LST_UPDT_DATE,
+			  TO_CHAR(obj.LST_UPDT_DATE, 'yyyy-MM-dd HH:mm:ss')"LST_UPDT_DATE",
+			  obj.LST_UPDTD_BY
+			FROM EML_TMPLT_OBJ obj
+			WHERE TMPLT_ID = ?
+		</statement>
+	</query>
+	<query id="getEmailMsgsThatUseTemplate">
+		<description>
+		    Retrieves email messages that user template with template name.
+		</description>
+		<statement>
+		  	SELECT tsk.TSK_NAM || '( ' || tsk.TSK_ID || ' )' "TSK_INFO"
+			FROM EMAIL_MSG msg, TASK tsk 
+			WHERE msg.EML_TMPLT_NAM = ?
+			AND msg.MSG_ID = tsk.tsk_id
+		</statement>
+	</query>
+	<query id="getPagedHunterMsgReceiversForRegions">
+		<description>
+		    Returns a range of records of hunter message receivers for a specic regions.
+		    The values must be replaced before the query is returned. 
+		    If the page number is greater than the number of pages available, the last page is returned.
+		</description>
+		<statement>
+		  	SELECT *
+			FROM
+			  (SELECT r2.RCVR_CNTCT,
+			    r5.cnt,
+			    ( ROW_NUMBER() OVER ( ORDER BY RCVR_ID ASC) ) AS row_num
+			  FROM HNTR_MSG_RCVR r2
+			  JOIN
+			    (SELECT COUNT(*) AS CNT
+			    FROM HNTR_MSG_RCVR r3
+			    WHERE |:r3:|
+			    AND r3.RCVR_TYP =:rcvrTyp
+			    )r5
+			  ON 1 = 1
+			  WHERE |:r2:|
+			  AND r2.RCVR_TYP =:rcvrTyp
+			  )r3
+			WHERE r3.row_num BETWEEN
+			  CASE
+			    WHEN :page_num   * :page_count > r3.cnt
+			    THEN r3.cnt      - :page_count
+			    ELSE ( :page_num * :page_count ) - :page_count
+			  END
+			AND
+			  CASE
+			    WHEN :page_num * :page_count + :page_count >= r3.cnt
+			    THEN r3.cnt
+			    ELSE ( :page_num * :page_count + :page_count ) - :page_count
+			  END
+		</statement>
+	</query>
+	<query id="getReceiverGroupContacts">
+		<description>
+		    Returns paged receiver groups contacts for a given receiver group id, message type and the range:
+		    parameters : groupId,msg_typ,pageNo,pageSize,pageNo,pageSize
+		</description>
+		<statement>
+		  	WITH RAW_DATA AS
+			  (
+			    SELECT gp.GRP_ID,
+			      rc.RCVR_ID,
+			      rr.RCVR_CNTCT,
+			      ( ROW_NUMBER() OVER ( ORDER BY gp.GRP_ID ASC) ) AS ROW_NUM
+			    FROM RCVRGRP_RCVRGRPRCVR rc,
+			      RCVR_GRP_RCVR rr,
+			      RCVR_GRP gp
+			    WHERE gp.GRP_ID          = rc.GRP_ID
+			    AND rc.RCVR_ID           = rr.RCVR_ID
+			    AND gp.GRP_ID            = ?
+			    AND LOWER( gp.RCVR_TYP ) = LOWER( ? )
+			  )
+			SELECT
+			  ( SELECT COUNT(r.RCVR_CNTCT) FROM RAW_DATA r
+			  ) AS CNT,
+			  dat.RCVR_ID,
+			  dat.RCVR_CNTCT,
+			  dat.ROW_NUM,
+			  dat.GRP_ID
+			FROM RAW_DATA dat
+			WHERE dat.ROW_NUM BETWEEN ( ( ? - 1 ) * ? ) AND ( ? * ? ) 
+			order by dat.ROW_NUM ASC
+		</statement>
+	</query>
+	<query id="getAvailableRawReceiverUsers">
+		<description>
+		    Returns all raw receiver users for dropdowns.
+		</description>
+		<statement>
+		  	select DISTINCT
+			s.FRST_NAM || ' ' || s.LST_NAM || '(' || s.EMAIL || ')' USR_FULL_NAM,
+			s.USR_ID  AS USR_ID
+			from HNTR_RW_RCVR_USR u, HNTR_USR s
+			WHERE s.USR_NAM = u.RW_USR_NAM
+		</statement>
+	</query>
+	<query id="getPageRawReceiversForDefaultDate">
+		<description>
+		    Returns all raw receiver users for dropdowns.
+		    verified?,pageNo,pageSize,pageNo,pageSize
+		</description>
+		<statement>
+		  	WITH RAW_DATA AS (    
+			  SELECT
+			    ( ROW_NUMBER() OVER ( ORDER BY rc.RW_RCVR_ID ASC) ) AS ROW_NUM,
+			    rc.CNTRY_NAM,
+			    rc.CNTY_NAM,
+			    rc.CONS_NAM,
+			    TO_CHAR(rc.CRET_DATE, 'yyyy-MM-dd HH:mm:ss') AS CRET_DATE,
+			    rc.CRTD_BY,
+			    rc.ERR_MSG,
+			    rc.FRST_NAM,
+			    rc.GVN_BY_USR_NAM,
+			    rc.LST_NAM,
+			    TO_CHAR(rc.LST_UPDT_DATE, 'yyyy-MM-dd HH:mm:ss') AS LST_UPDT_DATE,
+			    rc.LST_UPDTD_BY,
+			    rc.RCVR_CNTCT,
+			    UPPER(rc.RCVR_TYP) AS RCVR_TYP,
+			    rc.RCVR_VRSN,
+			    rc.RW_RCVR_ID,
+			    rc.VLLG,
+			    rc.VRYFD,
+			    rc.VRYFD_BY,
+			    rc.WRD_NAM
+			  FROM HNTR_RW_RCVR rc
+			  where rc.VRYFD = ?
+			  ORDER BY rc.CRET_DATE DESC
+			)
+			SELECT
+			  ( SELECT COUNT(r.RCVR_CNTCT) FROM RAW_DATA r) AS CNT,
+			  r.*
+			FROM RAW_DATA r WHERE r.ROW_NUM BETWEEN ( ( ? - 1 ) * ? ) AND ( ? * ? ) 
+			order by r.ROW_NUM ASC
+		</statement>
+	</query>
+	<query id="getPageRawReceiversForWhereCls">
+		<description>
+		    Returns all raw receiver users for dropdowns.
+		    verified?,pageNo,pageSize,pageNo,pageSize
+		</description>
+		<statement>
+		  	WITH RAW_DATA AS (    
+			  SELECT
+			    ( ROW_NUMBER() OVER ( ORDER BY rcv.RW_RCVR_ID ASC) ) AS ROW_NUM,
+			    rcv.CNTRY_NAM,
+			    rcv.CNTY_NAM,
+			    rcv.CONS_NAM,
+			    TO_CHAR(rcv.CRET_DATE, 'yyyy-MM-dd HH:mm:ss') AS CRET_DATE,
+			    rcv.CRTD_BY,
+			    rcv.ERR_MSG,
+			    rcv.FRST_NAM,
+			    rcv.GVN_BY_USR_NAM,
+			    rcv.LST_NAM,
+			    TO_CHAR(rcv.LST_UPDT_DATE, 'yyyy-MM-dd HH:mm:ss') AS LST_UPDT_DATE,
+			    rcv.LST_UPDTD_BY,
+			    rcv.RCVR_CNTCT,
+			    UPPER(rcv.RCVR_TYP) AS RCVR_TYP,
+			    rcv.RCVR_VRSN,
+			    rcv.RW_RCVR_ID,
+			    rcv.VLLG,
+			    rcv.VRYFD,
+			    rcv.VRYFD_BY,
+			    rcv.WRD_NAM
+			  FROM HNTR_RW_RCVR rcv
+			  where rcv.VRYFD = ? AND 
+			  :selectWhereClause
+			  ORDER BY rcv.CRET_DATE DESC
+			)
+			SELECT
+			  ( SELECT COUNT(r.RCVR_CNTCT) FROM RAW_DATA r) AS CNT,
+			  r.*
+			FROM RAW_DATA r WHERE r.ROW_NUM BETWEEN ( ( ? - 1 ) * ? ) AND ( ? * ? ) 
+			order by r.ROW_NUM ASC
+		</statement>
+	</query>
+	<query id="getJoinedHntrMsgRcvrsAndRawRcvrs">
+		<description>
+		    Returns data from raw receivers and hunter message receivers to be used
+		    to create hunter message receivers.
+		</description>
+		<statement>
+		  	SELECT 
+			  r.RW_RCVR_ID,
+			  r.RCVR_CNTCT,
+			  r.RCVR_TYP,
+			  r.CNTRY_NAM,
+			  r.CNTY_NAM,
+			  r.CONS_NAM,
+			  r.WRD_NAM,
+			  r.VRYFD,
+			  r.GVN_BY_USR_NAM,
+			  r.FRST_NAM,
+			  r.LST_NAM,
+			  m.RCVR_ID,
+			  m.ACTV,
+			  m.RCVR_CNTCT     AS RCVR_CNTCT_MSG,
+			  m.GVN_BY_USR_NAM AS GVN_BY_USR_NAM_MSG
+			FROM 
+			  HNTR_RW_RCVR r,
+			  HNTR_MSG_RCVR m
+			WHERE m.RCVR_CNTCT(+)   = r.RCVR_CNTCT
+			AND m.RCVR_TYP(+)       = r.RCVR_TYp
+			AND m.GVN_BY_USR_NAM(+) = r.GVN_BY_USR_NAM 
+			AND r.RW_RCVR_ID in (:receiverIds)
+		</statement>
+	</query>
+	<query id="getUpdateHunterMsgReceiversBadedOnRawReceivers">
+		<description>
+		    Returns data from raw receivers and hunter message receivers to be used
+		    to create hunter message receivers.
+		</description>
+		<statement>
+		  	UPDATE 
+			  HNTR_MSG_RCVR rc
+			SET rc.ACTV = (
+			  CASE
+			    WHEN (
+			      SELECT 
+			        r.VRYFD
+			      FROM 
+			        HNTR_RW_RCVR r
+			      WHERE r.RCVR_CNTCT    = rc.RCVR_CNTCT
+			      AND rc.GVN_BY_USR_NAM = r.GVN_BY_USR_NAM
+			      AND rc.RCVR_TYP       = r.RCVR_TYP
+			    ) = 'Y'
+			    THEN 'Y'
+			    ELSE 'N'
+			  END ),
+			  rc.LST_UPDTD_BY = :lst_updated_by
+			WHERE rc.RCVR_ID IN (:RCVR_ID)
+		</statement>
+	</query>
+	<query id="rawQueryForUncompleteTaskMessage">
+		<description>
+		    Unapproves the message by setting life status to 'Draft' and 
+		    delivery status to conceptual.
+		    :msgTable table for the mssage,
+		    :lstUpdatedBy the user updating the message, 
+		    :tskId the task for which the message is to be unapproved.
+		</description>
+		<statement>
+		  	UPDATE :msgTable msg SET 
+			  msg.MSG_LIF_STS = 'Approved',
+			  msg.MSG_DEL_STS   = 'Conceptual',
+			  msg.LST_UPDTD_BY  = :lstUpdatedBy
+			WHERE msg.MSG_ID    = :tskId
+		</statement>
+	</query>
+	<query id="getTskIdsAndMsgTypes">
+		<description>
+		    Returns task ids and task types.
+		</description>
+		<statement>
+		  	SELECT 
+		  	  t.TSK_ID, 
+			  CASE 
+			    WHEN LOWER(t.TSK_MSG_TYP) = 'email' THEN 'EMAIL_MSG'
+			    WHEN LOWER(t.TSK_MSG_TYP) = 'text' THEN 'TXT_MSG'
+			  END AS TSK_MSG_TYP
+			FROM task t WHERE t.TSK_ID in ( :tskIds )
+		</statement>
+	</query>
+	<query id="getAssignableHunterUsers">
+		<description>
+		    This gets hunter assignable users. For a user to be assignable, the user type should be 1000 and 
+		    the user role name should be 'HUNTR_ASSGNBL_USER_ROLE'
+		</description>
+		<statement>
+		  	SELECT 
+			  h.USR_NAM AS VAL, 
+			  ( h.FRST_NAM || ' ' || h.LST_NAM || '( ' || h.EMAIL ||' )' ) AS TXT
+			FROM HNTR_USR_RLS hu, HNTR_USR h, USER_ROLE ur
+			WHERE h.ACTIV = 'Y'
+			AND h.USR_ID = hu.USR_ID
+			AND ur.ROLE_ID = hu.ROLE_ID
+			AND h.USR_TYP = '1000'
+			AND ur.RL_NAM = 'HUNTR_ASSGNBL_USER_ROLE'
+		</statement>
+	</query>
+	<query id="getSocialGroupsUsingSocialRegionId">
+		<description>
+		    Gets group id and name for social groups using given social region id.
+		</description>
+		<statement>
+		  	SELECT 
+			  gp.GP_ID, 
+			  gp.GRP_NAM 
+			FROM  HNTR_SCL_GRP gp
+			WHERE gp.SCL_RGN_ID = ?
+		</statement>
+	</query>
+	<query id="getSocialGroupsUsingSocialAppId">
+		<description>
+		    Gets group id and name for social groups using given social app id.
+		</description>
+		<statement>
+		  	SELECT 
+			  gp.GP_ID, 
+			  gp.GRP_NAM 
+			FROM  HNTR_SCL_GRP gp
+			WHERE gp.DFLT_SCL_APP = ?
+		</statement>
+	</query>
+	<query id="getAllHunterMessagesForCache">
+		<description>
+		    Retrieves all hunter messages to be loaded to cache
+		</description>
+		<statement>
+		  	SELECT 
+			  RCVR_ID,
+			  RCVR_CNTCT,
+			  RCVR_TYP,
+			  RCVR_RGN_LVL,
+			  RCVR_BLCKD,
+			  ACTV,
+			  SCCSS_DEL_TMS,
+			  FAIL_DEL_TMS,
+			  CNTRY_NAM,
+			  STATE_NAM,
+			  CNTY_NAM,
+			  CONS_NAM,
+			  WRD_NAM,
+			  RCVR_RGN_LVL_NAM,
+			  TO_CHAR(CRET_DATE, 'yyyy-MM-dd HH:mm:ss')     AS CRET_DATE,
+			  TO_CHAR(LST_UPDT_DATE, 'yyyy-MM-dd HH:mm:ss') AS LST_UPDT_DATE,
+			  CRTD_BY,
+			  LST_UPDTD_BY,
+			  FRST_NAM,
+			  LST_NAM,
+			  GVN_BY_USR_NAM
+			FROM HNTR_MSG_RCVR
+		</statement>
+	</query>
+	<query id="getSocialMsgRemteDetails">
+		<description>
+		    Get remote url is social message use remote media.
+		</description>
+		<statement>
+		  	SELECT 
+			  DECODE( m.US_RMT_MDA, 'Y', 'true','false' ) AS US_RMT_URL,
+			  d.RMT_URL AS RMT_URL
+			FROM 
+			  SCL_MSG m,
+			  HNTR_SCL_MDA d
+			WHERE m.MSG_ID = ?
+			AND d.MDA_ID   = m.MSG_ID
+		</statement>
+	</query>
+	<query id="callGetLoginDataFunc">
+		<description>
+		    Calls get get_login_data func with the given user name.
+		</description>
+		<statement>
+		  	SELECT GET_USER_LOGIN_DATA(?) AS LGN_DATA FROM DUAL
+		</statement>
+	</query>
+	<query id="getSclMsgCSVDiscintSocialType">
+		<description>
+		    Retrieve distinct comma separated social types for a given social message
+		</description>
+		<statement>
+		  	WITH grps AS 
+			( 
+			SELECT DISTINCT 
+			  sg.SCL_TYP
+			FROM 
+			  SCL_MSG_SCL_GRPS mgsg,
+			  SCL_MSG mg,
+			  HNTR_SCL_GRP sg
+			WHERE mgsg.MSG_ID = mg.MSG_ID
+			AND mg.MSG_ID     = ?
+			AND mgsg.GP_ID    = sg.GP_ID
+			)
+			SELECT listagg(grps.SCL_TYP, ',') within GROUP (
+			ORDER BY grps.SCL_TYP) AS "SCL_TYPES"
+			FROM grps grps
+		</statement>
+	</query>
+	<query id="getAssignableRawUsersForDropdowns">
+		<description>
+		    Retrieves text value pairs for assignable rawreceiverusers.
+		</description>
+		<statement>
+		  	SELECT hu.USR_NAM AS VALUE,hu.FRST_NAM || ' ' || hu.LST_NAM || '(' || hu.EMAIL || ')' as TEXT FROM HNTR_RW_RCVR_USR u, HNTR_USR hu
+			WHERE hu.USR_ID = u.USR_ID
+		</statement>
+	</query>
+	<query id="unblockUserByUserName">
+		<description>
+		    Unblocks user by user name and then clears that login data.
+		</description>
+		<statement>
+		  	UPDATE USR_LGN_BN l
+			SET 
+			  l.BLCKD       = 'N',
+			  l.FLD_LGN_CNT = 0,
+			  l.LGN_DATA    = NULL,
+			  l.LST_LGN_TM  = sysdate
+			WHERE l.USR_ID  = ( SELECT s.USR_ID FROM HNTR_USR s WHERE s.USR_NAM = ?) 
+		</statement>
+	</query>
+	<query id="getClientsForAngular">
+		<description>
+		    Retrieves clients for angular client grid
+		</description>
+		<statement>
+		  	SELECT 
+			  c.HNTR_CLNT_ID,
+			  c.FRST_NAM,
+			  c.LST_NAM,
+			  c.EMAIL,
+			  c.USR_NAM,
+			  c.IS_RCVR,
+			  c.CLNT_TL_BDGT,
+			  TO_CHAR(c.CRET_DATE, 'yyyy-MM-dd HH:mm:ss') as CRET_DATE,
+			  c.CRTD_BY,
+			  TO_CHAR(c.LST_UPDATE, 'yyyy-MM-dd HH:mm:ss') as LST_UPDATE,
+			  c.LST_UPDTD_BY
+			FROM 
+			  HNTR_CLINT c
+		</statement>
+	</query>
+	<query id="getClientJSONForUserId">
+		<description>
+		    Retrieves clients for angular client grid
+		</description>
+		<statement>
+		  	SELECT 
+			  c.HNTR_CLNT_ID,
+			  c.FRST_NAM,
+			  c.LST_NAM,
+			  c.EMAIL,
+			  c.USR_NAM,
+			  c.IS_RCVR,
+			  c.CLNT_TL_BDGT,
+			  TO_CHAR(c.CRET_DATE, 'yyyy-MM-dd HH:mm:ss') as CRET_DATE,
+			  c.CRTD_BY,
+			  TO_CHAR(c.LST_UPDATE, 'yyyy-MM-dd HH:mm:ss') as LST_UPDATE,
+			  c.LST_UPDTD_BY
+			FROM 
+			  HNTR_CLINT c WHERE c.HNTR_CLNT_ID = ?
+		</statement>
+	</query>
+</queries>

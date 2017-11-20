@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+
+	<class name="com.techmaster.hunter.obj.beans.UserProfPhoto" table="USR_PRF_PHOTO" lazy="true">
+		
+		<id name="photoId" type="java.lang.Long" column="PHOTO_ID">
+			<generator class="assigned" />
+		</id>
+		
+		<property name="photoBlob" column="PHOTO_BLOB"  type="blob" /> 
+		<property name="size" column="PHOTO_SIZE"  type="java.lang.Integer" />
+		<property name="sizeFormat" column="SIZE_FORMAT" type="java.lang.String"  />
+		<property name="photoFormat" column="PHOTO_FORMAT" type="java.lang.String" />
+		<property name="originalName" column="ORGNL_FL_NAM"  type="java.lang.String" />
+		<property name="userId" column="USR_ID"  type="java.lang.Long" />
+		
+		 <component name="auditInfo" class="com.techmaster.hunter.obj.beans.AuditInfo">
+         	<property name="cretDate" column="CRET_DATE"  type="java.util.Date"/>
+			<property name="lastUpdate" column="LST_UPDT_DATE"  type="java.util.Date"/>
+			<property name="createdBy" column="CRTD_BY" type="java.lang.String"  />
+			<property name="lastUpdatedBy" column="LST_UPDTD_BY" type="java.lang.String"  />
+      	</component>
+		
+		
+	</class>
+	
+</hibernate-mapping>

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+	<class name="com.techmaster.hunter.json.ReceiverGroupJson"  abstract="false" table="RCVR_GRP_JSN" lazy="true">
+		<id name="groupId" type="java.lang.Long" column="GRP_ID">
+			<generator class="assigned" />
+		</id>
+		<property name="ownerUserName" column="OWNR_USR_NAM" type="java.lang.String"  not-null="true" />
+		<property name="groupName" column="GRP_NAME" type="java.lang.String"  not-null="true" />
+		<property name="firstName" column="FRST_NAM" type="java.lang.String"  not-null="true" />
+		<property name="lastName" column="LST_NAM"  type="java.lang.String"  not-null="true"/>
+		<property name="groupDesc" column="GRP_DESC" type="java.lang.String" />
+		<property name="receiverCount" column="RCVR_CNT" type="java.lang.Integer" />
+		<property name="cretDate" column="CRET_DATE"  type="java.util.Date"/>
+		<property name="lastUpdate" column="LST_UPDT_DATE"  type="java.util.Date"/>
+		<property name="createdBy" column="CRTD_BY" type="java.lang.String"  />
+		<property name="lastUpdatedBy" column="LST_UPDTD_BY" type="java.lang.String"  />
+		<property name="receiverType" column="RCVR_TYP" type="java.lang.String" />
+	</class>
+</hibernate-mapping>

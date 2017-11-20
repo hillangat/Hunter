@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+	
+	<class name="com.techmaster.hunter.obj.beans.HunterSocialRegion"  table="HNTR_SCL_RGN" lazy="true" abstract="false" > 
+		
+		<id name="regionId" type="java.lang.Long" column="RGN_ID">
+			<generator class="increment"  />
+		</id>
+		
+		<property name="regionName" column="RGN_NAM" type="java.lang.String"  not-null="true"  length="400" />
+		<property name="population" column="PPLTN"  type="java.lang.Integer" />
+		<property name="regionDesc" column="RGN_DESC"  type="java.lang.String"  not-null="true" length="250" />
+		<property name="countryId" column="CNTRY_ID"  type="java.lang.Long" />
+		<property name="countyId" column="CNTY_ID"  type="java.lang.Long" />
+		<property name="consId" column="CNS_ID"  type="java.lang.Long" />
+		<property name="wardId" column="WRD_ID"  type="java.lang.Long" /> 
+		<property name="coordinates" column="CCRDNTS"  type="blob"  />
+		<property name="assignedTo" column="ASSGND_TO"  type="java.lang.String"  />
+		 
+		<component name="auditInfo">
+			<property name="cretDate" column="CRET_DATE"  type="java.util.Date"  not-null="true"/>
+			<property name="lastUpdate" column="LST_UPDATE"  type="java.util.Date"  not-null="true" />
+			<property name="createdBy" column="CRTD_BY"  type="java.lang.String"  not-null="true" />
+			<property name="lastUpdatedBy" column="LST_UPDTD_BY"  type="java.lang.String"  not-null="true" />
+		</component>
+		
+	</class>
+	
+</hibernate-mapping>

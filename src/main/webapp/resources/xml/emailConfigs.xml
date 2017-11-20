@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configs>
+	<smtp>
+		<config type='stmpConfigs' name='emailTaskDefault'  >
+			<props>
+				<prop name='mail.smtp.host'>smtp.gmail.com</prop>
+				<prop name='mail.stmp.user'>techmaster.hunter.mail@gmail.com</prop>
+				<prop name='mail.smtp.auth'>true</prop>
+				<prop name='mail.smtp.starttls.enable'>true</prop>
+				<prop name='mail.smtp.password'>password</prop>
+				<prop name='mail.smtp.socketFactory.port'>465</prop>
+				<prop name='mail.smtp.socketFactory.class'>javax.net.ssl.SSLSocketFactory</prop>
+				<prop name='mail.smtp.port"'>465</prop>
+			</props>
+		</config>
+	</smtp>
+	<config name='hunterClientDefaultConfigs' >
+		<context>
+			<security>
+				<userName>techmaster.hunter.mail@gmail.com</userName>
+				<password>hunter.admin.1900</password>
+			</security>
+			<props>
+				<prop name='to'>hillangat@gmail.com,tclangat@gmail.com</prop>
+				<prop name='from'>techmaster.hunter.mail@gmail.com</prop>
+				<prop name='subject'>Happy Valentines Day</prop>
+				<prop name='bcc'>hklangats@gmail.com</prop>
+				<prop name='to'>techmaster.hunter.mail@gmail.com</prop>
+				<prop name='cc'>tclangat@gmail.com</prop>
+				<prop name='isAllBcc' >true</prop> 
+				<prop name='contentTypeAndCharset'>text/html; charset=utf-8</prop>
+			</props>
+		</context>
+		<smtp type='stmpConfigs' ref='emailTaskDefault'  />
+	</config>
+	<config name='hunterClientSpecificConfigs' >
+		<context>
+			<security>
+				<userName>techmaster.hunter.mail@gmail.com</userName>
+				<password>hunter.admin.1900</password>
+			</security>
+			<props>
+				<prop name='to'>hillangat@gmail.com</prop>
+				<prop name='from'>techmaster.hunter.mail@gmail.com</prop>
+				<prop name='subject'>Happy Valentines Day</prop>
+				<prop name='bcc'>hklangats@gmail.com</prop>
+				<prop name='to'>techmaster.hunter.mail@gmail.com</prop>
+				<prop name='cc'>tclangat@gmail.com</prop>
+				<prop name='isAllBcc' >true</prop> 
+				<prop name='contentTypeAndCharset'>text/html; charset=utf-8</prop>
+			</props>
+		</context>
+		<smtp type='stmpConfigs' >
+			<props>
+				<prop name='mail.smtp.host'>smtp.gmail.com</prop>
+				<prop name='mail.stmp.user'>techmaster.hunter.mail@gmail.com</prop>
+				<prop name='mail.smtp.auth'>true</prop>
+				<prop name='mail.smtp.starttls.enable'>true</prop>
+				<prop name='mail.smtp.password'>password</prop>
+				<prop name='mail.smtp.socketFactory.port'>465</prop>
+				<prop name='mail.smtp.socketFactory.class'>javax.net.ssl.SSLSocketFactory</prop>
+				<prop name='mail.smtp.port"'>465</prop>
+			</props>
+		</smtp>
+	</config>
+</configs>
+<!-- 
+http://stackoverflow.com/questions/4320100/email-multiple-recipients-without-revealing-other-recipients
+ -->

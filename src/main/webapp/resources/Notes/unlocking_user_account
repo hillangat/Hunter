@@ -1,0 +1,86 @@
+https://aishwaryavaishno.wordpress.com/2013/05/10/how-to-reset-password-for-a-locked-oracle-sql-developer-account/
+
+Step 1: Open COMMAND PROMPT
+
+Step 2: Type sqlplus /nolog 
+This command helps you to log into the sqlPlus Editor.
+*Note- there is a space between sqlplus and /nolog
+
+Step 3: Enter command CONNECT SYS as SYSDBA; 
+
+This command helps you to connect to the SQL Server as Database Administrator.
+
+Here SYSDBA is the ROLEName.
+
+Oh wait, you are not yet connected… , SYS is the userName, now you have to enter the password to get connected
+
+Step 4: Next Enter SYS_password
+You will see the command “SQL>Connected”
+Now you are the ADMINISTRATOR. So, you can control your SQL Server, which means you can control your DB Account even.
+
+Let’s see how …
+
+Step 5: Next Enter the following command
+
+select username,password,account_status from dba_users;
+
+This command retrieves the UserName , Password and Account status of all the accounts in your SQL Server.
+You will also find your Oracle DB name that is “LOCKED” and the LOCK that is TIMED.
+
+MyArchiBook
+How to Reset PASSWORD for a “LOCKED” Oracle SQL- Developer Account
+with 15 comments
+
+“ORA- 28000: the account is locked.”
+
+Our mind becomes almost very restless when we have an important project to be completed within the next few hours and our Oracle DB gets locked due to attempting maximum number of incorrect password hits.
+
+Error Msg
+
+Now to unlock the account and reset the password you have 3 choices,
+
+CHOICE 1: Wait till the LOCK_TIME is complete and then try the next maximum attempts.
+CHOICE 2: Send a mail to the DB Administrator and wait till the Administrator Unlocks the account.
+CHOICE 3: Follow the steps in this BlogPost   
+
+Before following the below steps, please confirm that, you have logged into your Windows OS as an Administrator.
+
+Now follow these steps,
+
+Step 1: Open COMMAND PROMPT
+
+Step 2: Type sqlplus /nolog 
+This command helps you to log into the sqlPlus Editor.
+*Note- there is a space between sqlplus and /nolog
+
+Step 3: Enter command CONNECT SYS as SYSDBA; 
+
+This command helps you to connect to the SQL Server as Database Administrator.
+
+Here SYSDBA is the ROLEName.
+
+Oh wait, you are not yet connected… , SYS is the userName, now you have to enter the password to get connected
+
+Step 4: Next Enter SYS_password
+You will see the command “SQL>Connected”
+Now you are the ADMINISTRATOR. So, you can control your SQL Server, which means you can control your DB Account even.
+
+Let’s see how …
+
+Step 5: Next Enter the following command
+
+select username,password,account_status from dba_users;
+
+This command retrieves the UserName , Password and Account status of all the accounts in your SQL Server.
+You will also find your Oracle DB name that is “LOCKED” and the LOCK that is TIMED.
+
+Account Locked
+
+Step 6: Now our next step is to Unlock the account,
+Enter alter user USERNAME identified by password;
+
+Here my userName is AISHU. So my command goes like this
+
+alter user AISHU identified by password;
+
+STEP 7: Enter alter user USERNAME account unlock;

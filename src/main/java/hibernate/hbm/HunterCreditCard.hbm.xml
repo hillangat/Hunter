@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+    <class name="com.techmaster.hunter.obj.beans.HunterCreditCard" table="HNTR_CRDT_CRD" >
+        <id name="cardId" type="java.lang.Long">
+            <column name="CRD_ID" />
+            <generator class="assigned" />
+        </id>
+        <property name="cardNumber" type="java.lang.String">
+            <column name="CRD_NUMBR" />
+        </property>
+         <property name="nameOnCard" type="java.lang.String">
+            <column name="nam_on_crd" />
+        </property>
+        <property name="securityNumber" type="java.lang.String">
+            <column name="SCRTY_NUM" />
+        </property>
+        <property name="expirationDate" type="java.util.Date">
+            <column name="EXPRTN_DATE" />
+        </property>
+        <property name="selForBilling" type="org.hibernate.type.YesNoType">
+            <column name="SEL_FR_BLLNG" />
+        </property>
+        <property name="valid" type="org.hibernate.type.YesNoType">
+            <column name="VALID" />
+        </property>
+        <property name="cardType" type="java.lang.String">
+            <column name="CARD_TYPE" />
+        </property>
+         <property name="userId" type="java.lang.Long" not-null="true">
+            <column name="USR_ID" />
+        </property>
+    </class>
+</hibernate-mapping>

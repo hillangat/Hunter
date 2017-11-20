@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+    
+	<class name="com.techmaster.hunter.obj.beans.ReceiverGroupReceiver"  abstract="false" table="RCVR_GRP_RCVR" lazy="true">
+	
+		<id name="receiverId" type="java.lang.Long" column="RCVR_ID">
+			<generator class="increment" />
+		</id>
+		
+		<property name="receiverContact" column="RCVR_CNTCT" type="java.lang.String" />
+		<property name="receiverType" column="RCVR_TYPE"  type="java.lang.String" />
+		<property name="active" column="ACTV"  type="org.hibernate.type.YesNoType"   not-null="true" />
+		<property name="approved" column="APPVD"  type="org.hibernate.type.YesNoType"   not-null="true" />
+		<property name="approver" column="APPVR" type="java.lang.String" />
+		
+		<component name="auditInfo" class="com.techmaster.hunter.obj.beans.AuditInfo">
+         	<property name="cretDate" column="CRET_DATE"  type="java.util.Date"/>
+			<property name="lastUpdate" column="LST_UPDT_DATE"  type="java.util.Date"/>
+			<property name="createdBy" column="CRTD_BY" type="java.lang.String"  />
+			<property name="lastUpdatedBy" column="LST_UPDTD_BY" type="java.lang.String"  />
+      	</component>
+      	
+	</class>
+	
+</hibernate-mapping>

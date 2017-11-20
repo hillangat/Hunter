@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+    <class name="com.techmaster.hunter.obj.beans.EmailTemplateObj" table="EML_TMPLT_OBJ" >
+        <id name="templateId" type="java.lang.Long">
+            <column name="TMPLT_ID" />
+            <generator class="increment" />
+        </id>
+         <property name="xmlTemplates" >
+            <column name="XML_TMPLTS" />
+        </property>
+          <property name="documentMetadata" >
+            <column name="DOC_META_DATA" />
+        </property>
+        <property name="templateName" type="java.lang.String" >
+            <column name="TMPLT_NAM" />
+        </property>
+         <property name="templateDescription" type="java.lang.String" >
+            <column name="TMPLT_DESC" />
+        </property>
+         <property name="status" type="java.lang.String" >
+            <column name="STS" />
+        </property>
+         <component name="auditInfo" class="com.techmaster.hunter.obj.beans.AuditInfo">
+         	<property name="cretDate" column="CRET_DATE"  type="java.util.Date"/>
+			<property name="lastUpdate" column="LST_UPDT_DATE"  type="java.util.Date"/>
+			<property name="createdBy" column="CRTD_BY" type="java.lang.String"  />
+			<property name="lastUpdatedBy" column="LST_UPDTD_BY" type="java.lang.String"  />
+      	</component>
+    </class>
+</hibernate-mapping>

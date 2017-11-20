@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+    
+	<class name="com.techmaster.hunter.obj.beans.HunterMessageReceiver" table="HNTR_MSG_RCVR" lazy="true">
+		
+		<id name="receiverId" type="java.lang.Long" column="RCVR_ID">
+			<generator class="assigned" />
+		</id>
+		
+		<property name="receiverContact" column="RCVR_CNTCT" type="java.lang.String"  not-null="true" unique="true"/> 
+		<property name="receiverType" column="RCVR_TYP"  type="java.lang.String"  not-null="true" />
+		<property name="receiverRegionLevel" column="RCVR_RGN_LVL"  type="java.lang.String" not-null="false" />
+		<property name="blocked" column="RCVR_BLCKD" type="org.hibernate.type.YesNoType" />
+		<property name="active" column="ACTV" type="org.hibernate.type.YesNoType" />
+		<property name="taskId" column="TSK_ID"  type="java.lang.Long" not-null="true" />
+		<property name="successDeliveryTimes" column="SCCSS_DL_TMS"  type="java.lang.Integer" not-null="false" />
+		<property name="failDeliveryTimes" column="FAIL_DL_TMS"  type="java.lang.Integer" not-null="false" />
+		
+	</class>
+	
+</hibernate-mapping>

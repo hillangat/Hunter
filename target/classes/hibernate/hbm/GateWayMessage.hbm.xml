@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+    <class name="com.techmaster.hunter.obj.beans.GateWayMessage" table="GT_WY_MSG" >
+        <id name="msgId" type="java.lang.Long">
+            <column name="MSG_ID" />
+            <generator class="increment" />
+        </id>
+        <property name="taskId" type="java.lang.Long">
+            <column name="TSK_ID" />
+        </property>
+        <property name="text" type="blob" >
+            <column name="TXT" />
+        </property>
+        <property name="messageType" type="java.lang.String">
+            <column name="MSG_TYP" />
+        </property>
+        <property name="clntRspCode" type="java.lang.String">
+            <column name="CLNT_RSPNS_CDE" />
+        </property>
+        <property name="clntRspText" type="java.lang.String" length="4000" >
+            <column name="CLNT_RSPNS_TXT" />
+        </property>
+                <property name="subsRspnsCode" type="java.lang.String">
+            <column name="SUBS_RSPNS_CDE" />
+        </property>
+        <property name="subsRspnsText" type="java.lang.String" length="4000" >
+            <column name="SUBS_RSPNS_TXT" />
+        </property>
+        <property name="contact" type="java.lang.String">
+            <column name="CNTCT" />
+        </property>
+        <property name="gClient" type="java.lang.String">
+            <column name="G_CLIENT" />
+        </property>
+        <property name="sendDate" type="java.util.Date">
+            <column name="SND_DATE" />
+        </property>
+        <property name="status" type="java.lang.String">
+            <column name="STATUS" />
+        </property>
+        <property name="createdOn" type="java.util.Date">
+            <column name="CRTD_ON" />
+        </property>
+        <property name="createdBy" type="java.lang.String">
+            <column name="CRTD_BY" />
+        </property>
+        <property name="duration" type="java.lang.Long">
+            <column name="DRTN" />
+        </property>
+        <property name="requestBody" type="binary" length="2000"  >
+            <column name="RQST_BODY" />
+        </property>
+        <property name="errorText" type="java.lang.String" length="2000" > 
+            <column name="ERR_TXT" />
+        </property>
+         <property name="clientTagKey" type="java.lang.String" length="100" > 
+            <column name="CLNT_TG_KY" />
+        </property>
+    </class>
+</hibernate-mapping>

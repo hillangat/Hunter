@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<messages>
+    
+    <!-- Validation messages for Hunter Task -->
+    
+    <message id="MSG_TASK_001" >
+        <desc>Validates Task for approved</desc>
+        <text>Task is not in approved status!</text>
+    </message>
+    <message id="MSG_TASK_002" >
+        <desc>Validates Task for Task Region</desc>
+        <text>Task has no region configured!</text>
+    </message>
+    <message id="MSG_TASK_003" >
+        <desc>Validates task for message</desc>
+        <text>Task has no message configured!</text>
+    </message>
+     <message id="MSG_TASK_004" >
+        <desc>Validates task for message</desc>
+        <text>Task message is not approved!</text>
+    </message>
+    <message id="MSG_TASK_005" >
+        <desc>Validates task for task status</desc>
+        <text>Task has been completed. To process task again, please copy this to a new Task.</text>
+    </message>
+     <message id="MSG_TASK_006" >
+        <desc>Validates task has enough receiver counts</desc>
+        <text>Task must have at least one desired receivers!</text>
+    </message>
+     <message id="MSG_TASK_007" >
+        <desc>A task must have receivers</desc>
+        <text>Task regions and groups configured have no receivers</text>
+    </message>
+    <message id="MSG_TASK_008" >
+        <desc>Task must have either region or groups configured.</desc>
+        <text>Task has no region and no groups configured!</text>
+    </message>
+    <message id="MSG_TASK_009" >
+        <desc>User must have privileges to approve task</desc>
+        <text>You do not have privileges to approve or unapprove tasks</text>
+    </message>
+    <message id="MSG_TASK_010" >
+        <desc>User must have privileges to process task</desc>
+        <text>You do not have privileges to process tasks</text>
+    </message>
+     <message id="MSG_TASK_011" >
+        <desc>No task receivers found while processing</desc>
+        <text>No task receivers found while processing</text>
+    </message>
+     <message id="MSG_TASK_012" >
+        <desc>Task has been submitted and is pending processing</desc>
+        <text>Task has been submitted and is pending processing</text>
+    </message>
+    <message id="MSG_TASK_013" >
+        <desc>Task processing is pending. Changing status not allowed!</desc>
+        <text>Task processing is pending. Changing status not allowed!</text>
+    </message>
+    <message id="MSG_REGION_001" >
+        <desc>Error message conversion of consituency converter</desc>
+        <text>Exception at conversion! Please contact hunter support!</text>
+    </message>
+     <message id="MSG_MSG_001" >
+        <desc>Task Message Must be approved</desc>
+        <text>Task Message is not in approved status!</text>
+    </message>
+    <message id="MSG_MSG_002" >
+        <desc>Task Message Must have Text!</desc>
+        <text>Task Message has no Text!</text>
+    </message>
+     <message id="MSG_MSG_003" >
+        <desc>Message is already processed!</desc>
+        <text>Task message is already processed!</text>
+    </message>
+     <message id="EMAIL_MSG_001" >
+        <desc>Template name provided does not exist. Please used the template names in hunter constants.</desc>
+        <text>Template name provided does not exist!</text>
+    </message>
+     <message id="EMAIL_MSG_002" >
+        <desc>Email type provided does not exist. Please use Hunter established email types!</desc>
+        <text>Email type provided does not exist!</text>
+    </message>
+     <message id="MSG_MSG_004" >
+        <desc>For instance, if task is email but message is Text Message</desc>
+        <text>Invalid message type configured!</text>
+    </message>
+     <message id="MSG_MSG_005" >
+        <desc>Message must be in approved status.</desc>
+        <text>Task message must be in approved status</text>
+    </message>
+     <message id="MSG_MSG_006" >
+        <desc>Task Message does not have service provider configured.</desc>
+        <text>Task Message does not have service provider!</text>
+    </message>
+    <message id="NOT_RECOGNIZED_CREDENTIALS" >
+        <desc>Login credentials not recognized.</desc>
+        <text>Credentials not recognized. Please try again or conduct your administrator</text>
+    </message>
+    <message id="USER_PASSWORD_MISMATCH" >
+        <desc>Invalid login password</desc>
+        <text>Wrong user name or password. Please try again.</text>
+    </message>
+    
+     
+</messages>

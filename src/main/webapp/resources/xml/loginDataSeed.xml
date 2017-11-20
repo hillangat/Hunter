@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<loginData>
+	<logins>
+		<login loginNum="1" > 
+			<date>2015-11-05 11:55:256</date>
+			<status>Success</status>
+			<ip>ip.10:10:84:4.4.5.7.3</ip>
+			<userName>admin</userName>
+			<password>999999</password>
+			<currFailedCount>0</currFailedCount>
+		</login>
+	</logins>
+</loginData>
