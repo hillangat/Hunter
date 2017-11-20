@@ -2,7 +2,7 @@ package com.techmaster.hunter.constants;
 
 public interface HunterURLConstants {
 	
-	public static final String COMPUTER_USER_BASE_URL = "C:\\Users\\hillangat\\programming\\workspace\\Hunter\\";
+	public static final String COMPUTER_USER_BASE_URL = "C:\\Users\\hillangat\\git\\Hunter\\";
 	
 	public static final String RESOURCE_BASE_PATH = COMPUTER_USER_BASE_URL + "src\\main\\webapp\\resources\\";
 	public static final String RESOURCE_BASE_IMAGES_PATH = RESOURCE_BASE_PATH + "images\\";
