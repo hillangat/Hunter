@@ -61,7 +61,7 @@ private static final Logger logger = Logger.getLogger(HunterHibernateHelper.clas
 		
 		try {
 			
-			session = hunterSessionFactory.getSessionFactory().openSession();
+			session = hunterSessionFactory.getSessionFactory().getCurrentSession();
 			trans = session.beginTransaction();
 			Criteria criteria = session.createCriteria(clzz).setProjection(Projections.max(fieldName));
 			t = (T)criteria.uniqueResult();
@@ -508,7 +508,7 @@ private static final Logger logger = Logger.getLogger(HunterHibernateHelper.clas
 		Session session = null;
 		List<?> list = null;
 		try {
-			session = hunterSessionFactory.getSessionFactory().openSession();
+			session = hunterSessionFactory.getSessionFactory().getCurrentSession();
 			Query query = session.createQuery(queryStr);
 			query.setProperties(params);
 			list = query.list();

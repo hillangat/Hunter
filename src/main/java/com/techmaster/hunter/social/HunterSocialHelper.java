@@ -33,6 +33,7 @@ import com.techmaster.hunter.obj.beans.HunterSocialMedia;
 import com.techmaster.hunter.obj.beans.HunterSocialRegion;
 import com.techmaster.hunter.obj.beans.SocialMessage;
 import com.techmaster.hunter.obj.beans.TaskProcessJob;
+import com.techmaster.hunter.obj.beans.UserLoginBean;
 import com.techmaster.hunter.task.process.TaskProcessJobHandler;
 import com.techmaster.hunter.util.HunterHibernateHelper;
 import com.techmaster.hunter.util.HunterUtility;
@@ -70,7 +71,8 @@ public class HunterSocialHelper {
 		logger.debug("Getting social app configurations..."); 
 		try {
 			XMLService xmlService = new XMLServiceImpl(new XMLTree(HunterURLConstants.HUNTER_SOCIAL_APP_CONFIG_PATH, false));
-			xmlService = socialApp.getAppConfigs() == null ? xmlService : new XMLServiceImpl(new XMLTree(HunterUtility.getBlobStr(socialApp.getAppConfigs()), true));  
+			String blobStr = HunterUtility.getBlobStrFromDB("appConfigs", "appId", Long.toString(socialApp.getAppId()), HunterSocialApp.class);
+			xmlService = socialApp.getAppConfigs() == null ? xmlService : new XMLServiceImpl(new XMLTree( blobStr, true));  
 			logger.debug("Successfully retrieved social app configurations : " + xmlService); 
 			return xmlService;
 		} catch (HunterRunTimeException e) {
@@ -366,7 +368,8 @@ public class HunterSocialHelper {
 				
 				socialGroupJson.setReceiversCount(socialGroup.getSocialRegion().getPopulation());
 				socialGroupJson.setRegionAssignedTo(socialGroup.getSocialRegion().getAssignedTo());
-				socialGroupJson.setRegionCoordinates(HunterUtility.getBlobStr(socialGroup.getSocialRegion().getCoordinates())); 
+				String blobStr = HunterUtility.getBlobStrFromDB("coordinates", "regionId", Long.toString(socialGroup.getSocialRegion().getRegionId()), HunterSocialRegion.class);
+				socialGroupJson.setRegionCoordinates( blobStr ); 
 				socialGroupJson.setRegionDesc(socialGroup.getSocialRegion().getRegionDesc());
 				socialGroupJson.setRegionId(socialGroup.getSocialRegion().getRegionId());
 				socialGroupJson.setRegionName(socialGroup.getSocialRegion().getRegionName());
@@ -412,7 +415,8 @@ public class HunterSocialHelper {
 		
 		socialRegionJson.setPopulation(socialRegion.getPopulation());
 		socialRegionJson.setAssignedTo(socialRegion.getAssignedTo());
-		socialRegionJson.setCoordinates(HunterUtility.getBlobStr(socialRegion.getCoordinates())); 
+		String blobStr = HunterUtility.getBlobStrFromDB("coordinates", "regionId", Long.toString(socialRegion.getRegionId()), HunterSocialRegion.class);
+		socialRegionJson.setCoordinates( blobStr ); 
 		socialRegionJson.setRegionDesc(socialRegion.getRegionDesc());
 		socialRegionJson.setRegionId(socialRegion.getRegionId());
 		socialRegionJson.setRegionName(socialRegion.getRegionName());
@@ -593,7 +597,8 @@ public class HunterSocialHelper {
 		if( HunterUtility.isCollectionNotEmpty(processJobs) ){
 			TaskProcessJob processJob = processJobs.get(0); 
 			try {
-				XMLService xmlService = new XMLServiceImpl(new XMLTree(HunterUtility.getBlobStr(processJob.getDocBlob()), true));
+				String blobStr = HunterUtility.getBlobStrFromDB("docBlob", "jobId", Long.toString( processJob.getJobId() ), TaskProcessJob.class);
+				XMLService xmlService = new XMLServiceImpl(new XMLTree( blobStr, true));
 				processJob.setXmlService(xmlService);
 				return processJob;
 			} catch (HunterRunTimeException e) {

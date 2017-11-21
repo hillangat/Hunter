@@ -57,11 +57,17 @@ import org.apache.log4j.Logger;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.usermodel.WorkbookFactory;
+import org.hibernate.HibernateException;
+import org.hibernate.Query;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.json.JSONTokener;
-import org.springframework.context.ApplicationContext;
+import org.springframework.beans.BeansException;
+import org.springframework.beans.PropertyAccessor;
+import org.springframework.beans.PropertyAccessorFactory;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
@@ -74,6 +80,7 @@ import org.xml.sax.SAXException;
 
 import com.techmaster.hunter.cache.HunterCacheUtil;
 import com.techmaster.hunter.constants.HunterConstants;
+import com.techmaster.hunter.dao.impl.HunterDaoFactory;
 import com.techmaster.hunter.exception.HunterRemoteException;
 import com.techmaster.hunter.exception.HunterRunTimeException;
 import com.techmaster.hunter.obj.beans.AuditInfo;
@@ -127,6 +134,97 @@ public static  Logger logger = Logger.getLogger(HunterUtility.class);
 		e.printStackTrace();
 	}
 	   return null;
+   }
+   
+   public static String getBlobStrFromDB( String blobField, String idField, String idValue, Class<?> clzz ){
+	   
+	   SessionFactory sessionFactory = HunterDaoFactory.getObject(SessionFactory.class);
+	   Session session = null;
+	   String blobStr = null;
+	   
+	   try {
+		   session = sessionFactory.openSession();
+		   String queryString = "SELECT o."+ blobField +" FROM " + clzz.getSimpleName() + " o WHERE o." + idField + " = " + idValue;
+		   logger.debug("Created query string > " + queryString);
+		   Query query = session.createQuery(queryString);
+		   Blob blob = (Blob) query.uniqueResult();
+		   if ( null != blob ) {
+			   byte[] blobBytes = blob.getBytes(1, (int) blob.length());
+		       blobStr = new String(blobBytes);
+		       logger.debug("Stringified blob = " + blobStr);
+		   }	       		   
+		} catch (HibernateException e) {
+			e.printStackTrace();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			if ( null != session && session.isOpen() ) {
+				session.close();
+			}
+		}
+	   
+	   return blobStr;
+	   
+   }
+   
+   public static List<String> getIdStrListForList( List<?> objList, String idField ) {	   
+	   List<String> idList = new ArrayList<>();
+	   for( Object obj : objList ) {
+		   PropertyAccessor propertyAccessor = PropertyAccessorFactory.forBeanPropertyAccess(obj);
+		   String id = HunterUtility.getStringOrNullOfObj(propertyAccessor.getPropertyValue(idField));
+		   idList.add( id );
+	   }
+	   return idList;	   
+   }
+   
+   public static Map<String, String> getBlobStrFromDBForList( List<?> objList, String blobField, String idField, Class<?> clzz ) {
+	   List<String> idList = getIdStrListForList(objList, idField);
+	   Map<String, String> blobStrMap = new HashMap<>();
+	   if ( HunterUtility.isCollectionNotEmpty(idList) ) {
+		   blobStrMap = getBlobStrFromDBForList(blobField, idField, idList, clzz);
+		   logger.debug(HunterUtility.stringifyMap(blobStrMap));
+		   return blobStrMap;
+	   }
+	   return new HashMap<>();
+   }
+   
+   public static Map<String, String> getBlobStrFromDBForList( String blobField, String idField, List<String> idValues, Class<?> clzz) {
+	   
+	   SessionFactory sessionFactory = HunterDaoFactory.getObject(SessionFactory.class);
+	   Session session = null;
+	   Map<String, String> blobStrMap = new HashMap<>();
+	   
+	   try {
+		   
+		   session = sessionFactory.openSession();
+		   String queryString = "SELECT o."+ blobField +", o." + idField + " FROM " + clzz.getSimpleName() + " o WHERE o." + idField + " IN ( " + HunterUtility.getCommaDelimitedStrings(idValues) + " )";
+		   logger.debug("Created query string > " + queryString);
+		   Query query = session.createQuery(queryString);
+		   
+		   Iterator<?> blobItr = query.list().iterator();
+		   
+		   while ( blobItr.hasNext() ) {
+				Object[] blobRow = (Object[])blobItr.next();
+				Blob blob = ((Blob)blobRow[0]);
+				if ( null != blob ) {
+					String mapKey = blobRow[1].toString();
+					byte[] blobBytes = blob.getBytes(1, (int) blob.length());
+					String blobStr = new String(blobBytes);
+					blobStrMap.put(mapKey, blobStr);
+				}				
+		   }		   
+	       
+		} catch (HibernateException e) {
+			e.printStackTrace();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			if ( null != session && session.isOpen() ) {
+				session.close();
+			}
+		}
+	   
+	   return blobStrMap;
    }
    
    public static Blob getStringBlob(String string){
@@ -325,8 +423,20 @@ public static  Logger logger = Logger.getLogger(HunterUtility.class);
 		if(cntxtNmsSpace == null || cntxtNmsSpace.trim().equals(""))
 			throw new IllegalArgumentException("Names space provded id either null or empty"); 
 		
-		 ApplicationContext ctx = new ClassPathXmlApplicationContext(cntxtNmsSpace);
-		Object obj = ctx.getBean(beanName);
+		
+		Object obj = null;		
+		ClassPathXmlApplicationContext ctx = null;
+		
+		try {
+			ctx = new ClassPathXmlApplicationContext(cntxtNmsSpace);
+			obj = ctx.getBean(beanName);
+		} catch (BeansException e) {
+			e.printStackTrace();
+		} finally {
+			if ( null != ctx )
+				((ClassPathXmlApplicationContext)ctx).close(); 
+		}	
+
 		
 		logger.debug("successfully obtained the bean (" + beanName + ") from context(" + cntxtNmsSpace + ") >> " + obj.toString()); 
 		

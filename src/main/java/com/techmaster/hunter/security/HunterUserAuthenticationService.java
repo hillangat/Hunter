@@ -320,7 +320,7 @@ public class HunterUserAuthenticationService {
 		loginDataXML.getNodeListForPathUsingJavax( mainPath + "currFailedCount" ).item(0).setTextContent(failedNo); 
 		
 		Blob orinalDocBlob = userLoginBean.getLoginData();
-		String loginData = HunterUtility.getBlobStr( orinalDocBlob );
+		String loginData = HunterUtility.getBlobStrFromDB("appConfigs", "userId", Long.toString(userLoginBean.getUserId()), UserLoginBean.class);
 		
 		if( loginData == null ){
 			logger.debug("Setting login data for the first time..."); 

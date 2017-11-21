@@ -106,7 +106,8 @@ public class HunterAdminController extends HunterBaseController{
 	private String loadEmailTemplateObjTemplates_(Long templateId){
 		EmailTemplateObjDao emailTemplateObjDao = HunterDaoFactory.getObject(EmailTemplateObjDao.class);
 		EmailTemplateObj emailTemplateObj = emailTemplateObjDao.getTemplateObjById(templateId);
-		String metadata = HunterUtility.getBlobStr( emailTemplateObj.getDocumentMetadata() );
+		// String metadata = HunterUtility.getBlobStr( emailTemplateObj.getDocumentMetadata() );
+		String metadata = HunterUtility.getBlobStrFromDB("documentMetadata", "templateId", Long.toString(emailTemplateObj.getTemplateId()), EmailTemplateObj.class);
 		metadata = metadata == null || metadata.trim().equalsIgnoreCase("") ? HunterCacheUtil.getInstance().getDefaultEmailTemplate() : metadata; 
 		return metadata;
 	}
@@ -158,7 +159,8 @@ public class HunterAdminController extends HunterBaseController{
 	private String getEmailTemplateHtmlForId(Long templateId){
 		EmailTemplateObjDao emailTemplateObjDao = HunterDaoFactory.getObject(EmailTemplateObjDao.class);
 		EmailTemplateObj emailTemplateObj = emailTemplateObjDao.getTemplateObjById(templateId);
-		String html = HunterUtility.getBlobStr( emailTemplateObj.getXmlTemplates() );
+		// String html = HunterUtility.getBlobStr( emailTemplateObj.getXmlTemplates() );
+		String html = HunterUtility.getBlobStrFromDB("xmlTemplates", "templateId", Long.toString(emailTemplateObj.getTemplateId()), EmailTemplateObj.class);
 		html = html == null ? "<div>Default Content</div>" : html;
 		return html;
 	}

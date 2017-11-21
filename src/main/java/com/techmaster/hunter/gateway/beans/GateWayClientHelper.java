@@ -30,7 +30,6 @@ import org.apache.http.NameValuePair;
 import org.apache.http.client.utils.URLEncodedUtils;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.log4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.w3c.dom.Attr;
 import org.w3c.dom.DOMImplementation;
 import org.w3c.dom.Document;
@@ -497,7 +496,7 @@ public class GateWayClientHelper {
 		for(GateWayMessage message : gateWayMessages){
 			NameValuePair recipient = new BasicNameValuePair("recipient"+i, message.getContact());
 			NameValuePair messagetype = new BasicNameValuePair("messagetyp"+i, configBean.getConfigs().get("messagetype")); 
-			NameValuePair messagedata = new BasicNameValuePair("messagedata"+i, HunterUtility.getBlobStr(message.getText())); 
+			NameValuePair messagedata = new BasicNameValuePair("messagedata"+i, HunterUtility.getBlobStrFromDB("text", "msgId", Long.toString(message.getMsgId()), this.getClass()));			
 			pairs.add(recipient);
 			pairs.add(messagetype);
 			pairs.add(messagedata);
@@ -546,7 +545,7 @@ public class GateWayClientHelper {
                 msgElement.appendChild(fromElement);
 
                 Element bodyElement = doc.createElement("BODY");
-                Text bodyValue = doc.createTextNode(HunterUtility.getBlobStr(message.getText())); 
+                Text bodyValue = doc.createTextNode( HunterUtility.getBlobStrFromDB("text", "msgId", Long.toString(message.getMsgId()), this.getClass()) ); 
                 bodyElement.appendChild(bodyValue);
                 msgElement.appendChild(bodyElement);
 

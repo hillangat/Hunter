@@ -112,9 +112,9 @@ public class EmailTemplateUtil {
 		for(EmailTemplateObj emailTemplateObj :emailTemplateObjs){
 			String templateName = emailTemplateObj.getTemplateName();
 			logger.debug("Processing email template for template name : " + templateName); 
-			String metaDataDoc = HunterUtility.getBlobStr( emailTemplateObj.getDocumentMetadata() );
+			String metaDataDoc = HunterUtility.getBlobStrFromDB("xmlTemplates", "templateId", Long.toString( emailTemplateObj.getTemplateId() ), EmailTemplateObj.class);
 			if( HunterUtility.notNullNotEmpty(metaDataDoc) ){
-				String htmlDoc = HunterUtility.getBlobStr( emailTemplateObj.getXmlTemplates() );
+				String htmlDoc = HunterUtility.getBlobStrFromDB("documentMetadata", "templateId", Long.toString( emailTemplateObj.getTemplateId() ), EmailTemplateObj.class);
 				metaService = HunterUtility.getXMLServiceForStringContent(metaDataDoc);
 				NodeList templatesList = metaService.getNodeListForPathUsingJavax("template[@name=\""+ templateName +"\"]");
 				if( templatesList != null && templatesList.getLength() != 0 ){

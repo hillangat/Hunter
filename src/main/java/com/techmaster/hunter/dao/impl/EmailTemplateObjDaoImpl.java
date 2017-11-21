@@ -4,7 +4,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import javax.transaction.Transactional;
+
 import org.apache.log4j.Logger;
+import org.hibernate.HibernateException;
+import org.hibernate.Query;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.techmaster.hunter.dao.types.EmailTemplateObjDao;
@@ -18,6 +24,9 @@ import com.techmaster.hunter.util.HunterUtility;
 public class EmailTemplateObjDaoImpl implements EmailTemplateObjDao{
 	
 	private Logger logger = Logger.getLogger(getClass());
+	
+	@Autowired
+	private SessionFactory sessionFactory;
 	
 	@Autowired private HunterHibernateHelper hunterHibernateHelper;
 
@@ -36,11 +45,29 @@ public class EmailTemplateObjDaoImpl implements EmailTemplateObjDao{
 		return emailTemplateObj;
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
+	@Transactional
 	public List<EmailTemplateObj> getAllTemplateObjs() {
 		logger.debug("Getting all template objects...");
-		List<EmailTemplateObj> emailTemplateObjs = hunterHibernateHelper.getAllEntities(EmailTemplateObj.class);
-		logger.debug("Done getting all template objects. Size( "+ emailTemplateObjs == null ? 0 : emailTemplateObjs.size() +" )");
+		List<EmailTemplateObj> emailTemplateObjs  = new ArrayList<>();
+		Session session = sessionFactory.openSession();
+		try {
+			String queryStr = "From EmailTemplateObj";
+			Query query = session.createQuery(queryStr);
+			emailTemplateObjs = query.list();
+			for( EmailTemplateObj templateObj : emailTemplateObjs ) {
+				// force loading of the data
+				String objStr = templateObj.toString();
+				logger.debug("stringified obj >>> " + objStr);
+			}
+		} catch (HibernateException e) {
+			e.printStackTrace();
+		} finally {
+			if ( session != null && session.isOpen() ) {
+				session.close();
+			}
+		}
 		return emailTemplateObjs;
 	}
 

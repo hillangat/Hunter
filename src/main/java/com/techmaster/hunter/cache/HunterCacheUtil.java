@@ -196,7 +196,7 @@ public class HunterCacheUtil {
 	public Map<String, HunterEmailTemplateBean> loadEmailTemplateBeans(){
 		logger.debug("Loading email template beans..."); 
 		Map<String, HunterEmailTemplateBean> emailTemplateBeans = new HashMap<>();
-		List<String> existentTemplates = getInstance().getExistentEmailTemplateNames();
+		List<String> existentTemplates = getExistentEmailTemplateNames();
 		for(String mailTypeName : existentTemplates){
 			HunterEmailTemplateBean  emailTemplateBean = getInstance().createEmailTemplateBean(mailTypeName);
 			emailTemplateBeans.put(mailTypeName, emailTemplateBean);
