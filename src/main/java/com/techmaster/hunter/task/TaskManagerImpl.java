@@ -2,6 +2,8 @@ package com.techmaster.hunter.task;
 
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
@@ -14,12 +16,14 @@ import org.apache.commons.beanutils.BeanUtils;
 import org.apache.log4j.Logger;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.BatchPreparedStatementSetter;
 
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.techmaster.hunter.cache.HunterCacheUtil;
 import com.techmaster.hunter.constants.HunterConstants;
 import com.techmaster.hunter.constants.UIMessageConstants;
+import com.techmaster.hunter.dao.impl.HunterDaoFactory;
 import com.techmaster.hunter.dao.types.HunterJDBCExecutor;
 import com.techmaster.hunter.dao.types.MessageDao;
 import com.techmaster.hunter.dao.types.ServiceProviderDao;
@@ -290,12 +294,9 @@ public class TaskManagerImpl implements TaskManager{
 			Map<String, String> typesBank = new HashMap<>();
 			
 			for(HunterSocialGroup socialGroup : socialGroups){
-				if( allGrpsApprvd ){
-					allGrpsApprvd = socialGroup.getStatus().equals(HunterConstants.STATUS_APPROVED);
-				}
+				allGrpsApprvd = allGrpsApprvd ? socialGroup.getStatus().equals(HunterConstants.STATUS_APPROVED) : allGrpsApprvd;
 				String type = socialGroup.getSocialType();
-				boolean 
-				found 		 = socialGroup.getDefaultSocialApp() != null,
+				boolean found = socialGroup.getDefaultSocialApp() != null,
 				alreadyFound = Boolean.valueOf(typesBank.get(type)); 
 				if( !alreadyFound ){
 					typesBank.put(type, Boolean.toString(found)); 
@@ -541,7 +542,8 @@ public class TaskManagerImpl implements TaskManager{
 		Map<Integer, List<Object>> results = hunterJDBCExecutor.executeQueryRowList(query, values);
 		
 		if(results.isEmpty()){
-			throw new IllegalArgumentException("User name provided has not client associated. userName : " + newOwner);
+			Map<String, String> params = HunterUtility.getUIMsgParamMap(":userName", newOwner);
+			throw new IllegalArgumentException( HunterCacheUtil.getInstance().getUIMsgTxtAndReplace(UIMessageConstants.HUNTER_MSG_3, params) );
 		}
 		
 		Long clientId = HunterUtility.getLongFromObject(results.get(1).get(2));
@@ -581,55 +583,7 @@ public class TaskManagerImpl implements TaskManager{
 		copy.setLastUpdate(new Date());
 		
 		Message message = task.getTaskMessage();
-		
-		if (message instanceof TextMessage){
-			
-			TextMessage textMessage = (TextMessage)message;
-			TextMessage copyTextMessage = cloneTextMessage(textMessage);
-			
-			copyTextMessage.setCreatedBy(auditInfo.getCreatedBy());
-			copyTextMessage.setLastUpdate(auditInfo.getLastUpdate());
-			copyTextMessage.setLastUpdatedBy(auditInfo.getLastUpdatedBy());
-			copyTextMessage.setCretDate(auditInfo.getCretDate()); 
-			
-			logger.debug("Text message copied : " + copyTextMessage); 
-			copy.setTaskMessage(copyTextMessage);
-			
-		} else if (message instanceof EmailMessage){
-			
-			EmailMessage emailMessage = (EmailMessage)message;
-			EmailMessage copyEmailMessage = cloneEmailMessage(emailMessage);
-			
-			copyEmailMessage.setCreatedBy(auditInfo.getCreatedBy());
-			copyEmailMessage.setLastUpdate(auditInfo.getLastUpdate());
-			copyEmailMessage.setLastUpdatedBy(auditInfo.getLastUpdatedBy());
-			copyEmailMessage.setCretDate(auditInfo.getCretDate());
-			
-			
-			copy.setTaskMessage(copyEmailMessage);
-			
-		}else if (message instanceof SocialMessage){
-			
-			SocialMessage socialMessage = (SocialMessage)message;
-			SocialMessage copySocialMessage = cloneSocialMessage(socialMessage);
-			
-			copySocialMessage.setSocialPostAction(socialMessage.getSocialPostAction());
-			copySocialMessage.setCreatedBy(auditInfo.getCreatedBy());
-			copySocialMessage.setLastUpdate(auditInfo.getLastUpdate());
-			copySocialMessage.setLastUpdatedBy(auditInfo.getLastUpdatedBy());
-			copySocialMessage.setCretDate(auditInfo.getCretDate());
-			
-			
-			copy.setTaskMessage(copySocialMessage);
-			
-		} else {
-			
-			throw new HunterRunTimeException("Please complete implementation before cloning this Message type!!");
-			
-		}
-		
-		//it is a one to one relationship.
-		copy.getTaskMessage().setMsgId(copy.getTaskId()); 
+		copyTaskMessage( message, auditInfo, copy ); 
 		
 		logger.debug("Copying task receiver groups..."); 
 		Set<ReceiverGroupJson> receiverGroups = task.getTaskGroups();
@@ -642,6 +596,58 @@ public class TaskManagerImpl implements TaskManager{
 		logger.debug("Finished copying task receiver regions!");
 
 		return copy;
+	}
+	
+	private void copyTaskMessage( Message message , AuditInfo auditInfo, Task copy  ) {
+		
+		if ( message == null )
+			return;
+		
+		if ( message instanceof TextMessage){
+			
+			TextMessage textMessage = (TextMessage)message;
+			TextMessage copyTextMessage = cloneTextMessage(textMessage);
+			
+			copyTextMessage.setCreatedBy(auditInfo.getCreatedBy());
+			copyTextMessage.setLastUpdate(auditInfo.getLastUpdate());
+			copyTextMessage.setLastUpdatedBy(auditInfo.getLastUpdatedBy());
+			copyTextMessage.setCretDate(auditInfo.getCretDate()); 
+			
+			logger.debug("Text message copied : " + copyTextMessage); 
+			copy.setTaskMessage(copyTextMessage);
+			
+		} else if ( message instanceof EmailMessage){
+			
+			EmailMessage emailMessage = (EmailMessage)message;
+			EmailMessage copyEmailMessage = cloneEmailMessage(emailMessage);
+			
+			copyEmailMessage.setCreatedBy(auditInfo.getCreatedBy());
+			copyEmailMessage.setLastUpdate(auditInfo.getLastUpdate());
+			copyEmailMessage.setLastUpdatedBy(auditInfo.getLastUpdatedBy());
+			copyEmailMessage.setCretDate(auditInfo.getCretDate());
+			
+			
+			copy.setTaskMessage(copyEmailMessage);
+			
+		}else if ( message instanceof SocialMessage){
+			
+			SocialMessage socialMessage = (SocialMessage)message;
+			try {
+				SocialMessage copySocialMessage = cloneSocialMessage(socialMessage);
+				copySocialMessage.setSocialPostAction(socialMessage.getSocialPostAction());
+				copySocialMessage.setCreatedBy(auditInfo.getCreatedBy());
+				copySocialMessage.setLastUpdate(auditInfo.getLastUpdate());
+				copySocialMessage.setLastUpdatedBy(auditInfo.getLastUpdatedBy());
+				copySocialMessage.setCretDate(auditInfo.getCretDate());
+				copy.setTaskMessage(copySocialMessage);
+			} catch ( Exception e  ) {
+				e.printStackTrace();
+			};
+		}
+		
+		//it is a one to one relationship.
+		if ( copy.getTaskMessage() != null )
+			copy.getTaskMessage().setMsgId(copy.getTaskId());
 	}
 
 	@Override
@@ -915,51 +921,74 @@ public class TaskManagerImpl implements TaskManager{
 	}
 
 	@Override
-	public String addGroupToTask(Long groupId, Long taskId) {
+	public String addGroupToTask(Long[] groupIds, Long taskId) {
 		
+		String groupIdsStr = HunterUtility.getCommaDelimitedStrings(groupIds);
+		logger.debug("groupIdsstr >> " + groupIdsStr);
 		String checkQuery = hunterJDBCExecutor.getQueryForSqlId("checkExistentForTaskAndReceiverGroup");
-		List<Object> values = new ArrayList<>();
-		values.add(taskId);
-		values.add(groupId);
-		values.add(taskId);
-		values.add(groupId);
+		Map<String, Object> params = new HashMap<>();
+		params.put(":taskId", taskId );
+		params.put(":groupIds", groupIdsStr );
 		
-		Map<Integer, List<Object>> rowMapList = hunterJDBCExecutor.executeQueryRowList(checkQuery, values);
+		Map<Integer, List<Object>> rowMapList = hunterJDBCExecutor.replaceAndExecuteQueryForRowList(checkQuery, params);
 		List<Object> counts = rowMapList.get(1);
 		
 		int taskCount = Integer.parseInt(counts.get(0)+""); 
-		int groupCount = Integer.parseInt(counts.get(1)+"");
-		int alreadyCount = Integer.parseInt(counts.get(2)+"");
+		int groupCount = counts.get(1) != null ? ( counts.get(1)+"" ).split(",").length : 0;
 		
-		if(alreadyCount >= 1){
-			logger.debug("Task group is already added to the task! Returning..."); 
-			return "Receiver group is already added to task!";
-		}else if(taskCount == 0 && groupCount == 0){
-			logger.debug("No task and no group found for ( task id : " + taskId + ", group id : " + groupId + " )"); 
-			return "No task and no group found for ( task id : " + taskId + ", group id : " + groupId + " )";
-		}else if(taskCount == 0 && groupCount != 0){
-			logger.debug("No task found for ( task id : " + taskId + " )");
-			return "No task found for ( task id : " + taskId + " )";
-		}else if(taskCount != 0 && groupCount == 0){
-			logger.debug("No group found for ( group id : " + groupId + " )");
-			return "No group found for ( group id : " + groupId + " )";
+		String[] existentGrpIdsStr = counts.get(2) != null ? ( counts.get(2)+"" ).split(",") : new String[] {};
+		Long[] notInserted = new Long[] {}; 
+		
+		for( Long groupId : groupIds ) {
+			boolean found = false;
+			for( String groupIdStr : existentGrpIdsStr ) {
+				if ( groupId.toString().equals(groupIdStr) ) {
+					logger.debug("Group IDs aready inserted >> " + groupIdStr );
+					found = true;
+					break;
+				}
+			}
+			if ( !found ) {
+				notInserted = (Long[])HunterUtility.initArrayAndInsert(notInserted, groupId);
+			}
 		}
 		
-		String insertQuery = "INSERT INTO TSK_GRPS (TSK_ID,GRP_ID) VALUES(?, ?) ";
-		values.clear();
-		values.add(taskId);
-		values.add(groupId);
+		String message = null;
 		
-		logger.debug("Executing query to insert group to task : " + insertQuery); 
+		if(taskCount == 0 && groupCount == 0){
+			message = "No task and no group found for ( task id : " + taskId + ", group id : " + groupIds + " )";
+			logger.debug( message   ); 
+			return message;
+		}else if(taskCount == 0 && groupCount != 0){
+			message = "No task found for ( task id : " + taskId + " )";
+			logger.debug( message   ); 
+			return message;
+		}else if(taskCount != 0 && groupCount == 0){
+			message = "No group found for ( group id : " + groupIds + " )";
+			logger.debug( message   ); 
+			return message;
+		}
+		
+		final Long[] finalNotInserted = notInserted;
+		String insertQuery = "INSERT INTO TSK_GRPS (TSK_ID,GRP_ID) VALUES(?, ?) ";
 		
 		try {
-			hunterJDBCExecutor.executeUpdate(insertQuery, values);
-		} catch (Exception e) {
+			hunterJDBCExecutor.getJDBCTemplate().batchUpdate(insertQuery, new BatchPreparedStatementSetter() {
+				@Override
+				public void setValues(PreparedStatement ps, int i) throws SQLException {
+					ps.setLong(1, taskId);
+					ps.setLong(2, finalNotInserted[i]);
+				}
+				@Override
+				public int getBatchSize() {
+					return finalNotInserted.length;
+				}
+			});
+			return null;
+		} catch ( Exception e ) {
 			e.printStackTrace();
-			return e.getMessage();
+			return "Error occurred while saving your changes.";
 		}
-		
-		return null;
 	}
 
 	@Override
@@ -1033,6 +1062,25 @@ public class TaskManagerImpl implements TaskManager{
 		String query = hunterJDBCExecutor.getQueryForSqlId("getValidateDeleteTaskMessage");
 		Map<Integer, List<Object>> errorsListMap = hunterJDBCExecutor.executeQueryRowList(query, hunterJDBCExecutor.getValuesList(new Object[]{msgId}));
 		errors = errorsListMap.get(1);
+		return errors;
+	}
+	
+	@Override
+	public List<Object> validateTaskDelete( Task task ) {
+		List<Object> errors = new ArrayList<>();
+		try {
+			if ( task != null ) {
+				if ( !task.getTaskLifeStatus().equals(HunterConstants.STATUS_DRAFT) ) {
+					String message = HunterCacheUtil.getInstance().getUIMsgTxtForMsgId(UIMessageConstants.MSG_TASK_015);
+					errors.add( message );
+				}
+			} else {
+				errors.add( "Task not found!" );
+			}
+		} catch ( Exception e ) {
+			e.printStackTrace();
+			errors.add( HunterCacheUtil.getInstance().getUIMsgTxtForMsgId(UIMessageConstants.MSG_TASK_001) );
+		}
 		return errors;
 	}
 

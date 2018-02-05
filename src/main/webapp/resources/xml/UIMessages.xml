@@ -55,6 +55,22 @@
         <desc>Task processing is pending. Changing status not allowed!</desc>
         <text>Task processing is pending. Changing status not allowed!</text>
     </message>
+    <message id="MSG_TASK_014" >
+        <desc>Bad request while trying to delete task.</desc>
+        <text>An error occurred while trying to delete the task!</text>
+    </message>
+    <message id="MSG_TASK_015" >
+        <desc>Task can only be deleted when in draft status</desc>
+        <text>Task can only be deleted when in draft status</text>
+    </message>
+    <message id="MSG_TASK_016" >
+        <desc>Cannot find task for ID</desc>
+        <text>Task with ID( :TASK_ID ) not found.</text>
+    </message>
+    <message id="MSG_TASK_017" >
+        <desc>Application error occurred.</desc>
+        <text>Application error occurred.</text>
+    </message>
     <message id="MSG_REGION_001" >
         <desc>Error message conversion of consituency converter</desc>
         <text>Exception at conversion! Please contact hunter support!</text>
@@ -98,6 +114,18 @@
     <message id="USER_PASSWORD_MISMATCH" >
         <desc>Invalid login password</desc>
         <text>Wrong user name or password. Please try again.</text>
+    </message>
+    <message id="HUNTER_MSG_1" >
+        <desc>Successfully saved changed</desc>
+        <text>Changes saved successfully.</text>
+    </message>
+    <message id="HUNTER_MSG_2" >
+        <desc>Failed to save changes. Application error occurred.</desc>
+        <text>Failed to save changes. Application error occurred.</text>
+    </message>
+     <message id="HUNTER_MSG_3" >
+        <desc>User name provided is not associated to any client.</desc>
+        <text>User name provided is not associated to any client. User name: :userName</text>
     </message>
     
      

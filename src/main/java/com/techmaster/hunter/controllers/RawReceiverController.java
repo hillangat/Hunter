@@ -40,7 +40,6 @@ import com.techmaster.hunter.cache.HunterCacheUtil;
 import com.techmaster.hunter.constants.HunterConstants;
 import com.techmaster.hunter.constants.HunterURLConstants;
 import com.techmaster.hunter.dao.impl.HunterDaoFactory;
-import com.techmaster.hunter.dao.proc.ProcedureHandler;
 import com.techmaster.hunter.dao.types.HunterJDBCExecutor;
 import com.techmaster.hunter.dao.types.HunterRawReceiverDao;
 import com.techmaster.hunter.dao.types.HunterRawReceiverUserDao;
@@ -56,7 +55,6 @@ import com.techmaster.hunter.obj.beans.HunterRawReceiverUser;
 import com.techmaster.hunter.obj.beans.HunterUser;
 import com.techmaster.hunter.obj.beans.UserProfPhoto;
 import com.techmaster.hunter.rawreceivers.RawReceiverService;
-import com.techmaster.hunter.region.RegionService;
 import com.techmaster.hunter.util.HunterUtility;
 
 @Controller

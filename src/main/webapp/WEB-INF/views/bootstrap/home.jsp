@@ -67,50 +67,7 @@
 	<div class='container'>
 		<div class='row'>
 			<div class="col-lg-6 col-md-6">
-			   <div class="jumbotron">
-				  Jumbotron				  
-				</div>
-			</div>
-			<div class="col-lg-6 col-md-6">
-			  	<div class="jumbotron">
-					Jumbotron  						  
-				</div>
-			</div>
-		</div>
-		<div class='row'>
-			<div class="col-lg-6 col-md-6">
-			   <div class="jumbotron">
-				  Jumbotron				  
-				</div>
-			</div>
-			<div class="col-lg-6 col-md-6">
-			  	<div class="jumbotron">
-					Jumbotron  						  
-				</div>
-			</div>
-		</div>
-		<div class='row'>
-			<div class="col-lg-6 col-md-6">
-			   <div class="jumbotron">
-				  Jumbotron				  
-				</div>
-			</div>
-			<div class="col-lg-6 col-md-6">
-			  	<div class="jumbotron">
-					Jumbotron  						  
-				</div>
-			</div>
-		</div>
-		<div class='row'>
-			<div class="col-lg-6 col-md-6">
-			   <div class="jumbotron">
-				  Jumbotron				  
-				</div>
-			</div>
-			<div class="col-lg-6 col-md-6">
-			  	<div class="jumbotron">
-					Jumbotron  						  
-				</div>
+			   <%@include file="./homeStats.jsp"%>
 			</div>
 		</div>
 	</div>

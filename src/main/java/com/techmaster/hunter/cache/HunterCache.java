@@ -18,7 +18,6 @@ public class HunterCache implements Serializable{
 	static{
 		if(instance == null){
 			synchronized (HunterCache.class) {
-				System.out.print(".......................................................................Initailizing hunter cache.......................................................................");
 				instance = new HunterCache();
 			}
 		}

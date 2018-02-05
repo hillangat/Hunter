@@ -146,7 +146,7 @@ public class TaskConverter {
 		
 		long taskBudget 			= HunterUtility.getLongOrNulFromJSONObj(taskJson, "taskBudget");
 		long taskCost 				= HunterUtility.getLongOrNulFromJSONObj(taskJson, "taskCost");
-		long taskId 				= taskJson.get("taskId") == null ? 0 :  HunterUtility.getLongOrNulFromJSONObj(taskJson, "taskId");
+		long taskId 				= HunterUtility.getLongOrNulFromJSONObj(taskJson, "taskId");
 		long clientId 				= HunterUtility.getLongOrNulFromJSONObj(taskJson, "clientId");
 		
 		float taskCostF 			= (float)taskCost;

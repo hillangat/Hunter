@@ -186,7 +186,7 @@ public class TaskProcessor {
 			setTaskForEmailProcessors(workers, task); 
 			
 			// the timer worker will keep running forever if it's submitted without workers in the map.
-			if(workers != null && !workers.isEmpty()){
+			if( HunterUtility.isCollectionNotEmpty(workers) ){
 				for(TaskProcessWorker worker : workers){
 					executor.submit(worker);
 				}

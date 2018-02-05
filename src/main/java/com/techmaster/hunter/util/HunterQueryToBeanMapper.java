@@ -22,7 +22,7 @@ public class HunterQueryToBeanMapper {
 	
 	private static Logger logger = Logger.getLogger(HunterQueryToBeanMapper.class);
 	private HunterQueryToBeanMapper() {}
-	private static HunterQueryToBeanMapper instance; 
+	private static volatile HunterQueryToBeanMapper instance; 
 	static {
 		if ( instance == null ) {
 			synchronized (HunterQueryToBeanMapper.class) {
@@ -35,13 +35,12 @@ public class HunterQueryToBeanMapper {
 		return instance;
 	}
 	
-	public <T>List<T> map( Class<T> clzz, String queryId, List<Object> valueList ){	
+	public <T>List<T> mapForQuery( Class<T> clzz, String query, List<Object> valueList ) {
 		
 		String mapId = clzz.getSimpleName();
-		logger.debug("Mapping for query ID: " + queryId);		
+		logger.debug("Mapping for query: " + query);		
 		
 		HunterJDBCExecutor executor = HunterDaoFactory.getObject(HunterJDBCExecutor.class);
-		String query = executor.getQueryForSqlId(queryId);
 		XMLService xmlService = HunterCacheUtil.getInstance().getXMLService(HunterConstants.QUERY_TO_BEAN_MAPPER);
 		
 		if ( HunterUtility.notNullNotEmpty(query) ) {
@@ -65,11 +64,18 @@ public class HunterQueryToBeanMapper {
 			}
 			
 		} else {
-			logger.error( "No query found for query ID: " + queryId );
+			logger.error( "No query found for query: " + query );
 		}
 		
 		
 		return null;
+	}
+	
+	public <T>List<T> map( Class<T> clzz, String queryId, List<Object> valueList ){
+		logger.debug("Mapping for query ID: " + queryId);		
+		HunterJDBCExecutor executor = HunterDaoFactory.getObject(HunterJDBCExecutor.class);
+		String query = executor.getQueryForSqlId(queryId);
+		return mapForQuery(clzz, query, valueList);
 	}
 	
 	@SuppressWarnings("unchecked")
@@ -119,19 +125,17 @@ public class HunterQueryToBeanMapper {
 		try {
 			Method setterMethod = clzz.getDeclaredMethod(setterMethodName, getTypeParams(mapperField));
 			fieldVal = mapperField.isYesNo() ? HunterUtility.getBooleanForYN(fieldVal.toString()) : fieldVal;
+			fieldVal = mapperField.getType().equals("java.lang.String") ? fieldVal != null ? fieldVal.toString() : null : fieldVal;
 			fieldVal = mapperField.getType().equals("java.lang.Long") ? HunterUtility.getLongFromObject(fieldVal) : fieldVal;
 			fieldVal = mapperField.getType().equals("java.lang.Float") ? HunterUtility.getFloatFromObject(fieldVal) : fieldVal;
 			setterMethod.invoke(obj, fieldVal);
 		} catch (NoSuchMethodException | SecurityException e) {
 			e.printStackTrace();
 		} catch (IllegalAccessException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (IllegalArgumentException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (InvocationTargetException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		

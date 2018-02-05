@@ -33,11 +33,12 @@ public interface TaskManager {
 	public abstract EmailMessage cloneEmailMessage(EmailMessage emailMessage);
 	public abstract TextMessage convertTextMessage(String json);
 	public abstract Message getTaskDefaultMessage(Long taskId, String type);
-	public abstract String addGroupToTask(Long groupId, Long taskId);
+	public abstract String addGroupToTask(Long[] groupId, Long taskId);
 	public abstract void removeGroupFromTask(Long groupId, Long taskId);
 	public abstract int getTotalTaskGroupsReceivers(Long taskId); 
 	public List<String> validateTaskFinance(Task task);
-	public abstract List<Object> validateMessageDelete(Long emailId); 
+	public abstract List<Object> validateMessageDelete(Long emailId);
+	public abstract List<Object> validateTaskDelete( Task task );
 	public Map<String, Object> getGateWayClientExecuteMap(Task task);
 	public int getTaskGroupTotalNumber(Long taskId);
 	public TaskHistory getNewTaskHistoryForEventName(Long taskId, String evenName, String eventUser);

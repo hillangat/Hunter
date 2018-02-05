@@ -231,7 +231,7 @@ public class GroupReceiversExtractor extends AbstractExcelExtractor<ReceiverGrou
 		List<String> sheets = Arrays.asList(new String[]{ExcelExtractor.RECEIVER_GROUP_RECEIVERS});
 		List<String> sheetsMsgs = ExcelExtractorUtil.validateSheets(sheets, workbook);
 		
-		if(sheetsMsgs != null && sheetsMsgs.size() > 0){
+		if( HunterUtility.isCollectionNotEmpty(sheetsMsgs) ){
 			this.surfaceValid = false;
 			for(String sheetMsg : sheetsMsgs){
 				surfaceErrors = HunterUtility.initArrayAndInsert(surfaceErrors, sheetMsg);
@@ -251,7 +251,7 @@ public class GroupReceiversExtractor extends AbstractExcelExtractor<ReceiverGrou
 		String[] headers = extractHeaders(ExcelExtractor.RECEIVER_GROUP_RECEIVERS, workbook);
 		String[] invalidHeaders = validateHeaders(headers, validHeaders);
 		
-		if(invalidHeaders != null && invalidHeaders.length > 0){
+		if( HunterUtility.isArrayNotEmpty(invalidHeaders) ){
 			this.surfaceValid = true;
 			for(String header : invalidHeaders){
 				surfaceErrors = HunterUtility.initArrayAndInsert(surfaceErrors, header + " : is not found");

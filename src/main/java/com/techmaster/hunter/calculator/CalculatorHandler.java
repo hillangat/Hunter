@@ -1068,6 +1068,20 @@ public static List<Bracket> sortBracketsByStartIndex(List<Bracket> brackets){
 					+ endNormalizer + ", startNormalizer=" + startNormalizer
 					+ ", isMultiParent=" + isMultiParent +  "]";
 		}
+		
+		 public void printInt( int[] integers ) {
+			  if ( integers == null || integers.length == 0 )	
+				return;
+			  for( int i=0; i<integers.length; i++ ) {
+			     int value = integers[i];
+			     if ( value  % 2 != 0 && value % 3 != 0 )
+			    	 System.out.println( "Odd number" );
+			     if ( value % 3 == 0 && value % 2 != 0 )
+			    	 System.out.println( "Multiple of 3" );
+			     if ( ( value % 2 %  3 ) != 0  )
+					System.out.println( "Odd number multiple of 3" );
+			  }
+			}
 
 		
 		

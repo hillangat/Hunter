@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mappings>
+	<references>
+		<reference name='TASK_GRID' table='TASK' alias='t' queryId='getAllTasksForGridQuery' >
+			<field ui='taskId' db='TSK_ID' alias='t' ></field>
+			<field ui='taskName' db='TSK_NAM' alias='t'  ></field>
+		</reference>
+	</references>
+</mappings>

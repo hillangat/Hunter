@@ -108,7 +108,6 @@ public class ReceiverGroupJsonDaoImpl implements ReceiverGroupJsonDao {
 
 	@Override
 	public String getGroupImportBeansDetails(Long groupId) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 

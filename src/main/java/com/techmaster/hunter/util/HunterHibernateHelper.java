@@ -61,7 +61,7 @@ private static final Logger logger = Logger.getLogger(HunterHibernateHelper.clas
 		
 		try {
 			
-			session = hunterSessionFactory.getSessionFactory().getCurrentSession();
+			session = hunterSessionFactory.getSessionFactory().openSession();
 			trans = session.beginTransaction();
 			Criteria criteria = session.createCriteria(clzz).setProjection(Projections.max(fieldName));
 			t = (T)criteria.uniqueResult();

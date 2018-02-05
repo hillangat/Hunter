@@ -111,10 +111,11 @@ public class GateWayClientHelper {
 		}else{
 			logger.debug("Unlocking task..." + taskId + " and putting status to : " + status);
 		}
-		String lockQ = "UPDATE TASK t SET t.TSK_DEL_STS = ? WHERE t.TSK_ID = ?";
+		HunterJDBCExecutor executor = HunterDaoFactory.getDaoObject(HunterJDBCExecutor.class); 
+		String lockQ = executor.getQueryForSqlId( "setTaskLockStatus" );
 		List<Object> values = new ArrayList<>();
 		values.add( status );
-		values.add(taskId);
+		values.add( taskId );
 		HunterDaoFactory.getObject(HunterJDBCExecutor.class).executeUpdate(lockQ, values);
 	}
 	

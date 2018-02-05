@@ -1,6 +1,73 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE xml>
 <queries>
+	<query id="getClientsSelValsForAngUI">
+		<description>
+		    Retrieves clients for use in dropdowns - as Select Values.
+		</description>
+		<statement>
+		  	SELECT DISTINCT
+				c.USR_NAM as VALUE,
+				c.FRST_NAM || ' ' || c.LST_NAM || ' (' || c.USR_NAM || ')' AS TEXT
+			FROM 
+				HNTR_CLINT c
+		</statement>
+	</query>
+	<query id="getTaskFurnishments">
+		<description>
+		    Gets additional details to be used to render task on UI
+		</description>
+		<statement>
+		  	SELECT
+			  ( select u.FRST_NAM || ' ' || u.LST_NAM|| '(' || u.USR_NAM ||')' from HNTR_USR u WHERE u.USR_NAM = t.CRTD_BY ) "createdByStr"  ,
+			  ( select u.FRST_NAM || ' ' || u.LST_NAM || '(' || u.USR_NAM ||')' from HNTR_USR u WHERE u.USR_NAM = t.UPDTD_BY )"updatedByStr",
+			  ( select u.FRST_NAM || ' ' || u.LST_NAM || '(' || u.USR_NAM ||')' from HNTR_USR u WHERE u.USR_NAM = t.PRCSD_BY )"processedByStr"
+			FROM task t
+			WHERE t.TSK_ID = ?
+		</statement>
+	</query>
+	<query id="getTaskHistoryJsonsForTaskId">
+		<description>
+		    Gets task history information for angular UI.
+		</description>
+		<statement>
+		  	SELECT 
+			  h.HSTRY_ID,
+			  h.TSK_ID,
+			  h.EVNT_NAM,
+			  h.EVNT_STS,
+			  h.EVNT_MSG,
+			  ( select u.FRST_NAM || ' ' || u.LST_NAM || '(' || u.USR_NAM ||')' from HNTR_USR u WHERE u.USR_NAM = h.EVNT_USR ) as EVNT_USR,
+			  TO_CHAR(h.EVNT_DATE, 'yyyy-MM-dd HH:mm:ss')"EVNT_DATE"
+			FROM TSK_HSTRY h 
+			WHERE h.TSK_ID = ?
+		</statement>
+	</query>
+	<query id="getTaskGroupJSONsForTaskId">
+		<description>
+		    Retrieves task group jsons for task id
+		</description>
+		<statement>
+		  	SELECT 
+			  g.GRP_ID "groupId",
+			  g.OWNR_USR_NAM "ownerUserName",
+			  g.FRST_NAM "firstName",
+			  g.LST_NAM "lastName",
+			  g.GRP_NAME "groupName",
+			  g.GRP_DESC "groupDesc",
+			  g.RCVR_CNT "receiverCount",
+			  g.RCVR_TYP "receiverType",
+			  TO_CHAR(g.CRET_DATE, 'yyyy-MM-dd HH:mm:ss') "cretDate",
+			  g.CRTD_BY "createdBy",
+			  TO_CHAR(g.LST_UPDT_DATE, 'yyyy-MM-dd HH:mm:ss') "lastUpdate",
+			  g.LST_UPDTD_BY "lastUpdatedBy"
+			FROM 
+			  TSK_GRPS tg,
+			  RCVR_GRP_JSN g
+			WHERE tg.TSK_ID = ?
+			AND tg.grp_id = g.grp_id
+		</statement>
+	</query>
 	<query id="getTaskHunterClientDetails">
 		<description>
 		    Returns the user id,first name, last name, user name.s
@@ -438,11 +505,22 @@
 		    Checks whether task, task group or both or them are existent. 
 		</description>
 		<statement>
-			select tsk.TSK_COUNT,grp.GRP_COUNT,tsk_grps.TSK_GROUP_COUNT
-			from 
-			(select count(task.TSK_ID) as TSK_COUNT from  task task where task.TSK_ID = ?)tsk, 
-			(select count(RCVR_GRP.GRP_ID) as GRP_COUNT from RCVR_GRP RCVR_GRP  where RCVR_GRP.GRP_ID = ? )grp,
-			(select count(*) as TSK_GROUP_COUNT from TSK_GRPS TSK_GRPS  where TSK_GRPS.TSK_ID = ? AND TSK_GRPS.GRP_ID = ? )tsk_grps
+			SELECT 
+			  tsk.TSK_COUNT,
+			  grp.GRP_IDS,
+			  GRP_IDS.GRP_IDS
+			FROM 
+			(
+			  SELECT COUNT(task.TSK_ID) AS TSK_COUNT FROM  task task WHERE task.TSK_ID = :taskId 
+			)tsk,
+			(
+			  SELECT LISTAGG(g.GRP_ID, ',')  WITHIN GROUP (ORDER BY g.GRP_ID) as GRP_IDS
+			  FROM RCVR_GRP g WHERE g.GRP_ID IN ( :groupIds )  
+			)grp,
+			( 
+			  SELECT LISTAGG(tg.GRP_ID, ',')  WITHIN GROUP (ORDER BY tg.TSK_ID) as GRP_IDS
+			  from TSK_GRPS tg WHERE tg.TSK_ID = :taskId AND tg.GRP_ID IN ( :groupIds )
+			) GRP_IDS
 		</statement>
 	</query>
 	<query id="getTotalTaskGroupsReceivers">
@@ -450,12 +528,7 @@
 		    Returns total receivers of all task groups.
 		</description>
 		<statement>
-			select NVL(SUM(CNT),0) "COUNT"  FROM (
-			SELECT rcvgrps.RCVR_CNT aS CNT
-			FROM TSK_GRPS tgrps, RCVR_GRP rcvgrps
-			where  tgrps.GRP_ID = rcvgrps.GRP_ID 
-			and tgrps.TSK_ID = ?
-			)x
+			select count(*) "COUNT" from TSK_GRPS where TSK_ID = ?
 		</statement>
 	</query>
 	<query id="getTotalTaskGroupsForTaskId">
@@ -725,6 +798,35 @@
 			  HNTR_USR us,
 			  HNTR_CLINT cl
 			WHERE us.USR_ID = cl.HNTR_CLNT_ID
+			ORDER BY cl.CRET_DATE DESC
+		</statement>
+	</query>
+	<query id="getAllClientsDetailsForId">
+		<description>
+		    gets comma separated client ids for all clients in the system.
+		</description>
+		<statement>
+	  		SELECT 
+			  us.FRST_NAM,
+			  us.LST_NAM,
+			  us.USR_ID,
+			  us.ACTIV,
+			  TO_CHAR(cl.CRET_DATE,'yyyy-MM-dd HH:mm:ss') AS CRET_DATE,
+			  cl.CRTD_BY,
+			  us.EMAIL,
+			  TO_CHAR(cl.LST_UPDATE,'yyyy-MM-dd HH:mm:ss') AS LST_UPDATE,
+			  cl.LST_UPDTD_BY,
+			  us.MDDL_NAM,
+			  us.PHN_NUMBR,
+			  us.USR_NAM,
+			  us.USR_TYP,
+			  cl.CLNT_TL_BDGT,
+			  cl.IS_RCVR
+			FROM 
+			  HNTR_USR us,
+			  HNTR_CLINT cl
+			WHERE us.USR_ID = cl.HNTR_CLNT_ID
+			AND cl.HNTR_CLNT_ID = ?
 			ORDER BY cl.CRET_DATE DESC
 		</statement>
 	</query>
@@ -1300,7 +1402,7 @@
 	</query>
 	<query id="getAllHunterMessagesForCache">
 		<description>
-		    Retrieves all hunter messages to be loaded to cache
+		    Retrieves all hunter receivers to be loaded to cache
 		</description>
 		<statement>
 		  	SELECT 
@@ -1436,6 +1538,60 @@
 			  c.LST_UPDTD_BY
 			FROM 
 			  HNTR_CLINT c WHERE c.HNTR_CLNT_ID = ?
+		</statement>
+	</query>
+	<query id="setTaskLockStatus">
+		<description>
+		    Sets lock status of a task.
+		</description>
+		<statement>
+		  	UPDATE TASK t SET t.TSK_DEL_STS = ? WHERE t.TSK_ID = ?
+		</statement>
+	</query>
+	<query id="getAllTasksForGridQuery">
+		<description>
+		    Retrieves all tasks for use with angular dynamic grid 
+		</description>
+		<statement>
+		  	SELECT
+			  t.TSK_ID || '' AS TSK_ID,
+			  t.TSK_TYP,
+			  t.TSK_NAM,
+			  t.TSK_OBJCTV,
+			  t.TASK_DESC,
+			  t.TSK_ARGMNT_LGC,
+			  t.TSK_BDGT || '' AS TSK_BDGT,
+			  t.TSK_CST || '' AS TSK_CST,
+			  t.RCCRRNT_TSK,t.TSK_DT_LN,
+			  TO_CHAR(t.TSK_DT_LN, 'yyyy-MM-dd HH:mm:ss') as TSK_DT_LN,
+			  t.TSK_LF_STS,
+			  t.TSK_DEL_STS,
+			  CASE WHEN t.TSK_APPRVD = 'Y' THEN 'true' ELSE 'false' END AS TSK_APPRVD,
+			  t.TSK_APPRVR,
+			  t.HNTR_CLNT_ID || '' AS HNTR_CLNT_ID,
+			  t.GT_WY_CLNT,
+			  t.TSK_MSG_TYP,
+			  t.SRLZD_PRCSS_RSLTS_FL_LOC,
+			  t.DSRD_RCVRS_CNT || '' AS DSRD_RCVRS_CNT,
+			  t.AVLBL_RCVRS_CNT || '' AS AVLBL_RCVRS_CNT,
+			  t.CNFRMD_RCVRS_CNT || '' AS CNFRMD_RCVRS_CNT,
+			  t.PRCSD_BY,
+			  t.PRCSD_ON,
+			  TO_CHAR(t.CRET_DATE, 'yyyy-MM-dd HH:mm:ss') as CRET_DATE,
+			  TO_CHAR(t.LST_UPDTD, 'yyyy-MM-dd HH:mm:ss') as LST_UPDTD,
+			  t.UPDTD_BY,
+			  t.CRTD_BY,
+        	  t.TSK_ID || '' AS MSG_ID,
+			  CASE 
+			    WHEN ( t.TSK_MSG_TYP = 'Text' OR t.TSK_MSG_TYP = 'Audio' OR t.TSK_MSG_TYP = 'Call' OR t.TSK_MSG_TYP = 'Voice Mail' ) THEN ( SELECT NVL( s.PROVIDER_ID, 0 ) FROM SRVC_PRVDR s, TXT_MSG msg WHERE s.PROVIDER_ID = msg.PROVIDER AND msg.MSG_ID = t.TSK_ID )
+			    WHEN t.TSK_MSG_TYP = 'Email' THEN ( SELECT NVL( s.PROVIDER_ID, 0 ) FROM SRVC_PRVDR s, EMAIL_MSG msg WHERE s.PROVIDER_ID = msg.PROVIDER AND msg.MSG_ID = t.TSK_ID )
+			    WHEN t.TSK_MSG_TYP = 'Social' THEN ( SELECT NVL( s.PROVIDER_ID, 0 ) FROM SRVC_PRVDR s, SCL_MSG msg WHERE s.PROVIDER_ID = msg.PROVIDER
+			    AND msg.MSG_ID = t.TSK_ID )
+			    ELSE 0
+			  END AS PROVIDER,
+			  ( SELECT listagg(tr.RGN_ID, ',') within GROUP (ORDER BY tr.RGN_ID) AS TSK_RGNS FROM TSK_RGNS tr WHERE tr.TSK_ID = t.TSK_ID ) as TSK_RGNS,
+			  ( SELECT listagg(tr.GRP_ID, ',') within GROUP (ORDER BY tr.GRP_ID) AS TSK_GRPS FROM TSK_GRPS tr WHERE tr.TSK_ID = t.TSK_ID ) AS TSK_GRPS
+			FROM TASK t
 		</statement>
 	</query>
 </queries>

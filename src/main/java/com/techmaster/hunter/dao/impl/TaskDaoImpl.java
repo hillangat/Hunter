@@ -16,9 +16,11 @@ import org.hibernate.criterion.Projections;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.techmaster.hunter.constants.HunterConstants;
+import com.techmaster.hunter.constants.HunterDaoConstants;
 import com.techmaster.hunter.dao.types.HunterJDBCExecutor;
 import com.techmaster.hunter.dao.types.TaskDao;
 import com.techmaster.hunter.json.ReceiverGroupJson;
+import com.techmaster.hunter.json.TaskAngular;
 import com.techmaster.hunter.obj.beans.HunterClient;
 import com.techmaster.hunter.obj.beans.Task;
 import com.techmaster.hunter.region.RegionService;
@@ -108,13 +110,13 @@ public class TaskDaoImpl implements TaskDao{
 			
 			nextId = maxId == null ? 1 : (maxId + 1);
 			
-			hunterHibernateHelper.closeSession(session); 
+			HunterHibernateHelper.closeSession(session); 
 			
 		} catch (HibernateException e) {
-			hunterHibernateHelper.rollBack(trans); 
+			HunterHibernateHelper.rollBack(trans); 
 			e.printStackTrace();
 		}finally{
-			hunterHibernateHelper.closeSession(session); 	
+			HunterHibernateHelper.closeSession(session); 	
 		}
 		logger.debug("Obtained next hunter user id >> " + nextId); 
 		return nextId;
@@ -252,6 +254,54 @@ public class TaskDaoImpl implements TaskDao{
 			statuses.put(HunterConstants.STATUS_TYPE_LIFE, HunterUtility.getStringOrNullOfObj(stsList.get(1)));
 		}
 		return statuses;
+	}
+
+	@Override
+	public List<TaskAngular> getAllAngularTasks() {
+		List<Task> tasks = HunterDaoFactory.getObject(HunterHibernateHelper.class).getAllEntities(Task.class);
+		return createAngularTasks( tasks );
+	}
+	
+	private List<TaskAngular> createAngularTasks( List<Task> tasks ) {
+		List<TaskAngular> angularTasks = new ArrayList<>(); 
+		for( Task task : tasks ){
+			TaskAngular angularTask = new TaskAngular();
+			angularTask.setTaskId(Long.toString(task.getTaskId()));
+			angularTask.setTaskName(task.getTaskName());
+			angularTask.setDescription(task.getDescription()); 
+			angularTask.setClientId(Long.toString(task.getClientId()));
+			angularTask.setTaskType(task.getTaskType()); 
+			angularTask.setTaskObjective(task.getTaskObjective()); 
+			angularTask.setDescription(task.getDescription());
+			angularTask.setTskAgrmntLoc(task.getTskAgrmntLoc());
+			angularTask.setTskMsgType(task.getTskMsgType());
+			angularTask.setTaskBudget(Float.toString(task.getTaskBudget()));
+			angularTask.setTaskCost(Float.toString(task.getTaskCost()));
+			angularTask.setRecurrentTask(Boolean.toString(task.isRecurrentTask())); 
+			angularTask.setTaskLifeStatus(task.getTaskLifeStatus());
+			angularTask.setCretDate( HunterUtility.formatDate(task.getCretDate(), HunterConstants.DATE_FORMAT_STRING) );
+			angularTask.setTaskDeliveryStatus(task.getTaskDeliveryStatus());
+			angularTasks.add(angularTask);			
+		}
+		return angularTasks;
+	}
+
+	@Override
+	public List<TaskAngular> getClientAngularTasks(Long clientId) {
+		String query = "FROM Task t WHERE t.clientId = " + clientId;
+		HunterHibernateHelper helper = HunterDaoFactory.getDaoObject(HunterHibernateHelper.class);
+		List<Task> tasks = helper.executeQueryForObjList(Task.class, query);
+		return this.createAngularTasks(tasks); 
+	}
+
+	@Override
+	public Map<String, Object> getTaskFurnishments(Long taskId) {
+		HunterJDBCExecutor executor = HunterDaoFactory.getDaoObject(HunterJDBCExecutor.class);
+		String query = executor.getQueryForSqlId(HunterDaoConstants.GET_TASK_FURNISHMENTS);
+		List<Object> values = new ArrayList<>();
+		values.add(taskId);
+		Map<String, Object> queryMap = executor.executeQueryFirstRowMap(query, values);
+		return queryMap;
 	}
 	
 	

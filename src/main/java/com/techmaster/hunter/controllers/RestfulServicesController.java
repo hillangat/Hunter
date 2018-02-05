@@ -3,6 +3,7 @@ package com.techmaster.hunter.controllers;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.Produces;
@@ -12,18 +13,24 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.techmaster.hunter.angular.data.AngularData;
+import com.techmaster.hunter.angular.data.HunterAngularDataHelper;
+import com.techmaster.hunter.angular.grid.GridDataQueryReq;
+import com.techmaster.hunter.angular.grid.GridQueryHandler;
 import com.techmaster.hunter.constants.HunterConstants;
+import com.techmaster.hunter.constants.HunterDaoConstants;
 import com.techmaster.hunter.constants.HunterURLConstants;
 import com.techmaster.hunter.dao.impl.HunterDaoFactory;
 import com.techmaster.hunter.dao.types.HunterClientDao;
 import com.techmaster.hunter.dao.types.HunterUserDao;
-import com.techmaster.hunter.json.HunterClientJson;
-import com.techmaster.hunter.json.HunterClientsDetailsJson;
+import com.techmaster.hunter.dao.types.TaskDao;
+import com.techmaster.hunter.json.TaskAngular;
 import com.techmaster.hunter.obj.beans.HunterClient;
 import com.techmaster.hunter.util.HunterUtility;
 
@@ -48,7 +55,8 @@ public class RestfulServicesController {
 	@Consumes("application/json")
 	public @ResponseBody String getClientsForAngularUI( @RequestBody Map<String, String> params, HttpServletResponse response ){
 		try{
-			HunterUtility.threadSleepFor(2000);
+			this.logger.debug( HunterAngularDataHelper.getIntance().getJsonStr(HunterDaoConstants.TASK_GRID_HEADERS) );
+			HunterUtility.threadSleepFor(500);
 			HunterUserDao userDao = HunterDaoFactory.getDaoObject(HunterUserDao.class);	
 			return userDao.getClientsForAngularUI();
 		}catch (Exception e) {
@@ -102,7 +110,7 @@ public class RestfulServicesController {
 	@Consumes("application/json")
 	public @ResponseBody String getWorkflowTree( @RequestBody Map<String, String> params, HttpServletResponse response ){
 		try{
-			HunterUtility.threadSleepFor(2000);
+			HunterUtility.threadSleepFor(500);
 			String xmlLoc = HunterURLConstants.RESOURCE_BASE_PATH + "jsons\\workflow_trees.json";			
 			JSONObject trees = new JSONObject(HunterUtility.convertFileToString(xmlLoc));
 			JSONArray jsonArray = trees.getJSONArray("trees");
@@ -111,6 +119,27 @@ public class RestfulServicesController {
 			e.printStackTrace();
 			return HunterUtility.getServerError("Error occurred while getting workflow trees").toString();
 		}
+	}
+	
+	@RequestMapping(value="/tasks/read/{scope}", method = RequestMethod.POST)
+	@Produces("application/json") 
+	@Consumes("application/json")
+	public @ResponseBody Object getAllAngularTasks( @PathVariable("scope") String scope, HttpServletRequest request ){
+		HunterUtility.threadSleepFor(500);
+		List<TaskAngular> angularTasks = GridQueryHandler.getInstance().executeQridQueryForRequest(TaskAngular.class, request);
+		this.logger.debug(HunterUtility.stringifyList(angularTasks)); 
+		if ( scope != null && scope.equals("all") ){
+			List<TaskAngular> tasks = HunterDaoFactory.getDaoObject(TaskDao.class).getAllAngularTasks();
+			AngularData angData = HunterAngularDataHelper.getIntance().getDataBean(tasks, HunterDaoConstants.TASK_GRID_HEADERS);
+			return angData;
+		} else if ( HunterUtility.isNumeric(scope) ) {
+			List<TaskAngular> tasks = HunterDaoFactory.getDaoObject(TaskDao.class).getClientAngularTasks( HunterUtility.getLongFromObject(scope) );
+			AngularData angData = HunterAngularDataHelper.getIntance().getDataBean(tasks, HunterDaoConstants.TASK_GRID_HEADERS);
+			return angData;
+		} else {
+			return HunterUtility.getServerError("Invalid client id : " + scope ).toString();
+		}
+			
 	}
 	
 	

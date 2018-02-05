@@ -57,6 +57,10 @@ public class HunterCacheUtil {
 	}
 
 	public void refreshAllXMLServices(){
+		logger.debug("Caching Grid Headers..."); 
+		XMLService gridHeadersService = HunterUtility.getXMLServiceForFileLocation(HunterURLConstants.HUNTER_ANGULAR_GRID_HEADERS_PATH);
+		HunterCache.getInstance().put(HunterConstants.ANGULAR_HEADERS_CONFIG_CACHED_SERVICE, gridHeadersService);
+		logger.debug("Done caching Grid Headers!!");
 		logger.debug("Caching xmlQuery..."); 
 		XMLService queryService = HunterUtility.getXMLServiceForFileLocation(HunterURLConstants.QRY_XML_FL_LOC_PATH);
 		HunterCache.getInstance().put(HunterConstants.QUERY_XML_CACHED_SERVICE, queryService);
@@ -94,6 +98,10 @@ public class HunterCacheUtil {
 		XMLService queryToBeanMapper = HunterUtility.getXMLServiceForFileLocation(HunterURLConstants.QUERY_TO_BEAN_MAPPER);
 		HunterCache.getInstance().put(HunterConstants.QUERY_TO_BEAN_MAPPER, queryToBeanMapper);
 		logger.debug("Done cachingg login data seed xml!!");
+		
+		XMLService queryGridFieldMapper = HunterUtility.getXMLServiceForFileLocation(HunterURLConstants.HUNTER_GRID_QUERY_FIELD_MAPPING);
+		HunterCache.getInstance().put(HunterConstants.QUERY_GRID_FIELD_MAPPER, queryGridFieldMapper);
+		logger.debug("Done cachingg query gid field mapper xml!!");
 		
 	}
 	
@@ -396,15 +404,26 @@ public class HunterCacheUtil {
 	}
 	
 	public String getUIMsgTxtForMsgId(String msgId){
-		@SuppressWarnings("unchecked")
-		Map<String, String> uiMessages = (Map<String, String>)HunterCache.getInstance().get(HunterConstants.UI_MSG_CACHED_BEANS);
-		return uiMessages.get(msgId+"_TEXT");
+		return getUIMsgMap().get(msgId+"_TEXT");
 	}
 	
 	public String getUIMsgDescForMsgId(String msgId){
-		@SuppressWarnings("unchecked")
-		Map<String, String> uiMessages = (Map<String, String>)HunterCache.getInstance().get(HunterConstants.UI_MSG_CACHED_BEANS);
-		return uiMessages.get(msgId+"_DESC");
+		return getUIMsgMap().get(msgId+"_DESC");
+	}
+	
+	public String getUIMsgTxtAndReplace( String msgId, Map<String, String> params ){
+		String msg = getUIMsgMap().get(msgId+"_TEXT");
+		if ( msg != null && HunterUtility.isMapNotEmpty( params ) ) {
+			for ( Map.Entry<String, String> entry : params.entrySet() ) {
+				msg = msg.replaceAll(entry.getKey(), entry.getValue());
+			}
+		}
+		return msg;
+	}
+	
+	@SuppressWarnings("unchecked")
+	private Map<String, String> getUIMsgMap() {
+		return (Map<String, String>)HunterCache.getInstance().get(HunterConstants.UI_MSG_CACHED_BEANS);		
 	}
 	
 	public List<Country> loadCountries(){

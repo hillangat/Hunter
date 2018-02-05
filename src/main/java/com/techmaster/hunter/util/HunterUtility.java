@@ -117,8 +117,23 @@ public static  Logger logger = Logger.getLogger(HunterUtility.class);
 	   return builder.toString();
    }
    
+   public static Map<String, String> getUIMsgParamMap( String key, String value ) {
+	   Map<String, String> params = new HashMap<>();
+	   params.put(key, value);
+	   return params;
+   }
+   
+   public static Map<String, String> addParamToMap( String key, String value, Map<String, String> params ) {
+	   params.put(key, value);
+	   return params;
+   }
+   
    public static boolean isCollectionNotEmpty(Collection<?> collection){
 	   return collection != null && !collection.isEmpty();
+   }
+   
+   public static <T> boolean isArrayNotEmpty( T[] array ) {
+	   return array != null && array.length > 0 ;
    }
    
    public static String getBlobStr(Blob blob){
@@ -182,7 +197,6 @@ public static  Logger logger = Logger.getLogger(HunterUtility.class);
 	   Map<String, String> blobStrMap = new HashMap<>();
 	   if ( HunterUtility.isCollectionNotEmpty(idList) ) {
 		   blobStrMap = getBlobStrFromDBForList(blobField, idField, idList, clzz);
-		   logger.debug(HunterUtility.stringifyMap(blobStrMap));
 		   return blobStrMap;
 	   }
 	   return new HashMap<>();
@@ -974,6 +988,15 @@ public static  Logger logger = Logger.getLogger(HunterUtility.class);
 		return extension;
 	}
 	
+	public static String getRequestBodyAsStringSafely(HttpServletRequest request) {
+		try {
+			return getRequestBodyAsString(request);
+		} catch (IOException e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+	
 	public static String getRequestBodyAsString(HttpServletRequest request) throws IOException {
 
 	    String body = null;
@@ -1211,6 +1234,11 @@ public static  Logger logger = Logger.getLogger(HunterUtility.class);
 		json.put(HunterConstants.STATUS_STRING, HunterConstants.STATUS_SUCCESS);
 		json.put(HunterConstants.MESSAGE_STRING, message);
 		return json;
+	}
+	
+	public static JSONObject setJSONObjForFailureWithMsg( String msgId ) {
+		String message = HunterCacheUtil.getInstance().getUIMsgDescForMsgId( msgId );
+		return HunterUtility.setJSONObjectForFailure(null, message );
 	}
 	
 	public static JSONObject setJSONObjectForFailure(JSONObject json, String message){

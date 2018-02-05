@@ -145,19 +145,29 @@ public class HunterJDBCExecutorImpl implements HunterJDBCExecutor {
 
 	@Override
 	public List<Map<String, Object>> replaceAndExecuteQuery(String query, Map<String, Object> params) {
-		
 		logger.debug("Before replacing values : " + query);
-		
+		query = this.replaceAllInQuery(query, params); 
+		logger.debug("After replacing values : " + query);
+		List<Map<String, Object>> roMap = executeQueryRowMap(query, new ArrayList<>());
+		return roMap;
+	}
+	
+	@Override
+	public Map<Integer, List<Object>> replaceAndExecuteQueryForRowList(String query, Map<String, Object> params) {
+		logger.debug("Before replacing values : " + query);
+		query = this.replaceAllInQuery(query, params); 
+		logger.debug("After replacing values : " + query);
+		Map<Integer, List<Object>> rowList = executeQueryRowList(query, new ArrayList<>());
+		return rowList;
+	}
+	
+	private String replaceAllInQuery( String query, Map<String, Object> params ) {
 		for(Map.Entry<String, Object> entry : params.entrySet() ){
 			String key = entry.getKey();
 			String val = entry.getValue()+"";
 			query = query.replaceAll(key, val);
 		}
-		
-		logger.debug("After replacing values : " + query);
-		List<Map<String, Object>> roMap = executeQueryRowMap(query, new ArrayList<>());
-		
-		return roMap;
+		return query;
 	}
 	
 	private static String replaceValues(String query,Map<String, Object>  params){
@@ -273,6 +283,10 @@ public class HunterJDBCExecutorImpl implements HunterJDBCExecutor {
 	public String getReplacedAllColonedParamsQuery(String queryName, Map<String, Object> params) {
 		String replaced = replaceAllColonedParams(getQueryForSqlId(queryName), params); 
 		return replaced;
+	}
+	
+	public JdbcTemplate getJDBCTemplate() {
+		return this.jdbcTemplate;
 	}
 
 	

@@ -27,10 +27,13 @@ import com.fasterxml.jackson.core.JsonGenerationException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
+import com.techmaster.hunter.angular.data.AngularData;
+import com.techmaster.hunter.angular.data.HunterAngularDataHelper;
 import com.techmaster.hunter.constants.HunterConstants;
 import com.techmaster.hunter.constants.HunterDaoConstants;
 import com.techmaster.hunter.dao.types.HunterClientDao;
 import com.techmaster.hunter.json.HunterClientJson;
+import com.techmaster.hunter.json.HunterSelectValue;
 import com.techmaster.hunter.obj.beans.HunterClient;
 import com.techmaster.hunter.obj.converters.HunterClientConverter;
 import com.techmaster.hunter.util.HunterGenericJSONConverter;
@@ -148,6 +151,19 @@ public class ClientController extends HunterBaseController{
 			return array.toString();
 		}catch (Exception e) {
 			return HunterUtility.setJSONObjectForFailure(null, "Error occurred while getting clients").toString();
+		}
+	}
+	
+	@RequestMapping(value="/action/angular/selVals", method = RequestMethod.GET)
+	@Produces("application/json")
+	public @ResponseBody Object getClientsSelValsForAngularUI(){
+		try{			
+			AngularData aData = HunterAngularDataHelper.getIntance().getBeanForQuery(HunterSelectValue.class, HunterDaoConstants.GET_ANGULAR_SEL_VALS_FOR_ANG_UI, null, null);
+			this.logger.debug(aData); 
+			return aData;
+		}catch (Exception e) {
+			e.printStackTrace();
+			return HunterAngularDataHelper.getIntance().getBeanForMsgAndSts( "Error occurred while getting clients", HunterConstants.STATUS_FAILED);
 		}
 	}
 	

@@ -196,7 +196,7 @@ public class XMLServiceImpl implements XMLService{
 		String end = "text()";
 		String path = xPath.toLowerCase();
 		if(!path.endsWith(end)){
-			xPath += end;
+			xPath += '/' + end;
 		}
 		return getElementVal(xPath);
 	}

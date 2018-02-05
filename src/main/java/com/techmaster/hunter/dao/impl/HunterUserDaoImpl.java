@@ -291,6 +291,7 @@ public class HunterUserDaoImpl implements HunterUserDao{
 		//logger.debug("Fetching full names...");
 		String query = "SELECT h.FRST_NAM, h.LST_NAM, h.USR_NAM FROM HNTR_USR h WHERE h.USR_NAM in (" + HunterUtility.getSingleQuotedCommaDelimitedForList(userNames) + ")";
 		//logger.debug("Executing queqy : " + query);
+		HunterJDBCExecutor hunterJDBCExecutor = HunterDaoFactory.getDaoObject(HunterJDBCExecutor.class);
 		Map<Integer, List<Object>> rowMapList = hunterJDBCExecutor.executeQueryRowList(query, null);
 		Map<String, List<String>>  output = new HashMap<String, List<String>>();
 		if(rowMapList == null || rowMapList.isEmpty()){
