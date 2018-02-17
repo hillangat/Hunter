@@ -107,7 +107,7 @@ public class ClientController extends HunterBaseController{
 		try {
 			
 			String paramNames = HunterUtility.getParamNamesAsStringsFrmRqst(request);
-			logger.debug("param names " + paramNames); 
+			logger.debug("param names " + paramNames);
 			
 			Long clientId 		= HunterUtility.getLongFromObject(request.getParameter("clientId"));  
 			Float budget 		= Float.parseFloat(request.getParameter("clientTotalBudget").toString());  
@@ -142,7 +142,7 @@ public class ClientController extends HunterBaseController{
 	
 
 	@RequestMapping(value="/action/angular/read", method = RequestMethod.POST)
-	@Produces("application/json") 
+	@Produces("application/json")
 	@Consumes("application/json")
 	public @ResponseBody String getClientsForAngularUI( @RequestBody Map<String, String> reqParams, HttpServletResponse response ){
 		try{			
@@ -163,7 +163,7 @@ public class ClientController extends HunterBaseController{
 			return aData;
 		}catch (Exception e) {
 			e.printStackTrace();
-			return HunterAngularDataHelper.getIntance().getBeanForMsgAndSts( "Error occurred while getting clients", HunterConstants.STATUS_FAILED);
+			return HunterAngularDataHelper.getIntance().getBeanForMsgAndSts( "Error occurred while getting clients", HunterConstants.STATUS_FAILED, null);
 		}
 	}
 	

@@ -289,6 +289,16 @@ public class HunterJDBCExecutorImpl implements HunterJDBCExecutor {
 		return this.jdbcTemplate;
 	}
 
+	@Override
+	public int getCountForSqlId(String id, List<Object> values) {
+		String query = this.getQueryForSqlId(id + "_COUNT");
+		Object obj = null;
+		if ( query != null ) {
+			obj = this.executeQueryForOneReturn(query, values);
+		}
+		return obj == null ? 0 : Integer.parseInt(obj.toString());
+	}
+
 	
 	
 	

@@ -37,7 +37,6 @@ public class HunterQueryToBeanMapper {
 	
 	public <T>List<T> mapForQuery( Class<T> clzz, String query, List<Object> valueList ) {
 		
-		String mapId = clzz.getSimpleName();
 		logger.debug("Mapping for query: " + query);		
 		
 		HunterJDBCExecutor executor = HunterDaoFactory.getObject(HunterJDBCExecutor.class);
@@ -47,18 +46,7 @@ public class HunterQueryToBeanMapper {
 			logger.debug("Retrieved query: " + query);			
 			if ( HunterUtility.notNullNotEmpty( xmlService ) ) {
 				List<Map<String, Object>> rowMapList = executor.executeQueryRowMap(query, valueList);
-				List<QueryToBeanMapperField> mapperFields = getMapperFields(xmlService, mapId);
-				if ( HunterUtility.isCollectionNotEmpty(rowMapList) && HunterUtility.isCollectionNotEmpty(mapperFields) ) {
-					List<T> returnList = new ArrayList<>();
-					for( Map<String, Object> rowMap : rowMapList ) {
-						T t = getBean( clzz, xmlService, mapId, query, valueList, mapperFields, rowMap );
-						// logger.debug("Object contructed >>> " + t.toString());
-						returnList.add(t);
-					}
-					return returnList;
-				} else {
-					logger.warn( "No data found for the query: " + query + "\n and values: " + HunterUtility.stringifyList(valueList) ); 
-				}
+				return this.mapForQuery(clzz, rowMapList, xmlService);
 			} else {
 				logger.error("No XML service found for query to bean mapper : " + HunterURLConstants.QUERY_TO_BEAN_MAPPER ); 
 			}
@@ -71,6 +59,24 @@ public class HunterQueryToBeanMapper {
 		return null;
 	}
 	
+	public <T>List<T> mapForQuery( Class<T> clzz, List<Map<String, Object>> rowMapList, XMLService xmlService ) {
+		List<T> list = new ArrayList<>();
+		String mapId = clzz.getSimpleName();
+		List<QueryToBeanMapperField> mapperFields = getMapperFields(xmlService, mapId);
+		if ( HunterUtility.isCollectionNotEmpty(rowMapList) && HunterUtility.isCollectionNotEmpty(mapperFields) ) {
+			List<T> returnList = new ArrayList<>();
+			for( Map<String, Object> rowMap : rowMapList ) {
+				T t = getBean( clzz, xmlService, mapId, mapperFields, rowMap );
+				// logger.debug("Object contructed >>> " + t.toString());
+				returnList.add(t);
+			}
+			return returnList;
+		} else {
+			logger.warn( "No data found for the mapId: " + mapId + "\n and values: " ); 
+		}
+		return list;
+	}
+	
 	public <T>List<T> map( Class<T> clzz, String queryId, List<Object> valueList ){
 		logger.debug("Mapping for query ID: " + queryId);		
 		HunterJDBCExecutor executor = HunterDaoFactory.getObject(HunterJDBCExecutor.class);
@@ -79,7 +85,7 @@ public class HunterQueryToBeanMapper {
 	}
 	
 	@SuppressWarnings("unchecked")
-	private <T>T getBean( Class<T> clzz, XMLService xmlService, String mapId, String query, List<Object> valueList, List<QueryToBeanMapperField> mapperFields, Map<String, Object> rowMap ) { 
+	private <T>T getBean( Class<T> clzz, XMLService xmlService, String mapId, List<QueryToBeanMapperField> mapperFields, Map<String, Object> rowMap ) { 
 		try {
 			Object obj = clzz.newInstance();
 			for ( QueryToBeanMapperField mapperField : mapperFields ) {

@@ -160,6 +160,7 @@ public class HunterConstants {
 	public static final String CLIENT_CM = "CM";
 	public static final String CLIENT_OZEKI = "OZEKI";
 	public static final String CLIENT_SAFARICOM = "SAFARICOM";
+	public static final String CLIENT_AIRTEL = "AIRTELL";
 	public static final String CLIENT_TECH_MASTERS = "TECH MASTERS";
 	public static final String CLIENT_HUNTER_EMAIL = "Hunter Email";
 	public static final String CLIENT_HUNTER_SOCIAL = "Hunter Social";
@@ -303,7 +304,8 @@ public class HunterConstants {
 	
 	public static final String ALLOWED_CORS_ORIGINS = "http://localhost:4200";
 	
-	public static final String MAPPER_FIELD_HUNTER_USER_JSON = "http://localhost:4200";
+	public static final String MAPPER_FIELD_HUNTER_USER_JSON = "MAPPER_FIELD_HUNTER_USER_JSON";
+	public static final String GRID_HEADERS_MAPPINGS = "GRID_HEADERS_MAPPINGS";
 	
 }
 

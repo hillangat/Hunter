@@ -1,0 +1,74 @@
+[
+  {
+    "name": "All",
+    "key": "allXMLService",
+    "refreshing": false,
+    "selected": false
+  },
+  {
+    "name": "Query",
+    "key": "queryXML",
+    "refreshing": false,
+    "selected": false
+  },
+  {
+    "name": "UI Message",
+    "key": "uiMsgXML",
+    "refreshing": false,
+    "selected": false
+  },
+  {
+    "name": "Client Configs",
+    "key": "clientConfigs",
+    "refreshing": false,
+    "selected": false
+  },
+  {
+    "name": "Response Configurations",
+    "key": "responseConfigs",
+    "refreshing": false,
+    "selected": false
+  },
+  {
+    "name": "Email Templates",
+    "key": "emailTemplates",
+    "refreshing": false,
+    "selected": false
+  },
+  {
+    "name": "Email configs",
+    "key": "emailConfigs",
+    "refreshing": false,
+    "selected": false
+  },
+  {
+    "name": "Task Process Templates",
+    "key": "taskProcessTemplates",
+    "refreshing": false,
+    "selected": false
+  },
+  {
+    "name": "Existing Template Name",
+    "key": "existingTemplateNames",
+    "refreshing": false,
+    "selected": false
+  },
+  {
+    "name": "Query To Bean Mapper",
+    "key": "queryToBeanMapper",
+    "refreshing": false,
+    "selected": false
+  },
+  {
+    "name": "Grid Headers",
+    "key": "gridHeaders",
+    "refreshing": false,
+    "selected": false
+  },
+  {
+    "name": "Grid Query Field Mappings",
+    "key": "gridQueryFieldMapping",
+    "refreshing": false,
+    "selected": false
+  }
+]

@@ -166,14 +166,6 @@ public class CalculatorImpl extends AbstractCalculator {
  
 		System.out.println(endTime - startTime);
 		
-		//8190431
-		//System.out.println(getInstance().sin(30));  
-		//System.out.println(getInstance().factorial(5.1));
-		//System.out.println(getInstance().sinInverse(30));
-		//System.out.println(getInstance().raisedTo(100, 0.55));
-		//System.out.println(AbstractCalculator.basicMultiplyTill(100, 2));
-		//System.out.println(AbstractCalculator.handleRaiseToDecimal(1001, 0.5)); 
-		
 	}
 	
 	@Override
@@ -206,22 +198,6 @@ public class CalculatorImpl extends AbstractCalculator {
 	
 	@Override
 	public double sin(double x) {
-		/*double power = 0, fact = 0, div = 1, i=1, total=0;
-		boolean isNeg = false;
-		for(; div !=0 ; i += 2){
-			power = basicRaiseTo(x, i);
-			fact = factorial(i);
-			div = power/fact;
-			if(isNeg==true){
-				isNeg = false;
-				total -= div;
-			}else{
-				isNeg = true;
-				total += div;
-			}
-			System.out.println(" power = " + power + " fact = " + fact + " div = " + " total = " + total); 
-		}
-		return total;*/
 		double answer=0,negOne=-1,numXpow=0,denNum=0, division=1,i=0;
 		for(;division != 0;i++){
 			negOne = basicRaiseTo(-1, i);

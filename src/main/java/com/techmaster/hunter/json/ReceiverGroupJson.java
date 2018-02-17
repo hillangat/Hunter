@@ -3,27 +3,27 @@ package com.techmaster.hunter.json;
 
 public class ReceiverGroupJson {
 	
-	private long groupId;
+	private Long groupId;
 	private String ownerUserName;
 	private String firstName;
 	private String lastName;
 	private String groupName;
 	private String groupDesc;
-	private int receiverCount;
+	private Integer receiverCount;
 	private String receiverType;
-	private java.util.Date cretDate;
+	private String cretDate;
 	private String createdBy;
-	private java.util.Date lastUpdate;
+	private String lastUpdate;
 	private String lastUpdatedBy;
 	
 	public ReceiverGroupJson() {
 		super();
 	}
 	
-	public long getGroupId() {
+	public Long getGroupId() {
 		return groupId;
 	}
-	public void setGroupId(long groupId) {
+	public void setGroupId(Long groupId) {
 		this.groupId = groupId;
 	}
 	public String getOwnerUserName() {
@@ -56,16 +56,16 @@ public class ReceiverGroupJson {
 	public void setGroupDesc(String groupDesc) {
 		this.groupDesc = groupDesc;
 	}
-	public int getReceiverCount() {
+	public Integer getReceiverCount() {
 		return receiverCount;
 	}
-	public void setReceiverCount(int receiverCount) {
+	public void setReceiverCount(Integer receiverCount) {
 		this.receiverCount = receiverCount;
 	}
-	public java.util.Date getCretDate() {
+	public String getCretDate() {
 		return cretDate;
 	}
-	public void setCretDate(java.util.Date cretDate) {
+	public void setCretDate(String cretDate) {
 		this.cretDate = cretDate;
 	}
 	public String getCreatedBy() {
@@ -74,10 +74,10 @@ public class ReceiverGroupJson {
 	public void setCreatedBy(String createdBy) {
 		this.createdBy = createdBy;
 	}
-	public java.util.Date getLastUpdate() {
+	public String getLastUpdate() {
 		return lastUpdate;
 	}
-	public void setLastUpdate(java.util.Date lastUpdate) {
+	public void setLastUpdate(String lastUpdate) {
 		this.lastUpdate = lastUpdate;
 	}
 	public String getLastUpdatedBy() {

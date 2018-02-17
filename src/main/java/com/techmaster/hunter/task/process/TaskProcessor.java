@@ -154,7 +154,7 @@ public class TaskProcessor {
 	
 	public Map<String, Object> process(Task task,TaskClientConfigBean configBean, Set<GateWayMessage> messages, AuditInfo auditInfo) {
 		
-		//lock the task before doing anything else.
+		// lock the task before doing anything else.
 		task.setTaskDeliveryStatus(HunterConstants.STATUS_PENDING);
 		GateWayClientHelper.getInstance().lockTask(task.getTaskId(), HunterConstants.STATUS_PENDING);
 		

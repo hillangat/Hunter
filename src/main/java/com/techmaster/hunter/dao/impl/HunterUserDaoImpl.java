@@ -22,6 +22,7 @@ import com.techmaster.hunter.dao.types.HunterAddressDao;
 import com.techmaster.hunter.dao.types.HunterCreditCardDao;
 import com.techmaster.hunter.dao.types.HunterJDBCExecutor;
 import com.techmaster.hunter.dao.types.HunterUserDao;
+import com.techmaster.hunter.json.HunterSelectValue;
 import com.techmaster.hunter.json.HunterUserJson;
 import com.techmaster.hunter.obj.beans.HunterAddress;
 import com.techmaster.hunter.obj.beans.HunterCreditCard;
@@ -437,6 +438,12 @@ public class HunterUserDaoImpl implements HunterUserDao{
 			clients.put(clientRow);
 		}
 		return HunterUtility.getServerResponse("Successful", HunterConstants.STATUS_SUCCESS, clients).toString();
+	}
+
+
+	@Override
+	public List<HunterSelectValue> getAllUsersSelValues() {
+		return HunterUtility.getSelectValsForQueryId(HunterDaoConstants.GET_TASK_APPROVERS_SEL_VALS);
 	}
 	
 	

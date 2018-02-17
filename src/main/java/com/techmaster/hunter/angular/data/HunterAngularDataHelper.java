@@ -68,6 +68,7 @@ public class HunterAngularDataHelper {
 				config.setBootstrapIconName(getStr( obj, "bootstrapIconName"));
 				config.setDataType(getStr( obj, "dataType"));
 				config.setActionColIconName(getStr( obj, "actionColIconName"));
+				config.setActionCellType(getStr( obj, "actionCellType"));
 				config.setWidth(getStr( obj, "width"));
 				tableConfigs.add( config );
 			}
@@ -103,8 +104,9 @@ public class HunterAngularDataHelper {
 		return angularData;
 	}
 	
-	public AngularData getBeanForMsgAndSts( String message, String status ) {
+	public AngularData getBeanForMsgAndSts( String message, String status, Object data ) {
 		AngularData angularData = new AngularData();
+		angularData.setData(data);
 		try {
 			angularData.setMessage( message );
 			angularData.setStatus( status );

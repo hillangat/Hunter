@@ -1,18 +1,21 @@
 package com.techmaster.hunter.angular.grid;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.apache.catalina.ant.FindLeaksTask;
 import org.apache.log4j.Logger;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
+import com.techmaster.hunter.angular.data.AngularData;
+import com.techmaster.hunter.angular.data.HunterAngularDataHelper;
 import com.techmaster.hunter.cache.HunterCacheUtil;
 import com.techmaster.hunter.constants.HunterConstants;
+import com.techmaster.hunter.constants.HunterDaoConstants;
 import com.techmaster.hunter.dao.impl.HunterDaoFactory;
 import com.techmaster.hunter.dao.types.HunterJDBCExecutor;
 import com.techmaster.hunter.util.HunterQueryToBeanMapper;
@@ -33,8 +36,34 @@ public class GridQueryHandler {
 		}
 	}
 	
-	public <T>List<T> executeQridQueryForRequest( Class<T> clzz, HttpServletRequest request ) {
-		String finalQuery = createQueryFromReq( request );
+	public <T> AngularData executeForAngularData( Class<T> clzz, HttpServletRequest request, String headerId, List<Object> valueList  ) {
+		
+		GridDataQueryReq req = getReqBeanFromRequest(request);		
+		HunterJDBCExecutor executor = HunterDaoFactory.getDaoObject(HunterJDBCExecutor.class);
+		String query = createQueryFromReq(request, req);
+		XMLService xmlService = HunterCacheUtil.getInstance().getXMLService(HunterConstants.QUERY_TO_BEAN_MAPPER);
+		List<Map<String, Object>> rowMapList = executor.executeQueryRowMap(query, valueList);
+		
+		int total = 0;
+		
+		if ( HunterUtility.isCollectionNotEmpty( rowMapList ) && HunterUtility.notNullNotEmpty( rowMapList.get(0).get(HunterDaoConstants.GRID_DATA_COUNT) ) ) {
+			total = Integer.valueOf(rowMapList.get(0).get(HunterDaoConstants.GRID_DATA_COUNT).toString());
+			if ( req.getPageNo() * req.getPageSize() > total ) {
+				req.setPageNo(1);
+				req.setPageSize(total);
+			}
+			// remove the count place holding column.
+			rowMapList.forEach( map -> map.remove(HunterDaoConstants.GRID_DATA_COUNT) );
+		}
+		
+		List<T> angularRecs = HunterQueryToBeanMapper.getInstance().mapForQuery(clzz, rowMapList, xmlService);
+		AngularData angData = HunterAngularDataHelper.getIntance().getDataBean(angularRecs, headerId);
+		angData.setTotal(total);
+		return angData;
+	}
+	
+	public <T>List<T> executeQridQueryForRequest( Class<T> clzz, HttpServletRequest request, GridDataQueryReq req ) {
+		String finalQuery = createQueryFromReq( request, req );
 		List<T> ts = HunterQueryToBeanMapper.getInstance().mapForQuery( clzz, finalQuery, null );
 		return ts;
 	}
@@ -43,8 +72,7 @@ public class GridQueryHandler {
 		return instance;
 	}
 	
-	public String createQueryFromReq( HttpServletRequest request ) {
-		GridDataQueryReq req = getReqBeanFromRequest(request);
+	public String createQueryFromReq( HttpServletRequest request, GridDataQueryReq req ) {
 		String whereAndGroupByClause = createWhereAngGroupClause(req);
 		return harmonizeQuery(req, whereAndGroupByClause);
 	}
@@ -55,15 +83,28 @@ public class GridQueryHandler {
 		return getReqBeanFromJson(reqObj);
 	}
 	
+	private String getPaginationSqlFrag( GridDataQueryReq req ) {
+		StringBuilder builder = new StringBuilder();
+		if ( req != null && !( req.getPageNo() == 0 && req.getPageSize() == 0  )  ) {
+			req.setPageNo( req.getPageNo() == 0 ? 1 : req.getPageNo() );
+			int offset = ( req.getPageNo() - 1 ) * req.getPageSize();
+			builder.append(" OFFSET ").append( offset ).append( " ROWS FETCH NEXT " ).append( req.getPageSize() ).append(" ROWS ONLY ");
+			
+		}
+		return builder.toString();
+	}
+	
 	public String createWhereAngGroupClause( GridDataQueryReq req ) {
 		StringBuilder builder = new StringBuilder();
 		if ( req != null ) {
-			builder.append(" WHERE ");
-			for( int i = 0; req.getFilterBy() != null && i < req.getFilterBy().length; i++ ) {
-				GridFieldUserInput filter = req.getFilterBy()[i];
-				builder.append(" ").append( GridQueryOperationEnum.getSqlFragment(filter.getFieldAlias(), filter.getDbName(), filter.getUserInput(), filter.getOperation().getUiName() ) ).append(" ");
-				if ( i < req.getFilterBy().length - 1 && req.getFilterBy().length > 1 ) {
-					builder.append(" AND ");
+			if ( HunterUtility.isArrayNotEmpty(req.getFilterBy()) ) {
+				builder.append(" WHERE "); 
+				for( int i = 0; req.getFilterBy() != null && i < req.getFilterBy().length; i++ ) {
+					GridFieldUserInput filter = req.getFilterBy()[i];
+					builder.append(" ").append( GridQueryOperationEnum.getSqlFragment(filter.getFieldAlias(), filter.getDbName(), filter.getUserInput(), filter.getOperation().getUiName() ) ).append(" ");
+					if ( i < req.getFilterBy().length - 1 && req.getFilterBy().length > 1 ) {
+						builder.append(" AND ");
+					}
 				}
 			}
 			if ( HunterUtility.isArrayNotEmpty(req.getOrderBy()) ) {
@@ -75,6 +116,10 @@ public class GridQueryHandler {
 						builder.append(", ");
 					}
 				}
+			}
+			String pagination = this.getPaginationSqlFrag(req);
+			if ( HunterUtility.notNullNotEmpty(pagination) ) {
+				builder.append(pagination);	
 			}
 		}
 		String whereStr = builder.toString();
@@ -91,7 +136,7 @@ public class GridQueryHandler {
 	
 	private String getReferenceQueryId( GridDataQueryReq req ) {
 		NodeList references = getReferences(req);
-		if ( references != null && references.getLength() > 0 ) {
+		if ( HunterUtility.isNodeListNotEmptpy(references) ) { 
 			Node reference = references.item(0);
 			String queryId = reference.getAttributes().getNamedItem("queryId").getTextContent().toString();
 			return queryId;
@@ -108,14 +153,14 @@ public class GridQueryHandler {
 	
 	public GridDataQueryReq setDbNames( GridDataQueryReq req ) {
 		NodeList references = getReferences(req);
-		if ( references != null &&  references.getLength() > 0 ) {
+		if ( HunterUtility.isNodeListNotEmptpy(references) ) {
 			for( int i = 0 ; i < references.getLength(); i++ ) {
 				Node reference = references.item(i);
 				String tableName = reference.getAttributes().getNamedItem("table").toString();
 				String alias = reference.getAttributes().getNamedItem("alias").toString();
 				this.logger.debug("tableName = " + tableName + ", alias = " + alias);
 				NodeList fields = reference.getChildNodes();
-				if ( references != null &&  references.getLength() > 0 ) {
+				if ( HunterUtility.isNodeListNotEmptpy(references) ) {
 					for( int j = 0 ; j < fields.getLength(); j++ ) {
 						Node field = fields.item(j);
 						if ( !field.getNodeName().equals("#text") ) {
@@ -190,14 +235,14 @@ public class GridQueryHandler {
 	
 	public GridDataQueryReq setFieldAliases( GridDataQueryReq req ) {
 		NodeList references = getReferences(req);
-		Node reference = references != null && references.getLength() > 0 ? references.item(0) : null;
+		Node reference = HunterUtility.isNodeListNotEmptpy(references) ? references.item(0) : null;
 		setAliasForInputs(req.getFilterBy(), reference);
 		setAliasForInputs(req.getOrderBy(), reference);
 		return req;
 	}
 	
 	public void setAliasForInputs( GridFieldUserInput inputs[], Node reference ) {
-		for( int i = 0 ; i < inputs.length && inputs != null; i++ ) {
+		for( int i = 0 ; i < inputs.length && inputs != null  && reference != null; i++ ) {
 			GridFieldUserInput filter = inputs[i];
 			String fieldName = filter.getFieldName();
 			NodeList fields = reference.getChildNodes();
@@ -219,7 +264,7 @@ public class GridQueryHandler {
 	}
 	
 	public JSONArray getArray( String key, JSONObject obj ) {
-		if ( obj.get( key ) != null ) {
+		if ( obj.has(key) && obj.get( key ) != null ) {
 			return obj.getJSONArray(key);
 		} else {
 			return new JSONArray();

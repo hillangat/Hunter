@@ -3,6 +3,7 @@ package com.techmaster.hunter.dao.types;
 import java.util.List;
 import java.util.Map;
 
+import com.techmaster.hunter.json.HunterSelectValue;
 import com.techmaster.hunter.json.HunterUserJson;
 import com.techmaster.hunter.obj.beans.HunterUser;
 import com.techmaster.hunter.obj.beans.UserLoginBean;
@@ -28,6 +29,7 @@ public interface HunterUserDao {
 	public List<UserLoginBean> getUserLoginBeanByUserName(String userName);
 	public void updateUserLoginBean(UserLoginBean userLoginBean);
 	public String getClientsForAngularUI();
+	public List<HunterSelectValue> getAllUsersSelValues();
 	
 	
 

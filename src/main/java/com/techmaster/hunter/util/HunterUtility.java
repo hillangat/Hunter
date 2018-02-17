@@ -2,6 +2,7 @@ package com.techmaster.hunter.util;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -81,8 +82,10 @@ import org.xml.sax.SAXException;
 import com.techmaster.hunter.cache.HunterCacheUtil;
 import com.techmaster.hunter.constants.HunterConstants;
 import com.techmaster.hunter.dao.impl.HunterDaoFactory;
+import com.techmaster.hunter.dao.types.HunterJDBCExecutor;
 import com.techmaster.hunter.exception.HunterRemoteException;
 import com.techmaster.hunter.exception.HunterRunTimeException;
+import com.techmaster.hunter.json.HunterSelectValue;
 import com.techmaster.hunter.obj.beans.AuditInfo;
 import com.techmaster.hunter.obj.beans.Message;
 import com.techmaster.hunter.xml.XMLService;
@@ -134,6 +137,10 @@ public static  Logger logger = Logger.getLogger(HunterUtility.class);
    
    public static <T> boolean isArrayNotEmpty( T[] array ) {
 	   return array != null && array.length > 0 ;
+   }
+   
+   public static boolean isNodeListNotEmptpy( NodeList nodeList ) {
+	   return null != nodeList && nodeList.getLength() > 0;
    }
    
    public static String getBlobStr(Blob blob){
@@ -1411,6 +1418,49 @@ public static  Logger logger = Logger.getLogger(HunterUtility.class);
 		}
 	}
 	
+	public static JSONArray getClassPathHunterTableConfigArray( String fileName ) {
+		File file = HunterUtility.getFileFromResources(fileName);
+		String fileContent = HunterUtility.getStringOfFile(file);
+		JSONArray array = fileContent != null ? new JSONArray( fileContent ) : null;
+		return array;
+	}
+	
+	/**
+	 * The name starts from first folder inside java\\main\\resources\\folder1\\file1
+	 * Thus: "folder1\\file1"
+	 * @param fileName
+	 * @return
+	 */
+	public static File getFileFromResources( String fileName ) {
+		ClassLoader classLoader = HunterUtility.class.getClassLoader();
+		File file = new File(classLoader.getResource(fileName).getFile());
+		return file;
+	}
+	
+	public static String getStringOfFile( File file ){
+		BufferedReader br = null;
+		FileReader fr = null;
+		StringBuilder build = new StringBuilder();
+		try {
+			fr = new FileReader(file);
+			br = new BufferedReader(fr);
+			String sCurrentLine;
+			while ((sCurrentLine = br.readLine()) != null) {
+				build.append(sCurrentLine);
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				fr.close();
+				br.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		return build.toString();
+	}
+	
 	public static JSONObject getServerResponse( String message, String status, JSONObject data ){			
 		return getMessageAndStatus(message, status, null, data);
 	}
@@ -1435,6 +1485,21 @@ public static  Logger logger = Logger.getLogger(HunterUtility.class);
 	public static JSONObject getServerSuccess( String message ){
 		JSONObject json = null;
 		return getServerResponse(message, HunterConstants.STATUS_SUCCESS, json);
+	}
+	
+	public static List<HunterSelectValue> getSelectValsForQueryId( String queryId ) {
+		List<HunterSelectValue> selVals = new ArrayList<>();
+		HunterJDBCExecutor executor = HunterDaoFactory.getObject(HunterJDBCExecutor.class);
+		String query = executor.getQueryForSqlId( queryId );
+		List<Map<String, Object>> rowMapList =  executor.executeQueryRowMap(query, null);
+		if ( HunterUtility.isCollectionNotEmpty(rowMapList) ) {
+			for( Map<String, Object> rowMap : rowMapList ) {
+				HunterSelectValue selValue = new HunterSelectValue();
+				selValue.setText(HunterUtility.getStringOrNullOfObj(rowMap.get("TEXT")));
+				selValue.setValue( HunterUtility.getStringOrNullOfObj(rowMap.get(rowMap.get("VALUE"))));
+			}
+		}
+		return selVals;
 	}
 	
 	

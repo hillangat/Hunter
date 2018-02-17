@@ -28,12 +28,18 @@ public class HunterDaoConstants {
 	public static final String GET_TASK_GROUPS_FOR_TASK_ID = "getTaskGroupJSONsForTaskId";
 	public static final String GET_AVAIL_RECEIVER_GROUPS = "getAvailReceiverGroups";
 	public static final String GET_ANGULAR_SEL_VALS_FOR_ANG_UI = "getClientsSelValsForAngUI";
+	public static final String GET_TASK_APPROVERS_SEL_VALS = "getUsersSelValsForAngUI";
 	
 	// Grid Header Constants
 	public static final String TASK_GRID_HEADERS = "tasks-grid";
 	public static final String TASK_HISTORY_HEADERS = "task-history";
 	public static final String TASK_GROUPS_HEADERS = "task-groups";
 	public static final String TASK_GROUPS_JSONS_HEADERS = "task-groups-jsons";
+	public static final String SELECT_VALUES_JSON_HEADERS = "selectValues";
+	
+	
+	// GRID DATA
+	public static final String GRID_DATA_COUNT = "GRID_DATA_COUNT";
 	
 
 }

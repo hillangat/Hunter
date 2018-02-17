@@ -7,10 +7,22 @@
 		</description>
 		<statement>
 		  	SELECT DISTINCT
-				c.USR_NAM as VALUE,
+				c.HNTR_CLNT_ID as VALUE,
 				c.FRST_NAM || ' ' || c.LST_NAM || ' (' || c.USR_NAM || ')' AS TEXT
 			FROM 
 				HNTR_CLINT c
+		</statement>
+	</query>
+	<query id="getUsersSelValsForAngUI">
+		<description>
+		    Retrieves users for task approvers dropdowns.
+		</description>
+		<statement>
+		  	SELECT DISTINCT
+				c.USR_NAM as VALUE,
+				c.FRST_NAM || ' ' || c.LST_NAM || ' (' || c.USR_NAM || ')' AS TEXT
+			FROM 
+				HNTR_USR c
 		</statement>
 	</query>
 	<query id="getTaskFurnishments">
@@ -31,16 +43,17 @@
 		    Gets task history information for angular UI.
 		</description>
 		<statement>
-		  	SELECT 
-			  h.HSTRY_ID,
-			  h.TSK_ID,
-			  h.EVNT_NAM,
-			  h.EVNT_STS,
-			  h.EVNT_MSG,
-			  ( select u.FRST_NAM || ' ' || u.LST_NAM || '(' || u.USR_NAM ||')' from HNTR_USR u WHERE u.USR_NAM = h.EVNT_USR ) as EVNT_USR,
-			  TO_CHAR(h.EVNT_DATE, 'yyyy-MM-dd HH:mm:ss')"EVNT_DATE"
-			FROM TSK_HSTRY h 
-			WHERE h.TSK_ID = ?
+		  	 SELECT
+			    h.HSTRY_ID,
+			    h.TSK_ID,
+			    h.EVNT_NAM,
+			    h.EVNT_STS,
+			    h.EVNT_MSG,
+			    ( select u.FRST_NAM || ' ' || u.LST_NAM || '(' || u.USR_NAM ||')' from HNTR_USR u WHERE u.USR_NAM = h.EVNT_USR ) as EVNT_USR,
+			    TO_CHAR(h.EVNT_DATE, 'yyyy-MM-dd HH:mm:ss')"EVNT_DATE",
+			    COUNT(h.HSTRY_ID) OVER (PARTITION BY 1 ) AS GRID_DATA_COUNT
+			 FROM TSK_HSTRY h 
+			 WHERE h.TSK_ID = ?
 		</statement>
 	</query>
 	<query id="getTaskGroupJSONsForTaskId">
@@ -61,6 +74,32 @@
 			  g.CRTD_BY "createdBy",
 			  TO_CHAR(g.LST_UPDT_DATE, 'yyyy-MM-dd HH:mm:ss') "lastUpdate",
 			  g.LST_UPDTD_BY "lastUpdatedBy"
+			FROM 
+			  TSK_GRPS tg,
+			  RCVR_GRP_JSN g
+			WHERE tg.TSK_ID = ?
+			AND tg.grp_id = g.grp_id
+		</statement>
+	</query>
+	<query id="getTaskGroupJSONsForTaskIdForGrid">
+		<description>
+		    Retrieves task group jsons for task id
+		</description>
+		<statement>
+		  	SELECT 
+			  g.GRP_ID,
+			  g.OWNR_USR_NAM,
+			  g.FRST_NAM,
+			  g.LST_NAM,
+			  g.GRP_NAME,
+			  g.GRP_DESC,
+			  g.RCVR_CNT,
+			  g.RCVR_TYP,
+			  TO_CHAR(g.CRET_DATE, 'yyyy-MM-dd HH:mm:ss') AS CRET_DATE,
+			  g.CRTD_BY CRTD_BY,
+			  TO_CHAR(g.LST_UPDT_DATE, 'yyyy-MM-dd HH:mm:ss') AS LST_UPDT_DATE,
+			  g.LST_UPDTD_BY,
+			  COUNT(tg.TSK_ID) OVER (PARTITION BY 1 ) AS GRID_DATA_COUNT
 			FROM 
 			  TSK_GRPS tg,
 			  RCVR_GRP_JSN g
@@ -722,7 +761,7 @@
 		    Used to make task draft approved again.
 		</description>
 		<statement>
-		  UPDATE task SET TSK_DEL_STS = 'Conceptual', TSK_LF_STS = 'Approved' WHERE tsk_id IN ( ? )
+		  UPDATE task SET TSK_DEL_STS = 'Conceptual', TSK_LF_STS = 'Draft' WHERE tsk_id IN ( ? )
 		</statement>
 	</query>
 	<query id="validateHunterUserDelete">
@@ -842,14 +881,18 @@
 	</query>
 	<query id="getTaskNamesForClientUserName">
 		<description>
-		    Returns comma separated task already existent task names
+		    Returns task.tsk_nam records for tasks owned by given user client username
 		</description>
 		<statement>
-	  		SELECT listagg(t.TSK_NAM, ',') within group (order by t.TSK_NAM) as "TSK_NAMS"
-			FROM task t, HNTR_CLINT c, HNTR_USR u
-			WHERE t.HNTR_CLNT_ID = c.HNTR_CLNT_ID
-			AND c.HNTR_CLNT_ID = u.USR_ID
-			and u.USR_NAM = ?
+	  		SELECT DISTINCT
+			  t.TSK_NAM
+			FROM 
+			  TASK t,
+			  HNTR_CLINT c,
+			  HNTR_USR u
+			WHERE t.HNTR_CLNT_ID  = c.HNTR_CLNT_ID
+			AND u.USR_ID          = c.HNTR_CLNT_ID
+			AND u.USR_NAM         = ?
 		</statement>
 	</query>
 	<query id="getUserLoginBeanDetails">
@@ -1553,8 +1596,7 @@
 		    Retrieves all tasks for use with angular dynamic grid 
 		</description>
 		<statement>
-		  	SELECT
-			  t.TSK_ID || '' AS TSK_ID,
+		  	SELECT  t.TSK_ID || '' AS TSK_ID,
 			  t.TSK_TYP,
 			  t.TSK_NAM,
 			  t.TSK_OBJCTV,
@@ -1590,7 +1632,8 @@
 			    ELSE 0
 			  END AS PROVIDER,
 			  ( SELECT listagg(tr.RGN_ID, ',') within GROUP (ORDER BY tr.RGN_ID) AS TSK_RGNS FROM TSK_RGNS tr WHERE tr.TSK_ID = t.TSK_ID ) as TSK_RGNS,
-			  ( SELECT listagg(tr.GRP_ID, ',') within GROUP (ORDER BY tr.GRP_ID) AS TSK_GRPS FROM TSK_GRPS tr WHERE tr.TSK_ID = t.TSK_ID ) AS TSK_GRPS
+			  ( SELECT listagg(tr.GRP_ID, ',') within GROUP (ORDER BY tr.GRP_ID) AS TSK_GRPS FROM TSK_GRPS tr WHERE tr.TSK_ID = t.TSK_ID ) AS TSK_GRPS,
+        	  COUNT(t.TSK_ID) OVER (PARTITION BY 1 ) AS GRID_DATA_COUNT
 			FROM TASK t
 		</statement>
 	</query>

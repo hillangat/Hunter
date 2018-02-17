@@ -91,13 +91,13 @@ public class TaskConverter {
 				
 				ReceiverGroupJson receiverGroupJson = new ReceiverGroupJson();
 				receiverGroupJson.setCreatedBy(createdBy);
-				receiverGroupJson.setCretDate(cretDate);
 				receiverGroupJson.setFirstName(firsName);
 				receiverGroupJson.setGroupDesc(groupDesc);
 				receiverGroupJson.setGroupId(groupId);
 				receiverGroupJson.setGroupName(groupName);
 				receiverGroupJson.setLastName(lastName);
-				receiverGroupJson.setLastUpdate(lastUpdate);
+				receiverGroupJson.setCretDate(HunterUtility.formatDate(cretDate, HunterConstants.DATE_FORMAT_STRING));
+				receiverGroupJson.setLastUpdate(HunterUtility.formatDate(lastUpdate, HunterConstants.DATE_FORMAT_STRING));
 				receiverGroupJson.setLastUpdatedBy(lastUpdatedBy);
 				receiverGroupJson.setOwnerUserName(ownerUserName);
 				receiverGroupJson.setReceiverCount(receiverCount);
@@ -140,9 +140,9 @@ public class TaskConverter {
 		Boolean taskApproved 		= Boolean.valueOf( HunterUtility.getStringOrNulFromJSONObj(taskJson, "taskApproved") );
 		Boolean recurrentTask 		= Boolean.valueOf( HunterUtility.getStringOrNulFromJSONObj(taskJson, "recurrentTask") );
 		
-		int desiredReceiverCount 	= Integer.valueOf( HunterUtility.getStringOrNulFromJSONObj(taskJson, "desiredReceiverCount") );
-		int availableReceiverCount 	= Integer.valueOf( HunterUtility.getStringOrNulFromJSONObj(taskJson, "availableReceiverCount") == null ? "0" : HunterUtility.getStringOrNulFromJSONObj(taskJson, "availableReceiverCount") );
-		int confirmedReceiverCount 	= Integer.valueOf( HunterUtility.getStringOrNulFromJSONObj(taskJson, "confirmedReceiverCount") == null ? "0" : HunterUtility.getStringOrNulFromJSONObj(taskJson, "confirmedReceiverCount") );
+		int desiredReceiverCount 	= Integer.parseInt( HunterUtility.getStringOrNulFromJSONObj(taskJson, "desiredReceiverCount") );
+		int availableReceiverCount 	= Integer.parseInt( HunterUtility.getStringOrNulFromJSONObj(taskJson, "availableReceiverCount") == null ? "0" : HunterUtility.getStringOrNulFromJSONObj(taskJson, "availableReceiverCount") );
+		int confirmedReceiverCount 	= Integer.parseInt( HunterUtility.getStringOrNulFromJSONObj(taskJson, "confirmedReceiverCount") == null ? "0" : HunterUtility.getStringOrNulFromJSONObj(taskJson, "confirmedReceiverCount") );
 		
 		long taskBudget 			= HunterUtility.getLongOrNulFromJSONObj(taskJson, "taskBudget");
 		long taskCost 				= HunterUtility.getLongOrNulFromJSONObj(taskJson, "taskCost");
@@ -166,7 +166,7 @@ public class TaskConverter {
 		task.setRecurrentTask(recurrentTask);
 		task.setTaskDeliveryStatus( taskDeliveryStatus == null ? HunterConstants.STATUS_CONCEPTUAL : taskDeliveryStatus ); 
 		task.setTaskLifeStatus(taskLifeStatus == null ? HunterConstants.STATUS_DRAFT : taskLifeStatus); 
-		task.setTaskDateline(HunterUtility.parseDate(taskDateline, HunterConstants.HUNTER_DATE_FORMAT_MIN));
+		task.setTaskDateline( taskDateline == null ? new Date() : HunterUtility.parseDate(taskDateline, HunterConstants.HUNTER_DATE_FORMAT_MIN));
 		task.setTaskApprover(taskApprover);
 		task.setTskMsgType(tskMsgType); 
 		task.setTaskApproved(taskApproved);

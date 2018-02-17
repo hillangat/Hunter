@@ -22,7 +22,7 @@ public interface TaskDao {
 	public void deleteTask(Task task);
 	public String getUserNameForTaskOwnerId(Long taskId);
 	public Set<ReceiverGroupJson> getTaskReceiverGroups(Long taskId);
-	public String getCmmSprtdTskNamsFrUsrNam(String userName);
+	public List<String> getCmmSprtdTskNamsFrUsrNam(String userName);
 	public void updateTaskDelStatus(Long taskId, String toStatus, String updateBy);
 	public Map<String,String> getTaskStatuses(Long taskId);
 	public List<TaskAngular> getAllAngularTasks();

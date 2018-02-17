@@ -4,6 +4,7 @@ import java.util.List;
 
 public class AngularData {
 	
+	private int total;
 	private String status;
 	private String message;
 	public Object data;
@@ -33,6 +34,12 @@ public class AngularData {
 	public void setMessage(String message) {
 		this.message = message;
 	}
+	public int getTotal() {
+		return total;
+	}
+	public void setTotal(int total) {
+		this.total = total;
+	}
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -41,6 +48,7 @@ public class AngularData {
 		result = prime * result + ((headers == null) ? 0 : headers.hashCode());
 		result = prime * result + ((message == null) ? 0 : message.hashCode());
 		result = prime * result + ((status == null) ? 0 : status.hashCode());
+		result = prime * result + total;
 		return result;
 	}
 	@Override
@@ -72,13 +80,16 @@ public class AngularData {
 				return false;
 		} else if (!status.equals(other.status))
 			return false;
+		if (total != other.total)
+			return false;
 		return true;
 	}
 	@Override
 	public String toString() {
-		return "AngularData [status=" + status + ", message=" + message + ", data=" + data + ", headers=" + headers
-				+ "]";
+		return "AngularData [total=" + total + ", status=" + status + ", message=" + message + ", data=" + data
+				+ ", headers=" + headers + "]";
 	}
+	
 	
 	
 

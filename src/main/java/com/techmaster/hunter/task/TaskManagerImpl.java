@@ -23,13 +23,11 @@ import com.fasterxml.jackson.databind.JsonMappingException;
 import com.techmaster.hunter.cache.HunterCacheUtil;
 import com.techmaster.hunter.constants.HunterConstants;
 import com.techmaster.hunter.constants.UIMessageConstants;
-import com.techmaster.hunter.dao.impl.HunterDaoFactory;
 import com.techmaster.hunter.dao.types.HunterJDBCExecutor;
 import com.techmaster.hunter.dao.types.MessageDao;
 import com.techmaster.hunter.dao.types.ServiceProviderDao;
 import com.techmaster.hunter.dao.types.TaskDao;
 import com.techmaster.hunter.enums.HunterUserRolesEnums;
-import com.techmaster.hunter.exception.HunterRunTimeException;
 import com.techmaster.hunter.gateway.beans.CMClientService;
 import com.techmaster.hunter.gateway.beans.GateWayClientHelper;
 import com.techmaster.hunter.gateway.beans.GateWayClientService;
@@ -55,7 +53,6 @@ import com.techmaster.hunter.obj.beans.TextMessage;
 import com.techmaster.hunter.region.RegionService;
 import com.techmaster.hunter.task.process.TaskProcessSubmitter;
 import com.techmaster.hunter.util.HunterHibernateHelper;
-import com.techmaster.hunter.util.HunterSessionFactory;
 import com.techmaster.hunter.util.HunterUtility;
 
 public class TaskManagerImpl implements TaskManager{
@@ -253,12 +250,27 @@ public class TaskManagerImpl implements TaskManager{
 		return false;
 	}
 	
+	private String getErrorMsForMsgStatus( Message message ) {
+		if ( message == null ) {
+			return HunterCacheUtil.getInstance().getUIMsgTxtForMsgId(UIMessageConstants.MSG_TASK_003);
+		} else if ( !message.getMsgLifeStatus().equals(HunterConstants.STATUS_APPROVED) ) {
+			return HunterCacheUtil.getInstance().getUIMsgTxtForMsgId(UIMessageConstants.MSG_TASK_004);
+		}
+		return null;
+	}
+	
 	public List<String> validateForSocialTask(Task task, String status, String userName){
 		
 		logger.debug("Validating status change to "+ status +" : " + task.getTaskId()); 
 		
 		List<String> results = new ArrayList<>();
 		SocialMessage socialMsg = (SocialMessage)task.getTaskMessage();
+		
+		String errorMessageForMsg = this.getErrorMsForMsgStatus(socialMsg);
+		if ( HunterUtility.notNullNotEmpty(errorMessageForMsg) ) {
+			results.add( errorMessageForMsg );
+			return results;
+		}
 		
 		/* For review and draft, always pass! */
 		if(status != null && !status.equals(HunterConstants.STATUS_APPROVED)){
@@ -530,10 +542,7 @@ public class TaskManagerImpl implements TaskManager{
 	@Override
 	public Task cloneTask(Task task, String newOwner,String taskName, String taskDescription, AuditInfo auditInfo) throws IllegalAccessException, InvocationTargetException {
 		
-		logger.debug("Starting task cloning process..."); 
-		
-		//append '_(#id#)' for identification
-		taskName = taskName + "_" + task.getTaskId();
+		logger.debug("Starting task cloning process...");
 		
 		String query = hunterJDBCExecutor.getQueryForSqlId("getClientDetailsForTaskOwner"); 
 		List<Object> values = new ArrayList<>();
@@ -575,7 +584,8 @@ public class TaskManagerImpl implements TaskManager{
 		copy.setTskMsgType(task.getTskMsgType()); 
 		copy.setProcessedBy(task.getProcessedBy());
 		copy.setProcessedOn(task.getProcessedOn());
-		copy.setGateWayClient(task.getGateWayClient()); 
+		copy.setGateWayClient(task.getGateWayClient());
+		copy.setClonedFromTaskId(task.getTaskId());
 		
 		copy.setCreatedBy(auditInfo.getCreatedBy());
 		copy.setCretDate(new Date());
@@ -659,6 +669,8 @@ public class TaskManagerImpl implements TaskManager{
 			clientService = new OzekiClientService();
 		}else if(task.getGateWayClient().equals(HunterConstants.CLIENT_HUNTER_EMAIL)){ 
 			clientService = new HunterEmailProcessClientService();
+		} else {
+			throw new IllegalArgumentException( "Gateway Client Not Suppported: " + task.getGateWayClient() );
 		}
 		return clientService;
 	}

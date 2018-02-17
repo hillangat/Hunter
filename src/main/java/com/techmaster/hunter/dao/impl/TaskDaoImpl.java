@@ -229,14 +229,16 @@ public class TaskDaoImpl implements TaskDao{
 	}
 
 	@Override
-	public String getCmmSprtdTskNamsFrUsrNam(String userName) {
+	public List<String> getCmmSprtdTskNamsFrUsrNam(String userName) {
 		logger.debug("Fetching task names for user name : " + userName); 
 		String query = hunterJDBCExecutor.getQueryForSqlId("getTaskNamesForClientUserName");
 		List<Object> values = hunterJDBCExecutor.getValuesList(new Object[]{userName});
 		Map<Integer, List<Object>> rowMapList = hunterJDBCExecutor.executeQueryRowList(query, values);
-		List<Object> rowList = rowMapList == null ? new ArrayList<>() : rowMapList.get(1); 
-		String taskNames = rowList.isEmpty() ? null : rowList.get(0) != null ? rowList.get(0).toString() : null;
-		logger.debug("Task names : " + taskNames); 
+		List<String> taskNames = new ArrayList<>();
+		if ( HunterUtility.isMapNotEmpty(rowMapList) ) {
+			rowMapList.forEach( (i, list) -> taskNames.add( String.valueOf(list.get(0)) ) );
+		}
+		logger.debug("Task names : " + HunterUtility.getCommaDelimitedStrings(taskNames));  
 		return taskNames;
 	}
 
@@ -259,10 +261,10 @@ public class TaskDaoImpl implements TaskDao{
 	@Override
 	public List<TaskAngular> getAllAngularTasks() {
 		List<Task> tasks = HunterDaoFactory.getObject(HunterHibernateHelper.class).getAllEntities(Task.class);
-		return createAngularTasks( tasks );
+		return createAngularTasksFromTasks( tasks );
 	}
 	
-	private List<TaskAngular> createAngularTasks( List<Task> tasks ) {
+	public List<TaskAngular> createAngularTasksFromTasks( List<Task> tasks ) {
 		List<TaskAngular> angularTasks = new ArrayList<>(); 
 		for( Task task : tasks ){
 			TaskAngular angularTask = new TaskAngular();
@@ -279,6 +281,13 @@ public class TaskDaoImpl implements TaskDao{
 			angularTask.setTaskCost(Float.toString(task.getTaskCost()));
 			angularTask.setRecurrentTask(Boolean.toString(task.isRecurrentTask())); 
 			angularTask.setTaskLifeStatus(task.getTaskLifeStatus());
+			angularTask.setGateWayClient(task.getGateWayClient());
+			angularTask.setProcessedBy(task.getProcessedBy());
+			angularTask.setProcessedOn(task.getProcessedBy());
+			angularTask.setTaskDateline(HunterUtility.formatDate(task.getTaskDateline(), HunterConstants.DATE_FORMAT_STRING)); 
+			angularTask.setDesiredReceiverCount(String.valueOf(task.getDesiredReceiverCount()) );
+			angularTask.setAvailableReceiverCount(String.valueOf(task.getAvailableReceiverCount()) );
+			angularTask.setConfirmedReceiverCount(String.valueOf(task.getConfirmedReceiverCount()) );
 			angularTask.setCretDate( HunterUtility.formatDate(task.getCretDate(), HunterConstants.DATE_FORMAT_STRING) );
 			angularTask.setTaskDeliveryStatus(task.getTaskDeliveryStatus());
 			angularTasks.add(angularTask);			
@@ -291,7 +300,7 @@ public class TaskDaoImpl implements TaskDao{
 		String query = "FROM Task t WHERE t.clientId = " + clientId;
 		HunterHibernateHelper helper = HunterDaoFactory.getDaoObject(HunterHibernateHelper.class);
 		List<Task> tasks = helper.executeQueryForObjList(Task.class, query);
-		return this.createAngularTasks(tasks); 
+		return this.createAngularTasksFromTasks(tasks); 
 	}
 
 	@Override

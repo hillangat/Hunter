@@ -13,6 +13,7 @@ public class HunterTableConfig {
     private String displayName;
     private String bootstrapIconName;
     private String dataType;
+    private String actionCellType;
     private String actionColIconName;
     private String width;
     
@@ -94,10 +95,18 @@ public class HunterTableConfig {
 	public void setWidth(String width) {
 		this.width = width;
 	}
+	public String getActionCellType() {
+		return actionCellType;
+	}
+	public void setActionCellType(String actionCellType) {
+		this.actionCellType = actionCellType;
+	}
+	
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
+		result = prime * result + ((actionCellType == null) ? 0 : actionCellType.hashCode());
 		result = prime * result + (actionCol ? 1231 : 1237);
 		result = prime * result + ((actionColIconName == null) ? 0 : actionColIconName.hashCode());
 		result = prime * result + ((bootstrapIconName == null) ? 0 : bootstrapIconName.hashCode());
@@ -122,6 +131,11 @@ public class HunterTableConfig {
 		if (getClass() != obj.getClass())
 			return false;
 		HunterTableConfig other = (HunterTableConfig) obj;
+		if (actionCellType == null) {
+			if (other.actionCellType != null)
+				return false;
+		} else if (!actionCellType.equals(other.actionCellType))
+			return false;
 		if (actionCol != other.actionCol)
 			return false;
 		if (actionColIconName == null) {
@@ -176,8 +190,10 @@ public class HunterTableConfig {
 		return "HunterTableConfig [sortable=" + sortable + ", show=" + show + ", currentOrder=" + currentOrder
 				+ ", actionCol=" + actionCol + ", checkBox=" + checkBox + ", index=" + index + ", headerId=" + headerId
 				+ ", dataId=" + dataId + ", displayName=" + displayName + ", bootstrapIconName=" + bootstrapIconName
-				+ ", dataType=" + dataType + ", actionColIconName=" + actionColIconName + ", width=" + width + "]";
+				+ ", dataType=" + dataType + ", actionCellType=" + actionCellType + ", actionColIconName="
+				+ actionColIconName + ", width=" + width + "]";
 	}
+	
     
     
 }

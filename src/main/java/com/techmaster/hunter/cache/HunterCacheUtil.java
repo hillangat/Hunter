@@ -162,6 +162,16 @@ public class HunterCacheUtil {
 			HunterCache.getInstance().put(HunterConstants.QUERY_TO_BEAN_MAPPER, queryToBeanMapper);
 			logger.debug("Done cachingg login data seed xml!!");
 			break;
+		case "gridHeaders" :
+			XMLService gridHeadersService = HunterUtility.getXMLServiceForFileLocation(HunterURLConstants.HUNTER_ANGULAR_GRID_HEADERS_PATH);
+			HunterCache.getInstance().put(HunterConstants.ANGULAR_HEADERS_CONFIG_CACHED_SERVICE, gridHeadersService);
+			logger.debug("Done caching Grid Headers!!");
+			break;
+		case "gridQueryFieldMapping" :
+			XMLService queryGridFieldMapper = HunterUtility.getXMLServiceForFileLocation(HunterURLConstants.HUNTER_GRID_QUERY_FIELD_MAPPING);
+			HunterCache.getInstance().put(HunterConstants.QUERY_GRID_FIELD_MAPPER, queryGridFieldMapper);
+			logger.debug("Done cachingg query gid field mapper xml!!");
+			break;
 		default:
 			break;
 		}

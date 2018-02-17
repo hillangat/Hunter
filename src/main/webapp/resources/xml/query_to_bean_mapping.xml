@@ -52,6 +52,7 @@
 		<field dbName='TSK_CST' fieldName='taskCost'  yesNo='no' type='java.lang.String' />
 		<field dbName='RCCRRNT_TSK' fieldName='recurrentTask'  yesNo='no' type='java.lang.String' />
 		<field dbName='TSK_DT_LN' fieldName='taskDateline'  yesNo='no' type='java.lang.String' />
+		<field dbName='TSK_DEL_STS' fieldName='taskDeliveryStatus'  yesNo='no' type='java.lang.String' />
 		<field dbName='TSK_LF_STS' fieldName='taskLifeStatus'  yesNo='no' type='java.lang.String' />
 		<field dbName='TSK_APPRVD' fieldName='taskApproved'  yesNo='true' type='java.lang.String' />
 		<field dbName='TSK_APPRVR' fieldName='taskApprover'  yesNo='no' type='java.lang.String' />
@@ -70,7 +71,21 @@
 		<field dbName='PROVIDER' fieldName='providerId'  yesNo='no' type='java.lang.String' />
 		<field dbName='TSK_RGNS' fieldName='taskRegions'  yesNo='no' type='java.lang.String' />
 		<field dbName='TSK_GRPS' fieldName='taskGroups'  yesNo='no' type='java.lang.String' />
-	</map>	
+	</map>
+	<map id='ReceiverGroupJson'>
+		<field dbName='GRP_ID' fieldName='groupId'  yesNo='no' type='java.lang.Long' />
+		<field dbName='OWNR_USR_NAM' fieldName='ownerUserName'  yesNo='no' type='java.lang.String' />
+		<field dbName='FRST_NAM'  	fieldName='firstName'  yesNo='no' type='java.lang.String' />
+		<field dbName='LST_NAM'    	fieldName='lastName'  yesNo='no' type='java.lang.String'/>
+		<field dbName='GRP_NAME' 	fieldName='groupName'  yesNo='no' type='java.lang.String' />
+		<field dbName='GRP_DESC' 	fieldName='groupDesc'  yesNo='no' type='java.lang.String' />
+		<field dbName='RCVR_CNT' 	fieldName='receiverCount'  yesNo='no' type='java.lang.Integer' />
+		<field dbName='RCVR_TYP' 	fieldName='receiverType'  yesNo='no' type='java.lang.String' />
+		<field dbName='CRET_DATE' 	fieldName='cretDate'  yesNo='no' type='java.lang.String' />
+		<field dbName='CRTD_BY' 	fieldName='lastUpdate'  yesNo='no' type='java.lang.String' />
+		<field dbName='LST_UPDT_DATE' 	fieldName='lastUpdate' yesNo='no' type='java.lang.String' />
+		<field dbName='LST_UPDTD_BY' 	fieldName='lastUpdatedBy' yesNo='no' type='java.lang.String' />
+	</map>
 	<map id='HunterSelectValue'>
 		<field dbName='VALUE' 	fieldName='value'  yesNo='no' type='java.lang.String' />
 		<field dbName='TEXT' 	fieldName='text' yesNo='no' type='java.lang.String' />
