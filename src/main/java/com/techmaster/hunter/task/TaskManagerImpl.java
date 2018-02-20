@@ -839,8 +839,10 @@ public class TaskManagerImpl implements TaskManager{
 		
 		logger.debug("Creating textMessage for json >> " + msgJson); 
 		
-		long msgId = msgJson.getLong("msgId");
-		String msgSendDate_ = msgJson.has("msgSendDate") ? msgJson.get("msgSendDate") != null ? msgJson.get("msgSendDate").toString() : null : null;
+		String msgIdStr = HunterUtility.getStringOrNullFromJSONObj(msgJson, "msgId");
+		msgIdStr = msgIdStr == null ? HunterUtility.getStringOrNullFromJSONObj(msgJson, "taskId") : null;
+		long msgId = msgIdStr != null ? HunterUtility.getLongFromObject(msgIdStr) : 0;
+		String msgSendDate_ = HunterUtility.getStringOrNulFromJSONObj(msgJson, "msgSendDate");
 		
 		if(msgSendDate_ != null){
 			msgSendDate_ = msgSendDate_.replaceAll("T", " ");
@@ -848,35 +850,46 @@ public class TaskManagerImpl implements TaskManager{
 		}
 		
 		Date msgSendDate = HunterUtility.parseDate(msgSendDate_, HunterConstants.HUNTER_DATE_FORMAT_MIN);
-		String msgTaskType = msgJson.has("msgTaskType") ? msgJson.get("msgTaskType") != null ? msgJson.get("msgTaskType").toString() : null : null;
+		String msgTaskType = HunterUtility.getStringOrNullFromJSONObj(msgJson, "msgTaskType");
 		
-		int desiredReceivers = msgJson.has("desiredReceivers") ? msgJson.getInt("desiredReceivers") : 0;
-		int actualReceivers = msgJson.has("actualReceivers") ? msgJson.getInt("actualReceivers") : 0;
-		int confirmedReceivers = msgJson.has("confirmedReceivers") ? msgJson.getInt("confirmedReceivers") : 0;
+		int 
+		desiredReceivers 	= HunterUtility.getIntOrZeroFromJsonStr(msgJson, "desiredReceivers"),
+		actualReceivers 	= HunterUtility.getIntOrZeroFromJsonStr(msgJson, "actualReceivers" ),
+		confirmedReceivers 	= HunterUtility.getIntOrZeroFromJsonStr(msgJson, "confirmedReceivers" ),
+		pageWordCount 		= HunterUtility.getIntOrZeroFromJsonStr(msgJson, "pageWordCount" );
 		
-		String msgDeliveryStatus = msgJson.has("msgDeliveryStatus") ? msgJson.get("msgDeliveryStatus") != null ? msgJson.get("msgDeliveryStatus").toString() : null : null;
-		String msgLifeStatus = msgJson.has("msgLifeStatus") ? msgJson.get("msgLifeStatus") != null ? msgJson.get("msgLifeStatus").toString() : null : null;
-		String msgText = msgJson.has("msgText") ? msgJson.get("msgText") != null ? msgJson.get("msgText").toString() : null : null;
+		String
+		msgLifeStatus 		= HunterUtility.getStringOrNulFromJSONObj(msgJson, "msgLifeStatus" ),
+		msgText 			= HunterUtility.getStringOrNulFromJSONObj(msgJson, "msgText" ),
+		msgDeliveryStatus	= HunterUtility.getStringOrNulFromJSONObj(msgJson, "msgDeliveryStatus" ),
+		msgOwner 			= HunterUtility.getStringOrNulFromJSONObj(msgJson, "msgOwner" ),
+		text 				= HunterUtility.getStringOrNulFromJSONObj(msgJson, "text" ),
+		disclaimer 			= HunterUtility.getStringOrNulFromJSONObj(msgJson, "disclaimer" ),
+		fromPhone 			= HunterUtility.getStringOrNulFromJSONObj(msgJson, "fromPhone" ),
+		toPhone 			= HunterUtility.getStringOrNulFromJSONObj(msgJson, "toPhone" ),
+		cretDate_ 			= HunterUtility.getStringOrNulFromJSONObj(msgJson, "cretDate" ),
+		lastUpdate_ 		= HunterUtility.getStringOrNulFromJSONObj(msgJson, "lastUpdate" ),
+		createdBy 			= HunterUtility.getStringOrNulFromJSONObj(msgJson, "createdBy" ),
+		lastUpdatedBy 		= HunterUtility.getStringOrNulFromJSONObj(msgJson, "lastUpdatedBy" ),
+		_pageable	 		= HunterUtility.getStringOrNulFromJSONObj(msgJson, "pageable" );
 		
-		String msgOwner = msgJson.has("msgOwner") ? msgJson.get("msgOwner") != null ? msgJson.get("msgOwner").toString() : null : null;
-		String text = msgJson.has("text") ? msgJson.get("text") != null ? msgJson.get("text").toString() : null : null;
-		String disclaimer = msgJson.has("disclaimer") ? msgJson.get("disclaimer") != null ? msgJson.get("disclaimer").toString() : null : null;
-		String fromPhone = msgJson.has("fromPhone") ? msgJson.get("fromPhone") != null ? msgJson.get("fromPhone").toString() : null : null;
-		String toPhone = msgJson.has("toPhone") ? msgJson.get("toPhone") != null ? msgJson.get("toPhone").toString() : null : null;
-		int pageWordCount = msgJson.has("pageWordCount") ? msgJson.getInt("pageWordCount") : 0;
+		msgText 			= msgText == null ? text == null ? null : text : msgText;
 		
-		String cretDate_ = msgJson.has("cretDate") ? msgJson.get("cretDate") != null ? msgJson.get("cretDate").toString() : null : null;
-		Date cretDate = HunterUtility.parseDate(cretDate_, HunterConstants.HUNTER_DATE_FORMAT_MIN);
-		String lastUpdate_ = msgJson.has("lastUpdate") ? msgJson.get("lastUpdate") != null ? msgJson.get("lastUpdate").toString() : null : null;
-		Date lastUpdate = HunterUtility.parseDate(lastUpdate_, HunterConstants.HUNTER_DATE_FORMAT_MIN);
-		String createdBy = msgJson.has("createdBy") ? msgJson.get("createdBy") != null ? msgJson.get("createdBy").toString() : null : null;
-		String lastUpdatedBy = msgJson.has("lastUpdatedBy") ? msgJson.get("lastUpdatedBy") != null ? msgJson.get("lastUpdatedBy").toString() : null : null;
+		Date cretDate 		= HunterUtility.parseDate(cretDate_, HunterConstants.HUNTER_DATE_FORMAT_MIN);		
+		Date lastUpdate 	= HunterUtility.parseDate(lastUpdate_, HunterConstants.HUNTER_DATE_FORMAT_MIN);
 		
+		cretDate 	= cretDate   == null ? new Date() : cretDate;
+		lastUpdate 	= lastUpdate == null ? new Date() : lastUpdate;
+		
+		boolean pageable = Boolean.valueOf( !HunterUtility.notNullNotEmpty(_pageable) ? false : Boolean.valueOf(_pageable) );
+
+		message.setPageable(pageable);
 		message.setMsgId(msgId);
 		message.setMsgDeliveryStatus(msgDeliveryStatus);
 		message.setMsgLifeStatus(msgLifeStatus);
 		message.setMsgSendDate(msgSendDate);
 		message.setMsgTaskType(msgTaskType);
+		message.setMsgText(msgText);
 		message.setMsgText(msgText);
 		message.setDesiredReceivers(desiredReceivers);
 		message.setActualReceivers(actualReceivers);
@@ -917,13 +930,11 @@ public class TaskManagerImpl implements TaskManager{
 		Long providerId = null; 
 		ServiceProvider serviceProvider = null;
 		
-		if(pvdr == null){
+		if(pvdr != null){
 			providerId = HunterUtility.getLongFromObject(providerStr);
 			logger.debug("Successfully obtained provider id : " + providerId);
 			serviceProvider = serviceProviderDao.getServiceProviderById(providerId);
 			message.setProvider(serviceProvider); 
-		}else{
-			message.setProvider(pvdr); 
 		}
 		
 		logger.debug("Successfully created textMessage >> " + message); 
@@ -1046,6 +1057,12 @@ public class TaskManagerImpl implements TaskManager{
 		if(budget <= 0){
 			errors.add("Task cannot have negative budget!");
 		}
+		
+		if( serviceProvider == null && HunterUtility.isProviderRequiredTask(task.getTskMsgType()) ){
+			errors.add("Service provider is required");
+			return errors;
+		}
+		
 		float perMsg = serviceProvider.getCstPrTxtMsg();
 		Object[] countData = regionService.getTrueHntrMsgRcvrCntFrTaskRgns(task.getTaskId());
 		int regionCount = (Integer)countData[0];

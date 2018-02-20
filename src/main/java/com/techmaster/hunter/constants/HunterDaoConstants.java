@@ -28,6 +28,7 @@ public class HunterDaoConstants {
 	public static final String GET_TASK_GROUPS_FOR_TASK_ID = "getTaskGroupJSONsForTaskId";
 	public static final String GET_AVAIL_RECEIVER_GROUPS = "getAvailReceiverGroups";
 	public static final String GET_ANGULAR_SEL_VALS_FOR_ANG_UI = "getClientsSelValsForAngUI";
+	public static final String GET_SERVICE_PROVIDERS_SEL_VALS = "getServiceProvidersSelValsForAngular";
 	public static final String GET_TASK_APPROVERS_SEL_VALS = "getUsersSelValsForAngUI";
 	
 	// Grid Header Constants

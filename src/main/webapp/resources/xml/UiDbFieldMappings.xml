@@ -2,8 +2,39 @@
 <mappings>
 	<references>
 		<reference name='TASK_GRID' table='TASK' alias='t' queryId='getAllTasksForGridQuery' >
-			<field ui='taskId' db='TSK_ID' alias='t' ></field>
-			<field ui='taskName' db='TSK_NAM' alias='t'  ></field>
+			<field db='TSK_ID' ui='taskId'  alias='t'  ></field>
+			<field db='TSK_NAM' ui='taskName'  alias='t'  ></field>
+			<field db='TASK_DESC' ui='taskDesc'  alias='t'  ></field>
+			<field db='TSK_NAM' ui='taskName'  alias='t'  ></field>
+			<field db='HNTR_CLNT_ID' ui='clientId'  alias='t'  ></field>
+			<field db='TSK_TYP' ui='taskType'  alias='t'  ></field>
+			<field db='TSK_OBJCTV' ui='taskObjective'  alias='t'  ></field>
+			<field db='TASK_DESC' ui='description'  alias='t'  ></field>
+			<field db='TSK_ARGMNT_LGC' ui='tskAgrmntLoc'  alias='t'  ></field>
+			<field db='TSK_MSG_TYP' ui='tskMsgType'  alias='t'  ></field>
+			<field db='TSK_BDGT' ui='taskBudget' alias='t'  ></field>
+			<field db='TSK_CST' ui='taskCost'  alias='t'  ></field>
+			<field db='RCCRRNT_TSK' ui='recurrentTask'  alias='t'  ></field>
+			<field db='TSK_DT_LN' ui='taskDateline'  alias='t'  ></field>
+			<field db='TSK_DEL_STS' ui='taskDeliveryStatus' alias='t'  ></field>
+			<field db='TSK_LF_STS' ui='taskLifeStatus'  alias='t'  ></field>
+			<field db='TSK_APPRVD' ui='taskApproved'  alias='t'  ></field>
+			<field db='TSK_APPRVR' ui='taskApprover'  alias='t'  ></field>
+			<field db='GT_WY_CLNT' ui='gateWayClient'  alias='t'  ></field>
+			<field db='DSRD_RCVRS_CNT' ui='desiredReceiverCount' alias='t'  ></field>
+			<field db='AVLBL_RCVRS_CNT' ui='availableReceiverCount'  alias='t'  ></field>
+			<field db='CNFRMD_RCVRS_CNT' ui='confirmedReceiverCount'  alias='t'  ></field>
+			<field db='SRLZD_PRCSS_RSLTS_FL_LOC' ui='srlzdTskPrcssJbObjsFilLoc'  alias='t'  ></field>
+			<field db='PRCSD_BY' ui='processedBy' alias='t'  ></field>
+			<field db='PRCSD_ON' ui='processedOn'  alias='t'  ></field>
+			<field db='CRET_DATE' ui='cretDate'  alias='t'  ></field>
+			<field db='LST_UPDTD' ui='lastUpdate'  alias='t'  ></field>
+			<field db='UPDTD_BY' ui='updatedBy' alias='t'  ></field>
+			<field db='CRTD_BY' ui='createdBy' alias='t'  ></field>
+			<field db='MSG_ID' ui='msgId'  alias='t'  ></field>
+			<field db='PROVIDER' ui='providerId' alias='t'  ></field>
+			<field db='TSK_RGNS' ui='taskRegions' alias='t'  ></field>
+			<field db='TSK_GRPS' ui='taskGroups'  alias='t'  ></field>
 		</reference>
 	</references>
 	<references>

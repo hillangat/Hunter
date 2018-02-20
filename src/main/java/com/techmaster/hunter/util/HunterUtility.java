@@ -158,6 +158,14 @@ public static  Logger logger = Logger.getLogger(HunterUtility.class);
 	   return null;
    }
    
+   public static boolean isProviderRequiredTask( String taskType ) {
+		return taskType != null && (taskType.equals(HunterConstants.MESSAGE_TYPE_PHONE_CALL)
+				|| taskType.equals(HunterConstants.MESSAGE_TYPE_TEXT)
+				|| taskType.equals(HunterConstants.MESSAGE_TYPE_AUDIO)
+				|| taskType.equals(HunterConstants.MESSAGE_TYPE_VOICE_MAIL)
+		);
+   }
+   
    public static String getBlobStrFromDB( String blobField, String idField, String idValue, Class<?> clzz ){
 	   
 	   SessionFactory sessionFactory = HunterDaoFactory.getObject(SessionFactory.class);

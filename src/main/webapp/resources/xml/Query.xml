@@ -13,6 +13,17 @@
 				HNTR_CLINT c
 		</statement>
 	</query>
+	<query id="getServiceProvidersSelValsForAngular">
+		<description>
+		    Retrieves clients for use in dropdowns - as Select Values.
+		</description>
+		<statement>
+		  	SELECT 
+			  p.PROVIDER_ID AS VALUE,
+			  p.PROVIDER_NAM AS TEXT
+			FROM SRVC_PRVDR p
+		</statement>
+	</query>
 	<query id="getUsersSelValsForAngUI">
 		<description>
 		    Retrieves users for task approvers dropdowns.

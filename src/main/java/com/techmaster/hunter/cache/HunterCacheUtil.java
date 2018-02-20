@@ -11,6 +11,8 @@ import java.util.Set;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.log4j.Logger;
+import org.json.JSONArray;
+import org.json.JSONObject;
 import org.w3c.dom.Attr;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -57,52 +59,23 @@ public class HunterCacheUtil {
 	}
 
 	public void refreshAllXMLServices(){
-		logger.debug("Caching Grid Headers..."); 
-		XMLService gridHeadersService = HunterUtility.getXMLServiceForFileLocation(HunterURLConstants.HUNTER_ANGULAR_GRID_HEADERS_PATH);
-		HunterCache.getInstance().put(HunterConstants.ANGULAR_HEADERS_CONFIG_CACHED_SERVICE, gridHeadersService);
-		logger.debug("Done caching Grid Headers!!");
-		logger.debug("Caching xmlQuery..."); 
-		XMLService queryService = HunterUtility.getXMLServiceForFileLocation(HunterURLConstants.QRY_XML_FL_LOC_PATH);
-		HunterCache.getInstance().put(HunterConstants.QUERY_XML_CACHED_SERVICE, queryService);
-		logger.debug("Done caching xmlQuery!!");
-		logger.debug("Caching ui message xml..."); 
-		XMLService uiMsgService = HunterUtility.getXMLServiceForFileLocation(HunterURLConstants.UI_MSG_XML_FL_LOC_PATH);
-		HunterCache.getInstance().put(HunterConstants.UI_MSG_CACHED_SERVICE, uiMsgService);
-		logger.debug("Done caching ui message xml!!");
-		logger.debug("Caching ui clieConfigService xml..."); 
-		XMLService clieConfigService = HunterUtility.getXMLServiceForFileLocation(HunterURLConstants.CLIENT_CONFIG_LOC_PATH); 
-		HunterCache.getInstance().put(HunterConstants.CLIENT_CONFIG_XML_CACHED_SERVICE, clieConfigService);
-		logger.debug("Done caching clieConfigService xml!!");
-		logger.debug("Caching ui responseConfigXml xml..."); 
-		XMLService responseConfigXml = HunterUtility.getXMLServiceForFileLocation(HunterURLConstants.RESPONSE_CONFIG_LOC_PATH);
-		HunterCache.getInstance().put(HunterConstants.RESPONSE_CONFIG_CACHED_SERVICE, responseConfigXml);
-		logger.debug("Done caching responseConfigXml xml...");
-		logger.debug("Caching emailTemplates xml...");
-		XMLService emailTemplates = EmailTemplateUtil.getInstance().getAllTemplateXMLService(); 
-		//HunterUtility.getXMLServiceForFileLocation(HunterURLConstants.EMAIL_TEMPLATES_LOCL_PATH);
-		HunterCache.getInstance().put(HunterConstants.EMAIL_TEMPLATES_CACHED_SERVICE, emailTemplates);
-		logger.debug("Done cachingg emailTemplates xml...");
-		logger.debug("Cachingg emailConfigs xml...");
-		XMLService emailConfigs = HunterUtility.getXMLServiceForFileLocation(HunterURLConstants.EMAIL_CONFIGS__LOCL_PATH);
-		HunterCache.getInstance().put(HunterConstants.EMAIL_CONFIG_CACHED_SERVICE, emailConfigs);
-		logger.debug("Done caching emailConfigs xml!!");
-		logger.debug("Cachingg taskProcessJobsTemplate xml...");
-		XMLService taskProcessJobsTemplate = HunterUtility.getXMLServiceForFileLocation(HunterURLConstants.TASK_PROCESS_JOBS_TEMPLATE);
-		HunterCache.getInstance().put(HunterConstants.TASK_PROCESS_JOBS_TEMPLATE, taskProcessJobsTemplate);
-		logger.debug("Done caching taskProcessJobsTemplate xml!!");
-		logger.debug("Cachingg login data seed xml...");
-		XMLService loginDataSeedXMLService = HunterUtility.getXMLServiceForFileLocation(HunterURLConstants.LOGIN_DATA_SEE_XML);
-		HunterCache.getInstance().put(HunterConstants.LOGIN_DATA_SEED_XML, loginDataSeedXMLService);
-		logger.debug("Done cachingg login data seed xml!!");
-		
-		XMLService queryToBeanMapper = HunterUtility.getXMLServiceForFileLocation(HunterURLConstants.QUERY_TO_BEAN_MAPPER);
-		HunterCache.getInstance().put(HunterConstants.QUERY_TO_BEAN_MAPPER, queryToBeanMapper);
-		logger.debug("Done cachingg login data seed xml!!");
-		
-		XMLService queryGridFieldMapper = HunterUtility.getXMLServiceForFileLocation(HunterURLConstants.HUNTER_GRID_QUERY_FIELD_MAPPING);
-		HunterCache.getInstance().put(HunterConstants.QUERY_GRID_FIELD_MAPPER, queryGridFieldMapper);
-		logger.debug("Done cachingg query gid field mapper xml!!");
-		
+		String path = HunterURLConstants.CACHE_REFRESH_JSONS;
+		File cacheRefresh = new File( path );
+		String cacheContents = HunterUtility.getStringOfFile(cacheRefresh);
+		if ( HunterUtility.notNullNotEmpty(cacheContents) ) {
+			try {
+				JSONArray cacheRefreshes = new JSONArray( cacheContents );
+				for( int i = 0; i < cacheRefreshes.length(); i++ ) {
+					JSONObject cache = cacheRefreshes.getJSONObject(i);
+					String key = HunterUtility.getStringOrNulFromJSONObj(cache, "key");
+					if ( HunterUtility.notNullNotEmpty(key) && !key.equals("allXMLService") ) {
+						this.refreshCacheService( key );
+					}
+				}
+			} catch( Exception e ) {
+				e.printStackTrace();
+			}
+		}
 	}
 	
 	public void refreshCacheService(String xmlName){

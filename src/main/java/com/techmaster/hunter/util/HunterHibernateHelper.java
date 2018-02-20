@@ -93,7 +93,7 @@ private static final Logger logger = Logger.getLogger(HunterHibernateHelper.clas
 			
 			session = sessionFactory.openSession();
 			trans = session.beginTransaction();
-			session.save(obj); 
+			session.saveOrUpdate(obj); 
 			trans.commit();
 			session.flush();
 			closeSession(session);

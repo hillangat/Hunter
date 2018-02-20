@@ -32,7 +32,6 @@ import com.techmaster.hunter.constants.HunterDaoConstants;
 import com.techmaster.hunter.constants.UIMessageConstants;
 import com.techmaster.hunter.dao.impl.HunterDaoFactory;
 import com.techmaster.hunter.dao.impl.TaskDaoImpl;
-import com.techmaster.hunter.dao.types.HunterJDBCExecutor;
 import com.techmaster.hunter.dao.types.ReceiverGroupDao;
 import com.techmaster.hunter.dao.types.ServiceProviderDao;
 import com.techmaster.hunter.dao.types.TaskDao;
@@ -43,7 +42,6 @@ import com.techmaster.hunter.gateway.beans.GateWayClientService;
 import com.techmaster.hunter.json.HunterSelectValue;
 import com.techmaster.hunter.json.HunterUserJson;
 import com.techmaster.hunter.json.ReceiverGroupJson;
-import com.techmaster.hunter.json.TaskAngular;
 import com.techmaster.hunter.json.TaskHistoryJson;
 import com.techmaster.hunter.json.TaskProcessJobJson;
 import com.techmaster.hunter.obj.beans.AuditInfo;
@@ -772,6 +770,13 @@ public class TaskController extends HunterBaseController{
 			String message = HunterCacheUtil.getInstance().getUIMsgTxtForMsgId(UIMessageConstants.MSG_TASK_017);
 			return HunterAngularDataHelper.getIntance().getBeanForMsgAndSts(message, HunterConstants.STATUS_FAILED , null);
 		}
+	}
+	
+	@RequestMapping(value="/action/providers/selVals/{taskId}", method = RequestMethod.GET)
+	@Produces("application/json")
+	public @ResponseBody Object getServiceProvidersSelValues( @PathVariable("taskId") Long taskId ){
+		AngularData aData = HunterAngularDataHelper.getIntance().getBeanForQuery(HunterSelectValue.class, HunterDaoConstants.GET_SERVICE_PROVIDERS_SEL_VALS, null, null); 
+		return aData;
 	}
 	
 	
