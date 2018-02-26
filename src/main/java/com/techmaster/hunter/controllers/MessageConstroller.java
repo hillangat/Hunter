@@ -29,7 +29,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.context.ServletContextAware;
 
-import com.techmaster.hunter.angular.data.AngularData;
 import com.techmaster.hunter.angular.data.HunterAngularDataHelper;
 import com.techmaster.hunter.cache.HunterCacheUtil;
 import com.techmaster.hunter.constants.HunterConstants;
@@ -104,10 +103,10 @@ public class MessageConstroller extends HunterBaseController implements ServletC
 	@Produces("application/json")
 	public @ResponseBody Object getAngularMsg( @PathVariable("taskId") Long taskId ){
 		try {
-			String taskMsgType = taskDao.getTaskMsgType(taskId);
 			AngularTaskMessage taskMessage = new AngularTaskMessage();
 			Message message = HunterDaoFactory.getObject(MessageDao.class).getMessageById(taskId);
 			BeanUtils.copyProperties(message, taskMessage);
+			taskMessage.setProvider(message.getProvider());
 			List<AngularTaskMessage> messageList = Arrays.asList( new AngularTaskMessage[] { taskMessage } );
 			return HunterAngularDataHelper.getIntance().getDataBean(messageList, null);
 		} catch (Exception e) {

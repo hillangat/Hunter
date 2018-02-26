@@ -27,6 +27,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
+import com.techmaster.hunter.angular.data.AngularData;
+import com.techmaster.hunter.angular.data.HunterAngularDataHelper;
+import com.techmaster.hunter.angular.grid.GridQueryHandler;
 import com.techmaster.hunter.cache.HunterCacheUtil;
 import com.techmaster.hunter.constants.HunterConstants;
 import com.techmaster.hunter.dao.impl.HunterDaoFactory;
@@ -296,28 +299,35 @@ public class RegionController extends HunterBaseController {
 	
 	@Produces("application/json")
 	@Consumes("application/json")
-	@RequestMapping(value="/action/regions/hierarchies/action/read/get/{navDir}/{country}", method=RequestMethod.POST) 
-	@ResponseBody public List<RegionHierarchy> readHierarchicalRegionsGet(HttpServletRequest request,@PathVariable("navDir") String navDir, @PathVariable("country") String countryName){
+	@RequestMapping(value="/action/regions/hierarchies/action/read/get/{navDir}/{country}", method=RequestMethod.GET) 
+	@ResponseBody public Object readHierarchicalRegionsGet(HttpServletRequest request,@PathVariable("navDir") String navDir, @PathVariable("country") String countryName){
 		
-		HttpSession session = HunterUtility.getSessionForRequest(request);
-		Object rgnHrrchyNavBeanObj = HunterUtility.getSessionAttribute(request, RegionHierarchyNavBean.NAV_SESSION_BEAN);
-		RegionHierarchyNavBean regionHierarchyNavBean = rgnHrrchyNavBeanObj != null ? (RegionHierarchyNavBean)rgnHrrchyNavBeanObj : null;
-		
-		if(countryName == null || countryName.equals("null")){
-			countryName = "Kenya";
-		}
-		
-		if(regionHierarchyNavBean == null){
-			regionHierarchyNavBean = new RegionHierarchyNavBean(receiverRegionDao, hunterJDBCExecutor);
-			session.setAttribute(RegionHierarchyNavBean.NAV_SESSION_BEAN, regionHierarchyNavBean);
+		try {
+			HttpSession session = HunterUtility.getSessionForRequest(request);
+			Object rgnHrrchyNavBeanObj = HunterUtility.getSessionAttribute(request, RegionHierarchyNavBean.NAV_SESSION_BEAN);
+			RegionHierarchyNavBean regionHierarchyNavBean = rgnHrrchyNavBeanObj != null ? (RegionHierarchyNavBean)rgnHrrchyNavBeanObj : null;
+			
+			if(countryName == null || countryName.equals("null")){
+				countryName = "Kenya";
+			}
+			
+			if(regionHierarchyNavBean == null){
+				regionHierarchyNavBean = new RegionHierarchyNavBean(receiverRegionDao, hunterJDBCExecutor);
+				session.setAttribute(RegionHierarchyNavBean.NAV_SESSION_BEAN, regionHierarchyNavBean);
+				List<RegionHierarchy> defaultList = regionHierarchyNavBean.getDefault(countryName);
+				logger.debug("Final size (" + defaultList.size() +")"); 
+				//return defaultList;
+			}
+			
 			List<RegionHierarchy> defaultList = regionHierarchyNavBean.getDefault(countryName);
-			logger.debug("Final size (" + defaultList.size() +")"); 
-			//return defaultList;
+			logger.debug("Final size (" + defaultList.size() +")");
+			AngularData data = HunterAngularDataHelper.getIntance().getDataBean(defaultList, null);
+			data.setTotal(defaultList.size());
+			return data;
+		} catch( Exception e ) {
+			e.printStackTrace();
+			return HunterAngularDataHelper.getIntance().getBeanForMsgAndSts(HunterUtility.getApplicationErrorMessage(), HunterConstants.STATUS_FAILED, null);
 		}
-		
-		List<RegionHierarchy> defaultList = regionHierarchyNavBean.getDefault(countryName);
-		logger.debug("Final size (" + defaultList.size() +")");
-		return defaultList;
 	
 		
 	}

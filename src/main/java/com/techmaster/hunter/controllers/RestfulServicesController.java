@@ -1,8 +1,6 @@
 package com.techmaster.hunter.controllers;
 
-import java.io.File;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -12,7 +10,6 @@ import javax.ws.rs.Consumes;
 import javax.ws.rs.Produces;
 
 import org.apache.log4j.Logger;
-import org.hibernate.sql.SelectValues;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,11 +29,11 @@ import com.techmaster.hunter.constants.HunterDaoConstants;
 import com.techmaster.hunter.constants.HunterURLConstants;
 import com.techmaster.hunter.dao.impl.HunterDaoFactory;
 import com.techmaster.hunter.dao.types.HunterClientDao;
-import com.techmaster.hunter.dao.types.HunterJDBCExecutor;
 import com.techmaster.hunter.dao.types.HunterUserDao;
 import com.techmaster.hunter.json.HunterSelectValue;
 import com.techmaster.hunter.json.TaskAngular;
 import com.techmaster.hunter.obj.beans.HunterClient;
+import com.techmaster.hunter.util.ConvertGridHeaders;
 import com.techmaster.hunter.util.HunterUtility;
 
 
@@ -62,7 +59,6 @@ public class RestfulServicesController {
 	@Consumes("application/json")
 	public @ResponseBody String getClientsForAngularUI( @RequestBody Map<String, String> params, HttpServletResponse response ){
 		try{
-			this.logger.debug( HunterAngularDataHelper.getIntance().getJsonStr(HunterDaoConstants.TASK_GRID_HEADERS) );
 			HunterUtility.threadSleepFor(500);
 			HunterUserDao userDao = HunterDaoFactory.getDaoObject(HunterUserDao.class);	
 			return userDao.getClientsForAngularUI();
@@ -142,14 +138,15 @@ public class RestfulServicesController {
 		AngularData angData = HunterAngularDataHelper.getIntance().getBeanForQuery(HunterSelectValue.class, HunterDaoConstants.GET_TASK_APPROVERS_SEL_VALS, null, HunterDaoConstants.SELECT_VALUES_JSON_HEADERS);
 		return angData;			
 	}
+
 	
 	@RequestMapping(value="/gateway/clients/selValues/{messageType}", method = RequestMethod.GET)
 	@Produces("application/json") 
 	@Consumes("application/json")
 	public @ResponseBody Object getGateWayClientsSelVals( @PathVariable("messageType") String messageType ){
 		HunterUtility.threadSleepFor(1000);
+		List<HunterSelectValue> selectValues = new ArrayList<>();
 		if ( messageType != null ) {
-			List<HunterSelectValue> selectValues = new ArrayList<>();
 			if ( messageType.equals(HunterConstants.MESSAGE_TYPE_TEXT) || 
 				 messageType.equals(HunterConstants.MESSAGE_TYPE_VOICE_MAIL) || 
 				 messageType.equals(HunterConstants.MESSAGE_TYPE_PHONE_CALL) || 
@@ -169,8 +166,6 @@ public class RestfulServicesController {
 		}
 		throw new IllegalArgumentException( "No such task type found" );				
 	}
-	
-	
 	
 
 }

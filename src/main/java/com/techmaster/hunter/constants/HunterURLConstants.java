@@ -12,7 +12,7 @@ public interface HunterURLConstants {
 	public static final String RESOURCE_BASE_WORKBOOK_PATH = RESOURCE_BASE_PATH + "workbooks\\";
 	
 	public static final String QUERY_TO_BEAN_MAPPER = RESOURCE_BASE_XML_PATH + "query_to_bean_mapping.xml";
-	public static final String GRID_HEADERS_MAPPINGS = RESOURCE_BASE_XML_PATH + "gridHeaders.xml";
+	public static final String GRID_HEADERS_MAPPINGS = RESOURCE_BASE_XML_PATH + "grid_headers.xml";
 	
 	public static final String HUNTER_CONFIG_XML_PATH = RESOURCE_BASE_XML_PATH + "ClientConfig.xml";
 	public static final String QRY_XML_FL_LOC_PATH = RESOURCE_BASE_XML_PATH + "Query.xml";
@@ -28,7 +28,7 @@ public interface HunterURLConstants {
 	public static final String TESTING_ATTCHMENT_PATH = RESOURCE_BASE_PATH + "Notes\\testing_attachment.txt";
 	public static final String LOGIN_DATA_SEE_XML  = RESOURCE_BASE_XML_PATH +  "loginDataSeed.xml";
 	public static final String HUNTER_SOCIAL_APP_CONFIG_PATH = RESOURCE_BASE_XML_PATH + "hunterSocialAppConfig.xml";
-	public static final String HUNTER_ANGULAR_GRID_HEADERS_PATH = RESOURCE_BASE_XML_PATH + "gridHeaders.xml";
+	public static final String HUNTER_ANGULAR_GRID_HEADERS_PATH = RESOURCE_BASE_XML_PATH + "grid_headers.xml";
 	public static final String HUNTER_GRID_QUERY_FIELD_MAPPING = RESOURCE_BASE_XML_PATH + "UiDbFieldMappings.xml";
 	
 	public static final String JSONS_APTH = HunterURLConstants.RESOURCE_BASE_PATH + "jsons\\";

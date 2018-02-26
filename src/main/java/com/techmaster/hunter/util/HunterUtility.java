@@ -81,6 +81,7 @@ import org.xml.sax.SAXException;
 
 import com.techmaster.hunter.cache.HunterCacheUtil;
 import com.techmaster.hunter.constants.HunterConstants;
+import com.techmaster.hunter.constants.UIMessageConstants;
 import com.techmaster.hunter.dao.impl.HunterDaoFactory;
 import com.techmaster.hunter.dao.types.HunterJDBCExecutor;
 import com.techmaster.hunter.exception.HunterRemoteException;
@@ -118,6 +119,10 @@ public static  Logger logger = Logger.getLogger(HunterUtility.class);
            builder.append(URLEncoder.encode(String.valueOf(param.getValue()), encodeFormat));
        }
 	   return builder.toString();
+   }
+   
+   public static String getApplicationErrorMessage() {
+	   return HunterCacheUtil.getInstance().getUIMsgTxtForMsgId(UIMessageConstants.MSG_TASK_017);
    }
    
    public static Map<String, String> getUIMsgParamMap( String key, String value ) {

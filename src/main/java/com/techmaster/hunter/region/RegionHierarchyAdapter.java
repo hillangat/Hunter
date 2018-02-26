@@ -70,7 +70,8 @@ public class RegionHierarchyAdapter {
 		regionHierarchy.setCretDate(county.getAuditInfo().getCretDate());
 		regionHierarchy.setLastUpdate(county.getAuditInfo().getLastUpdate());
 		regionHierarchy.setLastUpdatedBy(county.getAuditInfo().getLastUpdatedBy()); 
-		regionHierarchy.setParent(county.getCountryId()); 
+		regionHierarchy.setParent(county.getCountryId());
+		regionHierarchy.setGenParent(county.getCountryId());
 		return regionHierarchy;
 	}
 	private RegionHierarchy createFromConstituency(Constituency constituency){
@@ -154,6 +155,8 @@ public class RegionHierarchyAdapter {
 					RegionHierarchy cnRegionHierarchy = createFromCounty(county);
 					if(!hasCountry){
 						cnRegionHierarchy.setParent(null); 
+					} else {
+						cnRegionHierarchy.setParent( county.getCountryId() );
 					}
 					regionHierarchies.add(cnRegionHierarchy);
 					
@@ -193,6 +196,8 @@ public class RegionHierarchyAdapter {
 						// if it has not ountry, then make the parent null;
 						if(!hasCountry){
 							cn2RegionHierarchy.setParent(null); 
+						} else {
+							cnRegionHierarchy.setParent( county.getCountryId() );
 						}
 						regionHierarchies.add(cn2RegionHierarchy);
 						

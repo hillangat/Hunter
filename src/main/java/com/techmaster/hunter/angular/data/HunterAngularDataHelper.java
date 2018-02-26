@@ -3,8 +3,9 @@ package com.techmaster.hunter.angular.data;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.json.JSONArray;
 import org.json.JSONObject;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 
 import com.techmaster.hunter.cache.HunterCacheUtil;
 import com.techmaster.hunter.constants.HunterConstants;
@@ -38,39 +39,53 @@ public class HunterAngularDataHelper {
 		return instance;
 	}
 
-
-	public String getJsonStr( String key ) {
-		XMLService gridHeaderService = HunterCacheUtil.getInstance().getXMLService(HunterConstants.ANGULAR_HEADERS_CONFIG_CACHED_SERVICE);
-		if ( null != gridHeaderService ) {
-			String json = gridHeaderService.getCData( getPath( key ) );
-			return anEscape( json );
+	public String getPropertyVal( NodeList properties, String propKey ) {
+		if ( HunterUtility.isNodeListNotEmptpy(properties) ) {
+			for( int i = 0; i < properties.getLength(); i++ ) {
+				Node property = properties.item(i);
+				if ( property != null && !property.getNodeName().equals("#text") ) {
+					String key = property.getAttributes().getNamedItem("key").getTextContent().toString();
+					String value = property.getAttributes().getNamedItem("value").getTextContent().toString();
+					value = value.equals("null") ? null : value;
+					if ( key.equals( propKey ) ) {
+						return value;
+					}
+				}
+			}
 		}
 		return null;
 	}
 	
 	public List<HunterTableConfig> getHeadersBeans( String key ) {
 		List<HunterTableConfig> tableConfigs = new ArrayList<>();
-		String jsons = this.getJsonStr(key);
-		if ( null != jsons ) {
-			JSONArray array = new JSONArray( jsons );
-			for ( int i = 0; i < array.length(); i++ ) {
-				JSONObject obj = array.getJSONObject(i);
-				HunterTableConfig config = new HunterTableConfig();				
-				config.setSortable(obj.getBoolean("sortable"));
-				config.setShow(obj.getBoolean("show"));
-				config.setCheckBox(obj.getBoolean("checkBox"));
-				config.setCurrentOrder(obj.getBoolean("currentOrder"));
-				config.setActionCol(obj.getBoolean("actionCol"));
-				config.setIndex(obj.getInt("index"));
-				config.setHeaderId(getStr( obj, "headerId"));
-				config.setDataId(getStr( obj, "dataId"));
-				config.setDisplayName(getStr( obj, "displayName"));
-				config.setBootstrapIconName(getStr( obj, "bootstrapIconName"));
-				config.setDataType(getStr( obj, "dataType"));
-				config.setActionColIconName(getStr( obj, "actionColIconName"));
-				config.setActionCellType(getStr( obj, "actionCellType"));
-				config.setWidth(getStr( obj, "width"));
-				tableConfigs.add( config );
+		XMLService gridHeaderService = HunterCacheUtil.getInstance().getXMLService(HunterConstants.ANGULAR_HEADERS_CONFIG_CACHED_SERVICE);
+		String xPath = "headers/header[@name=\""+ key +"\"]";
+		NodeList headers = gridHeaderService.getNodeListForPathUsingJavax(xPath);
+		Node header = headers.item(0);
+		NodeList fields = header.getChildNodes();
+		if ( HunterUtility.isNodeListNotEmptpy(fields) )  {
+			for( int i = 0; i < fields.getLength(); i++ ) {
+				Node field = fields.item(i);
+				if ( !field.getNodeName().equals("#text") ) {
+					String fieldName = field.getAttributes().getNamedItem("name").toString(); System.out.println(fieldName);
+					NodeList properties = field.getChildNodes();
+					HunterTableConfig config = new HunterTableConfig();
+					config.setSortable( Boolean.valueOf( getPropertyVal(properties, "sortable") ) );
+					config.setShow( Boolean.valueOf( getPropertyVal(properties, "show") ) );
+					config.setCheckBox( Boolean.valueOf( getPropertyVal(properties, "checkBox") ) );
+					config.setCurrentOrder( Boolean.valueOf( getPropertyVal(properties, "currentOrder") ) );
+					config.setActionCol( Boolean.valueOf( getPropertyVal(properties, "accctionCol") ) );
+					config.setIndex( Integer.parseInt( getPropertyVal(properties, "index")) );
+					config.setHeaderId(  getPropertyVal(properties, "headerId") ) ;
+					config.setDataId( getPropertyVal(properties, "dataId") );
+					config.setDisplayName( getPropertyVal(properties, "displayName") );
+					config.setBootstrapIconName( getPropertyVal(properties, "bootstrapIconName") );
+					config.setDataType( getPropertyVal(properties, "dataType") );
+					config.setActionColIconName( getPropertyVal(properties, "actionColIconName") );
+					config.setActionCellType( getPropertyVal(properties, "actionCellType") );
+					config.setWidth( getPropertyVal(properties, "width") );
+					tableConfigs.add( config );
+				}
 			}
 		}
 		return tableConfigs;
@@ -126,18 +141,6 @@ public class HunterAngularDataHelper {
 		TaskDao taskDao = HunterDaoFactory.getDaoObject(TaskDao.class);
 		List<TaskAngular> tasks = taskDao.getAllAngularTasks();
 		return tasks;
-	}
-	
-	private String anEscape( String content ) {
-		return null != content ? content.replaceAll("&#91;", "[").replaceAll("&#93;", "]") : null;
-	}
-	
-	private String getPath( String gridName ) {
-		return "headers/header[@name=\""+ gridName +"\"]";
-	}
-	
-	private String getStr( JSONObject obj, String key ) {
-		return HunterUtility.getStringOrNulFromJSONObj(obj, key);
 	}
 
 }

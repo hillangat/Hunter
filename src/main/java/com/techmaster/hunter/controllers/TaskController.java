@@ -544,16 +544,16 @@ public class TaskController extends HunterBaseController{
 			String results = taskManager.addGroupToTask(groupIds, taskId); 
 
 			if (results != null) {
-				json.put(HunterConstants.STATUS_STRING,HunterConstants.STATUS_FAILED);
-				json.put("Message", results);
-				taskManager.setTaskHistoryStatusAndMessage(taskHistory, HunterConstants.STATUS_FAILED, "Failed to add group( " + groupIdsStr +" - " + HunterUtility.getCommaDelimitedStrings(groupIds) + " ) to task. " + results);  
+				String message = "Failed to add group( " + groupIdsStr +" - " + HunterUtility.getCommaDelimitedStrings(groupIds) + " ) to task. " + results;
+				HunterUtility.setJSONObjectForFailure(json, results);
+				taskManager.setTaskHistoryStatusAndMessage(taskHistory,HunterConstants.STATUS_FAILED, message);  
 				taskHistoryDao.insertTaskHistory(taskHistory);
 				return json.toString();
 			}
 
 			int groupReceiverCount = taskManager.getTotalTaskGroupsReceivers(taskId);
 
-			taskManager.setTaskHistoryStatusAndMessage(taskHistory, HunterConstants.STATUS_SUCCESS, "Successfully added group ( " + groupIdsStr +" - " + HunterUtility.getCommaDelimitedStrings(groupIds) + " )");   
+			taskManager.setTaskHistoryStatusAndMessage(taskHistory, HunterConstants.STATUS_SUCCESS, "Successfully added group ( " + HunterUtility.getCommaDelimitedStrings(groupIds) + " )");   
 			taskHistoryDao.insertTaskHistory(taskHistory);
 
 			return HunterUtility.setJSONObjectForSuccess(null, "Successfully added group to task. Current count ( " + groupReceiverCount + " )" ).toString();
@@ -730,8 +730,7 @@ public class TaskController extends HunterBaseController{
 			return HunterAngularDataHelper.getIntance().getDataBean(tasks, null);
 		} catch ( Exception e ) {
 			e.printStackTrace();
-			String message = HunterCacheUtil.getInstance().getUIMsgTxtForMsgId(UIMessageConstants.MSG_TASK_017);
-			return HunterAngularDataHelper.getIntance().getBeanForMsgAndSts(message, HunterConstants.STATUS_FAILED, null);
+			return HunterAngularDataHelper.getIntance().getBeanForMsgAndSts(HunterUtility.getApplicationErrorMessage(), HunterConstants.STATUS_FAILED, null);
 		}
 	}
 	
@@ -756,6 +755,12 @@ public class TaskController extends HunterBaseController{
 			String message = HunterCacheUtil.getInstance().getUIMsgTxtForMsgId(UIMessageConstants.MSG_TASK_017);
 			return HunterAngularDataHelper.getIntance().getBeanForMsgAndSts(message, HunterConstants.STATUS_FAILED, null);
 		}
+	}
+	
+	@Produces("application/json")
+	@RequestMapping(value = "/action/task/availGroupsForDynGrid", method = RequestMethod.POST)
+	public @ResponseBody  Object getAvailGroupsForDynGrid(HttpServletRequest request) {
+		return GridQueryHandler.getInstance().executeForAngularData(ReceiverGroupJson.class, request, HunterDaoConstants.TASK_GROUPS_JSONS_HEADERS, null);
 	}
 	
 	@Produces("application/json")

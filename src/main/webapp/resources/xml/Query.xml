@@ -92,6 +92,26 @@
 			AND tg.grp_id = g.grp_id
 		</statement>
 	</query>
+	<query id="getAllAvailReceiverJsons">
+		<description>
+		    Retrieves all receiver jsons for dynamic grid selections
+		</description>
+		<statement>
+		  	SELECT 
+			  g.GRP_ID,
+			  g.OWNR_USR_NAM,
+			  g.GRP_NAME,
+			  g.GRP_DESC,
+			  g.RCVR_CNT,
+			  g.RCVR_TYP,
+			  TO_CHAR(g.CRET_DATE, 'yyyy-MM-dd HH:mm:ss') as CRET_DATE,
+			  TO_CHAR(g.LST_UPDT_DATE, 'yyyy-MM-dd HH:mm:ss') as LST_UPDT_DATE,
+			  g.CRTD_BY,
+			  g.LST_UPDTD_BY,
+			  COUNT(g.GRP_ID) OVER (PARTITION BY 1 ) AS GRID_DATA_COUNT
+			FROM RCVR_GRP g
+		</statement>
+	</query>
 	<query id="getTaskGroupJSONsForTaskIdForGrid">
 		<description>
 		    Retrieves task group jsons for task id

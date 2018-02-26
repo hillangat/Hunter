@@ -976,6 +976,10 @@ public class TaskManagerImpl implements TaskManager{
 			}
 		}
 		
+		if ( !HunterUtility.isArrayNotEmpty(notInserted) ) {
+			return "All selected groups are already added to this task.";
+		}
+		
 		String message = null;
 		
 		if(taskCount == 0 && groupCount == 0){

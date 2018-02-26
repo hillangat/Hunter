@@ -125,7 +125,6 @@ public class HunterQueryToBeanMapper {
 	}
 	
 	private void setFieldValue( Class<?> clzz, Object obj, QueryToBeanMapperField mapperField, Object fieldVal ) {
-		logger.info("Setting value : " + ( fieldVal != null ? fieldVal.toString() : " " )  + " to mapper field : " + mapperField.getFieldName() ); 
 		String fieldName = mapperField.getFieldName();
 		String setterMethodName = getSetterMethodName(fieldName);
 		try {
@@ -134,17 +133,26 @@ public class HunterQueryToBeanMapper {
 			fieldVal = mapperField.getType().equals("java.lang.String") ? fieldVal != null ? fieldVal.toString() : null : fieldVal;
 			fieldVal = mapperField.getType().equals("java.lang.Long") ? HunterUtility.getLongFromObject(fieldVal) : fieldVal;
 			fieldVal = mapperField.getType().equals("java.lang.Float") ? HunterUtility.getFloatFromObject(fieldVal) : fieldVal;
+			fieldVal = mapperField.getType().equals("java.lang.Integer") ? Integer.parseInt(HunterUtility.getStringOrNullOfObj(fieldVal)) : fieldVal;
 			setterMethod.invoke(obj, fieldVal);
 		} catch (NoSuchMethodException | SecurityException e) {
+			this.logSettingVal(fieldVal, mapperField);
 			e.printStackTrace();
 		} catch (IllegalAccessException e) {
+			this.logSettingVal(fieldVal, mapperField);
 			e.printStackTrace();
 		} catch (IllegalArgumentException e) {
+			this.logSettingVal(fieldVal, mapperField);
 			e.printStackTrace();
 		} catch (InvocationTargetException e) {
+			this.logSettingVal(fieldVal, mapperField);
 			e.printStackTrace();
 		}
 		
+	}
+	
+	private void logSettingVal( Object fieldVal, QueryToBeanMapperField mapperField ) {
+		logger.info("Setting value : " + ( fieldVal != null ? fieldVal.toString() : " " )  + " to mapper field : " + mapperField.getFieldName() );
 	}
 	
 	private  Class<?>[] getTypeParams( QueryToBeanMapperField mapperField ) {

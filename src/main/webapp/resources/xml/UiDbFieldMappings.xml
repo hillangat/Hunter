@@ -39,8 +39,13 @@
 	</references>
 	<references>
 		<reference name='TASK_HISTORY' table='TASK' alias='h' queryId='getTaskHistoryJsonsForTaskId' >
-			<field ui='taskId' db='TSK_ID' alias='h' ></field>
-			<field ui='taskName' db='TSK_NAM' alias='h'  ></field>
+			<field ui='historyId' db='HSTRY_ID' alias='h' ></field>
+			<field ui='taskId' db='TSK_ID' alias='h'  ></field>
+			<field ui='evenName' db='EVNT_NAM' alias='h'  ></field>
+			<field ui='eventStatus' db='EVNT_STS' alias='h'  ></field>
+			<field ui='eventMessage' db='EVNT_MSG' alias='h'  ></field>
+			<field ui='eventUser' db='EVNT_USR' alias='h'  ></field>
+			<field ui='eventDate' db='EVNT_DATE' alias='h'  ></field>
 		</reference>
 	</references>
 	<references>
@@ -57,6 +62,20 @@
 			<field ui='createdBy' db='CRTD_BY' alias='g' ></field>
 			<field ui='lastUpdate' db='LST_UPDT_DATE' alias='g' ></field>
 			<field ui='lastUpdatedBy' db='LST_UPDTD_BY' alias='g' ></field>
+		</reference>
+	</references>
+	<references>
+		<reference name='AVAIL_RECEIVER_GROUPS' table='TSK_GRPS' alias='h' queryId='getAllAvailReceiverJsons' >
+			<field ui='groupId' 		db='GRP_ID' 		alias='g' ></field>
+			<field ui='ownerUserName' 	db='OWNR_USR_NAM' 	alias='g' ></field>
+			<field ui='groupName' 		db='GRP_NAME' 		alias='g' ></field>
+			<field ui='groupDesc' 		db='GRP_DESC' 		alias='g' ></field>
+			<field ui='receiverCount' 	db='RCVR_CNT' 		alias='g' ></field>
+			<field ui='receiverType' 	db='RCVR_TYP' 		alias='g' ></field>
+			<field ui='cretDate' 		db='CRET_DATE' 		alias='g' ></field>
+			<field ui='createdBy' 		db='CRTD_BY' 		alias='g' ></field>
+			<field ui='lastUpdate' 		db='LST_UPDT_DATE' 	alias='g' ></field>
+			<field ui='lastUpdatedBy' 	db='LST_UPDTD_BY' 	alias='g' ></field>
 		</reference>
 	</references>
 </mappings>
