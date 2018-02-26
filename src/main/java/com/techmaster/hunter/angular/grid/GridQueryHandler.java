@@ -73,8 +73,12 @@ public class GridQueryHandler {
 	}
 	
 	public String createQueryFromReq( HttpServletRequest request, GridDataQueryReq req ) {
-		String whereAndGroupByClause = createWhereAngGroupClause(req);
-		return harmonizeQuery(req, whereAndGroupByClause);
+		String queryId = getReferenceQueryId( req );
+		String query = HunterDaoFactory.getObject(HunterJDBCExecutor.class).getQueryForSqlId( queryId );
+		String whereAndGroupByClause = createWhereAngGroupClause(req, query );
+		String finalQuery = query + " " + whereAndGroupByClause;
+		this.logger.debug("finalQuery >>> " + finalQuery );
+		return finalQuery;
 	}
 	
 	public GridDataQueryReq getReqBeanFromRequest( HttpServletRequest request ) {
@@ -94,16 +98,46 @@ public class GridQueryHandler {
 		return builder.toString();
 	}
 	
-	public String createWhereAngGroupClause( GridDataQueryReq req ) {
+	private String getValFrag( GridFieldUserInput filter ) {
+		return GridQueryOperationEnum.getSqlFragment(filter.getFieldAlias(), filter.getDbName(), filter.getUserInput(), filter.getOperation().getUiName() );
+	}
+	
+	private boolean addWhereClause( String query, GridFieldUserInput filters[] ) {
+		if ( !HunterUtility.isArrayNotEmpty(filters) ) {
+			return false;
+		}
+		int whereMarkIndex = query.toLowerCase().lastIndexOf("where");
+		int fromMarkIndex = query.toLowerCase().lastIndexOf("from");
+		if ( fromMarkIndex > -1 && whereMarkIndex > -1 && whereMarkIndex > fromMarkIndex  ) {
+			return false;
+		}
+		String whereClause = query.substring(whereMarkIndex, query.length() );
+		if ( whereMarkIndex >  -1 ) {
+			if ( whereClause.toLowerCase().contains(filters[0].getDbName().toLowerCase()) ) {
+				return false;
+			}
+		}
+		return true;
+	}
+	
+	public String createWhereAngGroupClause( GridDataQueryReq req, String query ) {
 		StringBuilder builder = new StringBuilder();
 		if ( req != null ) {
 			if ( HunterUtility.isArrayNotEmpty(req.getFilterBy()) ) {
-				builder.append(" WHERE "); 
+				boolean addWhereClause =  addWhereClause(query, req.getFilterBy());
+				if ( addWhereClause ) {
+					builder.append(" WHERE ");
+				}
 				for( int i = 0; req.getFilterBy() != null && i < req.getFilterBy().length; i++ ) {
 					GridFieldUserInput filter = req.getFilterBy()[i];
-					builder.append(" ").append( GridQueryOperationEnum.getSqlFragment(filter.getFieldAlias(), filter.getDbName(), filter.getUserInput(), filter.getOperation().getUiName() ) ).append(" ");
-					if ( i < req.getFilterBy().length - 1 && req.getFilterBy().length > 1 ) {
-						builder.append(" AND ");
+					String valFrag = getValFrag(filter);
+					if ( !addWhereClause ) {
+						builder.append(" AND ").append( valFrag ).append(" ");
+					} else {
+						builder.append(" ").append( valFrag ).append(" ");
+						if ( i < req.getFilterBy().length - 1 && req.getFilterBy().length > 1 ) {
+							builder.append(" AND ");
+						}
 					}
 				}
 			}
@@ -124,14 +158,6 @@ public class GridQueryHandler {
 		}
 		String whereStr = builder.toString();
 		return whereStr;
-	}
-	
-	public String harmonizeQuery( GridDataQueryReq req, String whereAndGroupByClause ) {
-		String queryId = getReferenceQueryId( req );
-		String query = HunterDaoFactory.getObject(HunterJDBCExecutor.class).getQueryForSqlId( queryId );
-		String finalQuery = query + " " + whereAndGroupByClause;
-		this.logger.debug("finalQuery >>> " + finalQuery);
-		return finalQuery;
 	}
 	
 	private String getReferenceQueryId( GridDataQueryReq req ) {
