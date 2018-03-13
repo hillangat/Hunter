@@ -159,10 +159,9 @@ public class ClientController extends HunterBaseController{
 	public @ResponseBody Object getClientsSelValsForAngularUI(){
 		try{			
 			AngularData aData = HunterAngularDataHelper.getIntance().getBeanForQuery(HunterSelectValue.class, HunterDaoConstants.GET_ANGULAR_SEL_VALS_FOR_ANG_UI, null, null);
-			this.logger.debug(aData); 
 			return aData;
 		}catch (Exception e) {
-			e.printStackTrace();
+			e.printStackTrace();              
 			return HunterAngularDataHelper.getIntance().getBeanForMsgAndSts( "Error occurred while getting clients", HunterConstants.STATUS_FAILED, null);
 		}
 	}

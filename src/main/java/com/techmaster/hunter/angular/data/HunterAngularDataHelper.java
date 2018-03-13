@@ -3,7 +3,6 @@ package com.techmaster.hunter.angular.data;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.json.JSONObject;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
@@ -67,7 +66,6 @@ public class HunterAngularDataHelper {
 			for( int i = 0; i < fields.getLength(); i++ ) {
 				Node field = fields.item(i);
 				if ( !field.getNodeName().equals("#text") ) {
-					String fieldName = field.getAttributes().getNamedItem("name").toString(); System.out.println(fieldName);
 					NodeList properties = field.getChildNodes();
 					HunterTableConfig config = new HunterTableConfig();
 					config.setSortable( Boolean.valueOf( getPropertyVal(properties, "sortable") ) );

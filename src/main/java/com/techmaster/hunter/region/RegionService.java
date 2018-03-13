@@ -34,7 +34,7 @@ public interface RegionService {
 	public ReceiverRegionJson creatRcvrRgnJsnFrmRcvrRgn(ReceiverRegion receiverRegion);
 	public Object[] getTrueHntrMsgRcvrCntFrTaskRgns(Long taskId);
 	
-	public void editReceiverRegion(Map<String,Object> params);
+	public List<String> editReceiverRegion(Map<String,Object> params, String userName);
 	
 	public JSONArray getCountriesNameAndIds(String countryName);
 	public JSONArray getCountiesNameAndIds(String countryName);

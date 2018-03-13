@@ -1,5 +1,7 @@
 package com.techmaster.hunter.angular.grid;
 
+import java.util.Arrays;
+
 public enum GridQueryOperationEnum {
 	// gt,lt,equals,before,after,contains,begins,ends;	
 	gt( "gt", "Greater Than", " > " ),
@@ -39,12 +41,7 @@ public enum GridQueryOperationEnum {
 	}
 	
 	public static GridQueryOperationEnum getEnumForName( String uiName ) {
-		for( GridQueryOperationEnum en : values() ) {
-			if ( en.getUiName().equals(uiName) ) {
-				return en;
-			}
-		}
-		return null;
+		return Arrays.stream(values()).filter( g -> g.uiName.equals(uiName) ).findFirst().get();
 	}
 	
 	public static String getSqlFragment( String fieldAlias, String dbName, String val, String uiName ) {

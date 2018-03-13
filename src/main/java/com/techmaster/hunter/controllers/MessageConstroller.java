@@ -105,7 +105,8 @@ public class MessageConstroller extends HunterBaseController implements ServletC
 		try {
 			AngularTaskMessage taskMessage = new AngularTaskMessage();
 			Message message = HunterDaoFactory.getObject(MessageDao.class).getMessageById(taskId);
-			BeanUtils.copyProperties(message, taskMessage);
+			if ( null != message )
+				BeanUtils.copyProperties(message, taskMessage);
 			taskMessage.setProvider(message.getProvider());
 			List<AngularTaskMessage> messageList = Arrays.asList( new AngularTaskMessage[] { taskMessage } );
 			return HunterAngularDataHelper.getIntance().getDataBean(messageList, null);

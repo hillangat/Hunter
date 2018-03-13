@@ -42,6 +42,7 @@ public class HunterDaoConstants {
 	
 	// GRID DATA
 	public static final String GRID_DATA_COUNT = "GRID_DATA_COUNT";
+	public static final String COUNT_SENSITIVE_COLS = "countSensitiveCols";
 	
 
 }

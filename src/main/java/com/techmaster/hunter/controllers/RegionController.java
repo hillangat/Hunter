@@ -29,7 +29,6 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.techmaster.hunter.angular.data.AngularData;
 import com.techmaster.hunter.angular.data.HunterAngularDataHelper;
-import com.techmaster.hunter.angular.grid.GridQueryHandler;
 import com.techmaster.hunter.cache.HunterCacheUtil;
 import com.techmaster.hunter.constants.HunterConstants;
 import com.techmaster.hunter.dao.impl.HunterDaoFactory;
@@ -343,9 +342,28 @@ public class RegionController extends HunterBaseController {
 	@Consumes("application/json")
 	@RequestMapping(value="/action/hierarchies/edit", method=RequestMethod.POST)
 	@ResponseBody
-	public String updateSelRegion(@RequestBody Map<String,Object> editParams){
-		regionService.editReceiverRegion(editParams); 
-		return "regionHierarchy";
+	public Object updateSelRegion(@RequestBody String object){
+		try {
+			JSONObject json = new JSONObject( object );
+			Map<String, Object>  editParams = new HashMap<String, Object>();
+			editParams.put("levelType", HunterUtility.getStringOrNulFromJSONObj(json, "levelType"));
+			editParams.put("beanId", HunterUtility.getStringOrNulFromJSONObj(json, "beanId"));
+			editParams.put("regionCode", HunterUtility.getStringOrNulFromJSONObj(json, "regionCode"));
+			editParams.put("population", HunterUtility.getStringOrNulFromJSONObj(json,"population"));
+			editParams.put("regionName", HunterUtility.getStringOrNulFromJSONObj(json,"name"));
+			editParams.put("hunterPopuplation", HunterUtility.getIntOrZeroFromJsonStr(json,"hunterPopuplation"));
+			List<String> errors = regionService.editReceiverRegion(editParams, "admin");
+			String message = "Successfully updated region";
+			String status = HunterConstants.STATUS_SUCCESS;
+			if ( !errors.isEmpty() ) {
+				message = HunterUtility.getCommaDelimitedStrings(errors);
+				status = HunterConstants.STATUS_FAILED;
+			}
+			return HunterAngularDataHelper.getIntance().getBeanForMsgAndSts(message, status, null);
+		} catch( Exception e ) {
+			e.printStackTrace();
+			return HunterAngularDataHelper.getIntance().getBeanForMsgAndSts( HunterUtility.getApplicationErrorMessage() , HunterConstants.STATUS_FAILED, null);
+		}
 	}
 	
 	@Produces("application/json")

@@ -61,8 +61,7 @@
 			    h.EVNT_STS,
 			    h.EVNT_MSG,
 			    ( select u.FRST_NAM || ' ' || u.LST_NAM || '(' || u.USR_NAM ||')' from HNTR_USR u WHERE u.USR_NAM = h.EVNT_USR ) as EVNT_USR,
-			    TO_CHAR(h.EVNT_DATE, 'yyyy-MM-dd HH:mm:ss')"EVNT_DATE",
-			    COUNT(h.HSTRY_ID) OVER (PARTITION BY 1 ) AS GRID_DATA_COUNT
+			    TO_CHAR(h.EVNT_DATE, 'yyyy-MM-dd HH:mm:ss')"EVNT_DATE"
 			 FROM TSK_HSTRY h 
 			 WHERE h.TSK_ID = ?
 		</statement>
@@ -107,8 +106,7 @@
 			  TO_CHAR(g.CRET_DATE, 'yyyy-MM-dd HH:mm:ss') as CRET_DATE,
 			  TO_CHAR(g.LST_UPDT_DATE, 'yyyy-MM-dd HH:mm:ss') as LST_UPDT_DATE,
 			  g.CRTD_BY,
-			  g.LST_UPDTD_BY,
-			  COUNT(g.GRP_ID) OVER (PARTITION BY 1 ) AS GRID_DATA_COUNT
+			  g.LST_UPDTD_BY
 			FROM RCVR_GRP g
 		</statement>
 	</query>
@@ -129,8 +127,7 @@
 			  TO_CHAR(g.CRET_DATE, 'yyyy-MM-dd HH:mm:ss') AS CRET_DATE,
 			  g.CRTD_BY CRTD_BY,
 			  TO_CHAR(g.LST_UPDT_DATE, 'yyyy-MM-dd HH:mm:ss') AS LST_UPDT_DATE,
-			  g.LST_UPDTD_BY,
-			  COUNT(tg.TSK_ID) OVER (PARTITION BY 1 ) AS GRID_DATA_COUNT
+			  g.LST_UPDTD_BY
 			FROM 
 			  TSK_GRPS tg,
 			  RCVR_GRP_JSN g
@@ -1635,7 +1632,7 @@
 			  t.TSK_ARGMNT_LGC,
 			  t.TSK_BDGT || '' AS TSK_BDGT,
 			  t.TSK_CST || '' AS TSK_CST,
-			  t.RCCRRNT_TSK,t.TSK_DT_LN,
+			  t.RCCRRNT_TSK,
 			  TO_CHAR(t.TSK_DT_LN, 'yyyy-MM-dd HH:mm:ss') as TSK_DT_LN,
 			  t.TSK_LF_STS,
 			  t.TSK_DEL_STS,
@@ -1663,8 +1660,7 @@
 			    ELSE 0
 			  END AS PROVIDER,
 			  ( SELECT listagg(tr.RGN_ID, ',') within GROUP (ORDER BY tr.RGN_ID) AS TSK_RGNS FROM TSK_RGNS tr WHERE tr.TSK_ID = t.TSK_ID ) as TSK_RGNS,
-			  ( SELECT listagg(tr.GRP_ID, ',') within GROUP (ORDER BY tr.GRP_ID) AS TSK_GRPS FROM TSK_GRPS tr WHERE tr.TSK_ID = t.TSK_ID ) AS TSK_GRPS,
-        	  COUNT(t.TSK_ID) OVER (PARTITION BY 1 ) AS GRID_DATA_COUNT
+			  ( SELECT listagg(tr.GRP_ID, ',') within GROUP (ORDER BY tr.GRP_ID) AS TSK_GRPS FROM TSK_GRPS tr WHERE tr.TSK_ID = t.TSK_ID ) AS TSK_GRPS
 			FROM TASK t
 		</statement>
 	</query>

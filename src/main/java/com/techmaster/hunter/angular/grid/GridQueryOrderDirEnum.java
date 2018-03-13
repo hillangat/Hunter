@@ -1,5 +1,7 @@
 package com.techmaster.hunter.angular.grid;
 
+import java.util.Arrays;
+
 public enum GridQueryOrderDirEnum {
 	
 	asc( "asc", "Ascending" ),
@@ -15,12 +17,7 @@ public enum GridQueryOrderDirEnum {
 	
 	
 	public static GridQueryOrderDirEnum getEnumForName( String name ) {
-		for( GridQueryOrderDirEnum en : values() ) {
-			if ( en.getName().equals(name) ) {
-				return en;
-			}
-		}
-		return null;
+		return Arrays.stream(values()).filter( g -> g.name.equals(name) ).findFirst().get();
 	}
 	
 	public String getName() {

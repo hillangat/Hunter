@@ -9,6 +9,7 @@ public class GridDataQueryReq {
 	private int pageNo;
 	private int pageSize;
 	private String reference;
+	private String[] colSensitiveCols;
 	
 	public GridFieldUserInput[] getFilterBy() {
 		return filterBy;
@@ -40,11 +41,17 @@ public class GridDataQueryReq {
 	public void setReference(String reference) {
 		this.reference = reference;
 	}
-
+	public String[] getColSensitiveCols() {
+		return colSensitiveCols;
+	}
+	public void setColSensitiveCols(String[] colSensitiveCols) {
+		this.colSensitiveCols = colSensitiveCols;
+	}
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
+		result = prime * result + Arrays.hashCode(colSensitiveCols);
 		result = prime * result + Arrays.hashCode(filterBy);
 		result = prime * result + Arrays.hashCode(orderBy);
 		result = prime * result + pageNo;
@@ -52,7 +59,6 @@ public class GridDataQueryReq {
 		result = prime * result + ((reference == null) ? 0 : reference.hashCode());
 		return result;
 	}
-
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -62,6 +68,8 @@ public class GridDataQueryReq {
 		if (getClass() != obj.getClass())
 			return false;
 		GridDataQueryReq other = (GridDataQueryReq) obj;
+		if (!Arrays.equals(colSensitiveCols, other.colSensitiveCols))
+			return false;
 		if (!Arrays.equals(filterBy, other.filterBy))
 			return false;
 		if (!Arrays.equals(orderBy, other.orderBy))
@@ -78,13 +86,13 @@ public class GridDataQueryReq {
 		return true;
 	}
 
+
 	@Override
 	public String toString() {
 		return "GridDataQueryReq [filterBy=" + Arrays.toString(filterBy) + ", orderBy=" + Arrays.toString(orderBy)
-				+ ", pageNo=" + pageNo + ", pageSize=" + pageSize + ", reference=" + reference + "]";
-	}
-	
-	
+				+ ", pageNo=" + pageNo + ", pageSize=" + pageSize + ", reference=" + reference + ", colSensitiveCols="
+				+ Arrays.toString(colSensitiveCols) + "]";
+	}	
 	
 	
 }

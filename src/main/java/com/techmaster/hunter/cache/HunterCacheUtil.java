@@ -185,7 +185,7 @@ public class HunterCacheUtil {
 	}
 	
 	public Map<String, HunterEmailTemplateBean> loadEmailTemplateBeans(){
-		logger.debug("Loading email template beans..."); 
+		logger.debug("Loading email template beans...");
 		Map<String, HunterEmailTemplateBean> emailTemplateBeans = new HashMap<>();
 		List<String> existentTemplates = getExistentEmailTemplateNames();
 		for(String mailTypeName : existentTemplates){
@@ -250,7 +250,7 @@ public class HunterCacheUtil {
 		List<MessageAttachmentMetadata> messageAttachmentMetadata = GateWayClientHelper.getInstance().createMessageAttachmentMetadata(task);
 		for(MessageAttachmentMetadata attachmentMetadata : messageAttachmentMetadata){
 			String cidKey = "cid:HUNTER_CID_REF=" + attachmentMetadata.getKey();
-			if( emailContent.contains(cidKey) ){ 
+			if( emailContent.contains(cidKey) ){
 				logger.debug( attachmentMetadata.getKey() + " is an embedded attachment : cid = " + attachmentMetadata.getMsgCid() );
 				String url = attachmentMetadata.getUrl();
 				try {
@@ -413,6 +413,16 @@ public class HunterCacheUtil {
 		List<Country> countries = HunterDaoFactory.getObject(ReceiverRegionDao.class).getAllCountries(); 
 		HunterCache.getInstance().put(HunterConstants.COUNTRIES, countries);
 		return countries;
+	}
+	
+	public void loadCountriesViaThread() {
+		Runnable runnable = new Runnable() {
+			@Override
+			public void run() {
+				loadCountries();
+			}
+		};
+		new Thread( runnable ).start();
 	}
 	
 	public boolean isCountriesLoaded(){

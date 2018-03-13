@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.log4j.Logger;
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
@@ -40,7 +41,7 @@ public class GridQueryHandler {
 		
 		GridDataQueryReq req = getReqBeanFromRequest(request);		
 		HunterJDBCExecutor executor = HunterDaoFactory.getDaoObject(HunterJDBCExecutor.class);
-		String query = createQueryFromReq(request, req);
+		String query = createQueryFromReq(request, req, valueList);
 		XMLService xmlService = HunterCacheUtil.getInstance().getXMLService(HunterConstants.QUERY_TO_BEAN_MAPPER);
 		List<Map<String, Object>> rowMapList = executor.executeQueryRowMap(query, valueList);
 		
@@ -62,8 +63,8 @@ public class GridQueryHandler {
 		return angData;
 	}
 	
-	public <T>List<T> executeQridQueryForRequest( Class<T> clzz, HttpServletRequest request, GridDataQueryReq req ) {
-		String finalQuery = createQueryFromReq( request, req );
+	public <T>List<T> executeQridQueryForRequest( Class<T> clzz, HttpServletRequest request, GridDataQueryReq req, List<T> valueList ) {
+		String finalQuery = createQueryFromReq( request, req, valueList );
 		List<T> ts = HunterQueryToBeanMapper.getInstance().mapForQuery( clzz, finalQuery, null );
 		return ts;
 	}
@@ -72,13 +73,53 @@ public class GridQueryHandler {
 		return instance;
 	}
 	
-	public String createQueryFromReq( HttpServletRequest request, GridDataQueryReq req ) {
+	public <T> String createQueryFromReq( HttpServletRequest request, GridDataQueryReq req, List<T> valueList ) {
 		String queryId = getReferenceQueryId( req );
 		String query = HunterDaoFactory.getObject(HunterJDBCExecutor.class).getQueryForSqlId( queryId );
 		String whereAndGroupByClause = createWhereAngGroupClause(req, query );
-		String finalQuery = query + " " + whereAndGroupByClause;
+		query = query + " " + whereAndGroupByClause;
+		String finalQuery = addWithClause(query, valueList, req);
 		this.logger.debug("finalQuery >>> " + finalQuery );
 		return finalQuery;
+	}
+	
+	private <T> String addWithClause( String query, List<T> valueList, GridDataQueryReq req) {
+		String
+		part1 = " WITH DATA_RECORDS_COUNT AS (  SELECT COUNT(*) AS DATA_COUNT_VAL ",
+		part2 = getCountFrag(query, valueList, req),
+		part3 = " ), DATA_RECORDS_ROWS AS ( " + query + " )",
+		part4 = " SELECT dr.*, ( SELECT dc.DATA_COUNT_VAL FROM DATA_RECORDS_COUNT dc ) AS " + HunterDaoConstants.GRID_DATA_COUNT + " FROM DATA_RECORDS_ROWS dr",
+		finl  = part1 + part2 + part3 + part4;
+		return finl;
+	}
+	
+	private <T> String replaceCountSensitiveCols( String query, GridDataQueryReq req, List<T> valueList ) {
+		query.toLowerCase();
+		while( query.contains("= ") || query.contains(" =") || query.contains("=\\t") || query.contains("\\t=") ) {
+			query = query.replaceAll("= ", "=");
+			query = query.replaceAll(" =", "=");
+			query = query.replaceAll("=\\t", "=");
+			query = query.replaceAll("\\t=", "=");
+		}
+		if ( HunterUtility.isArrayNotEmpty(req.getColSensitiveCols()) ) {
+			for( int i = 0; i < req.getColSensitiveCols().length; i++ ) {
+				String col = req.getColSensitiveCols()[i];
+				String valAndParam = col + "=" + "?";
+				while( query.contains( valAndParam ) ) {
+					query = HunterUtility.replaceWord(query, valAndParam, HunterUtility.singleQuote(valueList.get(i)));
+				}
+			}
+		}
+		return query;
+	}
+	
+	private <T> String getCountFrag( String query, List<T> valueList, GridDataQueryReq req ) {
+		String from	= query.substring(query.toLowerCase().lastIndexOf("from"), query.length());
+		if ( from.toUpperCase().contains("OFFSET") ) {
+			from = from.substring(0, from.toUpperCase().indexOf("OFFSET"));
+		}
+		from = this.replaceCountSensitiveCols(from, req, valueList);
+		return from;
 	}
 	
 	public GridDataQueryReq getReqBeanFromRequest( HttpServletRequest request ) {
@@ -93,7 +134,6 @@ public class GridQueryHandler {
 			req.setPageNo( req.getPageNo() == 0 ? 1 : req.getPageNo() );
 			int offset = ( req.getPageNo() - 1 ) * req.getPageSize();
 			builder.append(" OFFSET ").append( offset ).append( " ROWS FETCH NEXT " ).append( req.getPageSize() ).append(" ROWS ONLY ");
-			
 		}
 		return builder.toString();
 	}
@@ -177,11 +217,23 @@ public class GridQueryHandler {
 		return references;
 	}
 	
-	public GridDataQueryReq setDbNames( GridDataQueryReq req ) {
+	private void setCntSnstvCols( GridDataQueryReq req, Node reference ) {
+		NamedNodeMap attrs = reference.getAttributes();
+		if ( attrs != null && attrs.getLength() > 0 ) {
+			Node cntSnstvColsNode = attrs.getNamedItem("countSensitiveCols");
+			if ( cntSnstvColsNode != null ) {
+				String cntSnstvColsStr = cntSnstvColsNode.getTextContent().trim();
+				req.setColSensitiveCols( cntSnstvColsStr.split(",") ); 
+			}
+		}
+	}
+	
+	public GridDataQueryReq setDbNamesAndCntSnstvCols( GridDataQueryReq req ) {
 		NodeList references = getReferences(req);
 		if ( HunterUtility.isNodeListNotEmptpy(references) ) {
 			for( int i = 0 ; i < references.getLength(); i++ ) {
 				Node reference = references.item(i);
+				setCntSnstvCols(req, reference);
 				String tableName = reference.getAttributes().getNamedItem("table").toString();
 				String alias = reference.getAttributes().getNamedItem("alias").toString();
 				this.logger.debug("tableName = " + tableName + ", alias = " + alias);
@@ -237,7 +289,7 @@ public class GridQueryHandler {
 		req.setReference( reference );
 		
 		req = setFieldAliases(req);
-		req = setDbNames(req);
+		req = setDbNamesAndCntSnstvCols(req);
 		
 		return req;
 	}

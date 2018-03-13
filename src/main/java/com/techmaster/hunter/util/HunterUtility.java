@@ -107,6 +107,13 @@ public static  Logger logger = Logger.getLogger(HunterUtility.class);
 		throw new HunterRunTimeException(e.getMessage());
 	} 
   }
+  
+  public static String replaceWord( String victim, String word, String value ) {
+	int index = victim.indexOf( word );
+	String part1 = victim.substring(0, index + word.length() - 1) ;
+	String part2 = victim.substring(index + 1 + word.length() - 1, victim.length());
+	return part1 + value + part2;
+  }
 	
    public static String urlEncodeRequestMap(Map<String, ?> params, String encodeFormat) throws UnsupportedEncodingException{ 
 	   StringBuilder builder = new StringBuilder();
@@ -1431,7 +1438,7 @@ public static  Logger logger = Logger.getLogger(HunterUtility.class);
 		}
 	}
 	
-	public static JSONArray getClassPathHunterTableConfigArray( String fileName ) {
+	public static JSONArray getClassPathFileJsonArray( String fileName ) {
 		File file = HunterUtility.getFileFromResources(fileName);
 		String fileContent = HunterUtility.getStringOfFile(file);
 		JSONArray array = fileContent != null ? new JSONArray( fileContent ) : null;

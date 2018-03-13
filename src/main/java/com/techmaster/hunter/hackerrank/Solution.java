@@ -8,12 +8,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-
-import org.json.JSONArray;
 import org.json.JSONException;
-import org.json.JSONObject;
-
-import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 public class Solution {

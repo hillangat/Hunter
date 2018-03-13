@@ -1,0 +1,2060 @@
+[
+ {
+   "FIELD1": "COUNTY_CODE",
+   "FIELD2": "COUNTY_NAME",
+   "FIELD3": "CONSTITUENCY_NAME",
+   "FIELD4": "VOTERS",
+   "FIELD5": "NO. OF POLLING STATIONS"
+ },
+ {
+   "FIELD1": "001",
+   "FIELD2": "MOMBASA",
+   "FIELD3": "CHANGAMWE",
+   "FIELD4": "86,331",
+   "FIELD5": "136"
+ },
+ {
+   "FIELD1": "001",
+   "FIELD2": "MOMBASA",
+   "FIELD3": "JOMVU",
+   "FIELD4": "69,307",
+   "FIELD5": "109"
+ },
+ {
+   "FIELD1": "001",
+   "FIELD2": "MOMBASA",
+   "FIELD3": "KISAUNI",
+   "FIELD4": "126,151",
+   "FIELD5": "198"
+ },
+ {
+   "FIELD1": "001",
+   "FIELD2": "MOMBASA",
+   "FIELD3": "NYALI",
+   "FIELD4": "104,017",
+   "FIELD5": "165"
+ },
+ {
+   "FIELD1": "001",
+   "FIELD2": "MOMBASA",
+   "FIELD3": "LIKONI",
+   "FIELD4": "87,326",
+   "FIELD5": "140"
+ },
+ {
+   "FIELD1": "001",
+   "FIELD2": "MOMBASA",
+   "FIELD3": "MVITA",
+   "FIELD4": "107,091",
+   "FIELD5": "186"
+ },
+ {
+   "FIELD1": "002",
+   "FIELD2": "KWALE",
+   "FIELD3": "MSAMBWENI",
+   "FIELD4": "68,621",
+   "FIELD5": "129"
+ },
+ {
+   "FIELD1": "002",
+   "FIELD2": "KWALE",
+   "FIELD3": "LUNGALUNGA",
+   "FIELD4": "56,948",
+   "FIELD5": "118"
+ },
+ {
+   "FIELD1": "002",
+   "FIELD2": "KWALE",
+   "FIELD3": "MATUGA",
+   "FIELD4": "70,366",
+   "FIELD5": "153"
+ },
+ {
+   "FIELD1": "002",
+   "FIELD2": "KWALE",
+   "FIELD3": "KINANGO",
+   "FIELD4": "85,106",
+   "FIELD5": "212"
+ },
+ {
+   "FIELD1": "003",
+   "FIELD2": "KILIFI",
+   "FIELD3": "KILIFI NORTH",
+   "FIELD4": "101,978",
+   "FIELD5": "182"
+ },
+ {
+   "FIELD1": "003",
+   "FIELD2": "KILIFI",
+   "FIELD3": "KILIFI SOUTH",
+   "FIELD4": "84,865",
+   "FIELD5": "147"
+ },
+ {
+   "FIELD1": "003",
+   "FIELD2": "KILIFI",
+   "FIELD3": "KALOLENI",
+   "FIELD4": "60,470",
+   "FIELD5": "123"
+ },
+ {
+   "FIELD1": "003",
+   "FIELD2": "KILIFI",
+   "FIELD3": "RABAI",
+   "FIELD4": "50,332",
+   "FIELD5": "93"
+ },
+ {
+   "FIELD1": "003",
+   "FIELD2": "KILIFI",
+   "FIELD3": "GANZE",
+   "FIELD4": "54,760",
+   "FIELD5": "132"
+ },
+ {
+   "FIELD1": "003",
+   "FIELD2": "KILIFI",
+   "FIELD3": "MALINDI",
+   "FIELD4": "87,210",
+   "FIELD5": "154"
+ },
+ {
+   "FIELD1": "003",
+   "FIELD2": "KILIFI",
+   "FIELD3": "MAGARINI",
+   "FIELD4": "68,453",
+   "FIELD5": "157"
+ },
+ {
+   "FIELD1": "004",
+   "FIELD2": "TANA RIVER",
+   "FIELD3": "GARSEN",
+   "FIELD4": "46,819",
+   "FIELD5": "113"
+ },
+ {
+   "FIELD1": "004",
+   "FIELD2": "TANA RIVER",
+   "FIELD3": "GALOLE",
+   "FIELD4": "33,356",
+   "FIELD5": "93"
+ },
+ {
+   "FIELD1": "004",
+   "FIELD2": "TANA RIVER",
+   "FIELD3": "BURA",
+   "FIELD4": "38,152",
+   "FIELD5": "101"
+ },
+ {
+   "FIELD1": "005",
+   "FIELD2": "LAMU",
+   "FIELD3": "LAMU EAST",
+   "FIELD4": "18,234",
+   "FIELD5": "45"
+ },
+ {
+   "FIELD1": "005",
+   "FIELD2": "LAMU",
+   "FIELD3": "LAMU WEST",
+   "FIELD4": "51,542",
+   "FIELD5": "122"
+ },
+ {
+   "FIELD1": "006",
+   "FIELD2": "TAITA TAVETA",
+   "FIELD3": "TAVETA",
+   "FIELD4": "34,302",
+   "FIELD5": "79"
+ },
+ {
+   "FIELD1": "006",
+   "FIELD2": "TAITA TAVETA",
+   "FIELD3": "WUNDANYI",
+   "FIELD4": "29,911",
+   "FIELD5": "69"
+ },
+ {
+   "FIELD1": "006",
+   "FIELD2": "TAITA TAVETA",
+   "FIELD3": "MWATATE",
+   "FIELD4": "39,031",
+   "FIELD5": "96"
+ },
+ {
+   "FIELD1": "006",
+   "FIELD2": "TAITA TAVETA",
+   "FIELD3": "VOI",
+   "FIELD4": "52,472",
+   "FIELD5": "110"
+ },
+ {
+   "FIELD1": "007",
+   "FIELD2": "GARISSA",
+   "FIELD3": "GARISSA TOWNSHIP",
+   "FIELD4": "54,291",
+   "FIELD5": "97"
+ },
+ {
+   "FIELD1": "007",
+   "FIELD2": "GARISSA",
+   "FIELD3": "BALAMBALA",
+   "FIELD4": "20,145",
+   "FIELD5": "53"
+ },
+ {
+   "FIELD1": "007",
+   "FIELD2": "GARISSA",
+   "FIELD3": "LAGDERA",
+   "FIELD4": "20,547",
+   "FIELD5": "46"
+ },
+ {
+   "FIELD1": "007",
+   "FIELD2": "GARISSA",
+   "FIELD3": "DADAAB",
+   "FIELD4": "25,762",
+   "FIELD5": "56"
+ },
+ {
+   "FIELD1": "007",
+   "FIELD2": "GARISSA",
+   "FIELD3": "FAFI",
+   "FIELD4": "19,883",
+   "FIELD5": "61"
+ },
+ {
+   "FIELD1": "007",
+   "FIELD2": "GARISSA",
+   "FIELD3": "IJARA",
+   "FIELD4": "22,722",
+   "FIELD5": "68"
+ },
+ {
+   "FIELD1": "008",
+   "FIELD2": "WAJIR",
+   "FIELD3": "WAJIR NORTH",
+   "FIELD4": "24,550",
+   "FIELD5": "76"
+ },
+ {
+   "FIELD1": "008",
+   "FIELD2": "WAJIR",
+   "FIELD3": "WAJIR EAST",
+   "FIELD4": "26,964",
+   "FIELD5": "65"
+ },
+ {
+   "FIELD1": "008",
+   "FIELD2": "WAJIR",
+   "FIELD3": "TARBAJ",
+   "FIELD4": "19,699",
+   "FIELD5": "50"
+ },
+ {
+   "FIELD1": "008",
+   "FIELD2": "WAJIR",
+   "FIELD3": "WAJIR WEST",
+   "FIELD4": "27,544",
+   "FIELD5": "75"
+ },
+ {
+   "FIELD1": "008",
+   "FIELD2": "WAJIR",
+   "FIELD3": "ELDAS",
+   "FIELD4": "18,676",
+   "FIELD5": "49"
+ },
+ {
+   "FIELD1": "008",
+   "FIELD2": "WAJIR",
+   "FIELD3": "WAJIR SOUTH",
+   "FIELD4": "45,469",
+   "FIELD5": "119"
+ },
+ {
+   "FIELD1": "009",
+   "FIELD2": "MANDERA",
+   "FIELD3": "MANDERA WEST",
+   "FIELD4": "26,816",
+   "FIELD5": "58"
+ },
+ {
+   "FIELD1": "009",
+   "FIELD2": "MANDERA",
+   "FIELD3": "BANISSA",
+   "FIELD4": "18,476",
+   "FIELD5": "53"
+ },
+ {
+   "FIELD1": "009",
+   "FIELD2": "MANDERA",
+   "FIELD3": "MANDERA NORTH",
+   "FIELD4": "51,231",
+   "FIELD5": "99"
+ },
+ {
+   "FIELD1": "009",
+   "FIELD2": "MANDERA",
+   "FIELD3": "MANDERA SOUTH",
+   "FIELD4": "25,833",
+   "FIELD5": "71"
+ },
+ {
+   "FIELD1": "009",
+   "FIELD2": "MANDERA",
+   "FIELD3": "MANDERA EAST",
+   "FIELD4": "38,965",
+   "FIELD5": "84"
+ },
+ {
+   "FIELD1": "009",
+   "FIELD2": "MANDERA",
+   "FIELD3": "LAFEY",
+   "FIELD4": "14,321",
+   "FIELD5": "36"
+ },
+ {
+   "FIELD1": "010",
+   "FIELD2": "MARSABIT",
+   "FIELD3": "MOYALE",
+   "FIELD4": "55,664",
+   "FIELD5": "136"
+ },
+ {
+   "FIELD1": "010",
+   "FIELD2": "MARSABIT",
+   "FIELD3": "NORTH HORR",
+   "FIELD4": "30,858",
+   "FIELD5": "101"
+ },
+ {
+   "FIELD1": "010",
+   "FIELD2": "MARSABIT",
+   "FIELD3": "SAKU",
+   "FIELD4": "27,082",
+   "FIELD5": "68"
+ },
+ {
+   "FIELD1": "010",
+   "FIELD2": "MARSABIT",
+   "FIELD3": "LAISAMIS",
+   "FIELD4": "28,104",
+   "FIELD5": "79"
+ },
+ {
+   "FIELD1": "011",
+   "FIELD2": "ISIOLO",
+   "FIELD3": "ISIOLO NORTH",
+   "FIELD4": "56,253",
+   "FIELD5": "140"
+ },
+ {
+   "FIELD1": "011",
+   "FIELD2": "ISIOLO",
+   "FIELD3": "ISIOLO SOUTH",
+   "FIELD4": "19,085",
+   "FIELD5": "55"
+ },
+ {
+   "FIELD1": "012",
+   "FIELD2": "MERU",
+   "FIELD3": "IGEMBE SOUTH",
+   "FIELD4": "68,166",
+   "FIELD5": "144"
+ },
+ {
+   "FIELD1": "012",
+   "FIELD2": "MERU",
+   "FIELD3": "IGEMBE CENTRAL",
+   "FIELD4": "83,912",
+   "FIELD5": "181"
+ },
+ {
+   "FIELD1": "012",
+   "FIELD2": "MERU",
+   "FIELD3": "IGEMBE NORTH",
+   "FIELD4": "67,350",
+   "FIELD5": "151"
+ },
+ {
+   "FIELD1": "012",
+   "FIELD2": "MERU",
+   "FIELD3": "TIGANIA WEST",
+   "FIELD4": "64,114",
+   "FIELD5": "131"
+ },
+ {
+   "FIELD1": "012",
+   "FIELD2": "MERU",
+   "FIELD3": "TIGANIA EAST",
+   "FIELD4": "75,920",
+   "FIELD5": "163"
+ },
+ {
+   "FIELD1": "012",
+   "FIELD2": "MERU",
+   "FIELD3": "NORTH IMENTI",
+   "FIELD4": "89,447",
+   "FIELD5": "177"
+ },
+ {
+   "FIELD1": "012",
+   "FIELD2": "MERU",
+   "FIELD3": "BUURI",
+   "FIELD4": "76,033",
+   "FIELD5": "160"
+ },
+ {
+   "FIELD1": "012",
+   "FIELD2": "MERU",
+   "FIELD3": "CENTRAL IMENTI",
+   "FIELD4": "70,124",
+   "FIELD5": "150"
+ },
+ {
+   "FIELD1": "012",
+   "FIELD2": "MERU",
+   "FIELD3": "SOUTH IMENTI",
+   "FIELD4": "107,414",
+   "FIELD5": "216"
+ },
+ {
+   "FIELD1": "013",
+   "FIELD2": "THARAKA-NITHI",
+   "FIELD3": "MAARA",
+   "FIELD4": "68,729",
+   "FIELD5": "182"
+ },
+ {
+   "FIELD1": "013",
+   "FIELD2": "THARAKA-NITHI",
+   "FIELD3": "CHUKA/IGAMBANG'OMBE",
+   "FIELD4": "76,486",
+   "FIELD5": "225"
+ },
+ {
+   "FIELD1": "013",
+   "FIELD2": "THARAKA-NITHI",
+   "FIELD3": "THARAKA",
+   "FIELD4": "67,939",
+   "FIELD5": "218"
+ },
+ {
+   "FIELD1": "014",
+   "FIELD2": "EMBU",
+   "FIELD3": "MANYATTA",
+   "FIELD4": "99,339",
+   "FIELD5": "226"
+ },
+ {
+   "FIELD1": "014",
+   "FIELD2": "EMBU",
+   "FIELD3": "RUNYENJES",
+   "FIELD4": "86,977",
+   "FIELD5": "185"
+ },
+ {
+   "FIELD1": "014",
+   "FIELD2": "EMBU",
+   "FIELD3": "MBEERE SOUTH",
+   "FIELD4": "72,143",
+   "FIELD5": "177"
+ },
+ {
+   "FIELD1": "014",
+   "FIELD2": "EMBU",
+   "FIELD3": "MBEERE NORTH",
+   "FIELD4": "51,009",
+   "FIELD5": "122"
+ },
+ {
+   "FIELD1": "015",
+   "FIELD2": "KITUI",
+   "FIELD3": "MWINGI NORTH",
+   "FIELD4": "61,491",
+   "FIELD5": "223"
+ },
+ {
+   "FIELD1": "015",
+   "FIELD2": "KITUI",
+   "FIELD3": "MWINGI WEST",
+   "FIELD4": "51,849",
+   "FIELD5": "156"
+ },
+ {
+   "FIELD1": "015",
+   "FIELD2": "KITUI",
+   "FIELD3": "MWINGI CENTRAL",
+   "FIELD4": "63,305",
+   "FIELD5": "194"
+ },
+ {
+   "FIELD1": "015",
+   "FIELD2": "KITUI",
+   "FIELD3": "KITUI WEST",
+   "FIELD4": "52,042",
+   "FIELD5": "143"
+ },
+ {
+   "FIELD1": "015",
+   "FIELD2": "KITUI",
+   "FIELD3": "KITUI RURAL",
+   "FIELD4": "49,614",
+   "FIELD5": "147"
+ },
+ {
+   "FIELD1": "015",
+   "FIELD2": "KITUI",
+   "FIELD3": "KITUI CENTRAL",
+   "FIELD4": "70,736",
+   "FIELD5": "183"
+ },
+ {
+   "FIELD1": "015",
+   "FIELD2": "KITUI",
+   "FIELD3": "KITUI EAST",
+   "FIELD4": "57,290",
+   "FIELD5": "174"
+ },
+ {
+   "FIELD1": "015",
+   "FIELD2": "KITUI",
+   "FIELD3": "KITUI SOUTH",
+   "FIELD4": "68,185",
+   "FIELD5": "234"
+ },
+ {
+   "FIELD1": "016",
+   "FIELD2": "MACHAKOS",
+   "FIELD3": "MASINGA",
+   "FIELD4": "61,989",
+   "FIELD5": "170"
+ },
+ {
+   "FIELD1": "016",
+   "FIELD2": "MACHAKOS",
+   "FIELD3": "YATTA",
+   "FIELD4": "73,940",
+   "FIELD5": "169"
+ },
+ {
+   "FIELD1": "016",
+   "FIELD2": "MACHAKOS",
+   "FIELD3": "KANGUNDO",
+   "FIELD4": "53,475",
+   "FIELD5": "120"
+ },
+ {
+   "FIELD1": "016",
+   "FIELD2": "MACHAKOS",
+   "FIELD3": "MATUNGULU",
+   "FIELD4": "66,611",
+   "FIELD5": "145"
+ },
+ {
+   "FIELD1": "016",
+   "FIELD2": "MACHAKOS",
+   "FIELD3": "KATHIANI",
+   "FIELD4": "54,909",
+   "FIELD5": "113"
+ },
+ {
+   "FIELD1": "016",
+   "FIELD2": "MACHAKOS",
+   "FIELD3": "MAVOKO",
+   "FIELD4": "118,180",
+   "FIELD5": "189"
+ },
+ {
+   "FIELD1": "016",
+   "FIELD2": "MACHAKOS",
+   "FIELD3": "MACHAKOS TOWN",
+   "FIELD4": "109,877",
+   "FIELD5": "213"
+ },
+ {
+   "FIELD1": "016",
+   "FIELD2": "MACHAKOS",
+   "FIELD3": "MWALA",
+   "FIELD4": "81,273",
+   "FIELD5": "213"
+ },
+ {
+   "FIELD1": "017",
+   "FIELD2": "MAKUENI",
+   "FIELD3": "MBOONI",
+   "FIELD4": "85,876",
+   "FIELD5": "238"
+ },
+ {
+   "FIELD1": "017",
+   "FIELD2": "MAKUENI",
+   "FIELD3": "KILOME",
+   "FIELD4": "50,232",
+   "FIELD5": "108"
+ },
+ {
+   "FIELD1": "017",
+   "FIELD2": "MAKUENI",
+   "FIELD3": "KAITI",
+   "FIELD4": "57,952",
+   "FIELD5": "144"
+ },
+ {
+   "FIELD1": "017",
+   "FIELD2": "MAKUENI",
+   "FIELD3": "MAKUENI",
+   "FIELD4": "90,817",
+   "FIELD5": "225"
+ },
+ {
+   "FIELD1": "017",
+   "FIELD2": "MAKUENI",
+   "FIELD3": "KIBWEZI WEST",
+   "FIELD4": "80,805",
+   "FIELD5": "194"
+ },
+ {
+   "FIELD1": "017",
+   "FIELD2": "MAKUENI",
+   "FIELD3": "KIBWEZI EAST",
+   "FIELD4": "57,628",
+   "FIELD5": "151"
+ },
+ {
+   "FIELD1": "018",
+   "FIELD2": "NYANDARUA",
+   "FIELD3": "KINANGOP",
+   "FIELD4": "109,241",
+   "FIELD5": "206"
+ },
+ {
+   "FIELD1": "018",
+   "FIELD2": "NYANDARUA",
+   "FIELD3": "KIPIPIRI",
+   "FIELD4": "50,416",
+   "FIELD5": "107"
+ },
+ {
+   "FIELD1": "018",
+   "FIELD2": "NYANDARUA",
+   "FIELD3": "OL KALOU",
+   "FIELD4": "68,376",
+   "FIELD5": "126"
+ },
+ {
+   "FIELD1": "018",
+   "FIELD2": "NYANDARUA",
+   "FIELD3": "OL JOROK",
+   "FIELD4": "54,770",
+   "FIELD5": "102"
+ },
+ {
+   "FIELD1": "018",
+   "FIELD2": "NYANDARUA",
+   "FIELD3": "NDARAGWA",
+   "FIELD4": "52,831",
+   "FIELD5": "113"
+ },
+ {
+   "FIELD1": "019",
+   "FIELD2": "NYERI",
+   "FIELD3": "TETU",
+   "FIELD4": "51,716",
+   "FIELD5": "108"
+ },
+ {
+   "FIELD1": "019",
+   "FIELD2": "NYERI",
+   "FIELD3": "KIENI",
+   "FIELD4": "109,001",
+   "FIELD5": "227"
+ },
+ {
+   "FIELD1": "019",
+   "FIELD2": "NYERI",
+   "FIELD3": "MATHIRA",
+   "FIELD4": "99,496",
+   "FIELD5": "190"
+ },
+ {
+   "FIELD1": "019",
+   "FIELD2": "NYERI",
+   "FIELD3": "OTHAYA",
+   "FIELD4": "58,566",
+   "FIELD5": "129"
+ },
+ {
+   "FIELD1": "019",
+   "FIELD2": "NYERI",
+   "FIELD3": "MUKURWEINI",
+   "FIELD4": "55,310",
+   "FIELD5": "111"
+ },
+ {
+   "FIELD1": "019",
+   "FIELD2": "NYERI",
+   "FIELD3": "NYERI TOWN",
+   "FIELD4": "82,860",
+   "FIELD5": "152"
+ },
+ {
+   "FIELD1": "020",
+   "FIELD2": "KIRINYAGA",
+   "FIELD3": "MWEA",
+   "FIELD4": "122,380",
+   "FIELD5": "222"
+ },
+ {
+   "FIELD1": "020",
+   "FIELD2": "KIRINYAGA",
+   "FIELD3": "GICHUGU",
+   "FIELD4": "85,352",
+   "FIELD5": "168"
+ },
+ {
+   "FIELD1": "020",
+   "FIELD2": "KIRINYAGA",
+   "FIELD3": "NDIA",
+   "FIELD4": "66,083",
+   "FIELD5": "129"
+ },
+ {
+   "FIELD1": "020",
+   "FIELD2": "KIRINYAGA",
+   "FIELD3": "KIRINYAGA CENTRAL",
+   "FIELD4": "76,021",
+   "FIELD5": "140"
+ },
+ {
+   "FIELD1": "021",
+   "FIELD2": "MURANG'A",
+   "FIELD3": "KANGEMA",
+   "FIELD4": "48,730",
+   "FIELD5": "91"
+ },
+ {
+   "FIELD1": "021",
+   "FIELD2": "MURANG'A",
+   "FIELD3": "MATHIOYA",
+   "FIELD4": "54,940",
+   "FIELD5": "110"
+ },
+ {
+   "FIELD1": "021",
+   "FIELD2": "MURANG'A",
+   "FIELD3": "KIHARU",
+   "FIELD4": "114,260",
+   "FIELD5": "212"
+ },
+ {
+   "FIELD1": "021",
+   "FIELD2": "MURANG'A",
+   "FIELD3": "KIGUMO",
+   "FIELD4": "78,481",
+   "FIELD5": "150"
+ },
+ {
+   "FIELD1": "021",
+   "FIELD2": "MURANG'A",
+   "FIELD3": "MARAGWA",
+   "FIELD4": "96,078",
+   "FIELD5": "182"
+ },
+ {
+   "FIELD1": "021",
+   "FIELD2": "MURANG'A",
+   "FIELD3": "KANDARA",
+   "FIELD4": "98,633",
+   "FIELD5": "189"
+ },
+ {
+   "FIELD1": "021",
+   "FIELD2": "MURANG'A",
+   "FIELD3": "GATANGA",
+   "FIELD4": "96,004",
+   "FIELD5": "197"
+ },
+ {
+   "FIELD1": "022",
+   "FIELD2": "KIAMBU",
+   "FIELD3": "GATUNDU SOUTH",
+   "FIELD4": "75,858",
+   "FIELD5": "140"
+ },
+ {
+   "FIELD1": "022",
+   "FIELD2": "KIAMBU",
+   "FIELD3": "GATUNDU NORTH",
+   "FIELD4": "67,598",
+   "FIELD5": "126"
+ },
+ {
+   "FIELD1": "022",
+   "FIELD2": "KIAMBU",
+   "FIELD3": "JUJA",
+   "FIELD4": "114,761",
+   "FIELD5": "184"
+ },
+ {
+   "FIELD1": "022",
+   "FIELD2": "KIAMBU",
+   "FIELD3": "THIKA TOWN",
+   "FIELD4": "147,323",
+   "FIELD5": "230"
+ },
+ {
+   "FIELD1": "022",
+   "FIELD2": "KIAMBU",
+   "FIELD3": "RUIRU",
+   "FIELD4": "159,337",
+   "FIELD5": "240"
+ },
+ {
+   "FIELD1": "022",
+   "FIELD2": "KIAMBU",
+   "FIELD3": "GITHUNGURI",
+   "FIELD4": "99,384",
+   "FIELD5": "174"
+ },
+ {
+   "FIELD1": "022",
+   "FIELD2": "KIAMBU",
+   "FIELD3": "KIAMBU",
+   "FIELD4": "80,730",
+   "FIELD5": "132"
+ },
+ {
+   "FIELD1": "022",
+   "FIELD2": "KIAMBU",
+   "FIELD3": "KIAMBAA",
+   "FIELD4": "95,413",
+   "FIELD5": "154"
+ },
+ {
+   "FIELD1": "022",
+   "FIELD2": "KIAMBU",
+   "FIELD3": "KABETE",
+   "FIELD4": "85,446",
+   "FIELD5": "139"
+ },
+ {
+   "FIELD1": "022",
+   "FIELD2": "KIAMBU",
+   "FIELD3": "KIKUYU",
+   "FIELD4": "91,157",
+   "FIELD5": "149"
+ },
+ {
+   "FIELD1": "022",
+   "FIELD2": "KIAMBU",
+   "FIELD3": "LIMURU",
+   "FIELD4": "87,258",
+   "FIELD5": "153"
+ },
+ {
+   "FIELD1": "022",
+   "FIELD2": "KIAMBU",
+   "FIELD3": "LARI",
+   "FIELD4": "76,655",
+   "FIELD5": "142"
+ },
+ {
+   "FIELD1": "023",
+   "FIELD2": "TURKANA",
+   "FIELD3": "TURKANA NORTH",
+   "FIELD4": "34,008",
+   "FIELD5": "117"
+ },
+ {
+   "FIELD1": "023",
+   "FIELD2": "TURKANA",
+   "FIELD3": "TURKANA WEST",
+   "FIELD4": "31,416",
+   "FIELD5": "100"
+ },
+ {
+   "FIELD1": "023",
+   "FIELD2": "TURKANA",
+   "FIELD3": "TURKANA CENTRAL",
+   "FIELD4": "47,866",
+   "FIELD5": "140"
+ },
+ {
+   "FIELD1": "023",
+   "FIELD2": "TURKANA",
+   "FIELD3": "LOIMA",
+   "FIELD4": "29,103",
+   "FIELD5": "109"
+ },
+ {
+   "FIELD1": "023",
+   "FIELD2": "TURKANA",
+   "FIELD3": "TURKANA SOUTH",
+   "FIELD4": "33,422",
+   "FIELD5": "107"
+ },
+ {
+   "FIELD1": "023",
+   "FIELD2": "TURKANA",
+   "FIELD3": "TURKANA EAST",
+   "FIELD4": "15,620",
+   "FIELD5": "71"
+ },
+ {
+   "FIELD1": "024",
+   "FIELD2": "WEST POKOT",
+   "FIELD3": "KAPENGURIA",
+   "FIELD4": "55,601",
+   "FIELD5": "194"
+ },
+ {
+   "FIELD1": "024",
+   "FIELD2": "WEST POKOT",
+   "FIELD3": "SIGOR",
+   "FIELD4": "33,929",
+   "FIELD5": "126"
+ },
+ {
+   "FIELD1": "024",
+   "FIELD2": "WEST POKOT",
+   "FIELD3": "KACHELIBA",
+   "FIELD4": "42,632",
+   "FIELD5": "187"
+ },
+ {
+   "FIELD1": "024",
+   "FIELD2": "WEST POKOT",
+   "FIELD3": "POKOT SOUTH",
+   "FIELD4": "48,070",
+   "FIELD5": "205"
+ },
+ {
+   "FIELD1": "025",
+   "FIELD2": "SAMBURU",
+   "FIELD3": "SAMBURU WEST",
+   "FIELD4": "36,103",
+   "FIELD5": "101"
+ },
+ {
+   "FIELD1": "025",
+   "FIELD2": "SAMBURU",
+   "FIELD3": "SAMBURU NORTH",
+   "FIELD4": "24,588",
+   "FIELD5": "90"
+ },
+ {
+   "FIELD1": "025",
+   "FIELD2": "SAMBURU",
+   "FIELD3": "SAMBURU EAST",
+   "FIELD4": "22,096",
+   "FIELD5": "93"
+ },
+ {
+   "FIELD1": "026",
+   "FIELD2": "TRANS NZOIA",
+   "FIELD3": "KWANZA",
+   "FIELD4": "65,643",
+   "FIELD5": "124"
+ },
+ {
+   "FIELD1": "026",
+   "FIELD2": "TRANS NZOIA",
+   "FIELD3": "ENDEBESS",
+   "FIELD4": "43,189",
+   "FIELD5": "86"
+ },
+ {
+   "FIELD1": "026",
+   "FIELD2": "TRANS NZOIA",
+   "FIELD3": "SABOTI",
+   "FIELD4": "76,802",
+   "FIELD5": "135"
+ },
+ {
+   "FIELD1": "026",
+   "FIELD2": "TRANS NZOIA",
+   "FIELD3": "KIMININI",
+   "FIELD4": "77,482",
+   "FIELD5": "137"
+ },
+ {
+   "FIELD1": "026",
+   "FIELD2": "TRANS NZOIA",
+   "FIELD3": "CHERANGANY",
+   "FIELD4": "76,506",
+   "FIELD5": "157"
+ },
+ {
+   "FIELD1": "027",
+   "FIELD2": "UASIN GISHU",
+   "FIELD3": "SOY",
+   "FIELD4": "81,867",
+   "FIELD5": "159"
+ },
+ {
+   "FIELD1": "027",
+   "FIELD2": "UASIN GISHU",
+   "FIELD3": "TURBO",
+   "FIELD4": "110,851",
+   "FIELD5": "193"
+ },
+ {
+   "FIELD1": "027",
+   "FIELD2": "UASIN GISHU",
+   "FIELD3": "MOIBEN",
+   "FIELD4": "68,822",
+   "FIELD5": "145"
+ },
+ {
+   "FIELD1": "027",
+   "FIELD2": "UASIN GISHU",
+   "FIELD3": "AINABKOI",
+   "FIELD4": "54,797",
+   "FIELD5": "113"
+ },
+ {
+   "FIELD1": "027",
+   "FIELD2": "UASIN GISHU",
+   "FIELD3": "KAPSERET",
+   "FIELD4": "66,582",
+   "FIELD5": "119"
+ },
+ {
+   "FIELD1": "027",
+   "FIELD2": "UASIN GISHU",
+   "FIELD3": "KESSES",
+   "FIELD4": "67,136",
+   "FIELD5": "139"
+ },
+ {
+   "FIELD1": "028",
+   "FIELD2": "ELGEYO MARAKWET",
+   "FIELD3": "MARAKWET EAST",
+   "FIELD4": "36,428",
+   "FIELD5": "142"
+ },
+ {
+   "FIELD1": "028",
+   "FIELD2": "ELGEYO MARAKWET",
+   "FIELD3": "MARAKWET WEST",
+   "FIELD4": "48,819",
+   "FIELD5": "135"
+ },
+ {
+   "FIELD1": "028",
+   "FIELD2": "ELGEYO MARAKWET",
+   "FIELD3": "KEIYO NORTH",
+   "FIELD4": "41,367",
+   "FIELD5": "103"
+ },
+ {
+   "FIELD1": "028",
+   "FIELD2": "ELGEYO MARAKWET",
+   "FIELD3": "KEIYO SOUTH",
+   "FIELD4": "54,050",
+   "FIELD5": "149"
+ },
+ {
+   "FIELD1": "029",
+   "FIELD2": "NANDI",
+   "FIELD3": "TINDERET",
+   "FIELD4": "43,971",
+   "FIELD5": "110"
+ },
+ {
+   "FIELD1": "029",
+   "FIELD2": "NANDI",
+   "FIELD3": "ALDAI",
+   "FIELD4": "65,866",
+   "FIELD5": "170"
+ },
+ {
+   "FIELD1": "029",
+   "FIELD2": "NANDI",
+   "FIELD3": "NANDI HILLS",
+   "FIELD4": "51,393",
+   "FIELD5": "121"
+ },
+ {
+   "FIELD1": "029",
+   "FIELD2": "NANDI",
+   "FIELD3": "CHESUMEI",
+   "FIELD4": "62,299",
+   "FIELD5": "132"
+ },
+ {
+   "FIELD1": "029",
+   "FIELD2": "NANDI",
+   "FIELD3": "EMGWEN",
+   "FIELD4": "58,552",
+   "FIELD5": "120"
+ },
+ {
+   "FIELD1": "029",
+   "FIELD2": "NANDI",
+   "FIELD3": "MOSOP",
+   "FIELD4": "63,926",
+   "FIELD5": "143"
+ },
+ {
+   "FIELD1": "030",
+   "FIELD2": "BARINGO",
+   "FIELD3": "TIATY",
+   "FIELD4": "28,916",
+   "FIELD5": "143"
+ },
+ {
+   "FIELD1": "030",
+   "FIELD2": "BARINGO",
+   "FIELD3": "BARINGO NORTH",
+   "FIELD4": "42,774",
+   "FIELD5": "173"
+ },
+ {
+   "FIELD1": "030",
+   "FIELD2": "BARINGO",
+   "FIELD3": "BARINGO CENTRAL",
+   "FIELD4": "38,388",
+   "FIELD5": "135"
+ },
+ {
+   "FIELD1": "030",
+   "FIELD2": "BARINGO",
+   "FIELD3": "BARINGO SOUTH",
+   "FIELD4": "35,162",
+   "FIELD5": "132"
+ },
+ {
+   "FIELD1": "030",
+   "FIELD2": "BARINGO",
+   "FIELD3": "MOGOTIO",
+   "FIELD4": "32,276",
+   "FIELD5": "155"
+ },
+ {
+   "FIELD1": "030",
+   "FIELD2": "BARINGO",
+   "FIELD3": "ELDAMA RAVINE",
+   "FIELD4": "54,742",
+   "FIELD5": "154"
+ },
+ {
+   "FIELD1": "031",
+   "FIELD2": "LAIKIPIA",
+   "FIELD3": "LAIKIPIA WEST",
+   "FIELD4": "110,930",
+   "FIELD5": "226"
+ },
+ {
+   "FIELD1": "031",
+   "FIELD2": "LAIKIPIA",
+   "FIELD3": "LAIKIPIA EAST",
+   "FIELD4": "88,886",
+   "FIELD5": "177"
+ },
+ {
+   "FIELD1": "031",
+   "FIELD2": "LAIKIPIA",
+   "FIELD3": "LAIKIPIA NORTH",
+   "FIELD4": "46,671",
+   "FIELD5": "128"
+ },
+ {
+   "FIELD1": "032",
+   "FIELD2": "NAKURU",
+   "FIELD3": "MOLO",
+   "FIELD4": "70,992",
+   "FIELD5": "135"
+ },
+ {
+   "FIELD1": "032",
+   "FIELD2": "NAKURU",
+   "FIELD3": "NJORO",
+   "FIELD4": "104,687",
+   "FIELD5": "191"
+ },
+ {
+   "FIELD1": "032",
+   "FIELD2": "NAKURU",
+   "FIELD3": "NAIVASHA",
+   "FIELD4": "145,049",
+   "FIELD5": "256"
+ },
+ {
+   "FIELD1": "032",
+   "FIELD2": "NAKURU",
+   "FIELD3": "GILGIL",
+   "FIELD4": "85,340",
+   "FIELD5": "162"
+ },
+ {
+   "FIELD1": "032",
+   "FIELD2": "NAKURU",
+   "FIELD3": "KURESOI SOUTH",
+   "FIELD4": "55,661",
+   "FIELD5": "115"
+ },
+ {
+   "FIELD1": "032",
+   "FIELD2": "NAKURU",
+   "FIELD3": "KURESOI NORTH",
+   "FIELD4": "61,344",
+   "FIELD5": "122"
+ },
+ {
+   "FIELD1": "032",
+   "FIELD2": "NAKURU",
+   "FIELD3": "SUBUKIA",
+   "FIELD4": "51,582",
+   "FIELD5": "130"
+ },
+ {
+   "FIELD1": "032",
+   "FIELD2": "NAKURU",
+   "FIELD3": "RONGAI",
+   "FIELD4": "77,162",
+   "FIELD5": "182"
+ },
+ {
+   "FIELD1": "032",
+   "FIELD2": "NAKURU",
+   "FIELD3": "BAHATI",
+   "FIELD4": "87,508",
+   "FIELD5": "169"
+ },
+ {
+   "FIELD1": "032",
+   "FIELD2": "NAKURU",
+   "FIELD3": "NAKURU TOWN WEST",
+   "FIELD4": "97,549",
+   "FIELD5": "159"
+ },
+ {
+   "FIELD1": "032",
+   "FIELD2": "NAKURU",
+   "FIELD3": "NAKURU TOWN EAST",
+   "FIELD4": "112,744",
+   "FIELD5": "185"
+ },
+ {
+   "FIELD1": "033",
+   "FIELD2": "NAROK",
+   "FIELD3": "KILGORIS",
+   "FIELD4": "67,079",
+   "FIELD5": "165"
+ },
+ {
+   "FIELD1": "033",
+   "FIELD2": "NAROK",
+   "FIELD3": "EMURUA DIKIRR",
+   "FIELD4": "35,531",
+   "FIELD5": "75"
+ },
+ {
+   "FIELD1": "033",
+   "FIELD2": "NAROK",
+   "FIELD3": "NAROK NORTH",
+   "FIELD4": "78,380",
+   "FIELD5": "162"
+ },
+ {
+   "FIELD1": "033",
+   "FIELD2": "NAROK",
+   "FIELD3": "NAROK EAST",
+   "FIELD4": "39,559",
+   "FIELD5": "84"
+ },
+ {
+   "FIELD1": "033",
+   "FIELD2": "NAROK",
+   "FIELD3": "NAROK SOUTH",
+   "FIELD4": "65,772",
+   "FIELD5": "143"
+ },
+ {
+   "FIELD1": "033",
+   "FIELD2": "NAROK",
+   "FIELD3": "NAROK WEST",
+   "FIELD4": "55,409",
+   "FIELD5": "121"
+ },
+ {
+   "FIELD1": "034",
+   "FIELD2": "KAJIADO",
+   "FIELD3": "KAJIADO NORTH",
+   "FIELD4": "127,953",
+   "FIELD5": "201"
+ },
+ {
+   "FIELD1": "034",
+   "FIELD2": "KAJIADO",
+   "FIELD3": "KAJIADO CENTRAL",
+   "FIELD4": "56,434",
+   "FIELD5": "125"
+ },
+ {
+   "FIELD1": "034",
+   "FIELD2": "KAJIADO",
+   "FIELD3": "KAJIADO EAST",
+   "FIELD4": "102,804",
+   "FIELD5": "184"
+ },
+ {
+   "FIELD1": "034",
+   "FIELD2": "KAJIADO",
+   "FIELD3": "KAJIADO WEST",
+   "FIELD4": "64,026",
+   "FIELD5": "148"
+ },
+ {
+   "FIELD1": "034",
+   "FIELD2": "KAJIADO",
+   "FIELD3": "KAJIADO SOUTH",
+   "FIELD4": "59,976",
+   "FIELD5": "139"
+ },
+ {
+   "FIELD1": "035",
+   "FIELD2": "KERICHO",
+   "FIELD3": "KIPKELION EAST",
+   "FIELD4": "56,486",
+   "FIELD5": "119"
+ },
+ {
+   "FIELD1": "035",
+   "FIELD2": "KERICHO",
+   "FIELD3": "KIPKELION WEST",
+   "FIELD4": "46,512",
+   "FIELD5": "106"
+ },
+ {
+   "FIELD1": "035",
+   "FIELD2": "KERICHO",
+   "FIELD3": "AINAMOI",
+   "FIELD4": "75,521",
+   "FIELD5": "149"
+ },
+ {
+   "FIELD1": "035",
+   "FIELD2": "KERICHO",
+   "FIELD3": "BURETI",
+   "FIELD4": "82,417",
+   "FIELD5": "177"
+ },
+ {
+   "FIELD1": "035",
+   "FIELD2": "KERICHO",
+   "FIELD3": "BELGUT",
+   "FIELD4": "67,599",
+   "FIELD5": "127"
+ },
+ {
+   "FIELD1": "035",
+   "FIELD2": "KERICHO",
+   "FIELD3": "SIGOWET/SOIN",
+   "FIELD4": "47,133",
+   "FIELD5": "102"
+ },
+ {
+   "FIELD1": "036",
+   "FIELD2": "BOMET",
+   "FIELD3": "SOTIK",
+   "FIELD4": "73,314",
+   "FIELD5": "171"
+ },
+ {
+   "FIELD1": "036",
+   "FIELD2": "BOMET",
+   "FIELD3": "CHEPALUNGU",
+   "FIELD4": "68,544",
+   "FIELD5": "160"
+ },
+ {
+   "FIELD1": "036",
+   "FIELD2": "BOMET",
+   "FIELD3": "BOMET EAST",
+   "FIELD4": "52,862",
+   "FIELD5": "115"
+ },
+ {
+   "FIELD1": "036",
+   "FIELD2": "BOMET",
+   "FIELD3": "BOMET CENTRAL",
+   "FIELD4": "60,115",
+   "FIELD5": "126"
+ },
+ {
+   "FIELD1": "036",
+   "FIELD2": "BOMET",
+   "FIELD3": "KONOIN",
+   "FIELD4": "67,177",
+   "FIELD5": "156"
+ },
+ {
+   "FIELD1": "037",
+   "FIELD2": "KAKAMEGA",
+   "FIELD3": "LUGARI",
+   "FIELD4": "77,001",
+   "FIELD5": "159"
+ },
+ {
+   "FIELD1": "037",
+   "FIELD2": "KAKAMEGA",
+   "FIELD3": "LIKUYANI",
+   "FIELD4": "63,311",
+   "FIELD5": "120"
+ },
+ {
+   "FIELD1": "037",
+   "FIELD2": "KAKAMEGA",
+   "FIELD3": "MALAVA",
+   "FIELD4": "82,136",
+   "FIELD5": "160"
+ },
+ {
+   "FIELD1": "037",
+   "FIELD2": "KAKAMEGA",
+   "FIELD3": "LURAMBI",
+   "FIELD4": "80,037",
+   "FIELD5": "166"
+ },
+ {
+   "FIELD1": "037",
+   "FIELD2": "KAKAMEGA",
+   "FIELD3": "NAVAKHOLO",
+   "FIELD4": "53,620",
+   "FIELD5": "118"
+ },
+ {
+   "FIELD1": "037",
+   "FIELD2": "KAKAMEGA",
+   "FIELD3": "MUMIAS WEST",
+   "FIELD4": "47,492",
+   "FIELD5": "92"
+ },
+ {
+   "FIELD1": "037",
+   "FIELD2": "KAKAMEGA",
+   "FIELD3": "MUMIAS EAST",
+   "FIELD4": "45,380",
+   "FIELD5": "91"
+ },
+ {
+   "FIELD1": "037",
+   "FIELD2": "KAKAMEGA",
+   "FIELD3": "MATUNGU",
+   "FIELD4": "61,728",
+   "FIELD5": "115"
+ },
+ {
+   "FIELD1": "037",
+   "FIELD2": "KAKAMEGA",
+   "FIELD3": "BUTERE",
+   "FIELD4": "62,956",
+   "FIELD5": "124"
+ },
+ {
+   "FIELD1": "037",
+   "FIELD2": "KAKAMEGA",
+   "FIELD3": "KHWISERO",
+   "FIELD4": "48,920",
+   "FIELD5": "105"
+ },
+ {
+   "FIELD1": "037",
+   "FIELD2": "KAKAMEGA",
+   "FIELD3": "SHINYALU",
+   "FIELD4": "71,256",
+   "FIELD5": "144"
+ },
+ {
+   "FIELD1": "037",
+   "FIELD2": "KAKAMEGA",
+   "FIELD3": "IKOLOMANI",
+   "FIELD4": "49,899",
+   "FIELD5": "103"
+ },
+ {
+   "FIELD1": "038",
+   "FIELD2": "VIHIGA",
+   "FIELD3": "VIHIGA",
+   "FIELD4": "45,309",
+   "FIELD5": "86"
+ },
+ {
+   "FIELD1": "038",
+   "FIELD2": "VIHIGA",
+   "FIELD3": "SABATIA",
+   "FIELD4": "63,035",
+   "FIELD5": "128"
+ },
+ {
+   "FIELD1": "038",
+   "FIELD2": "VIHIGA",
+   "FIELD3": "HAMISI",
+   "FIELD4": "73,357",
+   "FIELD5": "148"
+ },
+ {
+   "FIELD1": "038",
+   "FIELD2": "VIHIGA",
+   "FIELD3": "LUANDA",
+   "FIELD4": "49,214",
+   "FIELD5": "99"
+ },
+ {
+   "FIELD1": "038",
+   "FIELD2": "VIHIGA",
+   "FIELD3": "EMUHAYA",
+   "FIELD4": "41,494",
+   "FIELD5": "87"
+ },
+ {
+   "FIELD1": "039",
+   "FIELD2": "BUNGOMA",
+   "FIELD3": "MT. ELGON",
+   "FIELD4": "66,220",
+   "FIELD5": "152"
+ },
+ {
+   "FIELD1": "039",
+   "FIELD2": "BUNGOMA",
+   "FIELD3": "SIRISIA",
+   "FIELD4": "40,940",
+   "FIELD5": "99"
+ },
+ {
+   "FIELD1": "039",
+   "FIELD2": "BUNGOMA",
+   "FIELD3": "KABUCHAI",
+   "FIELD4": "57,476",
+   "FIELD5": "123"
+ },
+ {
+   "FIELD1": "039",
+   "FIELD2": "BUNGOMA",
+   "FIELD3": "BUMULA",
+   "FIELD4": "70,683",
+   "FIELD5": "148"
+ },
+ {
+   "FIELD1": "039",
+   "FIELD2": "BUNGOMA",
+   "FIELD3": "KANDUYI",
+   "FIELD4": "105,565",
+   "FIELD5": "204"
+ },
+ {
+   "FIELD1": "039",
+   "FIELD2": "BUNGOMA",
+   "FIELD3": "WEBUYE EAST",
+   "FIELD4": "42,263",
+   "FIELD5": "93"
+ },
+ {
+   "FIELD1": "039",
+   "FIELD2": "BUNGOMA",
+   "FIELD3": "WEBUYE WEST",
+   "FIELD4": "50,466",
+   "FIELD5": "96"
+ },
+ {
+   "FIELD1": "039",
+   "FIELD2": "BUNGOMA",
+   "FIELD3": "KIMILILI",
+   "FIELD4": "52,268",
+   "FIELD5": "107"
+ },
+ {
+   "FIELD1": "039",
+   "FIELD2": "BUNGOMA",
+   "FIELD3": "TONGAREN",
+   "FIELD4": "73,969",
+   "FIELD5": "164"
+ },
+ {
+   "FIELD1": "040",
+   "FIELD2": "BUSIA",
+   "FIELD3": "TESO NORTH",
+   "FIELD4": "49,833",
+   "FIELD5": "118"
+ },
+ {
+   "FIELD1": "040",
+   "FIELD2": "BUSIA",
+   "FIELD3": "TESO SOUTH",
+   "FIELD4": "61,342",
+   "FIELD5": "136"
+ },
+ {
+   "FIELD1": "040",
+   "FIELD2": "BUSIA",
+   "FIELD3": "NAMBALE",
+   "FIELD4": "42,259",
+   "FIELD5": "86"
+ },
+ {
+   "FIELD1": "040",
+   "FIELD2": "BUSIA",
+   "FIELD3": "MATAYOS",
+   "FIELD4": "56,841",
+   "FIELD5": "117"
+ },
+ {
+   "FIELD1": "040",
+   "FIELD2": "BUSIA",
+   "FIELD3": "BUTULA",
+   "FIELD4": "57,685",
+   "FIELD5": "120"
+ },
+ {
+   "FIELD1": "040",
+   "FIELD2": "BUSIA",
+   "FIELD3": "FUNYULA",
+   "FIELD4": "44,671",
+   "FIELD5": "99"
+ },
+ {
+   "FIELD1": "040",
+   "FIELD2": "BUSIA",
+   "FIELD3": "BUDALANGI",
+   "FIELD4": "38,417",
+   "FIELD5": "84"
+ },
+ {
+   "FIELD1": "041",
+   "FIELD2": "SIAYA",
+   "FIELD3": "UGENYA",
+   "FIELD4": "57,603",
+   "FIELD5": "112"
+ },
+ {
+   "FIELD1": "041",
+   "FIELD2": "SIAYA",
+   "FIELD3": "UGUNJA",
+   "FIELD4": "50,487",
+   "FIELD5": "102"
+ },
+ {
+   "FIELD1": "041",
+   "FIELD2": "SIAYA",
+   "FIELD3": "ALEGO USONGA",
+   "FIELD4": "103,334",
+   "FIELD5": "206"
+ },
+ {
+   "FIELD1": "041",
+   "FIELD2": "SIAYA",
+   "FIELD3": "GEM",
+   "FIELD4": "80,472",
+   "FIELD5": "168"
+ },
+ {
+   "FIELD1": "041",
+   "FIELD2": "SIAYA",
+   "FIELD3": "BONDO",
+   "FIELD4": "90,278",
+   "FIELD5": "177"
+ },
+ {
+   "FIELD1": "041",
+   "FIELD2": "SIAYA",
+   "FIELD3": "RARIEDA",
+   "FIELD4": "75,779",
+   "FIELD5": "151"
+ },
+ {
+   "FIELD1": "042",
+   "FIELD2": "KISUMU",
+   "FIELD3": "KISUMU EAST",
+   "FIELD4": "81,538",
+   "FIELD5": "141"
+ },
+ {
+   "FIELD1": "042",
+   "FIELD2": "KISUMU",
+   "FIELD3": "KISUMU WEST",
+   "FIELD4": "74,439",
+   "FIELD5": "142"
+ },
+ {
+   "FIELD1": "042",
+   "FIELD2": "KISUMU",
+   "FIELD3": "KISUMU CENTRAL",
+   "FIELD4": "120,023",
+   "FIELD5": "196"
+ },
+ {
+   "FIELD1": "042",
+   "FIELD2": "KISUMU",
+   "FIELD3": "SEME",
+   "FIELD4": "53,555",
+   "FIELD5": "111"
+ },
+ {
+   "FIELD1": "042",
+   "FIELD2": "KISUMU",
+   "FIELD3": "NYANDO",
+   "FIELD4": "71,680",
+   "FIELD5": "148"
+ },
+ {
+   "FIELD1": "042",
+   "FIELD2": "KISUMU",
+   "FIELD3": "MUHORONI",
+   "FIELD4": "69,091",
+   "FIELD5": "142"
+ },
+ {
+   "FIELD1": "042",
+   "FIELD2": "KISUMU",
+   "FIELD3": "NYAKACH",
+   "FIELD4": "68,884",
+   "FIELD5": "147"
+ },
+ {
+   "FIELD1": "043",
+   "FIELD2": "HOMA BAY",
+   "FIELD3": "KASIPUL",
+   "FIELD4": "57,344",
+   "FIELD5": "113"
+ },
+ {
+   "FIELD1": "043",
+   "FIELD2": "HOMA BAY",
+   "FIELD3": "KABONDO KASIPUL",
+   "FIELD4": "49,432",
+   "FIELD5": "105"
+ },
+ {
+   "FIELD1": "043",
+   "FIELD2": "HOMA BAY",
+   "FIELD3": "KARACHUONYO",
+   "FIELD4": "84,004",
+   "FIELD5": "184"
+ },
+ {
+   "FIELD1": "043",
+   "FIELD2": "HOMA BAY",
+   "FIELD3": "RANGWE",
+   "FIELD4": "52,516",
+   "FIELD5": "118"
+ },
+ {
+   "FIELD1": "043",
+   "FIELD2": "HOMA BAY",
+   "FIELD3": "HOMA BAY TOWN",
+   "FIELD4": "50,570",
+   "FIELD5": "105"
+ },
+ {
+   "FIELD1": "043",
+   "FIELD2": "HOMA BAY",
+   "FIELD3": "NDHIWA",
+   "FIELD4": "85,056",
+   "FIELD5": "185"
+ },
+ {
+   "FIELD1": "043",
+   "FIELD2": "HOMA BAY",
+   "FIELD3": "SUBA NORTH",
+   "FIELD4": "51,454",
+   "FIELD5": "139"
+ },
+ {
+   "FIELD1": "043",
+   "FIELD2": "HOMA BAY",
+   "FIELD3": "SUBA SOUTH",
+   "FIELD4": "46,499",
+   "FIELD5": "113"
+ },
+ {
+   "FIELD1": "044",
+   "FIELD2": "MIGORI",
+   "FIELD3": "RONGO",
+   "FIELD4": "48,412",
+   "FIELD5": "97"
+ },
+ {
+   "FIELD1": "044",
+   "FIELD2": "MIGORI",
+   "FIELD3": "AWENDO",
+   "FIELD4": "48,293",
+   "FIELD5": "101"
+ },
+ {
+   "FIELD1": "044",
+   "FIELD2": "MIGORI",
+   "FIELD3": "SUNA EAST",
+   "FIELD4": "46,534",
+   "FIELD5": "95"
+ },
+ {
+   "FIELD1": "044",
+   "FIELD2": "MIGORI",
+   "FIELD3": "SUNA WEST",
+   "FIELD4": "46,030",
+   "FIELD5": "88"
+ },
+ {
+   "FIELD1": "044",
+   "FIELD2": "MIGORI",
+   "FIELD3": "URIRI",
+   "FIELD4": "51,676",
+   "FIELD5": "110"
+ },
+ {
+   "FIELD1": "044",
+   "FIELD2": "MIGORI",
+   "FIELD3": "NYATIKE",
+   "FIELD4": "61,477",
+   "FIELD5": "138"
+ },
+ {
+   "FIELD1": "044",
+   "FIELD2": "MIGORI",
+   "FIELD3": "KURIA WEST",
+   "FIELD4": "51,057",
+   "FIELD5": "117"
+ },
+ {
+   "FIELD1": "044",
+   "FIELD2": "MIGORI",
+   "FIELD3": "KURIA EAST",
+   "FIELD4": "35,154",
+   "FIELD5": "80"
+ },
+ {
+   "FIELD1": "045",
+   "FIELD2": "KISII",
+   "FIELD3": "BONCHARI",
+   "FIELD4": "52,624",
+   "FIELD5": "102"
+ },
+ {
+   "FIELD1": "045",
+   "FIELD2": "KISII",
+   "FIELD3": "SOUTH MUGIRANGO",
+   "FIELD4": "67,345",
+   "FIELD5": "144"
+ },
+ {
+   "FIELD1": "045",
+   "FIELD2": "KISII",
+   "FIELD3": "BOMACHOGE BORABU",
+   "FIELD4": "49,081",
+   "FIELD5": "105"
+ },
+ {
+   "FIELD1": "045",
+   "FIELD2": "KISII",
+   "FIELD3": "BOBASI",
+   "FIELD4": "89,310",
+   "FIELD5": "184"
+ },
+ {
+   "FIELD1": "045",
+   "FIELD2": "KISII",
+   "FIELD3": "BOMACHOGE CHACHE",
+   "FIELD4": "41,745",
+   "FIELD5": "89"
+ },
+ {
+   "FIELD1": "045",
+   "FIELD2": "KISII",
+   "FIELD3": "NYARIBARI MASABA",
+   "FIELD4": "59,064",
+   "FIELD5": "132"
+ },
+ {
+   "FIELD1": "045",
+   "FIELD2": "KISII",
+   "FIELD3": "NYARIBARI CHACHE",
+   "FIELD4": "77,729",
+   "FIELD5": "149"
+ },
+ {
+   "FIELD1": "045",
+   "FIELD2": "KISII",
+   "FIELD3": "KITUTU CHACHE NORTH",
+   "FIELD4": "50,665",
+   "FIELD5": "106"
+ },
+ {
+   "FIELD1": "045",
+   "FIELD2": "KISII",
+   "FIELD3": "KITUTU CHACHE SOUTH",
+   "FIELD4": "59,017",
+   "FIELD5": "115"
+ },
+ {
+   "FIELD1": "046",
+   "FIELD2": "NYAMIRA",
+   "FIELD3": "KITUTU MASABA",
+   "FIELD4": "93,246",
+   "FIELD5": "187"
+ },
+ {
+   "FIELD1": "046",
+   "FIELD2": "NYAMIRA",
+   "FIELD3": "WEST MUGIRANGO",
+   "FIELD4": "76,392",
+   "FIELD5": "147"
+ },
+ {
+   "FIELD1": "046",
+   "FIELD2": "NYAMIRA",
+   "FIELD3": "NORTH MUGIRANGO",
+   "FIELD4": "54,306",
+   "FIELD5": "111"
+ },
+ {
+   "FIELD1": "046",
+   "FIELD2": "NYAMIRA",
+   "FIELD3": "BORABU",
+   "FIELD4": "54,909",
+   "FIELD5": "108"
+ },
+ {
+   "FIELD1": "047",
+   "FIELD2": "NAIROBI CITY",
+   "FIELD3": "WESTLANDS",
+   "FIELD4": "152,718",
+   "FIELD5": "230"
+ },
+ {
+   "FIELD1": "047",
+   "FIELD2": "NAIROBI CITY",
+   "FIELD3": "DAGORETTI NORTH",
+   "FIELD4": "147,214",
+   "FIELD5": "220"
+ },
+ {
+   "FIELD1": "047",
+   "FIELD2": "NAIROBI CITY",
+   "FIELD3": "DAGORETTI SOUTH",
+   "FIELD4": "107,239",
+   "FIELD5": "168"
+ },
+ {
+   "FIELD1": "047",
+   "FIELD2": "NAIROBI CITY",
+   "FIELD3": "LANGATA",
+   "FIELD4": "132,572",
+   "FIELD5": "200"
+ },
+ {
+   "FIELD1": "047",
+   "FIELD2": "NAIROBI CITY",
+   "FIELD3": "KIBRA",
+   "FIELD4": "118,276",
+   "FIELD5": "180"
+ },
+ {
+   "FIELD1": "047",
+   "FIELD2": "NAIROBI CITY",
+   "FIELD3": "ROYSAMBU",
+   "FIELD4": "147,582",
+   "FIELD5": "221"
+ },
+ {
+   "FIELD1": "047",
+   "FIELD2": "NAIROBI CITY",
+   "FIELD3": "KASARANI",
+   "FIELD4": "146,701",
+   "FIELD5": "222"
+ },
+ {
+   "FIELD1": "047",
+   "FIELD2": "NAIROBI CITY",
+   "FIELD3": "RUARAKA",
+   "FIELD4": "116,301",
+   "FIELD5": "175"
+ },
+ {
+   "FIELD1": "047",
+   "FIELD2": "NAIROBI CITY",
+   "FIELD3": "EMBAKASI SOUTH",
+   "FIELD4": "150,314",
+   "FIELD5": "221"
+ },
+ {
+   "FIELD1": "047",
+   "FIELD2": "NAIROBI CITY",
+   "FIELD3": "EMBAKASI NORTH",
+   "FIELD4": "104,253",
+   "FIELD5": "157"
+ },
+ {
+   "FIELD1": "047",
+   "FIELD2": "NAIROBI CITY",
+   "FIELD3": "EMBAKASI CENTRAL",
+   "FIELD4": "131,991",
+   "FIELD5": "193"
+ },
+ {
+   "FIELD1": "047",
+   "FIELD2": "NAIROBI CITY",
+   "FIELD3": "EMBAKASI EAST",
+   "FIELD4": "140,740",
+   "FIELD5": "207"
+ },
+ {
+   "FIELD1": "047",
+   "FIELD2": "NAIROBI CITY",
+   "FIELD3": "EMBAKASI WEST",
+   "FIELD4": "126,682",
+   "FIELD5": "187"
+ },
+ {
+   "FIELD1": "047",
+   "FIELD2": "NAIROBI CITY",
+   "FIELD3": "MAKADARA",
+   "FIELD4": "126,048",
+   "FIELD5": "192"
+ },
+ {
+   "FIELD1": "047",
+   "FIELD2": "NAIROBI CITY",
+   "FIELD3": "KAMUKUNJI",
+   "FIELD4": "120,266",
+   "FIELD5": "181"
+ },
+ {
+   "FIELD1": "047",
+   "FIELD2": "NAIROBI CITY",
+   "FIELD3": "STAREHE",
+   "FIELD4": "166,397",
+   "FIELD5": "253"
+ },
+ {
+   "FIELD1": "047",
+   "FIELD2": "NAIROBI CITY",
+   "FIELD3": "MATHARE",
+   "FIELD4": "115,559",
+   "FIELD5": "171"
+ },
+ {
+   "FIELD1": "048",
+   "FIELD2": "DIASPORA",
+   "FIELD3": "DIASPORA",
+   "FIELD4": "4,393",
+   "FIELD5": "10"
+ },
+ {
+   "FIELD1": "049",
+   "FIELD2": "PRISONS",
+   "FIELD3": "PRISONS",
+   "FIELD4": "5,528",
+   "FIELD5": "103"
+ },
+ {
+   "FIELD1": "",
+   "FIELD2": "",
+   "FIELD3": "",
+   "FIELD4": "19,611,423",
+   "FIELD5": "40,883"
+ }
+]
