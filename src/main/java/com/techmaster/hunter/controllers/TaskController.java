@@ -3,28 +3,39 @@ package com.techmaster.hunter.controllers;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.swing.plaf.synth.Region;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.Produces;
 
+import org.apache.commons.lang3.ArrayUtils;
 import org.apache.log4j.Logger;
+import org.hibernate.sql.SelectValues;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.techmaster.hunter.angular.data.AngularData;
+import com.techmaster.hunter.angular.data.HunterAngularDataHelper;
+import com.techmaster.hunter.angular.grid.GridQueryHandler;
 import com.techmaster.hunter.cache.HunterCacheUtil;
 import com.techmaster.hunter.constants.HunterConstants;
+import com.techmaster.hunter.constants.HunterDaoConstants;
 import com.techmaster.hunter.constants.UIMessageConstants;
 import com.techmaster.hunter.dao.impl.HunterDaoFactory;
+import com.techmaster.hunter.dao.impl.TaskDaoImpl;
 import com.techmaster.hunter.dao.types.ReceiverGroupDao;
 import com.techmaster.hunter.dao.types.ServiceProviderDao;
 import com.techmaster.hunter.dao.types.TaskDao;
@@ -32,7 +43,10 @@ import com.techmaster.hunter.dao.types.TaskHistoryDao;
 import com.techmaster.hunter.enums.HunterUserRolesEnums;
 import com.techmaster.hunter.enums.TaskHistoryEventEnum;
 import com.techmaster.hunter.gateway.beans.GateWayClientService;
+import com.techmaster.hunter.json.HunterSelectValue;
+import com.techmaster.hunter.json.HunterUserJson;
 import com.techmaster.hunter.json.ReceiverGroupJson;
+import com.techmaster.hunter.json.TaskHistoryJson;
 import com.techmaster.hunter.json.TaskProcessJobJson;
 import com.techmaster.hunter.obj.beans.AuditInfo;
 import com.techmaster.hunter.obj.beans.HunterJacksonMapper;
@@ -45,9 +59,11 @@ import com.techmaster.hunter.obj.beans.TaskHistory;
 import com.techmaster.hunter.obj.beans.TextMessage;
 import com.techmaster.hunter.obj.converters.TaskConverter;
 import com.techmaster.hunter.obj.converters.TaskProcessJobConverter;
+import com.techmaster.hunter.region.RegionService;
 import com.techmaster.hunter.task.TaskManager;
 import com.techmaster.hunter.util.HunterHibernateHelper;
 import com.techmaster.hunter.util.HunterLogFactory;
+import com.techmaster.hunter.util.HunterQueryToBeanMapper;
 import com.techmaster.hunter.util.HunterUtility;
 
 @Controller
@@ -58,9 +74,18 @@ public class TaskController extends HunterBaseController{
 	@Autowired private HunterJacksonMapper hunterJacksonMapper;
 	@Autowired private TaskManager taskManager;
 	@Autowired private TaskHistoryDao taskHistoryDao;
-	@Autowired private ReceiverGroupDao receiverGroupDao;
+	@Autowired private RegionService regionService;
 	
 	private static final Logger logger = HunterLogFactory.getLog(TaskController.class);
+	
+	@RequestMapping(value="/getTask/byId/{taskId}", method = RequestMethod.GET)
+	@Produces("application/json")
+	public @ResponseBody Object getAllAngularTasks( @PathVariable("taskId") Long taskId ){
+		Task task = taskDao.getTaskById(taskId);
+		List<Task> tasks = new ArrayList<>();
+		tasks.add(task); 
+		return HunterAngularDataHelper.getIntance().getDataBean(( (TaskDaoImpl)taskDao ).createAngularTasksFromTasks(tasks), HunterDaoConstants.TASK_GRID_HEADERS);
+	}
 
 	@RequestMapping(value = "/action/read/getTasksForClientId/{clientId}")
 	@Produces("application/json")
@@ -78,7 +103,7 @@ public class TaskController extends HunterBaseController{
 	@RequestMapping(value = "/action/task/clone")
 	@Produces("application/json")
 	@Consumes("application/json")
-	public @ResponseBody String cloneTask(HttpServletRequest request) {
+	public @ResponseBody Object cloneTask(HttpServletRequest request) {
 		
 		JSONObject messages = new JSONObject();
 		
@@ -89,16 +114,27 @@ public class TaskController extends HunterBaseController{
 
 			Long taskId = requestBodyJs.getLong("taskId");
 			String newUserName = HunterUtility.getStringOrNullFromJSONObj(requestBodyJs, "newOwner");
+
+			if ( HunterUtility.isNumeric(newUserName ) ) {
+				List<Object> values = new ArrayList<>();
+				values.add( HunterUtility.getLongFromObject(newUserName) );
+				List<HunterUserJson> hunterUserJsons = HunterQueryToBeanMapper.getInstance().map(HunterUserJson.class, HunterDaoConstants.GET_ALL_CLIENTS_DETAILS_FOR_ID, values);
+				if ( HunterUtility.isCollNotEmpty(hunterUserJsons) ) {
+					newUserName = hunterUserJsons.get(0).getUserName();
+				} else {
+					return HunterUtility.setJSONObjectForFailure(null, "No client found for client id: " + newUserName).toString();
+				}
+			}
+
 			String taskName = HunterUtility.getStringOrNullFromJSONObj(requestBodyJs, "taskName");; 
 			String taskDescription = HunterUtility.getStringOrNullFromJSONObj(requestBodyJs, "taskDescription");
 			logger.debug("Cloning task with id ( " + requestBodyJs.getLong("taskId") + " )");   
 			TaskHistory taskHistory = taskManager.getNewTaskHistoryForEventName(taskId, TaskHistoryEventEnum.CLONE.getEventName(), getUserName());
 			
 			// check if that name is already used.
-			String taskNamesStr = HunterDaoFactory.getObject(TaskDao.class).getCmmSprtdTskNamsFrUsrNam(newUserName);  
-			if(taskNamesStr != null){
-				String[] taskNames = taskNamesStr.split(","); 
-				for(String tskName : taskNames){
+			List<String> taskNames = HunterDaoFactory.getObject(TaskDao.class).getCmmSprtdTskNamsFrUsrNam(newUserName);  
+			if( HunterUtility.isCollNotEmpty(taskNames) ){ 
+				for( String tskName : taskNames ){
 					if(tskName.equals(taskName) || tskName.equals(taskName  + "_" + taskId)){
 						logger.debug("Client already has task with this task name."); 
 						String errorMsg = "Client already has a task with this task name.";
@@ -141,20 +177,25 @@ public class TaskController extends HunterBaseController{
 			taskHistoryDao.insertTaskHistory(taskHistory);
 			
 			logger.debug("Finished cloning task!!"); 
-			return HunterUtility.setJSONObjectForSuccess(messages, "Successfully cloned task!").toString();
+			List<Task> data = new ArrayList<Task>();
+			data.add(copy);
+			return HunterAngularDataHelper.getIntance().getBeanForMsgAndSts("Siccessfully cloned task.", HunterConstants.STATUS_SUCCESS, data);
 			
 		} catch (JSONException e) {
 			e.printStackTrace();
-			return HunterUtility.setJSONObjectForFailure(messages, "Application error occurred!").toString();
+			return HunterUtility.setJSONObjectForFailure(messages, HunterUtility.getApplicationErrorMessage()).toString();
 		} catch (IOException e) {
 			e.printStackTrace();
-			return HunterUtility.setJSONObjectForFailure(messages, "Application error occurred!").toString();
+			return HunterUtility.setJSONObjectForFailure(messages, HunterUtility.getApplicationErrorMessage()).toString();
 		} catch (IllegalAccessException e) {
 			e.printStackTrace();
-			return HunterUtility.setJSONObjectForFailure(messages, "Application error occurred!").toString();
+			return HunterUtility.setJSONObjectForFailure(messages, HunterUtility.getApplicationErrorMessage()).toString();
 		} catch (InvocationTargetException e) {
 			e.printStackTrace();
-			return HunterUtility.setJSONObjectForFailure(messages, "Application error occurred!").toString();
+			return HunterUtility.setJSONObjectForFailure(messages, HunterUtility.getApplicationErrorMessage()).toString();
+		} catch ( Exception e ) {
+			e.printStackTrace();
+			return HunterUtility.setJSONObjectForFailure(messages, HunterUtility.getApplicationErrorMessage() ).toString();
 		}
 	}
 
@@ -193,11 +234,12 @@ public class TaskController extends HunterBaseController{
 		TaskHistory taskHistory = taskManager.getNewTaskHistoryForEventName(taskId, TaskHistoryEventEnum.STATUS_CHANGE.getEventName(), userName);
 
 		if (validationErrors.isEmpty()) {
+			String message = "Successfully changed task status to : " + toStatus;
 			taskDao.updateTaskStatus(taskId, toStatus, userName);
-			taskManager.setTaskHistoryStatusAndMessage(taskHistory,HunterConstants.STATUS_SUCCESS,"Successfully changed task status to : " + toStatus);
+			taskManager.setTaskHistoryStatusAndMessage(taskHistory,HunterConstants.STATUS_SUCCESS, message);
 			taskHistoryDao.insertTaskHistory(taskHistory); 
 			results.put(HunterConstants.STATUS_STRING,HunterConstants.STATUS_SUCCESS);
-			results.put(HunterConstants.MESSAGE_STRING,"Task status approved successfully");
+			results.put(HunterConstants.MESSAGE_STRING, message );
 			return results.toString();
 		}else{
 			taskManager.setTaskHistoryStatusAndMessage(taskHistory,HunterConstants.STATUS_FAILED,"Failed to change task status to : " + toStatus + ". " + HunterUtility.stringifyList(validationErrors)); 
@@ -222,7 +264,7 @@ public class TaskController extends HunterBaseController{
 	@Produces("application/json")
 	@Consumes("application/json")
 	@ResponseBody
-	public Task createTaskForCilentId(HttpServletRequest request) {
+	public Object createTaskForCilentId(HttpServletRequest request) {
 
 		String bodyString = null;
 		Task task = new Task();
@@ -248,21 +290,23 @@ public class TaskController extends HunterBaseController{
 		
 		taskHistory.setTaskId(task.getTaskId()); 
 		taskManager.setTaskHistoryStatusAndMessage(taskHistory, HunterConstants.STATUS_SUCCESS, "Successfully created task."); 
-		taskHistoryDao.insertTaskHistory(taskHistory); 
+		taskHistoryDao.insertTaskHistory(taskHistory);
 		
-		return task;
+		logger.debug("Finished cloning task!!"); 
+		List<Task> data = new ArrayList<Task>();
+		data.add(task);
+		return HunterAngularDataHelper.getIntance().getBeanForMsgAndSts("Siccessfully cloned task.", HunterConstants.STATUS_SUCCESS, data);
 	}
 	
-	@RequestMapping(value = "/action/create/createTaskForCilentIdNew", method = RequestMethod.POST)
+	@RequestMapping(value = "/action/createOrUpdate", method = RequestMethod.POST)
 	@Produces("application/json")
 	@Consumes("application/json")
 	@ResponseBody
-	public String createTaskForCilentIdNew(HttpServletRequest request) {
+	public Object createOrUpdate(HttpServletRequest request) {
 
 		String bodyString = null;
 		Task task = new Task();
-		
-		String userName = getUserName();
+		String userName = "admin"; // getUserName();
 		TaskHistory taskHistory = taskManager.getNewTaskHistoryForEventName(null, TaskHistoryEventEnum.CREATE.getEventName(), userName);
 
 		try {
@@ -272,7 +316,6 @@ public class TaskController extends HunterBaseController{
 			task.setLastUpdate(new Date()); 
 			task.setCreatedBy( task.getCreatedBy() != null ? task.getCreatedBy() : getUserName() );
 			task.setUpdatedBy( getUserName() );
-			task.setTaskDateline(new Date());
 			
 			if( task.getTaskId() != 0 ){
 				Task persitentTask = taskDao.getTaskById(task.getTaskId());
@@ -285,25 +328,37 @@ public class TaskController extends HunterBaseController{
 				persitentTask.setRecurrentTask(task.isRecurrentTask()); 
 				persitentTask.setTaskBudget(task.getTaskBudget()); 
 				persitentTask.setDesiredReceiverCount(task.getDesiredReceiverCount()); 
-				taskDao.update(persitentTask); 
-				return HunterUtility.setJSONObjectForSuccess(new JSONObject(), "Successfully created task").toString();
+				taskDao.update(persitentTask);
+				String message = HunterCacheUtil.getInstance().getUIMsgTxtForMsgId(UIMessageConstants.HUNTER_MSG_1);
+				taskHistory.setEvenName(TaskHistoryEventEnum.UPDATE.getEventName()); 
+				this.insertTaskHistory(taskHistory, HunterConstants.STATUS_SUCCESS, task.getTaskId(), message );
+				return HunterUtility.setJSONObjectForSuccess(new JSONObject(), message ).toString();
 			}
 			
-
+			task.setTaskDeliveryStatus(HunterConstants.STATUS_CONCEPTUAL); 
+			
+			String parameters = HunterUtility.getParamNamesAsStringsFrmRqst(request);
+			logger.debug("Request parameters >> " + parameters);
+			taskDao.insertTask(task);
+			logger.debug("Returning new task >> " + task);
+			
+			this.insertTaskHistory(taskHistory, HunterConstants.STATUS_SUCCESS, task.getTaskId(), "Successfully created task.");
+			
+			logger.debug("Finished creating task!!"); 
+			List<Task> data = new ArrayList<Task>();
+			data.add(task);
+			return HunterAngularDataHelper.getIntance().getBeanForMsgAndSts("Siccessfully created task.", HunterConstants.STATUS_SUCCESS, data);
+			
 		} catch (IOException e) {
 			e.printStackTrace();
 			return HunterUtility.setJSONObjectForFailure(null, e.getMessage()).toString();
-		}
-		String parameters = HunterUtility.getParamNamesAsStringsFrmRqst(request);
-		logger.debug("Request parameters >> " + parameters);
-		taskDao.insertTask(task);
-		logger.debug("Returning new task >> " + task);
-		
-		taskHistory.setTaskId(task.getTaskId()); 
-		taskManager.setTaskHistoryStatusAndMessage(taskHistory, HunterConstants.STATUS_SUCCESS, "Successfully created task."); 
-		taskHistoryDao.insertTaskHistory(taskHistory); 
-		
-		return HunterUtility.setJSONObjectForSuccess(new JSONObject(), "Successfully created task").toString();
+		}		
+	}
+	
+	private void insertTaskHistory( TaskHistory taskHistory, String status, Long taskId, String message ) {
+		taskHistory.setTaskId( taskId ); 
+		taskManager.setTaskHistoryStatusAndMessage(taskHistory, status, message); 
+		taskHistoryDao.insertTaskHistory(taskHistory);
 	}
 
 	@RequestMapping(value = "action/update/updateTaskForClientId", method = RequestMethod.POST)
@@ -341,27 +396,31 @@ public class TaskController extends HunterBaseController{
 		return task;
 	}
 
-	@RequestMapping(value = "/action/destroy/destroyTaskForClientId", method = RequestMethod.POST)
+	@RequestMapping(value = "/action/task/destroy", method = RequestMethod.POST)
 	@Produces("application/json")
 	@Consumes("application/json")
 	@ResponseBody
-	public Task destroyTaskForClient(HttpServletRequest request) {
-		String requestBody = null;
+	public String destroyTask( HttpServletRequest request ) {
 		try {
-			requestBody = HunterUtility.getRequestBodyAsString(request);
-		} catch (IOException e) {
+			String requestBody = HunterUtility.getRequestBodyAsString( request );
+			JSONObject requestObj = new JSONObject( requestBody );
+			Long taskId = requestObj.getLong("taskId");
+			Task task = taskDao.getTaskById(taskId);
+			List<Object> errors = taskManager.validateTaskDelete( task );
+			if ( !errors.isEmpty() ) {
+				String message = HunterUtility.getCommaDelimitedStrings(errors);
+				return HunterUtility.setJSONObjectForFailure(null, message).toString();
+			}
+			taskDao.deleteTask(task);			
+			String userName = getUserName();
+			TaskHistory taskHistory = taskManager.getNewTaskHistoryForEventName(task.getTaskId(), TaskHistoryEventEnum.DELETE.getEventName(), userName);
+			taskManager.setTaskHistoryStatusAndMessage(taskHistory, HunterConstants.STATUS_SUCCESS, "Successfully deleted task."); 
+			taskHistoryDao.insertTaskHistory(taskHistory);			
+			return HunterUtility.setJSONObjectForSuccess(null, "Successfully deleted task").toString();
+		} catch (Exception e) {
 			e.printStackTrace();
-		}
-		Long taskId = new JSONObject(requestBody).getLong("taskId");
-		Task task = taskDao.getTaskById(taskId);
-		taskDao.deleteTask(task);
-		
-		String userName = getUserName();
-		TaskHistory taskHistory = taskManager.getNewTaskHistoryForEventName(task.getTaskId(), TaskHistoryEventEnum.DELETE.getEventName(), userName);
-		taskManager.setTaskHistoryStatusAndMessage(taskHistory, HunterConstants.STATUS_SUCCESS, "Successfully deleted task."); 
-		taskHistoryDao.insertTaskHistory(taskHistory);
-		
-		return task;
+			return HunterUtility.setJSONObjForFailureWithMsg(UIMessageConstants.MSG_TASK_014).toString();
+		}		
 	}
 
 	@RequestMapping(value = "/action/processTask/{taskId}", method = RequestMethod.POST)
@@ -384,25 +443,23 @@ public class TaskController extends HunterBaseController{
 		@SuppressWarnings("unchecked")
 		List<String> validationErrors = (List<String>) result.get(GateWayClientService.TASK_VALIDATION_ERRORS);
 		if (validationErrors != null && !validationErrors.isEmpty()) {
-			StringBuilder errBuilder = new StringBuilder();
-			for (String error : validationErrors) {
-				errBuilder.append(error).append(",");
-			}
-			String errors = errBuilder.toString();
-			errors = errors.substring(0, errors.length() - 1);
+			String errors = HunterUtility.getCommaDelimitedStrings(validationErrors);
 			logger.warn("Task( " + task.getTaskId()+ " ) processing returned errors >> " + errors);
-			errorsJs.put("errors", errors);
-			errorsJs.put("status", HunterConstants.STATUS_FAILED);
+			errorsJs.put(HunterConstants.STATUS_STRING,HunterConstants.STATUS_FAILED);
+			errorsJs.put(HunterConstants.MESSAGE_STRING, errors);
 			logger.debug("returned js >> " + errorsJs);
 			
 			taskManager.setTaskHistoryStatusAndMessage(taskHistory, HunterConstants.STATUS_FAILED, "Failed to process task. " + HunterUtility.stringifyList(validationErrors));  
 			taskHistoryDao.insertTaskHistory(taskHistory);
+			return errorsJs.toString();
 			
 		}else{
 			taskManager.setTaskHistoryStatusAndMessage(taskHistory, HunterConstants.STATUS_SUCCESS, "Successfully processed task."); 
 			taskHistoryDao.insertTaskHistory(taskHistory);
 		}
 		
+		errorsJs.put(HunterConstants.STATUS_STRING,HunterConstants.STATUS_SUCCESS);
+		errorsJs.put(HunterConstants.MESSAGE_STRING, "Successfully submitted task for processing. Please keep refreshing for updates.");
 		return errorsJs.toString();
 	}
 
@@ -460,71 +517,56 @@ public class TaskController extends HunterBaseController{
 	@ResponseBody
 	public String addGroupToTask(HttpServletRequest request) {
 
-		JSONObject requestBodyJson = null;
-		JSONObject json = new JSONObject();
-		
-		String userName = getUserName();
-		TaskHistory taskHistory = taskManager.getNewTaskHistoryForEventName(null, TaskHistoryEventEnum.ADD_GROUP.getEventName(), userName);
-
 		try {
-			String requestBody = HunterUtility.getRequestBodyAsString(request);
-			if (requestBody.startsWith("[") && requestBody.endsWith("]")) {
-				requestBody = requestBody.substring(1, requestBody.length() - 1);
+			String requestBodyStr = HunterUtility.getRequestBodyAsString(request);
+			JSONObject requestBodyJson = new JSONObject( requestBodyStr );
+			JSONObject json = new JSONObject();
+			
+			String userName = getUserName();
+			TaskHistory taskHistory = taskManager.getNewTaskHistoryForEventName(null, TaskHistoryEventEnum.ADD_GROUP.getEventName(), userName);
+			String taskIdStr = HunterUtility.getStringOrNullFromJSONObj(requestBodyJson, "taskId");
+			String groupIdsStr = HunterUtility.getStringOrNullFromJSONObj(requestBodyJson, "groupIds");
+			
+			long[] longArray = Arrays.stream(groupIdsStr.substring(1, groupIdsStr.length()-1).split(","))
+			    .map(String::trim).mapToLong(Long::parseLong).toArray();
+
+			if (!HunterUtility.notNullNotEmpty(taskIdStr) || !HunterUtility.notNullNotEmpty(groupIdsStr) || groupIdsStr.equalsIgnoreCase("null") || taskIdStr.equalsIgnoreCase("null") ) {
+				json.put(HunterConstants.STATUS_STRING, HunterConstants.STATUS_FAILED);
+				json.put("Message", "Task or group id is invalid!");
+				return json.toString();
 			}
-			requestBodyJson = new JSONObject(requestBody);
-		} catch (JSONException e) {
-			e.printStackTrace();
-			json.put(HunterConstants.STATUS_STRING,HunterConstants.STATUS_FAILED);
-			json.put("Message", e.getMessage());
-			return json.toString();
-		} catch (IOException e) {
-			e.printStackTrace();
-			json.put(HunterConstants.STATUS_STRING,HunterConstants.STATUS_FAILED);
-			json.put("Message", e.getMessage());
-			return json.toString();
-		}
+			
+			Long taskId = HunterUtility.getLongOrNulFromJSONObj(requestBodyJson, "taskId");			
+			Long[] groupIds = ArrayUtils.toObject(longArray);
+			
+			if( taskId == null || !HunterUtility.isArrNotEmpty(groupIds) ){
+				json.put(HunterConstants.STATUS_STRING, HunterConstants.STATUS_FAILED);
+				json.put("Message", "Task or group id is invalid!");
+				return json.toString();
+			}
+			
+			taskHistory.setTaskId(taskId);
+			
+			String results = taskManager.addGroupToTask(groupIds, taskId); 
 
-		String taskIdStr = HunterUtility.getStringOrNullFromJSONObj(requestBodyJson, "taskId");
-		String groupIdStr = HunterUtility.getStringOrNullFromJSONObj(requestBodyJson, "groupId");
+			if (results != null) {
+				String message = "Failed to add group( " + groupIdsStr +" - " + HunterUtility.getCommaDelimitedStrings(groupIds) + " ) to task. " + results;
+				HunterUtility.setJSONObjectForFailure(json, results);
+				taskManager.setTaskHistoryStatusAndMessage(taskHistory,HunterConstants.STATUS_FAILED, message);  
+				taskHistoryDao.insertTaskHistory(taskHistory);
+				return json.toString();
+			}
 
-		if (!HunterUtility.notNullNotEmpty(taskIdStr) || !HunterUtility.notNullNotEmpty(groupIdStr) || groupIdStr.equalsIgnoreCase("null") || taskIdStr.equalsIgnoreCase("null") ) {
-			json.put(HunterConstants.STATUS_STRING, HunterConstants.STATUS_FAILED);
-			json.put("Message", "Task or group id is invalid!");
-			return json.toString();
-		}
-		
-		Long taskId = HunterUtility.getLongOrNulFromJSONObj(requestBodyJson, "taskId");
-		Long groupId = HunterUtility.getLongOrNulFromJSONObj(requestBodyJson, "groupId");
-		
-		if( taskId == null || groupId == null ){
-			json.put(HunterConstants.STATUS_STRING, HunterConstants.STATUS_FAILED);
-			json.put("Message", "Task or group id is invalid!");
-			return json.toString();
-		}
-		
-		String groupName = receiverGroupDao.getGroupNameById(groupId);
-		String results = taskManager.addGroupToTask(groupId, taskId);
-		
-		taskHistory.setTaskId(taskId); 
+			int groupReceiverCount = taskManager.getTotalTaskGroupsReceivers(taskId);
 
-		if (results != null) {
-			json.put(HunterConstants.STATUS_STRING,HunterConstants.STATUS_FAILED);
-			json.put("Message", results);
-			taskManager.setTaskHistoryStatusAndMessage(taskHistory, HunterConstants.STATUS_FAILED, "Failed to add group( " + groupIdStr +" - " + groupName + " ) to task. " + results);  
+			taskManager.setTaskHistoryStatusAndMessage(taskHistory, HunterConstants.STATUS_SUCCESS, "Successfully added group ( " + HunterUtility.getCommaDelimitedStrings(groupIds) + " )");   
 			taskHistoryDao.insertTaskHistory(taskHistory);
-			return json.toString();
+
+			return HunterUtility.setJSONObjectForSuccess(null, "Successfully added group to task. Current count ( " + groupReceiverCount + " )" ).toString();
+		} catch (JSONException | IOException | NumberFormatException e) {
+			e.printStackTrace();
+			return HunterUtility.setJSONObjectForFailure(null, HunterCacheUtil.getInstance().getUIMsgTxtForMsgId(UIMessageConstants.HUNTER_MSG_2)).toString(); 
 		}
-
-		int groupReceiverCount = taskManager.getTotalTaskGroupsReceivers(taskId);
-
-		json.put(HunterConstants.STATUS_STRING, HunterConstants.STATUS_SUCCESS);
-		json.put("Message", "Successfully added group to task!");
-		json.put("groupReceiverCount", groupReceiverCount);
-		
-		taskManager.setTaskHistoryStatusAndMessage(taskHistory, HunterConstants.STATUS_SUCCESS, "Successfully added group ( " + groupIdStr +" - " + groupName + " )");   
-		taskHistoryDao.insertTaskHistory(taskHistory);
-
-		return json.toString();
 	}
 
 	@RequestMapping(value = "/action/tskGrp/destroy", method = RequestMethod.POST)
@@ -585,9 +627,10 @@ public class TaskController extends HunterBaseController{
 	
 	@Produces("application/json")
 	@RequestMapping(value = "/action/task/history/getForTask/{taskId}", method = RequestMethod.POST)
-	public @ResponseBody List<TaskHistory> getTaskHistoriesForTask(@PathVariable("taskId")Long taskId) {
-		List<TaskHistory> taskHistories = taskHistoryDao.getTaskHistoriesByTaskId(taskId);
-		return taskHistories;
+	public @ResponseBody Object getTaskHistoriesForTask(@PathVariable("taskId")Long taskId, HttpServletRequest request) {
+		List<Object> valueList = new ArrayList<>();
+		valueList.add(taskId);
+		return GridQueryHandler.getInstance().executeForAngularData(TaskHistoryJson.class, request, HunterDaoConstants.TASK_HISTORY_HEADERS, valueList);			
 	}
 	
 	@Produces("application/json")
@@ -683,6 +726,106 @@ public class TaskController extends HunterBaseController{
 		return list;
 	}
 	
+	@Produces("application/json")
+	@RequestMapping(value = "/action/task/load/{taskId}", method = RequestMethod.GET)
+	public @ResponseBody  Object loadTaskForTaskId(@PathVariable("taskId")Long taskId) {
+		try {
+			HunterUtility.threadSleepFor(300);
+			Task task = taskDao.getTaskById(taskId);
+			Task[] tasks = new Task[] { task };
+			return HunterAngularDataHelper.getIntance().getDataBean(tasks, null);
+		} catch ( Exception e ) {
+			e.printStackTrace();
+			return HunterAngularDataHelper.getIntance().getBeanForMsgAndSts(HunterUtility.getApplicationErrorMessage(), HunterConstants.STATUS_FAILED, null);
+		}
+	}
+	
+	@Produces("application/json")
+	@RequestMapping(value = "/action/task/groups/{taskId}", method = RequestMethod.POST)
+	public @ResponseBody  Object getTaskGroupsForTask(@PathVariable("taskId")Long taskId, HttpServletRequest request) {
+		List<Object> valueList = new ArrayList<>();
+		valueList.add(taskId);
+		return GridQueryHandler.getInstance().executeForAngularData(ReceiverGroupJson.class, request, HunterDaoConstants.TASK_GROUPS_HEADERS, valueList);
+	}
+	
+	@Produces("application/json")
+	@RequestMapping(value = "/action/task/availGroups/{taskId}", method = RequestMethod.GET)
+	public @ResponseBody  Object getAvailGroups(@PathVariable("taskId")Long taskId) {
+		try {
+			HunterUtility.threadSleepFor(300);
+			List<ReceiverGroupJson> receiverGroupJsons = HunterDaoFactory.getDaoObject(ReceiverGroupDao.class).getAllGrouspJson();
+			AngularData aData = HunterAngularDataHelper.getIntance().getDataBean(receiverGroupJsons, HunterDaoConstants.TASK_GROUPS_JSONS_HEADERS);
+			return aData;
+		} catch ( Exception e ) {
+			e.printStackTrace();
+			String message = HunterCacheUtil.getInstance().getUIMsgTxtForMsgId(UIMessageConstants.MSG_TASK_017);
+			return HunterAngularDataHelper.getIntance().getBeanForMsgAndSts(message, HunterConstants.STATUS_FAILED, null);
+		}
+	}
+	
+	@Produces("application/json")
+	@RequestMapping(value = "/action/task/availGroupsForDynGrid", method = RequestMethod.POST)
+	public @ResponseBody  Object getAvailGroupsForDynGrid(HttpServletRequest request) {
+		return GridQueryHandler.getInstance().executeForAngularData(ReceiverGroupJson.class, request, HunterDaoConstants.TASK_GROUPS_JSONS_HEADERS, null);
+	}
+	
+	@Produces("application/json")
+	@RequestMapping(value = "/action/task/furnish/{taskId}", method = RequestMethod.GET)
+	public @ResponseBody  Object getTaskFurnishments(@PathVariable("taskId")Long taskId) {
+		try {
+			HunterUtility.threadSleepFor(300);
+			Map<String, Object> furnishements = taskDao.getTaskFurnishments(taskId);
+			return HunterAngularDataHelper.getIntance().getDataBean(furnishements, null);
+		} catch ( Exception e ) {
+			e.printStackTrace();
+			String message = HunterCacheUtil.getInstance().getUIMsgTxtForMsgId(UIMessageConstants.MSG_TASK_017);
+			return HunterAngularDataHelper.getIntance().getBeanForMsgAndSts(message, HunterConstants.STATUS_FAILED , null);
+		}
+	}
+	
+	@RequestMapping(value="/action/providers/selVals/{taskId}", method = RequestMethod.GET)
+	@Produces("application/json")
+	public @ResponseBody Object getServiceProvidersSelValues( @PathVariable("taskId") Long taskId ){
+		AngularData aData = HunterAngularDataHelper.getIntance().getBeanForQuery(HunterSelectValue.class, HunterDaoConstants.GET_SERVICE_PROVIDERS_SEL_VALS, null, null); 
+		return aData;
+	}
+	
+	@RequestMapping(value="/action/regions/addRegion/{taskId}/{type}", method = RequestMethod.POST)
+	@Consumes("application/json")
+	@Produces("application/json")
+	public @ResponseBody Object addRegionsToTask(@RequestBody List<HunterSelectValue> selectValues, @PathVariable("taskId") String taskId, @PathVariable("type") String type ){
+		List<Object> valueList = selectValues.stream().map(s -> s.getValue()).collect(Collectors.toList());
+		TaskHistory taskHistory = taskManager.getNewTaskHistoryForEventName(Long.valueOf(taskId), TaskHistoryEventEnum.ADD_REGION.getEventName(), getUserName());
+		try {
+			regionService.addRegionToTask(Long.valueOf(taskId), regionService.getRegionIdsForRegionTypesIds(type, valueList));
+			taskManager.setTaskHistoryStatusAndMessage(taskHistory,HunterConstants.STATUS_SUCCESS,"Successfully added selected regions to the task");
+			taskHistoryDao.insertTaskHistory(taskHistory);
+			return HunterAngularDataHelper.getIntance().getBeanForMsgAndSts("Successfully added selected regions to the task", HunterConstants.STATUS_SUCCESS, null);
+		} catch (Exception e) {
+			taskManager.setTaskHistoryStatusAndMessage(taskHistory,HunterConstants.STATUS_FAILED,HunterUtility.getApplicationErrorMessage());
+			taskHistoryDao.insertTaskHistory(taskHistory);
+			return HunterAngularDataHelper.getIntance().getBeanForMsgAndSts(HunterUtility.getApplicationErrorMessage(), HunterConstants.STATUS_FAILED, null);
+		}
+	}
+	
+	@RequestMapping(value="/action/regions/removeSelRegionsRegionsFromTask/{taskId}", method = RequestMethod.POST)
+	@Consumes("application/json")
+	@Produces("application/json")
+	public @ResponseBody Object removeSelRegionsRegionsFromTask(@RequestBody List<HunterSelectValue> selectValues, @PathVariable("taskId") String taskId ){
+		TaskHistory taskHistory = taskManager.getNewTaskHistoryForEventName(Long.valueOf(taskId), TaskHistoryEventEnum.ADD_REGION.getEventName(), getUserName());
+		try {
+			String message = "Successfully removed selected regions from the task";
+			List<Object> valueList = selectValues.stream().map(s -> s.getValue()).collect(Collectors.toList());
+			regionService.removeTaskRegions(Long.valueOf(taskId), valueList.stream().map(v -> HunterUtility.getLongFromObject(v)).collect(Collectors.toList()));
+			taskManager.setTaskHistoryStatusAndMessage(taskHistory,HunterConstants.STATUS_SUCCESS, message);
+			taskHistoryDao.insertTaskHistory(taskHistory);
+			return HunterAngularDataHelper.getIntance().getBeanForMsgAndSts(message, HunterConstants.STATUS_SUCCESS, null);
+		} catch (Exception e) {
+			taskManager.setTaskHistoryStatusAndMessage(taskHistory,HunterConstants.STATUS_FAILED,HunterUtility.getApplicationErrorMessage());
+			taskHistoryDao.insertTaskHistory(taskHistory);
+			return HunterAngularDataHelper.getIntance().getBeanForMsgAndSts(HunterUtility.getApplicationErrorMessage(), HunterConstants.STATUS_FAILED, null);
+		}
+	}
 	
 	
 	

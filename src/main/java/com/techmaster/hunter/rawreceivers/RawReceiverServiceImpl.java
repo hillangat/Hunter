@@ -428,7 +428,7 @@ public class RawReceiverServiceImpl implements RawReceiverService {
 		List<Map<String, Object>> rowMapList = hunterJDBCExecutor.executeQueryRowMap(query, null);
 		StringBuilder activeReceiverIds = new StringBuilder();
 		
-		if( HunterUtility.isCollectionNotEmpty(rowMapList) ){ 
+		if( HunterUtility.isCollNotEmpty(rowMapList) ){ 
 			
 			for(Map<String, Object> rowMap : rowMapList){
 				
@@ -476,7 +476,7 @@ public class RawReceiverServiceImpl implements RawReceiverService {
 			}
 			
 			
-			if( HunterUtility.isCollectionNotEmpty(hunterMessageReceivers) ){
+			if( HunterUtility.isCollNotEmpty(hunterMessageReceivers) ){
 				logger.debug("HunterMessageReceivers created. Size : " + hunterMessageReceivers.size()); 
 				msgReceiverDao.insertHunterMessageReceivers(hunterMessageReceivers); 
 			}else{

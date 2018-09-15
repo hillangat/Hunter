@@ -26,15 +26,19 @@ public interface RegionService {
 	public List<Map<String, Object>> getNmsAndIdsFrRgnNmsFrCnsttncs(String countryName, String countyName, List<String> constituencies);
 	
 	public List<Long> getRegionsIdForNames(String country, String county, String constituency, String ward);
+	public List<Object> getRegionIdsForRegionTypesIds(String type, List<Object> regionTypeIds);
+	public void addRegionToTask(Long taskId, List<Object> regionIds);
+	
 	public String addRegionToTask(Long taskId, String country, String county, String constituency, String ward);
 	public String removeTaskRegion(Long taskId, Long taskRegionId);
+	public String removeTaskRegions(Long taskId, List<Long> taskRegionId);
 	public void removeAllRegionsForTask(Long taskId);
 	public boolean isRegionAlreadyAddedToTask(Long regionId, Long taskId);
 	
 	public ReceiverRegionJson creatRcvrRgnJsnFrmRcvrRgn(ReceiverRegion receiverRegion);
 	public Object[] getTrueHntrMsgRcvrCntFrTaskRgns(Long taskId);
 	
-	public void editReceiverRegion(Map<String,Object> params);
+	public List<String> editReceiverRegion(Map<String,Object> params, String userName);
 	
 	public JSONArray getCountriesNameAndIds(String countryName);
 	public JSONArray getCountiesNameAndIds(String countryName);

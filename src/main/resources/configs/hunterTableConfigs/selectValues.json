@@ -1,0 +1,31 @@
+[ {
+	"index" : 0,
+	"headerId" : "value",
+	"dataId" : "value",
+	"displayName" : "Value",
+	"sortable" : false,
+	"show" : true,
+	"checkBox" : false,
+	"actionCellType" : "text",
+	"bootstrapIconName" : null,
+	"dataType" : "string",
+	"currentOrder" : false,
+	"actionCol" : false,
+	"actionColIconName" : null,
+	"width" : "80px"
+}, {
+	"index" : 0,
+	"headerId" : "text",
+	"dataId" : "text",
+	"displayName" : "Text",
+	"sortable" : false,
+	"show" : true,
+	"checkBox" : false,
+	"actionCellType" : "text",
+	"bootstrapIconName" : null,
+	"dataType" : "string",
+	"currentOrder" : false,
+	"actionCol" : false,
+	"actionColIconName" : null,
+	"width" : "80px"
+} ]

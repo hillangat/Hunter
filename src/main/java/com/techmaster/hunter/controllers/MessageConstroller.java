@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -18,6 +19,7 @@ import javax.ws.rs.Produces;
 
 import org.apache.log4j.Logger;
 import org.json.JSONObject;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -27,6 +29,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.context.ServletContextAware;
 
+import com.techmaster.hunter.angular.data.HunterAngularDataHelper;
 import com.techmaster.hunter.cache.HunterCacheUtil;
 import com.techmaster.hunter.constants.HunterConstants;
 import com.techmaster.hunter.dao.impl.HunterDaoFactory;
@@ -40,6 +43,7 @@ import com.techmaster.hunter.email.HunterEmailTemplateHandler;
 import com.techmaster.hunter.enums.TaskHistoryEventEnum;
 import com.techmaster.hunter.exception.HunterRunTimeException;
 import com.techmaster.hunter.gateway.beans.GateWayClientHelper;
+import com.techmaster.hunter.json.AngularTaskMessage;
 import com.techmaster.hunter.json.HunterSocialAppJson;
 import com.techmaster.hunter.json.MessageAttachmentBeanJson;
 import com.techmaster.hunter.json.SocialMessageJson;
@@ -95,18 +99,42 @@ public class MessageConstroller extends HunterBaseController implements ServletC
 		return providers;
 	}
 	
+	@RequestMapping(value="/action/tskMsg/getAngularMsg/{taskId}", method = RequestMethod.GET )
+	@Produces("application/json")
+	public @ResponseBody Object getAngularMsg( @PathVariable("taskId") Long taskId ){
+		try {
+			AngularTaskMessage taskMessage = new AngularTaskMessage();
+			Message message = HunterDaoFactory.getObject(MessageDao.class).getMessageById(taskId);
+			if ( null != message ) {
+				BeanUtils.copyProperties(message, taskMessage);
+				taskMessage.setProvider(message.getProvider());
+				if ( HunterConstants.MESSAGE_TYPE_TEXT.equalsIgnoreCase(taskMessage.getMsgTaskType()) ) {
+					taskMessage.setPageable( ( Boolean.toString(((TextMessage)message).isPageable())));
+				}
+			}
+			List<AngularTaskMessage> messageList = Arrays.asList( new AngularTaskMessage[] { taskMessage } );
+			return HunterAngularDataHelper.getIntance().getDataBean(messageList, null);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return HunterAngularDataHelper.getIntance().getBeanForMsgAndSts("No data found for task id: " + taskId , HunterConstants.STATUS_FAILED, null);
+		}		
+	}
+	
 	@RequestMapping(value="/action/tskMsg/create/{taskId}", method = RequestMethod.POST )
 	@Produces("application/json")
 	@Consumes("application/json") 
-	public @ResponseBody Message createTaskMessage(@PathVariable("taskId") Long taskId, HttpServletRequest request){
+	public @ResponseBody Object createTaskMessage(@PathVariable("taskId") Long taskId, HttpServletRequest request){
 		
 		logger.debug("Creating text message from json...");
 		String requestBody = null;
+		
+		TaskHistory taskHistory = taskManager.getNewTaskHistoryForEventName(taskId, TaskHistoryEventEnum.ADD_MESSAGE.getEventName(), getUserName());
 		
 		try {
 			requestBody = HunterUtility.getRequestBodyAsString(request);
 		} catch (IOException e) {
 			e.printStackTrace();
+			taskManager.saveTaskHitory(taskHistory, e.getMessage(), HunterConstants.STATUS_FAILED);
 		}
 		
 		String tskMsgType = taskDao.getTaskMsgType(taskId);
@@ -118,13 +146,17 @@ public class MessageConstroller extends HunterBaseController implements ServletC
 			message = taskManager.convertTextMessage(requestBody);
 			message.setMsgTaskType(tskMsgType);
 		}else {
-			throw new HunterRunTimeException("No data found for taskId : " + taskId + " and message \n " + message);
+			String error = "Task message type not supported at the moment : " + tskMsgType + " and message";
+			taskManager.saveTaskHitory(taskHistory, error, HunterConstants.STATUS_FAILED);
+			throw new HunterRunTimeException(error);
 		}
 		
 		logger.debug("Task Message obtained >> " + message);
 		Task task = taskDao.getTaskById(taskId);
 		
-		if(task.getTaskMessage() != null){
+		boolean hasMessage = task.getTaskMessage() != null;
+		
+		if(hasMessage){
 			message.setMsgId(taskId); 
 			messageDao.updateMessage(message); 
 		}else{
@@ -133,7 +165,10 @@ public class MessageConstroller extends HunterBaseController implements ServletC
 			taskDao.update(task);
 		}
 		
-		return message;
+		List<Message> messages = new ArrayList<>();
+		messages.add(message);
+		taskManager.saveTaskHitory(taskHistory, "Successfully " + ( !hasMessage ? "added" : "updated" ) + " message to task.", HunterConstants.STATUS_SUCCESS);
+		return HunterAngularDataHelper.getIntance().getDataBean(messages, null);
 	}
 	
 	@RequestMapping(value="/action/tskMsg/email/deleteEmail/{taskId}", method = RequestMethod.POST )
@@ -516,7 +551,7 @@ public class MessageConstroller extends HunterBaseController implements ServletC
 			
 			String cdetails = hunterJDBCExecutor.getQueryForSqlId("getTaskHunterClientDetails");
 			List<Map<String, Object>> rowMapList = hunterJDBCExecutor.executeQueryRowMap(cdetails, values);
-			String clientName = HunterUtility.getStringOrNullOfObj(HunterUtility.isCollectionNotEmpty(rowMapList) ? rowMapList.get(0).get("USR_NAM") : null); 
+			String clientName = HunterUtility.getStringOrNullOfObj(HunterUtility.isCollNotEmpty(rowMapList) ? rowMapList.get(0).get("USR_NAM") : null); 
 			socialMedia.setClientName(clientName);
 			
 			socialMessage.setUseRemoteMedia( false );

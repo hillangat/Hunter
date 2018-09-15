@@ -180,7 +180,7 @@ public class HunterSocialController extends HunterBaseController{
 	public @ResponseBody List<HunterSelectValue> readAllSocialRegions(){ 
 		List<HunterSelectValue> selectValues = new ArrayList<HunterSelectValue>();
 		List<HunterSocialRegion> socialRegions = hunterHibernateHelper.getAllEntities(HunterSocialRegion.class);
-		if( HunterUtility.isCollectionNotEmpty(socialRegions)){
+		if( HunterUtility.isCollNotEmpty(socialRegions)){
 			for(HunterSocialRegion socialRegion : socialRegions){
 				HunterSelectValue selectValue = new HunterSelectValue();
 				selectValue.setText(socialRegion.getRegionName()); 

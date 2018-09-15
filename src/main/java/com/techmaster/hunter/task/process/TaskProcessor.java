@@ -141,7 +141,7 @@ public class TaskProcessor {
 	}
 	
 	public void setTaskForEmailProcessors(List<TaskProcessWorker> workers, Task task){
-		if( HunterUtility.isCollectionNotEmpty( workers ) ){
+		if( HunterUtility.isCollNotEmpty( workers ) ){
 			for(TaskProcessWorker taskProcessWorker : workers){
 				if( taskProcessWorker instanceof HunterEmailProcessWorker ){
 					( (HunterEmailProcessWorker)taskProcessWorker ).setTask(task);
@@ -154,7 +154,7 @@ public class TaskProcessor {
 	
 	public Map<String, Object> process(Task task,TaskClientConfigBean configBean, Set<GateWayMessage> messages, AuditInfo auditInfo) {
 		
-		//lock the task before doing anything else.
+		// lock the task before doing anything else.
 		task.setTaskDeliveryStatus(HunterConstants.STATUS_PENDING);
 		GateWayClientHelper.getInstance().lockTask(task.getTaskId(), HunterConstants.STATUS_PENDING);
 		
@@ -186,7 +186,7 @@ public class TaskProcessor {
 			setTaskForEmailProcessors(workers, task); 
 			
 			// the timer worker will keep running forever if it's submitted without workers in the map.
-			if(workers != null && !workers.isEmpty()){
+			if( HunterUtility.isCollNotEmpty(workers) ){
 				for(TaskProcessWorker worker : workers){
 					executor.submit(worker);
 				}

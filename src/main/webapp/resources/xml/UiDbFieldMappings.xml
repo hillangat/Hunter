@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mappings>
+	<references>
+		<reference name="TASK_GRID" table="TASK" alias="t" queryId="getAllTasksForGridQuery" paramReplacement="ALL, INDICES_1,2,3,4" replaceValuesFirst="false"  >
+			<field db="TSK_ID" ui="taskId"  alias="t"  ></field>
+			<field db="TSK_NAM" ui="taskName"  alias="t"  ></field>
+			<field db="TASK_DESC" ui="taskDesc"  alias="t"  ></field>
+			<field db="TSK_NAM" ui="taskName"  alias="t"  ></field>
+			<field db="HNTR_CLNT_ID" ui="clientId"  alias="t"  ></field>
+			<field db="TSK_TYP" ui="taskType"  alias="t"  ></field>
+			<field db="TSK_OBJCTV" ui="taskObjective"  alias="t"  ></field>
+			<field db="TASK_DESC" ui="description"  alias="t"  ></field>
+			<field db="TSK_ARGMNT_LGC" ui="tskAgrmntLoc"  alias="t"  ></field>
+			<field db="TSK_MSG_TYP" ui="tskMsgType"  alias="t"  ></field>
+			<field db="TSK_BDGT" ui="taskBudget" alias="t"  ></field>
+			<field db="TSK_CST" ui="taskCost"  alias="t"  ></field>
+			<field db="RCCRRNT_TSK" ui="recurrentTask"  alias="t"  ></field>
+			<field db="TSK_DT_LN" ui="taskDateline"  alias="t"  ></field>
+			<field db="TSK_DEL_STS" ui="taskDeliveryStatus" alias="t"  ></field>
+			<field db="TSK_LF_STS" ui="taskLifeStatus"  alias="t"  ></field>
+			<field db="TSK_APPRVD" ui="taskApproved"  alias="t"  ></field>
+			<field db="TSK_APPRVR" ui="taskApprover"  alias="t"  ></field>
+			<field db="GT_WY_CLNT" ui="gateWayClient"  alias="t"  ></field>
+			<field db="DSRD_RCVRS_CNT" ui="desiredReceiverCount" alias="t"  ></field>
+			<field db="AVLBL_RCVRS_CNT" ui="availableReceiverCount"  alias="t"  ></field>
+			<field db="CNFRMD_RCVRS_CNT" ui="confirmedReceiverCount"  alias="t"  ></field>
+			<field db="SRLZD_PRCSS_RSLTS_FL_LOC" ui="srlzdTskPrcssJbObjsFilLoc"  alias="t"  ></field>
+			<field db="PRCSD_BY" ui="processedBy" alias="t"  ></field>
+			<field db="PRCSD_ON" ui="processedOn"  alias="t"  ></field>
+			<field db="CRET_DATE" ui="cretDate"  alias="t"  ></field>
+			<field db="LST_UPDTD" ui="lastUpdate"  alias="t"  ></field>
+			<field db="UPDTD_BY" ui="updatedBy" alias="t"  ></field>
+			<field db="CRTD_BY" ui="createdBy" alias="t"  ></field>
+			<field db="MSG_ID" ui="msgId"  alias="t"  ></field>
+			<field db="PROVIDER" ui="providerId" alias="t"  ></field>
+			<field db="TSK_RGNS" ui="taskRegions" alias="t"  ></field>
+			<field db="TSK_GRPS" ui="taskGroups"  alias="t"  ></field>
+		</reference>
+	</references>
+	<references>
+		<reference name="TASK_HISTORY" table="TASK" alias="h" queryId="getTaskHistoryJsonsForTaskId" countSensitiveCols="TSK_ID" replaceValuesFirst="false"  >
+			<field ui="historyId" db="HSTRY_ID" alias="h" ></field>
+			<field ui="taskId" db="TSK_ID" alias="h" ></field>
+			<field ui="evenName" db="EVNT_NAM" alias="h"  ></field>
+			<field ui="eventStatus" db="EVNT_STS" alias="h"  ></field>
+			<field ui="eventMessage" db="EVNT_MSG" alias="h"  ></field>
+			<field ui="eventUser" db="EVNT_USR" alias="h"  ></field>
+			<field ui="eventDate" db="EVNT_DATE" alias="h"  ></field>
+		</reference>
+	</references>
+	<references>
+		<reference name="TASK_GROUPS" table="TSK_GRPS" alias="h" queryId="getTaskGroupJSONsForTaskIdForGrid"  countSensitiveCols="TSK_ID" replaceValuesFirst="false"  >
+			<field ui="groupId" db="GRP_ID" alias="g" ></field>
+			<field ui="ownerUserName" db="OWNR_USR_NAM" alias="g" ></field>
+			<field ui="firstName" db="FRST_NAM" alias="g" ></field>
+			<field ui="lastName" db="LST_NAM" alias="g" ></field>
+			<field ui="groupName" db="GRP_NAME" alias="g" ></field>
+			<field ui="groupDesc" db="GRP_DESC" alias="g" ></field>
+			<field ui="receiverCount" db="RCVR_CNT" alias="g" ></field>
+			<field ui="receiverType" db="RCVR_TYP" alias="g" ></field>
+			<field ui="cretDate" db="CRET_DATE" alias="g" ></field>
+			<field ui="createdBy" db="CRTD_BY" alias="g" ></field>
+			<field ui="lastUpdate" db="LST_UPDT_DATE" alias="g" ></field>
+			<field ui="lastUpdatedBy" db="LST_UPDTD_BY" alias="g" ></field>
+		</reference>
+	</references>
+	<references>
+		<reference name="AVAIL_RECEIVER_GROUPS" table="TSK_GRPS" alias="h" queryId="getAllAvailReceiverJsons" replaceValuesFirst="false"  >
+			<field ui="groupId" 		db="GRP_ID" 		alias="g" ></field>
+			<field ui="ownerUserName" 	db="OWNR_USR_NAM" 	alias="g" ></field>
+			<field ui="groupName" 		db="GRP_NAME" 		alias="g" ></field>
+			<field ui="groupDesc" 		db="GRP_DESC" 		alias="g" ></field>
+			<field ui="receiverCount" 	db="RCVR_CNT" 		alias="g" ></field>
+			<field ui="receiverType" 	db="RCVR_TYP" 		alias="g" ></field>
+			<field ui="cretDate" 		db="CRET_DATE" 		alias="g" ></field>
+			<field ui="createdBy" 		db="CRTD_BY" 		alias="g" ></field>
+			<field ui="lastUpdate" 		db="LST_UPDT_DATE" 	alias="g" ></field>
+			<field ui="lastUpdatedBy" 	db="LST_UPDTD_BY" 	alias="g" ></field>
+		</reference>
+	</references>
+	<references>
+		<reference name="TASK_REGIONS" table="TSK_GRPS" alias="h" queryId="getAllAvailReceiverJsons" replaceValuesFirst="false"  >
+			<field ui="groupId" 		db="GRP_ID" 		alias="g" ></field>
+			<field ui="ownerUserName" 	db="OWNR_USR_NAM" 	alias="g" ></field>
+			<field ui="groupName" 		db="GRP_NAME" 		alias="g" ></field>
+			<field ui="groupDesc" 		db="GRP_DESC" 		alias="g" ></field>
+			<field ui="receiverCount" 	db="RCVR_CNT" 		alias="g" ></field>
+			<field ui="receiverType" 	db="RCVR_TYP" 		alias="g" ></field>
+			<field ui="cretDate" 		db="CRET_DATE" 		alias="g" ></field>
+			<field ui="createdBy" 		db="CRTD_BY" 		alias="g" ></field>
+			<field ui="lastUpdate" 		db="LST_UPDT_DATE" 	alias="g" ></field>
+			<field ui="lastUpdatedBy" 	db="LST_UPDTD_BY" 	alias="g" ></field>
+		</reference>
+	</references>
+	<references>
+		<reference name="COUNTY_JSONS" table="CNTY" alias="c" queryId="getCountyJsons" countSensitiveCols="TSK_ID" replaceValuesFirst="true" >
+			<field ui="countyId" 			db="CNTY_ID" 		alias="c" ></field>
+			<field ui="countryId" 			db="CNTRY_ID" 		alias="c" ></field>
+			<field ui="stateId" 			db="STATE_ID" 		alias="c" ></field>
+			<field ui="countyName" 			db="CNTY_NAM" 		alias="c" ></field>
+			<field ui="mapDots" 			db="MAP_DTS" 		alias="c" ></field>
+			<field ui="hasState" 			db="HS_STATE" 		alias="c" ></field>
+			<field ui="hunterPopulation" 	db="HNTR_PPLTN" 	alias="c" ></field>
+			<field ui="countyPopulation" 	db="CNTY_CPTL" 		alias="c" ></field>
+			<field ui="countyCode" 			db="CNTY_CDE" 		alias="c" ></field>
+			<field ui="cretDate" 			db="CRET_DATE" 		alias="c" ></field>
+			<field ui="createdBy" 			db="CRTD_BY" 		alias="c" ></field>
+			<field ui="lastUpdate" 			db="LST_UPDT_DATE" 	alias="c" ></field>
+			<field ui="lastUpdatedBy" 		db="LST_UPDTD_BY" 	alias="c" ></field>
+		</reference>
+	</references>
+</mappings>

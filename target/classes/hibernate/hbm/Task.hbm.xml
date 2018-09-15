@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
-"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 
+      3.0//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 <hibernate-mapping>
 	
 	<class name="com.techmaster.hunter.obj.beans.Task"  abstract="false" table="TASK" lazy="true">
@@ -38,6 +38,7 @@
 		<property name="lastUpdate" column="LST_UPDTD"  type="java.util.Date"  not-null="true" />
 		<property name="updatedBy" column="UPDTD_BY"  type="java.lang.String"  not-null="true" />
 		<property name="createdBy" column="CRTD_BY"  type="java.lang.String"  not-null="true" />
+		<property name="clonedFromTaskId" column="CLND_FRM_TSK_ID"  type="java.lang.Long" />
 		
 		
 		<one-to-one name="taskMessage" class="com.techmaster.hunter.obj.beans.Message" cascade="all"  ></one-to-one>

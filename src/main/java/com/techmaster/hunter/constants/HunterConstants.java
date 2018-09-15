@@ -11,6 +11,8 @@ public class HunterConstants {
 	public static final String HUNTER_ADMIN_PSSWRD = "hunterAdmin.1900";
 	public static final String HUNTER_ADMIN_EMAIL_USER_NAM = "techmaster.hunter.mail@gmail.com";
 	public static final String HUNTER_ADMIN_EMAIL_PSSWRD = "hunter.admin.1900";
+	public static final String HUNTER_ADMIN_POSTGRESS_SQL_USRNAM = "postgres";
+	public static final String HUNTER_ADMIN_POSTGRESS_SQL_PSSCDE = "hunter.admin.90"; /** system >> hunter.admin.1900 */
 	public static final String HUNTER_TWITTER_PSSWRD = "techmaster.hunter.admin.1990";
 	public static final String HUNTER_FB_PSSWRD = "techmaster.hunter.admin.1990";
 	public static final String HUNTER_SYSTEM_USER_NAME = "hunterSystem";
@@ -158,6 +160,7 @@ public class HunterConstants {
 	public static final String CLIENT_CM = "CM";
 	public static final String CLIENT_OZEKI = "OZEKI";
 	public static final String CLIENT_SAFARICOM = "SAFARICOM";
+	public static final String CLIENT_AIRTEL = "AIRTELL";
 	public static final String CLIENT_TECH_MASTERS = "TECH MASTERS";
 	public static final String CLIENT_HUNTER_EMAIL = "Hunter Email";
 	public static final String CLIENT_HUNTER_SOCIAL = "Hunter Social";
@@ -236,6 +239,7 @@ public class HunterConstants {
 	
 	
 	// XML Cached Services
+	public static final String ANGULAR_HEADERS_CONFIG_CACHED_SERVICE = "ANGULAR_HEADERS_CONFIG_CACHED_SERVICE";
 	public static final String QUERY_XML_CACHED_SERVICE = "QUERY_XML_CACHED_SERVICE";
 	public static final String CLIENT_CONFIG_XML_CACHED_SERVICE = "CLIENT_CONFIG_XML_CACHED_SERVICE";
 	public static final String RESPONSE_CONFIG_CACHED_SERVICE = "RESPONSE_CONFIG_CACHED_SERVICE";
@@ -245,6 +249,7 @@ public class HunterConstants {
 	public static final String TASK_PROCESS_JOBS_TEMPLATE = "TASK_PROCESS_JOBS_TEMPLATE";
 	public static final String LOGIN_DATA_SEED_XML = "LOGIN_DATA_SEE_XML";
 	public static final String QUERY_TO_BEAN_MAPPER = "QUERY_TO_BEAN_MAPPER";
+	public static final String QUERY_GRID_FIELD_MAPPER = "QUERY_GRID_FIELD_MAPPER";
 	
 	//Hunter Cache service names 
 	public static final String EMAIL_TEMPLATES_CACHE_SERVICE = "emailTemplateCacheService";
@@ -299,7 +304,8 @@ public class HunterConstants {
 	
 	public static final String ALLOWED_CORS_ORIGINS = "http://localhost:4200";
 	
-	public static final String MAPPER_FIELD_HUNTER_USER_JSON = "http://localhost:4200";
+	public static final String MAPPER_FIELD_HUNTER_USER_JSON = "MAPPER_FIELD_HUNTER_USER_JSON";
+	public static final String GRID_HEADERS_MAPPINGS = "GRID_HEADERS_MAPPINGS";
 	
 }
 

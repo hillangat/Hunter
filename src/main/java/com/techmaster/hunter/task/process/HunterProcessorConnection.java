@@ -15,6 +15,7 @@ import org.apache.log4j.Logger;
 import com.techmaster.hunter.constants.HunterConstants;
 import com.techmaster.hunter.constants.TaskProcessConstants;
 import com.techmaster.hunter.obj.beans.TaskClientConfigBean;
+import com.techmaster.hunter.util.HunterUtility;
 
 public class HunterProcessorConnection {
 	
@@ -74,7 +75,7 @@ public class HunterProcessorConnection {
         	ex.printStackTrace();
         	logger.warn("Encountered exception while processing GateWayMessage "); 
         	results.put(TaskProcessConstants.CONN_STATUS, HunterConstants.STATUS_FAILED);
-        	results.put(TaskProcessConstants.RESPONSE_ERROR, "Application error occurred.");
+        	results.put(TaskProcessConstants.RESPONSE_ERROR, HunterUtility.getApplicationErrorMessage());
         	results.put(TaskProcessConstants.RESPONSE_DURATION, 0L);
         	results.put(TaskProcessConstants.RESPONSE_ERROR_MSG, ex.getMessage());
         	results.put(TaskProcessConstants.RESPONSE_TEXT, null);
@@ -137,7 +138,7 @@ public class HunterProcessorConnection {
         } catch (IOException ex) {
         	ex.printStackTrace();
         	results.put(TaskProcessConstants.CONN_STATUS, HunterConstants.STATUS_FAILED);
-        	results.put(TaskProcessConstants.RESPONSE_ERROR, "Application error occurred.");
+        	results.put(TaskProcessConstants.RESPONSE_ERROR, HunterUtility.getApplicationErrorMessage());
         	results.put(TaskProcessConstants.RESPONSE_DURATION, 0L);
         	results.put(TaskProcessConstants.RESPONSE_ERROR_MSG, ex.getMessage());
         	results.put(TaskProcessConstants.ERROR_TYPE, TaskProcessConstants.ERROR_TYPE_EXCEPTION);

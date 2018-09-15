@@ -121,9 +121,9 @@ public class MessageReceiverController extends HunterBaseController{
 		String userName = getUserName();
 		AuditInfo auditInfo = HunterUtility.getAuditInfoFromRequestForNow(request, userName);
 		receiverGroupJson.setCreatedBy(auditInfo.getCreatedBy());
-		receiverGroupJson.setCretDate(auditInfo.getCretDate());
+		receiverGroupJson.setCretDate(HunterUtility.formatDate(auditInfo.getCretDate(), HunterConstants.DATE_FORMAT_STRING));
 		receiverGroupJson.setLastUpdatedBy(auditInfo.getLastUpdatedBy()); 
-		receiverGroupJson.setLastUpdate(auditInfo.getLastUpdate()); 
+		receiverGroupJson.setLastUpdate(HunterUtility.formatDate(auditInfo.getLastUpdate(), HunterConstants.DATE_FORMAT_STRING)); 
 		ReceiverGroup receiverGroup = ReceiverGroupConverter.getInstance().getReceiverGroupForJson(receiverGroupJson);
 		receiverGroupDao.insertReceiverGroup(receiverGroup); 
 		receiverGroupJson.setGroupId(receiverGroup.getGroupId()); 

@@ -49,7 +49,7 @@
         <property name="driverClassName" value="oracle.jdbc.driver.OracleDriver"/>
         <property name="url" value="jdbc:oracle:thin:@localhost:1521:orcl"/>
         <property name="username" value="system"/>
-        <property name="password" value="kip1990"/>
+        <property name="password" value="kip1900"/>
     </bean> 
     
     <bean id="sessionFactory" class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">

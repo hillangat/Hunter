@@ -282,7 +282,7 @@ public class GateWayMessage {
 	@Override
 	public String toString() {
 		return "GateWayMessage [msgId=" + msgId + ", taskId=" + taskId
-				+ ", text=" + HunterUtility.getBlobStr(text) + ", messageType=" + messageType 
+				+ ", text=" + HunterUtility.getBlobStrFromDB("text", "msgId", Long.toString(msgId), this.getClass()) + ", messageType=" + messageType 
 				+ ", clntRspCode=" + clntRspCode + ", clntRspText="
 				+ clntRspText + ", subsRspnsCode=" + subsRspnsCode
 				+ ", subsRspnsText=" + subsRspnsText + ", contact=" + contact

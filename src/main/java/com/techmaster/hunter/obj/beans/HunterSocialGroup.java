@@ -234,7 +234,7 @@ public class HunterSocialGroup {
 				+ ", externalId=" + externalId
 				+ ", existent=" + existent
 				+ ", delStatus=" + delStatus 
-				+ ", processData=" + HunterUtility.getBlobStr(processData)  
+				+ ", processData=" + HunterUtility.getBlobStrFromDB("processData", "groupId", Long.toString(groupId), this.getClass())  
 				+ ", verifiedBy=" + verifiedBy
 				+ ", acquired=" + acquired
 				+ ", defaultSocialApp=" + defaultSocialApp 

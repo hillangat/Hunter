@@ -83,21 +83,20 @@ public class TaskConverter {
 				Long groupId = HunterUtility.getLongFromObject(groupIdStr == null ? "0" : groupIdStr);
 				String lastUpdateStr = HunterUtility.getStringOrNullFromJSONObj(groupJson, "lastUpdate");
 				Date lastUpdate = HunterUtility.parseDate(lastUpdateStr+":00", HunterConstants.DATE_FORMAT_STRING);
-				String receiverCountStr = HunterUtility.getStringOrNullFromJSONObj(groupJson, "receiverCount");
-				int receiverCount = Integer.parseInt(receiverCountStr == null ? "0" : receiverCountStr);
+				int receiverCount = HunterUtility.getIntOrZeroFromJsonStr(groupJson, "receiverCount");
 				String ownerUserName = HunterUtility.getStringOrNullFromJSONObj(groupJson, "ownerUserName");
 				String cretDateStr = HunterUtility.getStringOrNullFromJSONObj(groupJson, "cretDate");
 				Date cretDate = HunterUtility.parseDate(cretDateStr+":00", HunterConstants.DATE_FORMAT_STRING);
 				
 				ReceiverGroupJson receiverGroupJson = new ReceiverGroupJson();
 				receiverGroupJson.setCreatedBy(createdBy);
-				receiverGroupJson.setCretDate(cretDate);
 				receiverGroupJson.setFirstName(firsName);
 				receiverGroupJson.setGroupDesc(groupDesc);
 				receiverGroupJson.setGroupId(groupId);
 				receiverGroupJson.setGroupName(groupName);
 				receiverGroupJson.setLastName(lastName);
-				receiverGroupJson.setLastUpdate(lastUpdate);
+				receiverGroupJson.setCretDate(HunterUtility.formatDate(cretDate, HunterConstants.DATE_FORMAT_STRING));
+				receiverGroupJson.setLastUpdate(HunterUtility.formatDate(lastUpdate, HunterConstants.DATE_FORMAT_STRING));
 				receiverGroupJson.setLastUpdatedBy(lastUpdatedBy);
 				receiverGroupJson.setOwnerUserName(ownerUserName);
 				receiverGroupJson.setReceiverCount(receiverCount);
@@ -140,13 +139,13 @@ public class TaskConverter {
 		Boolean taskApproved 		= Boolean.valueOf( HunterUtility.getStringOrNulFromJSONObj(taskJson, "taskApproved") );
 		Boolean recurrentTask 		= Boolean.valueOf( HunterUtility.getStringOrNulFromJSONObj(taskJson, "recurrentTask") );
 		
-		int desiredReceiverCount 	= Integer.valueOf( HunterUtility.getStringOrNulFromJSONObj(taskJson, "desiredReceiverCount") );
-		int availableReceiverCount 	= Integer.valueOf( HunterUtility.getStringOrNulFromJSONObj(taskJson, "availableReceiverCount") == null ? "0" : HunterUtility.getStringOrNulFromJSONObj(taskJson, "availableReceiverCount") );
-		int confirmedReceiverCount 	= Integer.valueOf( HunterUtility.getStringOrNulFromJSONObj(taskJson, "confirmedReceiverCount") == null ? "0" : HunterUtility.getStringOrNulFromJSONObj(taskJson, "confirmedReceiverCount") );
+		int desiredReceiverCount 	= Integer.parseInt( HunterUtility.getStringOrNulFromJSONObj(taskJson, "desiredReceiverCount") );
+		int availableReceiverCount 	= Integer.parseInt( HunterUtility.getStringOrNulFromJSONObj(taskJson, "availableReceiverCount") == null ? "0" : HunterUtility.getStringOrNulFromJSONObj(taskJson, "availableReceiverCount") );
+		int confirmedReceiverCount 	= Integer.parseInt( HunterUtility.getStringOrNulFromJSONObj(taskJson, "confirmedReceiverCount") == null ? "0" : HunterUtility.getStringOrNulFromJSONObj(taskJson, "confirmedReceiverCount") );
 		
 		long taskBudget 			= HunterUtility.getLongOrNulFromJSONObj(taskJson, "taskBudget");
 		long taskCost 				= HunterUtility.getLongOrNulFromJSONObj(taskJson, "taskCost");
-		long taskId 				= taskJson.get("taskId") == null ? 0 :  HunterUtility.getLongOrNulFromJSONObj(taskJson, "taskId");
+		long taskId 				= HunterUtility.getLongOrNulFromJSONObj(taskJson, "taskId");
 		long clientId 				= HunterUtility.getLongOrNulFromJSONObj(taskJson, "clientId");
 		
 		float taskCostF 			= (float)taskCost;
@@ -166,7 +165,7 @@ public class TaskConverter {
 		task.setRecurrentTask(recurrentTask);
 		task.setTaskDeliveryStatus( taskDeliveryStatus == null ? HunterConstants.STATUS_CONCEPTUAL : taskDeliveryStatus ); 
 		task.setTaskLifeStatus(taskLifeStatus == null ? HunterConstants.STATUS_DRAFT : taskLifeStatus); 
-		task.setTaskDateline(HunterUtility.parseDate(taskDateline, HunterConstants.HUNTER_DATE_FORMAT_MIN));
+		task.setTaskDateline( taskDateline == null ? new Date() : HunterUtility.parseDate(taskDateline, HunterConstants.HUNTER_DATE_FORMAT_MIN));
 		task.setTaskApprover(taskApprover);
 		task.setTskMsgType(tskMsgType); 
 		task.setTaskApproved(taskApproved);

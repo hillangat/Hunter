@@ -2,6 +2,7 @@ package com.techmaster.hunter.util;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -57,16 +58,23 @@ import org.apache.log4j.Logger;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.usermodel.WorkbookFactory;
+import org.hibernate.HibernateException;
+import org.hibernate.Query;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.json.JSONTokener;
-import org.springframework.context.ApplicationContext;
+import org.springframework.beans.BeansException;
+import org.springframework.beans.PropertyAccessor;
+import org.springframework.beans.PropertyAccessorFactory;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
@@ -74,8 +82,12 @@ import org.xml.sax.SAXException;
 
 import com.techmaster.hunter.cache.HunterCacheUtil;
 import com.techmaster.hunter.constants.HunterConstants;
+import com.techmaster.hunter.constants.UIMessageConstants;
+import com.techmaster.hunter.dao.impl.HunterDaoFactory;
+import com.techmaster.hunter.dao.types.HunterJDBCExecutor;
 import com.techmaster.hunter.exception.HunterRemoteException;
 import com.techmaster.hunter.exception.HunterRunTimeException;
+import com.techmaster.hunter.json.HunterSelectValue;
 import com.techmaster.hunter.obj.beans.AuditInfo;
 import com.techmaster.hunter.obj.beans.Message;
 import com.techmaster.hunter.xml.XMLService;
@@ -96,6 +108,13 @@ public static  Logger logger = Logger.getLogger(HunterUtility.class);
 		throw new HunterRunTimeException(e.getMessage());
 	} 
   }
+  
+  public static String replaceWord( String victim, String word, String value ) {
+	int index = victim.indexOf( word );
+	String part1 = victim.substring(0, index + word.length() - 1) ;
+	String part2 = victim.substring(index + 1 + word.length() - 1, victim.length());
+	return part1 + value + part2;
+  }
 	
    public static String urlEncodeRequestMap(Map<String, ?> params, String encodeFormat) throws UnsupportedEncodingException{ 
 	   StringBuilder builder = new StringBuilder();
@@ -110,8 +129,31 @@ public static  Logger logger = Logger.getLogger(HunterUtility.class);
 	   return builder.toString();
    }
    
-   public static boolean isCollectionNotEmpty(Collection<?> collection){
+   public static String getApplicationErrorMessage() {
+	   return HunterCacheUtil.getInstance().getUIMsgTxtForMsgId(UIMessageConstants.MSG_TASK_017);
+   }
+   
+   public static Map<String, String> getUIMsgParamMap( String key, String value ) {
+	   Map<String, String> params = new HashMap<>();
+	   params.put(key, value);
+	   return params;
+   }
+   
+   public static Map<String, String> addParamToMap( String key, String value, Map<String, String> params ) {
+	   params.put(key, value);
+	   return params;
+   }
+   
+   public static boolean isCollNotEmpty(Collection<?> collection){
 	   return collection != null && !collection.isEmpty();
+   }
+   
+   public static <T> boolean isArrNotEmpty( T[] array ) {
+	   return array != null && array.length > 0 ;
+   }
+   
+   public static boolean isNodeListNotEmptpy( NodeList nodeList ) {
+	   return null != nodeList && nodeList.getLength() > 0;
    }
    
    public static String getBlobStr(Blob blob){
@@ -127,6 +169,104 @@ public static  Logger logger = Logger.getLogger(HunterUtility.class);
 		e.printStackTrace();
 	}
 	   return null;
+   }
+   
+   public static boolean isProviderRequiredTask( String taskType ) {
+		return taskType != null && (taskType.equals(HunterConstants.MESSAGE_TYPE_PHONE_CALL)
+				|| taskType.equals(HunterConstants.MESSAGE_TYPE_TEXT)
+				|| taskType.equals(HunterConstants.MESSAGE_TYPE_AUDIO)
+				|| taskType.equals(HunterConstants.MESSAGE_TYPE_VOICE_MAIL)
+		);
+   }
+   
+   public static String getBlobStrFromDB( String blobField, String idField, String idValue, Class<?> clzz ){
+	   
+	   SessionFactory sessionFactory = HunterDaoFactory.getObject(SessionFactory.class);
+	   Session session = null;
+	   String blobStr = null;
+	   
+	   try {
+		   session = sessionFactory.openSession();
+		   String queryString = "SELECT o."+ blobField +" FROM " + clzz.getSimpleName() + " o WHERE o." + idField + " = " + idValue;
+		   logger.debug("Created query string > " + queryString);
+		   Query query = session.createQuery(queryString);
+		   Blob blob = (Blob) query.uniqueResult();
+		   if ( null != blob ) {
+			   byte[] blobBytes = blob.getBytes(1, (int) blob.length());
+		       blobStr = new String(blobBytes);
+		       logger.debug("Stringified blob = " + blobStr);
+		   }	       		   
+		} catch (HibernateException e) {
+			e.printStackTrace();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			if ( null != session && session.isOpen() ) {
+				session.close();
+			}
+		}
+	   
+	   return blobStr;
+	   
+   }
+   
+   public static List<String> getIdStrListForList( List<?> objList, String idField ) {	   
+	   List<String> idList = new ArrayList<>();
+	   for( Object obj : objList ) {
+		   PropertyAccessor propertyAccessor = PropertyAccessorFactory.forBeanPropertyAccess(obj);
+		   String id = HunterUtility.getStringOrNullOfObj(propertyAccessor.getPropertyValue(idField));
+		   idList.add( id );
+	   }
+	   return idList;	   
+   }
+   
+   public static Map<String, String> getBlobStrFromDBForList( List<?> objList, String blobField, String idField, Class<?> clzz ) {
+	   List<String> idList = getIdStrListForList(objList, idField);
+	   Map<String, String> blobStrMap = new HashMap<>();
+	   if ( HunterUtility.isCollNotEmpty(idList) ) {
+		   blobStrMap = getBlobStrFromDBForList(blobField, idField, idList, clzz);
+		   return blobStrMap;
+	   }
+	   return new HashMap<>();
+   }
+   
+   public static Map<String, String> getBlobStrFromDBForList( String blobField, String idField, List<String> idValues, Class<?> clzz) {
+	   
+	   SessionFactory sessionFactory = HunterDaoFactory.getObject(SessionFactory.class);
+	   Session session = null;
+	   Map<String, String> blobStrMap = new HashMap<>();
+	   
+	   try {
+		   
+		   session = sessionFactory.openSession();
+		   String queryString = "SELECT o."+ blobField +", o." + idField + " FROM " + clzz.getSimpleName() + " o WHERE o." + idField + " IN ( " + HunterUtility.getCommaDelimitedStrings(idValues) + " )";
+		   logger.debug("Created query string > " + queryString);
+		   Query query = session.createQuery(queryString);
+		   
+		   Iterator<?> blobItr = query.list().iterator();
+		   
+		   while ( blobItr.hasNext() ) {
+				Object[] blobRow = (Object[])blobItr.next();
+				Blob blob = ((Blob)blobRow[0]);
+				if ( null != blob ) {
+					String mapKey = blobRow[1].toString();
+					byte[] blobBytes = blob.getBytes(1, (int) blob.length());
+					String blobStr = new String(blobBytes);
+					blobStrMap.put(mapKey, blobStr);
+				}				
+		   }		   
+	       
+		} catch (HibernateException e) {
+			e.printStackTrace();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			if ( null != session && session.isOpen() ) {
+				session.close();
+			}
+		}
+	   
+	   return blobStrMap;
    }
    
    public static Blob getStringBlob(String string){
@@ -325,8 +465,20 @@ public static  Logger logger = Logger.getLogger(HunterUtility.class);
 		if(cntxtNmsSpace == null || cntxtNmsSpace.trim().equals(""))
 			throw new IllegalArgumentException("Names space provded id either null or empty"); 
 		
-		 ApplicationContext ctx = new ClassPathXmlApplicationContext(cntxtNmsSpace);
-		Object obj = ctx.getBean(beanName);
+		
+		Object obj = null;		
+		ClassPathXmlApplicationContext ctx = null;
+		
+		try {
+			ctx = new ClassPathXmlApplicationContext(cntxtNmsSpace);
+			obj = ctx.getBean(beanName);
+		} catch (BeansException e) {
+			e.printStackTrace();
+		} finally {
+			if ( null != ctx )
+				((ClassPathXmlApplicationContext)ctx).close(); 
+		}	
+
 		
 		logger.debug("successfully obtained the bean (" + beanName + ") from context(" + cntxtNmsSpace + ") >> " + obj.toString()); 
 		
@@ -864,6 +1016,15 @@ public static  Logger logger = Logger.getLogger(HunterUtility.class);
 		return extension;
 	}
 	
+	public static String getRequestBodyAsStringSafely(HttpServletRequest request) {
+		try {
+			return getRequestBodyAsString(request);
+		} catch (IOException e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+	
 	public static String getRequestBodyAsString(HttpServletRequest request) throws IOException {
 
 	    String body = null;
@@ -1084,7 +1245,7 @@ public static  Logger logger = Logger.getLogger(HunterUtility.class);
 		HunterCacheUtil.getInstance();
 		XMLService xmlService =(XMLServiceImpl) HunterCacheUtil.getInstance().getXMLService(HunterConstants.EMAIL_TEMPLATES_CACHED_SERVICE);
 		NodeList nodeList = xmlService.getNodeListForPathUsingJavax("//template[@name='taskpProcessRequestNotification']/context/miscelaneous/*");
-		if(nodeList != null && nodeList.getLength() >= 1){
+		if(HunterUtility.isNodeListNotEmptpy(nodeList)){
 			for(int i=0; i<nodeList.getLength(); i++){
 				Node node = nodeList.item(i);
 				if(node.getNodeName().equals("config")){
@@ -1101,6 +1262,11 @@ public static  Logger logger = Logger.getLogger(HunterUtility.class);
 		json.put(HunterConstants.STATUS_STRING, HunterConstants.STATUS_SUCCESS);
 		json.put(HunterConstants.MESSAGE_STRING, message);
 		return json;
+	}
+	
+	public static JSONObject setJSONObjForFailureWithMsg( String msgId ) {
+		String message = HunterCacheUtil.getInstance().getUIMsgDescForMsgId( msgId );
+		return HunterUtility.setJSONObjectForFailure(null, message );
 	}
 	
 	public static JSONObject setJSONObjectForFailure(JSONObject json, String message){
@@ -1273,6 +1439,49 @@ public static  Logger logger = Logger.getLogger(HunterUtility.class);
 		}
 	}
 	
+	public static JSONArray getClassPathFileJsonArray( String fileName ) {
+		File file = HunterUtility.getFileFromResources(fileName);
+		String fileContent = HunterUtility.getStringOfFile(file);
+		JSONArray array = fileContent != null ? new JSONArray( fileContent ) : null;
+		return array;
+	}
+	
+	/**
+	 * The name starts from first folder inside java\\main\\resources\\folder1\\file1
+	 * Thus: "folder1\\file1"
+	 * @param fileName
+	 * @return
+	 */
+	public static File getFileFromResources( String fileName ) {
+		ClassLoader classLoader = HunterUtility.class.getClassLoader();
+		File file = new File(classLoader.getResource(fileName).getFile());
+		return file;
+	}
+	
+	public static String getStringOfFile( File file ){
+		BufferedReader br = null;
+		FileReader fr = null;
+		StringBuilder build = new StringBuilder();
+		try {
+			fr = new FileReader(file);
+			br = new BufferedReader(fr);
+			String sCurrentLine;
+			while ((sCurrentLine = br.readLine()) != null) {
+				build.append(sCurrentLine);
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				fr.close();
+				br.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		return build.toString();
+	}
+	
 	public static JSONObject getServerResponse( String message, String status, JSONObject data ){			
 		return getMessageAndStatus(message, status, null, data);
 	}
@@ -1297,6 +1506,70 @@ public static  Logger logger = Logger.getLogger(HunterUtility.class);
 	public static JSONObject getServerSuccess( String message ){
 		JSONObject json = null;
 		return getServerResponse(message, HunterConstants.STATUS_SUCCESS, json);
+	}
+	
+	public static List<HunterSelectValue> getSelectValsForQueryId( String queryId ) {
+		List<HunterSelectValue> selVals = new ArrayList<>();
+		HunterJDBCExecutor executor = HunterDaoFactory.getObject(HunterJDBCExecutor.class);
+		String query = executor.getQueryForSqlId( queryId );
+		List<Map<String, Object>> rowMapList =  executor.executeQueryRowMap(query, null);
+		if ( HunterUtility.isCollNotEmpty(rowMapList) ) {
+			for( Map<String, Object> rowMap : rowMapList ) {
+				HunterSelectValue selValue = new HunterSelectValue();
+				selValue.setText(HunterUtility.getStringOrNullOfObj(rowMap.get("TEXT")));
+				selValue.setValue( HunterUtility.getStringOrNullOfObj(rowMap.get(rowMap.get("VALUE"))));
+			}
+		}
+		return selVals;
+	}
+	
+	/**
+	 * 
+	 * @param node
+	 * @param key
+	 * @param clzz - Must be one of java types String,Short, Long, Byte, Integer, Character, Float, Double, Boolean
+	 * @return
+	 */
+	@SuppressWarnings("unchecked")
+	public static <T> T getNodeAttr( Node node, String key, Class<T> clzz ) {
+		T t = null;
+		NamedNodeMap map = node.getAttributes();
+		if ( map != null && map.getLength() > 0 ) {
+			Node item = map.getNamedItem(key);
+			if ( null != item ) {
+				String val = item.getTextContent().toString().trim();
+				if ( notNullNotEmpty(val) ) {
+					if ( clzz.equals(Integer.class) ) {
+						Integer integer = Integer.parseInt(val); 
+						return (T)(integer);
+					} else if ( clzz.equals(Long.class) ) {
+						Long longVal = HunterUtility.getLongFromObject(val); 
+						return (T)(longVal);
+					} else if ( clzz.equals(Float.class) ) {
+						Float floatVal = HunterUtility.getFloatFromObject(val); 
+						return (T)(floatVal);
+					} else if ( clzz.equals(Double.class) ) {
+						Double floatVal = Double.valueOf(val); 
+						return (T)(floatVal);
+					} else if ( clzz.equals(Boolean.class) ) {
+						Boolean bool = Boolean.valueOf(val);
+						return (T)(bool);
+					} else if ( clzz.equals(Character.class) ) {
+						Character chr = Character.valueOf(val.toCharArray()[0]);
+						return (T)(chr);
+					} else if ( clzz.equals(Short.class) ) {
+						Short shrt = Short.valueOf(val);
+						return (T)(shrt);
+					} else if ( clzz.equals(Byte.class) ) {
+						Byte byt = Byte.valueOf(val);
+						return (T)(byt);
+					} else {
+						return (T)val;
+					}
+				}
+			}
+		}
+		return t;
 	}
 	
 	

@@ -1,11 +1,13 @@
 package com.techmaster.hunter.util;
 
 
+import org.hibernate.SessionFactory;
+
 import com.techmaster.hunter.dao.impl.HunterDaoFactory;
 
 public class HunterSessionFactory {
 
-	private static org.hibernate.SessionFactory sessionFactory;
+	private static SessionFactory sessionFactory;
 	private static HunterSessionFactory hunterSessionFactory;
 	
 	
@@ -14,7 +16,7 @@ public class HunterSessionFactory {
 	}
 	
 
-	public org.hibernate.SessionFactory getSessionFactory(){
+	public SessionFactory getSessionFactory(){
 		return sessionFactory;
 	}
 	
@@ -28,7 +30,7 @@ public class HunterSessionFactory {
 	}
 
 
-	public void setSessionFactory(org.hibernate.SessionFactory sessionFactory) {
+	public void setSessionFactory(SessionFactory sessionFactory) {
 		HunterSessionFactory.sessionFactory = sessionFactory;
 	}
 

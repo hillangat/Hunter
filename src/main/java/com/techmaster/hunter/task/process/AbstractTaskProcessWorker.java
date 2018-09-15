@@ -31,7 +31,7 @@ public abstract class AbstractTaskProcessWorker implements TaskProcessWorker {
 	
 	@Override
 	public void setDuration(Long duration, Set<GateWayMessage> messages) {
-		if( !HunterUtility.isCollectionNotEmpty(messages) ){ 
+		if( !HunterUtility.isCollNotEmpty(messages) ){ 
 			duration = duration/messages.size();
 			for(GateWayMessage msg : messages){
 				msg.setDuration(duration);

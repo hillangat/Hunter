@@ -63,14 +63,15 @@ public class HunterSocialHelper {
 		HunterJDBCExecutor hunterJDBCExecutor = HunterDaoFactory.getObject(HunterJDBCExecutor.class);
 		String query = hunterJDBCExecutor.getQueryForSqlId("getSocialMsgRemteDetails");
 		List<Map<String,Object>> rowtMapList = hunterJDBCExecutor.executeQueryRowMap(query, values);
-		return HunterUtility.isCollectionNotEmpty(rowtMapList) ?  rowtMapList.get(0) : new HashMap<String, Object>();
+		return HunterUtility.isCollNotEmpty(rowtMapList) ?  rowtMapList.get(0) : new HashMap<String, Object>();
 	}
 	
 	public XMLService getSocialAppConfig(HunterSocialApp socialApp){
 		logger.debug("Getting social app configurations..."); 
 		try {
 			XMLService xmlService = new XMLServiceImpl(new XMLTree(HunterURLConstants.HUNTER_SOCIAL_APP_CONFIG_PATH, false));
-			xmlService = socialApp.getAppConfigs() == null ? xmlService : new XMLServiceImpl(new XMLTree(HunterUtility.getBlobStr(socialApp.getAppConfigs()), true));  
+			String blobStr = HunterUtility.getBlobStrFromDB("appConfigs", "appId", Long.toString(socialApp.getAppId()), HunterSocialApp.class);
+			xmlService = socialApp.getAppConfigs() == null ? xmlService : new XMLServiceImpl(new XMLTree( blobStr, true));  
 			logger.debug("Successfully retrieved social app configurations : " + xmlService); 
 			return xmlService;
 		} catch (HunterRunTimeException e) {
@@ -85,7 +86,7 @@ public class HunterSocialHelper {
 		logger.debug("Getting all social apps jsons...");
 		List<HunterSocialApp>  socialApps =   HunterDaoFactory.getObject(HunterHibernateHelper.class).getAllEntities(HunterSocialApp.class);
 		List<HunterSocialAppJson> socialAppJsons = new ArrayList<>();
-		if( HunterUtility.isCollectionNotEmpty(socialApps) ){
+		if( HunterUtility.isCollNotEmpty(socialApps) ){
 			for(HunterSocialApp socialApp : socialApps){
 				HunterSocialAppJson socialAppJson = new HunterSocialAppJson();
 				socialAppJson.setAppDesc(socialApp.getAppDesc());
@@ -165,7 +166,7 @@ public class HunterSocialHelper {
 		values.add(appId);
 		List<Map<String, Object>> rowMapsList = hunterJDBCExecutor.executeQueryRowMap(query,values );
 		StringBuilder builder = new StringBuilder();
-		if( HunterUtility.isCollectionNotEmpty(rowMapsList) ){
+		if( HunterUtility.isCollNotEmpty(rowMapsList) ){
 			int counter = 1;
 			for(Map<String, Object> rowMap : rowMapsList){
 				String groupName = HunterUtility.getStringOrNullOfObj(rowMap.get("GRP_NAM"));
@@ -220,10 +221,10 @@ public class HunterSocialHelper {
 		Document document = appConfigs.getXmlTree().getDoc();
 		Element configs = document.getDocumentElement();
 		NodeList configss = configs.getChildNodes();
-		if( configss != null && configss.getLength() > 0 ){
+		if( HunterUtility.isNodeListNotEmptpy(configss) ){
 			for(int i=0; i<configss.getLength();i++){
 				Node node = configss.item(i);
-				if( node.getNodeName().equals("config") && node.getAttributes().getNamedItem("name").toString().equals(name) ){ 
+				if( node.getNodeName().equals("config") && HunterUtility.getNodeAttr(node, "name", String.class).equals(name) ){ 
 					return node.getTextContent();
 				}
 			}
@@ -318,7 +319,7 @@ public class HunterSocialHelper {
 	
 	public List<HunterSocialGroupJson> convertSocialGroupToSocialGroupJson(List<HunterSocialGroup> socialGroups){
 		List<HunterSocialGroupJson> socialGroupJsons = new ArrayList<>();
-		if( HunterUtility.isCollectionNotEmpty(socialGroups) ){
+		if( HunterUtility.isCollNotEmpty(socialGroups) ){
 			for(HunterSocialGroup socialGroup : socialGroups){
 				
 				HunterSocialGroupJson socialGroupJson = new HunterSocialGroupJson();
@@ -366,7 +367,8 @@ public class HunterSocialHelper {
 				
 				socialGroupJson.setReceiversCount(socialGroup.getSocialRegion().getPopulation());
 				socialGroupJson.setRegionAssignedTo(socialGroup.getSocialRegion().getAssignedTo());
-				socialGroupJson.setRegionCoordinates(HunterUtility.getBlobStr(socialGroup.getSocialRegion().getCoordinates())); 
+				String blobStr = HunterUtility.getBlobStrFromDB("coordinates", "regionId", Long.toString(socialGroup.getSocialRegion().getRegionId()), HunterSocialRegion.class);
+				socialGroupJson.setRegionCoordinates( blobStr ); 
 				socialGroupJson.setRegionDesc(socialGroup.getSocialRegion().getRegionDesc());
 				socialGroupJson.setRegionId(socialGroup.getSocialRegion().getRegionId());
 				socialGroupJson.setRegionName(socialGroup.getSocialRegion().getRegionName());
@@ -412,7 +414,8 @@ public class HunterSocialHelper {
 		
 		socialRegionJson.setPopulation(socialRegion.getPopulation());
 		socialRegionJson.setAssignedTo(socialRegion.getAssignedTo());
-		socialRegionJson.setCoordinates(HunterUtility.getBlobStr(socialRegion.getCoordinates())); 
+		String blobStr = HunterUtility.getBlobStrFromDB("coordinates", "regionId", Long.toString(socialRegion.getRegionId()), HunterSocialRegion.class);
+		socialRegionJson.setCoordinates( blobStr ); 
 		socialRegionJson.setRegionDesc(socialRegion.getRegionDesc());
 		socialRegionJson.setRegionId(socialRegion.getRegionId());
 		socialRegionJson.setRegionName(socialRegion.getRegionName());
@@ -481,7 +484,7 @@ public class HunterSocialHelper {
 		values.add(regionId);
 		List<Map<String, Object>> rowMapsList = hunterJDBCExecutor.executeQueryRowMap(query,values );
 		StringBuilder builder = new StringBuilder();
-		if( HunterUtility.isCollectionNotEmpty(rowMapsList) ){
+		if( HunterUtility.isCollNotEmpty(rowMapsList) ){
 			int counter = 1;
 			for(Map<String, Object> rowMap : rowMapsList){
 				String groupName = HunterUtility.getStringOrNullOfObj(rowMap.get("GRP_NAM"));
@@ -551,7 +554,7 @@ public class HunterSocialHelper {
 
 	public List<HunterSocialGroupJson> getAvailSocialMsgGroups(Long selMsgId) {
 		List<Long> selGroupIds = getSelMsgSocialGroupIds(selMsgId);
-		if( !HunterUtility.isCollectionNotEmpty(selGroupIds) ){
+		if( !HunterUtility.isCollNotEmpty(selGroupIds) ){
 			return getAllSocialGroupsJsons();
 		}
 		String commaSepGrpIds = HunterUtility.getCommaDelimitedStrings(selGroupIds);
@@ -590,10 +593,11 @@ public class HunterSocialHelper {
 	public synchronized TaskProcessJob getSocialProcessedJob(Long jobId){
 		String query = "FROM TaskProcessJob j WHERE j.jobId = " + jobId;
 		List<TaskProcessJob> processJobs  =  HunterDaoFactory.getObject(HunterHibernateHelper.class).executeQueryForObjList(TaskProcessJob.class, query);
-		if( HunterUtility.isCollectionNotEmpty(processJobs) ){
+		if( HunterUtility.isCollNotEmpty(processJobs) ){
 			TaskProcessJob processJob = processJobs.get(0); 
 			try {
-				XMLService xmlService = new XMLServiceImpl(new XMLTree(HunterUtility.getBlobStr(processJob.getDocBlob()), true));
+				String blobStr = HunterUtility.getBlobStrFromDB("docBlob", "jobId", Long.toString( processJob.getJobId() ), TaskProcessJob.class);
+				XMLService xmlService = new XMLServiceImpl(new XMLTree( blobStr, true));
 				processJob.setXmlService(xmlService);
 				return processJob;
 			} catch (HunterRunTimeException e) {
@@ -623,7 +627,7 @@ public class HunterSocialHelper {
 		String query = hunterJDBCExecutor.getQueryForSqlId("getAssignableRawUsersForDropdowns");
 		List<Map<String, Object>> rowMapList = hunterJDBCExecutor.executeQueryRowMap(query, null);
 		List<HunterSelectValue>  selects = new ArrayList<>();
-		if( HunterUtility.isCollectionNotEmpty(rowMapList) ){ 
+		if( HunterUtility.isCollNotEmpty(rowMapList) ){ 
 			for( Map<String, Object> rowMap : rowMapList ){
 				HunterSelectValue hunterSelectValue = new HunterSelectValue();
 				hunterSelectValue.setText(rowMap.get("TEXT").toString());

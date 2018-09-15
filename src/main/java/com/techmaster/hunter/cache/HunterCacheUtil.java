@@ -11,6 +11,8 @@ import java.util.Set;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.log4j.Logger;
+import org.json.JSONArray;
+import org.json.JSONObject;
 import org.w3c.dom.Attr;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -57,44 +59,23 @@ public class HunterCacheUtil {
 	}
 
 	public void refreshAllXMLServices(){
-		logger.debug("Caching xmlQuery..."); 
-		XMLService queryService = HunterUtility.getXMLServiceForFileLocation(HunterURLConstants.QRY_XML_FL_LOC_PATH);
-		HunterCache.getInstance().put(HunterConstants.QUERY_XML_CACHED_SERVICE, queryService);
-		logger.debug("Done caching xmlQuery!!");
-		logger.debug("Caching ui message xml..."); 
-		XMLService uiMsgService = HunterUtility.getXMLServiceForFileLocation(HunterURLConstants.UI_MSG_XML_FL_LOC_PATH);
-		HunterCache.getInstance().put(HunterConstants.UI_MSG_CACHED_SERVICE, uiMsgService);
-		logger.debug("Done caching ui message xml!!");
-		logger.debug("Caching ui clieConfigService xml..."); 
-		XMLService clieConfigService = HunterUtility.getXMLServiceForFileLocation(HunterURLConstants.CLIENT_CONFIG_LOC_PATH); 
-		HunterCache.getInstance().put(HunterConstants.CLIENT_CONFIG_XML_CACHED_SERVICE, clieConfigService);
-		logger.debug("Done caching clieConfigService xml!!");
-		logger.debug("Caching ui responseConfigXml xml..."); 
-		XMLService responseConfigXml = HunterUtility.getXMLServiceForFileLocation(HunterURLConstants.RESPONSE_CONFIG_LOC_PATH);
-		HunterCache.getInstance().put(HunterConstants.RESPONSE_CONFIG_CACHED_SERVICE, responseConfigXml);
-		logger.debug("Done caching responseConfigXml xml...");
-		logger.debug("Caching emailTemplates xml...");
-		XMLService emailTemplates = EmailTemplateUtil.getInstance().getAllTemplateXMLService(); 
-		//HunterUtility.getXMLServiceForFileLocation(HunterURLConstants.EMAIL_TEMPLATES_LOCL_PATH);
-		HunterCache.getInstance().put(HunterConstants.EMAIL_TEMPLATES_CACHED_SERVICE, emailTemplates);
-		logger.debug("Done cachingg emailTemplates xml...");
-		logger.debug("Cachingg emailConfigs xml...");
-		XMLService emailConfigs = HunterUtility.getXMLServiceForFileLocation(HunterURLConstants.EMAIL_CONFIGS__LOCL_PATH);
-		HunterCache.getInstance().put(HunterConstants.EMAIL_CONFIG_CACHED_SERVICE, emailConfigs);
-		logger.debug("Done caching emailConfigs xml!!");
-		logger.debug("Cachingg taskProcessJobsTemplate xml...");
-		XMLService taskProcessJobsTemplate = HunterUtility.getXMLServiceForFileLocation(HunterURLConstants.TASK_PROCESS_JOBS_TEMPLATE);
-		HunterCache.getInstance().put(HunterConstants.TASK_PROCESS_JOBS_TEMPLATE, taskProcessJobsTemplate);
-		logger.debug("Done caching taskProcessJobsTemplate xml!!");
-		logger.debug("Cachingg login data seed xml...");
-		XMLService loginDataSeedXMLService = HunterUtility.getXMLServiceForFileLocation(HunterURLConstants.LOGIN_DATA_SEE_XML);
-		HunterCache.getInstance().put(HunterConstants.LOGIN_DATA_SEED_XML, loginDataSeedXMLService);
-		logger.debug("Done cachingg login data seed xml!!");
-		
-		XMLService queryToBeanMapper = HunterUtility.getXMLServiceForFileLocation(HunterURLConstants.QUERY_TO_BEAN_MAPPER);
-		HunterCache.getInstance().put(HunterConstants.QUERY_TO_BEAN_MAPPER, queryToBeanMapper);
-		logger.debug("Done cachingg login data seed xml!!");
-		
+		String path = HunterURLConstants.CACHE_REFRESH_JSONS;
+		File cacheRefresh = new File( path );
+		String cacheContents = HunterUtility.getStringOfFile(cacheRefresh);
+		if ( HunterUtility.notNullNotEmpty(cacheContents) ) {
+			try {
+				JSONArray cacheRefreshes = new JSONArray( cacheContents );
+				for( int i = 0; i < cacheRefreshes.length(); i++ ) {
+					JSONObject cache = cacheRefreshes.getJSONObject(i);
+					String key = HunterUtility.getStringOrNulFromJSONObj(cache, "key");
+					if ( HunterUtility.notNullNotEmpty(key) && !key.equals("allXMLService") ) {
+						this.refreshCacheService( key );
+					}
+				}
+			} catch( Exception e ) {
+				e.printStackTrace();
+			}
+		}
 	}
 	
 	public void refreshCacheService(String xmlName){
@@ -154,6 +135,16 @@ public class HunterCacheUtil {
 			HunterCache.getInstance().put(HunterConstants.QUERY_TO_BEAN_MAPPER, queryToBeanMapper);
 			logger.debug("Done cachingg login data seed xml!!");
 			break;
+		case "gridHeaders" :
+			XMLService gridHeadersService = HunterUtility.getXMLServiceForFileLocation(HunterURLConstants.HUNTER_ANGULAR_GRID_HEADERS_PATH);
+			HunterCache.getInstance().put(HunterConstants.ANGULAR_HEADERS_CONFIG_CACHED_SERVICE, gridHeadersService);
+			logger.debug("Done caching Grid Headers!!");
+			break;
+		case "gridQueryFieldMapping" :
+			XMLService queryGridFieldMapper = HunterUtility.getXMLServiceForFileLocation(HunterURLConstants.HUNTER_GRID_QUERY_FIELD_MAPPING);
+			HunterCache.getInstance().put(HunterConstants.QUERY_GRID_FIELD_MAPPER, queryGridFieldMapper);
+			logger.debug("Done cachingg query gid field mapper xml!!");
+			break;
 		default:
 			break;
 		}
@@ -194,9 +185,9 @@ public class HunterCacheUtil {
 	}
 	
 	public Map<String, HunterEmailTemplateBean> loadEmailTemplateBeans(){
-		logger.debug("Loading email template beans..."); 
+		logger.debug("Loading email template beans...");
 		Map<String, HunterEmailTemplateBean> emailTemplateBeans = new HashMap<>();
-		List<String> existentTemplates = getInstance().getExistentEmailTemplateNames();
+		List<String> existentTemplates = getExistentEmailTemplateNames();
 		for(String mailTypeName : existentTemplates){
 			HunterEmailTemplateBean  emailTemplateBean = getInstance().createEmailTemplateBean(mailTypeName);
 			emailTemplateBeans.put(mailTypeName, emailTemplateBean);
@@ -259,7 +250,7 @@ public class HunterCacheUtil {
 		List<MessageAttachmentMetadata> messageAttachmentMetadata = GateWayClientHelper.getInstance().createMessageAttachmentMetadata(task);
 		for(MessageAttachmentMetadata attachmentMetadata : messageAttachmentMetadata){
 			String cidKey = "cid:HUNTER_CID_REF=" + attachmentMetadata.getKey();
-			if( emailContent.contains(cidKey) ){ 
+			if( emailContent.contains(cidKey) ){
 				logger.debug( attachmentMetadata.getKey() + " is an embedded attachment : cid = " + attachmentMetadata.getMsgCid() );
 				String url = attachmentMetadata.getUrl();
 				try {
@@ -314,7 +305,7 @@ public class HunterCacheUtil {
 		Map<String, String> miscelaneousMap = new HashMap<String, String>();
 		
 		NodeList nodeList = xmlService.getNodeListForPathUsingJavax("//template[@name='"+ templateName +"']/context/miscelaneous/*");
-		if(nodeList != null && nodeList.getLength() >= 1){
+		if(HunterUtility.isNodeListNotEmptpy(nodeList)){
 			for(int i=0; i<nodeList.getLength(); i++){
 				Node node = nodeList.item(i);
 				if(node.getNodeName().equals("config")){
@@ -331,11 +322,11 @@ public class HunterCacheUtil {
 		Map<String, String> attachmentsMap = new HashMap<String, String>();
 		List<String> embeddedAttachments  = new ArrayList<>();
 		
-		if(attachments != null && attachments.getLength() >= 1){
+		if(HunterUtility.isNodeListNotEmptpy(attachments)){
 			for(int i=0; i<attachments.getLength(); i++){
 				Node attachment = attachments.item(i);
-				String key = attachment.getAttributes().getNamedItem("key").getTextContent();
-				String type = attachment.getAttributes().getNamedItem("type").getTextContent();
+				String key = HunterUtility.getNodeAttr(attachment, "key", String.class);;
+				String type = HunterUtility.getNodeAttr(attachment, "type", String.class);;
 				if( type != null && "embedded".equalsIgnoreCase(type) ){
 					embeddedAttachments.add(key);
 				}
@@ -375,7 +366,7 @@ public class HunterCacheUtil {
 		for(int i=0; i<messages.getLength(); i++){
 			Node message = messages.item(i);
 			if(message.getNodeName().equals("message")){
-				String id = message.getAttributes().getNamedItem("id").getTextContent(); 
+				String id = HunterUtility.getNodeAttr(message, "id", String.class); 
 				NodeList metadata = message.getChildNodes();
 				String desc = null;
 				String text = null;
@@ -396,21 +387,42 @@ public class HunterCacheUtil {
 	}
 	
 	public String getUIMsgTxtForMsgId(String msgId){
-		@SuppressWarnings("unchecked")
-		Map<String, String> uiMessages = (Map<String, String>)HunterCache.getInstance().get(HunterConstants.UI_MSG_CACHED_BEANS);
-		return uiMessages.get(msgId+"_TEXT");
+		return getUIMsgMap().get(msgId+"_TEXT");
 	}
 	
 	public String getUIMsgDescForMsgId(String msgId){
-		@SuppressWarnings("unchecked")
-		Map<String, String> uiMessages = (Map<String, String>)HunterCache.getInstance().get(HunterConstants.UI_MSG_CACHED_BEANS);
-		return uiMessages.get(msgId+"_DESC");
+		return getUIMsgMap().get(msgId+"_DESC");
+	}
+	
+	public String getUIMsgTxtAndReplace( String msgId, Map<String, String> params ){
+		String msg = getUIMsgMap().get(msgId+"_TEXT");
+		if ( msg != null && HunterUtility.isMapNotEmpty( params ) ) {
+			for ( Map.Entry<String, String> entry : params.entrySet() ) {
+				msg = msg.replaceAll(entry.getKey(), entry.getValue());
+			}
+		}
+		return msg;
+	}
+	
+	@SuppressWarnings("unchecked")
+	private Map<String, String> getUIMsgMap() {
+		return (Map<String, String>)HunterCache.getInstance().get(HunterConstants.UI_MSG_CACHED_BEANS);		
 	}
 	
 	public List<Country> loadCountries(){
 		List<Country> countries = HunterDaoFactory.getObject(ReceiverRegionDao.class).getAllCountries(); 
 		HunterCache.getInstance().put(HunterConstants.COUNTRIES, countries);
 		return countries;
+	}
+	
+	public void loadCountriesViaThread() {
+		Runnable runnable = new Runnable() {
+			@Override
+			public void run() {
+				loadCountries();
+			}
+		};
+		new Thread( runnable ).start();
 	}
 	
 	public boolean isCountriesLoaded(){
@@ -439,7 +451,7 @@ public class HunterCacheUtil {
 		String query = hunterJDBCExecutor.getQueryForSqlId("getAllHunterMessagesForCache");
 		List<Map<String, Object>> rowMapList = hunterJDBCExecutor.executeQueryRowMap(query, null);
 		
-		if( HunterUtility.isCollectionNotEmpty(rowMapList) ){
+		if( HunterUtility.isCollNotEmpty(rowMapList) ){
 			for(Map<String,Object> rowMap : rowMapList){
 				
 				boolean 

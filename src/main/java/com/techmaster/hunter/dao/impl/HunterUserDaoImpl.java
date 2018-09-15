@@ -22,6 +22,7 @@ import com.techmaster.hunter.dao.types.HunterAddressDao;
 import com.techmaster.hunter.dao.types.HunterCreditCardDao;
 import com.techmaster.hunter.dao.types.HunterJDBCExecutor;
 import com.techmaster.hunter.dao.types.HunterUserDao;
+import com.techmaster.hunter.json.HunterSelectValue;
 import com.techmaster.hunter.json.HunterUserJson;
 import com.techmaster.hunter.obj.beans.HunterAddress;
 import com.techmaster.hunter.obj.beans.HunterCreditCard;
@@ -291,6 +292,7 @@ public class HunterUserDaoImpl implements HunterUserDao{
 		//logger.debug("Fetching full names...");
 		String query = "SELECT h.FRST_NAM, h.LST_NAM, h.USR_NAM FROM HNTR_USR h WHERE h.USR_NAM in (" + HunterUtility.getSingleQuotedCommaDelimitedForList(userNames) + ")";
 		//logger.debug("Executing queqy : " + query);
+		HunterJDBCExecutor hunterJDBCExecutor = HunterDaoFactory.getDaoObject(HunterJDBCExecutor.class);
 		Map<Integer, List<Object>> rowMapList = hunterJDBCExecutor.executeQueryRowList(query, null);
 		Map<String, List<String>>  output = new HashMap<String, List<String>>();
 		if(rowMapList == null || rowMapList.isEmpty()){
@@ -386,7 +388,7 @@ public class HunterUserDaoImpl implements HunterUserDao{
 		String  query = hunterJDBCExecutor.getQueryForSqlId("getAllClientsDetails");
 		List<Map<String, Object>> rowMapList = hunterJDBCExecutor.executeQueryRowMap(query, null);
 		
-		if( HunterUtility.isCollectionNotEmpty( rowMapList ) ){
+		if( HunterUtility.isCollNotEmpty( rowMapList ) ){
 			for(Map<String,Object> rowMap : rowMapList){
 				HunterUserJson userJson = new HunterUserJson();
 		        userJson.setActive(HunterUtility.getBooleanForYN(rowMap.get("ACTIV")+""));
@@ -436,6 +438,12 @@ public class HunterUserDaoImpl implements HunterUserDao{
 			clients.put(clientRow);
 		}
 		return HunterUtility.getServerResponse("Successful", HunterConstants.STATUS_SUCCESS, clients).toString();
+	}
+
+
+	@Override
+	public List<HunterSelectValue> getAllUsersSelValues() {
+		return HunterUtility.getSelectValsForQueryId(HunterDaoConstants.GET_TASK_APPROVERS_SEL_VALS);
 	}
 	
 	

@@ -103,13 +103,13 @@ public class ReceiverGroupConverter {
 					group.setReceiverType(stringVal);      
 					break;
 				case "CRET_DATE":
-					group.setCretDate(HunterUtility.parseDate(entry.getValue().toString(), HunterConstants.DATE_FORMAT_STRING));       
+					group.setCretDate(entry.getValue().toString());       
 					break;
 				case "CRTD_BY":
 					group.setCreatedBy(HunterUtility.getStringOrNullOfObj(entry.getValue()));      
 					break;
 				case "LST_UPDT_DATE":
-					group.setLastUpdate(HunterUtility.parseDate(entry.getValue().toString(), HunterConstants.DATE_FORMAT_STRING));        
+					group.setLastUpdate(entry.getValue().toString());  
 					break;
 				case "LST_UPDTD_BY":
 					group.setLastUpdatedBy(HunterUtility.getStringOrNullOfObj(entry.getValue()));      
@@ -140,8 +140,8 @@ public class ReceiverGroupConverter {
 				
 				AuditInfo auditInfo = group.getAuditInfo();
 				json.setCreatedBy(auditInfo.getCreatedBy());
-				json.setCretDate(auditInfo.getCretDate());
-				json.setLastUpdate(auditInfo.getLastUpdate());
+				json.setCretDate(HunterUtility.formatDate(auditInfo.getCretDate(), HunterConstants.DATE_FORMAT_STRING));
+				json.setLastUpdate(HunterUtility.formatDate(auditInfo.getLastUpdate(), HunterConstants.DATE_FORMAT_STRING));
 				json.setLastUpdatedBy(auditInfo.getLastUpdatedBy()); 
 				
 				List<String> fullNamesList = fullNames.get(group.getOwnerUserName());
@@ -176,8 +176,8 @@ public class ReceiverGroupConverter {
 		
 		AuditInfo auditInfo = new AuditInfo();
 		auditInfo.setCreatedBy(json.getCreatedBy());
-		auditInfo.setCretDate(json.getCretDate());
-		auditInfo.setLastUpdate(json.getLastUpdate());
+		auditInfo.setCretDate(HunterUtility.parseDate(json.getCretDate(), HunterConstants.DATE_FORMAT_STRING));
+		auditInfo.setLastUpdate(HunterUtility.parseDate(json.getLastUpdate(), HunterConstants.DATE_FORMAT_STRING));
 		auditInfo.setLastUpdatedBy(json.getLastUpdatedBy()); 
 		group.setAuditInfo(auditInfo);
 		

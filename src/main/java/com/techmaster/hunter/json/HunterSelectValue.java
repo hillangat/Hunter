@@ -5,6 +5,12 @@ public class HunterSelectValue {
 	private String value;
 	private String text;
 	
+	public HunterSelectValue() {}
+	public HunterSelectValue( String value, String text) {
+		this.value = value;
+		this.text = text;
+	}
+	
 	public String getValue() {
 		return value;
 	}

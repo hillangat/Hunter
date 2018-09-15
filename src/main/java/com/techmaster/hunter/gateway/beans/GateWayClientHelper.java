@@ -30,7 +30,6 @@ import org.apache.http.NameValuePair;
 import org.apache.http.client.utils.URLEncodedUtils;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.log4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.w3c.dom.Attr;
 import org.w3c.dom.DOMImplementation;
 import org.w3c.dom.Document;
@@ -112,10 +111,11 @@ public class GateWayClientHelper {
 		}else{
 			logger.debug("Unlocking task..." + taskId + " and putting status to : " + status);
 		}
-		String lockQ = "UPDATE TASK t SET t.TSK_DEL_STS = ? WHERE t.TSK_ID = ?";
+		HunterJDBCExecutor executor = HunterDaoFactory.getDaoObject(HunterJDBCExecutor.class); 
+		String lockQ = executor.getQueryForSqlId( "setTaskLockStatus" );
 		List<Object> values = new ArrayList<>();
 		values.add( status );
-		values.add(taskId);
+		values.add( taskId );
 		HunterDaoFactory.getObject(HunterJDBCExecutor.class).executeUpdate(lockQ, values);
 	}
 	
@@ -324,7 +324,7 @@ public class GateWayClientHelper {
 			for(int i=0; i<configs.getLength();i++){
 				Node prop = configs.item(i);
 				if(prop.getNodeName().equals("prop")){
-					String name = prop.getAttributes().getNamedItem("name").getTextContent();
+					String name = HunterUtility.getNodeAttr(prop, "name", String.class);;
 					String value = prop.getTextContent();
 					props.setProperty(name, value);
 				}
@@ -374,7 +374,7 @@ public class GateWayClientHelper {
 		for(int i=0; i<props.getLength();i++){
 			Node prop = props.item(i);
 			if(prop.getNodeName().equals("prop")){
-				String name = prop.getAttributes().getNamedItem("name").getTextContent();
+				String name = HunterUtility.getNodeAttr(prop, "name", String.class);
 				String value = prop.getTextContent();
 				propsMap.put(name, value);
 			}
@@ -392,7 +392,7 @@ public class GateWayClientHelper {
 		for(int i=0; i<configs.getLength();i++){
 			Node prop = configs.item(i);
 			if(prop.getNodeName().equals("prop")){
-				String name = prop.getAttributes().getNamedItem("name").getTextContent();
+				String name = HunterUtility.getNodeAttr(prop, "name", String.class);
 				String value = prop.getTextContent();
 				props.put(name, value);
 			}
@@ -497,7 +497,7 @@ public class GateWayClientHelper {
 		for(GateWayMessage message : gateWayMessages){
 			NameValuePair recipient = new BasicNameValuePair("recipient"+i, message.getContact());
 			NameValuePair messagetype = new BasicNameValuePair("messagetyp"+i, configBean.getConfigs().get("messagetype")); 
-			NameValuePair messagedata = new BasicNameValuePair("messagedata"+i, HunterUtility.getBlobStr(message.getText())); 
+			NameValuePair messagedata = new BasicNameValuePair("messagedata"+i, HunterUtility.getBlobStrFromDB("text", "msgId", Long.toString(message.getMsgId()), this.getClass()));			
 			pairs.add(recipient);
 			pairs.add(messagetype);
 			pairs.add(messagedata);
@@ -546,7 +546,7 @@ public class GateWayClientHelper {
                 msgElement.appendChild(fromElement);
 
                 Element bodyElement = doc.createElement("BODY");
-                Text bodyValue = doc.createTextNode(HunterUtility.getBlobStr(message.getText())); 
+                Text bodyValue = doc.createTextNode( HunterUtility.getBlobStrFromDB("text", "msgId", Long.toString(message.getMsgId()), this.getClass()) ); 
                 bodyElement.appendChild(bodyValue);
                 msgElement.appendChild(bodyElement);
 

@@ -2,9 +2,19 @@ package com.techmaster.hunter.json;
 
 public class CountyJson {
 	
-	private String countyName;
 	private Long countyId;
+	private String countyName;
+	private int countyPopulation;
+	private int hunterPopulation;
+	private boolean hasState;
+	private String mapDots;
+	private Long stateId;
 	private Long countryId;
+	private String countyCode;
+	private String cretDate;
+	private String createdBy;
+	private String lastUpdate;
+	private String lastUpdatedBy;
 	
 	public CountyJson() {
 		super();
@@ -42,6 +52,107 @@ public class CountyJson {
 	public void setCountryId(Long countryId) {
 		this.countryId = countryId;
 	}
+	
+	
+	public int getCountyPopulation() {
+		return countyPopulation;
+	}
+
+
+	public void setCountyPopulation(int countyPopulation) {
+		this.countyPopulation = countyPopulation;
+	}
+
+
+	public int getHunterPopulation() {
+		return hunterPopulation;
+	}
+
+
+	public void setHunterPopulation(int hunterPopulation) {
+		this.hunterPopulation = hunterPopulation;
+	}
+
+
+	public boolean isHasState() {
+		return hasState;
+	}
+
+
+	public void setHasState(boolean hasState) {
+		this.hasState = hasState;
+	}
+
+
+	public String getMapDots() {
+		return mapDots;
+	}
+
+
+	public void setMapDots(String mapDots) {
+		this.mapDots = mapDots;
+	}
+
+
+	public Long getStateId() {
+		return stateId;
+	}
+
+
+	public void setStateId(Long stateId) {
+		this.stateId = stateId;
+	}
+
+
+	public String getCountyCode() {
+		return countyCode;
+	}
+
+
+	public void setCountyCode(String countyCode) {
+		this.countyCode = countyCode;
+	}
+
+
+	public String getCretDate() {
+		return cretDate;
+	}
+
+
+	public void setCretDate(String cretDate) {
+		this.cretDate = cretDate;
+	}
+
+
+	public String getCreatedBy() {
+		return createdBy;
+	}
+
+
+	public void setCreatedBy(String createdBy) {
+		this.createdBy = createdBy;
+	}
+
+
+	public String getLastUpdate() {
+		return lastUpdate;
+	}
+
+
+	public void setLastUpdate(String lastUpdate) {
+		this.lastUpdate = lastUpdate;
+	}
+
+
+	public String getLastUpdatedBy() {
+		return lastUpdatedBy;
+	}
+
+
+	public void setLastUpdatedBy(String lastUpdatedBy) {
+		this.lastUpdatedBy = lastUpdatedBy;
+	}
+
 
 	@Override
 	public int hashCode() {

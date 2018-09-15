@@ -47,7 +47,6 @@ public class TaskEmailManagerImpl extends AbstractEmailManager{
     
 	@Override
 	public MimeMessageHelper getMimeMsgHelperForMailType(String mailType,HunterEmailTemplateBean hunterEmailTemplateBean,Map<String, Object> cntntParams) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 	

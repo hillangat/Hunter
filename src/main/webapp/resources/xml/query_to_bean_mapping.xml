@@ -27,5 +27,82 @@
 		<field dbName='LST_UPDATE' 	fieldName='updatedOn' yesNo='no' type='java.lang.String' />
 		<field dbName='CRTD_BY' 	fieldName='createdBy' yesNo='no' type='java.lang.String' />
 		<field dbName='LST_UPDTD_BY' fieldName='updatedBy' yesNo='no' type='java.lang.String' />
-	</map>	
+	</map>
+	<map id='TaskHistoryJson'>
+		<field dbName='HSTRY_ID' fieldName='historyId'  yesNo='no' type='java.lang.Long' />
+		<field dbName='TSK_ID' fieldName='taskId'  yesNo='no' type='java.lang.Long' />
+		<field dbName='EVNT_NAM'  	fieldName='evenName'  yesNo='no' type='java.lang.String' />
+		<field dbName='EVNT_STS'    	fieldName='eventStatus'  yesNo='no' type='java.lang.String'/>
+		<field dbName='EVNT_MSG' 	fieldName='eventMessage'  yesNo='no' type='java.lang.String' />
+		<field dbName='EVNT_USR' 	fieldName='eventUser'  yesNo='no' type='java.lang.String' />
+		<field dbName='EVNT_DATE' 	fieldName='eventDate' yesNo='no' type='java.lang.String' />
+	</map>  
+	<map id='TaskAngular'>
+		<field dbName='TSK_ID' fieldName='taskId'  yesNo='no' type='java.lang.String' />
+		<field dbName='TSK_NAM' fieldName='taskName'  yesNo='no' type='java.lang.String' />
+		<field dbName='TASK_DESC' fieldName='taskDesc'  yesNo='no' type='java.lang.String' />
+		<field dbName='TSK_NAM' fieldName='taskName'  yesNo='no' type='java.lang.String' />
+		<field dbName='HNTR_CLNT_ID' fieldName='clientId'  yesNo='no' type='java.lang.String' />
+		<field dbName='TSK_TYP' fieldName='taskType'  yesNo='no' type='java.lang.String' />
+		<field dbName='TSK_OBJCTV' fieldName='taskObjective'  yesNo='no' type='java.lang.String' />
+		<field dbName='TASK_DESC' fieldName='description'  yesNo='no' type='java.lang.String' />
+		<field dbName='TSK_ARGMNT_LGC' fieldName='tskAgrmntLoc'  yesNo='no' type='java.lang.String' />
+		<field dbName='TSK_MSG_TYP' fieldName='tskMsgType'  yesNo='no' type='java.lang.String' />
+		<field dbName='TSK_BDGT' fieldName='taskBudget'  yesNo='no' type='java.lang.String' />
+		<field dbName='TSK_CST' fieldName='taskCost'  yesNo='no' type='java.lang.String' />
+		<field dbName='RCCRRNT_TSK' fieldName='recurrentTask'  yesNo='no' type='java.lang.String' />
+		<field dbName='TSK_DT_LN' fieldName='taskDateline'  yesNo='no' type='java.lang.String' />
+		<field dbName='TSK_DEL_STS' fieldName='taskDeliveryStatus'  yesNo='no' type='java.lang.String' />
+		<field dbName='TSK_LF_STS' fieldName='taskLifeStatus'  yesNo='no' type='java.lang.String' />
+		<field dbName='TSK_APPRVD' fieldName='taskApproved'  yesNo='true' type='java.lang.String' />
+		<field dbName='TSK_APPRVR' fieldName='taskApprover'  yesNo='no' type='java.lang.String' />
+		<field dbName='GT_WY_CLNT' fieldName='gateWayClient'  yesNo='no' type='java.lang.String' />
+		<field dbName='DSRD_RCVRS_CNT' fieldName='desiredReceiverCount'  yesNo='no' type='java.lang.String' />
+		<field dbName='AVLBL_RCVRS_CNT' fieldName='availableReceiverCount'  yesNo='no' type='java.lang.String' />
+		<field dbName='CNFRMD_RCVRS_CNT' fieldName='confirmedReceiverCount'  yesNo='no' type='java.lang.String' />
+		<field dbName='SRLZD_PRCSS_RSLTS_FL_LOC' fieldName='srlzdTskPrcssJbObjsFilLoc'  yesNo='no' type='java.lang.String' />
+		<field dbName='PRCSD_BY' fieldName='processedBy'  yesNo='no' type='java.lang.String' />
+		<field dbName='PRCSD_ON' fieldName='processedOn'  yesNo='no' type='java.lang.String' />
+		<field dbName='CRET_DATE' fieldName='cretDate'  yesNo='no' type='java.lang.String' />
+		<field dbName='LST_UPDTD' fieldName='lastUpdate'  yesNo='no' type='java.lang.String' />
+		<field dbName='UPDTD_BY' fieldName='updatedBy'  yesNo='no' type='java.lang.String' />
+		<field dbName='CRTD_BY' fieldName='createdBy'  yesNo='no' type='java.lang.String' />
+		<field dbName='MSG_ID' fieldName='msgId'  yesNo='no' type='java.lang.String' />
+		<field dbName='PROVIDER' fieldName='providerId'  yesNo='no' type='java.lang.String' />
+		<field dbName='TSK_RGNS' fieldName='taskRegions'  yesNo='no' type='java.lang.String' />
+		<field dbName='TSK_GRPS' fieldName='taskGroups'  yesNo='no' type='java.lang.String' />
+	</map>
+	<map id='ReceiverGroupJson'>
+		<field dbName='GRP_ID' fieldName='groupId'  yesNo='no' type='java.lang.Long' />
+		<field dbName='OWNR_USR_NAM' fieldName='ownerUserName'  yesNo='no' type='java.lang.String' />
+		<field dbName='FRST_NAM'  	fieldName='firstName'  yesNo='no' type='java.lang.String' />
+		<field dbName='LST_NAM'    	fieldName='lastName'  yesNo='no' type='java.lang.String'/>
+		<field dbName='GRP_NAME' 	fieldName='groupName'  yesNo='no' type='java.lang.String' />
+		<field dbName='GRP_DESC' 	fieldName='groupDesc'  yesNo='no' type='java.lang.String' />
+		<field dbName='RCVR_CNT' 	fieldName='receiverCount'  yesNo='no' type='java.lang.Integer' />
+		<field dbName='RCVR_TYP' 	fieldName='receiverType'  yesNo='no' type='java.lang.String' />
+		<field dbName='CRET_DATE' 	fieldName='cretDate'  yesNo='no' type='java.lang.String' />
+		<field dbName='CRTD_BY' 	fieldName='lastUpdate'  yesNo='no' type='java.lang.String' />
+		<field dbName='LST_UPDT_DATE' 	fieldName='lastUpdate' yesNo='no' type='java.lang.String' />
+		<field dbName='LST_UPDTD_BY' 	fieldName='lastUpdatedBy' yesNo='no' type='java.lang.String' />
+	</map>
+	<map id='HunterSelectValue'>
+		<field dbName='VALUE' 	fieldName='value'  yesNo='no' type='java.lang.String' />
+		<field dbName='TEXT' 	fieldName='text' yesNo='no' type='java.lang.String' />
+	</map>
+	<map id='CountyJson'>
+		<field dbName='CNTY_ID' 	fieldName='countyId'  yesNo='no' type='java.lang.Long' />
+		<field dbName='CNTRY_ID' 	fieldName='countryId'  yesNo='no' type='java.lang.Long' />
+		<field dbName='STATE_ID' 	fieldName='stateId'  yesNo='no' type='java.lang.Long' />
+		<field dbName='CNTY_NAM' 	fieldName='countyName' yesNo='no' type='java.lang.String' />
+		<field dbName='MAP_DTS' 	fieldName='mapDots'  yesNo='no' type='java.lang.String' />
+		<field dbName='HS_STATE' 	fieldName='hasState' yesNo='true' type='java.lang.String' />
+		<field dbName='HNTR_PPLTN' 	fieldName='hunterPopulation'  yesNo='no' type='java.lang.Integer' />
+		<field dbName='CNTY_CPTL' 	fieldName='countyPopulation'  yesNo='no' type='java.lang.Integer' />
+		<field dbName='CNTY_CDE' 	fieldName='countyCode'  yesNo='no' type='java.lang.String' />		
+		<field dbName='CRET_DATE' 	fieldName='cretDate'  yesNo='no' type='java.lang.String' />
+		<field dbName='CRTD_BY' 	fieldName='lastUpdate'  yesNo='no' type='java.lang.String' />
+		<field dbName='LST_UPDT_DATE' 	fieldName='lastUpdate' yesNo='no' type='java.lang.String' />
+		<field dbName='LST_UPDTD_BY' 	fieldName='lastUpdatedBy' yesNo='no' type='java.lang.String' />
+	</map>
 </maps>

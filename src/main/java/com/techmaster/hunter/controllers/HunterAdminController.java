@@ -106,7 +106,8 @@ public class HunterAdminController extends HunterBaseController{
 	private String loadEmailTemplateObjTemplates_(Long templateId){
 		EmailTemplateObjDao emailTemplateObjDao = HunterDaoFactory.getObject(EmailTemplateObjDao.class);
 		EmailTemplateObj emailTemplateObj = emailTemplateObjDao.getTemplateObjById(templateId);
-		String metadata = HunterUtility.getBlobStr( emailTemplateObj.getDocumentMetadata() );
+		// String metadata = HunterUtility.getBlobStr( emailTemplateObj.getDocumentMetadata() );
+		String metadata = HunterUtility.getBlobStrFromDB("documentMetadata", "templateId", Long.toString(emailTemplateObj.getTemplateId()), EmailTemplateObj.class);
 		metadata = metadata == null || metadata.trim().equalsIgnoreCase("") ? HunterCacheUtil.getInstance().getDefaultEmailTemplate() : metadata; 
 		return metadata;
 	}
@@ -158,7 +159,8 @@ public class HunterAdminController extends HunterBaseController{
 	private String getEmailTemplateHtmlForId(Long templateId){
 		EmailTemplateObjDao emailTemplateObjDao = HunterDaoFactory.getObject(EmailTemplateObjDao.class);
 		EmailTemplateObj emailTemplateObj = emailTemplateObjDao.getTemplateObjById(templateId);
-		String html = HunterUtility.getBlobStr( emailTemplateObj.getXmlTemplates() );
+		// String html = HunterUtility.getBlobStr( emailTemplateObj.getXmlTemplates() );
+		String html = HunterUtility.getBlobStrFromDB("xmlTemplates", "templateId", Long.toString(emailTemplateObj.getTemplateId()), EmailTemplateObj.class);
 		html = html == null ? "<div>Default Content</div>" : html;
 		return html;
 	}
@@ -348,10 +350,10 @@ public class HunterAdminController extends HunterBaseController{
 			}
 		} catch (JSONException e) {
 			e.printStackTrace();
-			return HunterUtility.setJSONObjectForFailure(jsonObject, "Application error occurred!").toString();
+			return HunterUtility.setJSONObjectForFailure(jsonObject, HunterUtility.getApplicationErrorMessage()).toString();
 		} catch (IOException e) {
 			e.printStackTrace();
-			return HunterUtility.setJSONObjectForFailure(jsonObject, "Application error occurred!").toString();
+			return HunterUtility.setJSONObjectForFailure(jsonObject, HunterUtility.getApplicationErrorMessage()).toString();
 		}
 	}
 	
@@ -375,10 +377,10 @@ public class HunterAdminController extends HunterBaseController{
 			}
 		} catch (JSONException e) {
 			e.printStackTrace();
-			return HunterUtility.setJSONObjectForFailure(jsonObject, "Application error occurred!").toString();
+			return HunterUtility.setJSONObjectForFailure(jsonObject, HunterUtility.getApplicationErrorMessage()).toString();
 		} catch (IOException e) {
 			e.printStackTrace();
-			return HunterUtility.setJSONObjectForFailure(jsonObject, "Application error occurred!").toString();
+			return HunterUtility.setJSONObjectForFailure(jsonObject, HunterUtility.getApplicationErrorMessage()).toString();
 		}
 	}
 	
@@ -732,7 +734,7 @@ public class HunterAdminController extends HunterBaseController{
 			query = hunterJDBCExecutor.getQueryForSqlId("getCountryNameAndId");
 			rowMapList =  hunterJDBCExecutor.executeQueryRowMap(query, null);
 			
-			if( HunterUtility.isCollectionNotEmpty(rowMapList) ){ 
+			if( HunterUtility.isCollNotEmpty(rowMapList) ){ 
 				for(Map<String,Object> rowMap : rowMapList){
 					RegionJsonForDropdowns regionJson = new RegionJsonForDropdowns();
 					regionJson.setRegionId( HunterUtility.getLongFromObject( rowMap.get("COUNTRYID") ) );
@@ -756,7 +758,7 @@ public class HunterAdminController extends HunterBaseController{
 			query = hunterJDBCExecutor.getQueryForSqlId("getCountiesNameAndIdForSelCountry");
 			rowMapList =  hunterJDBCExecutor.executeQueryRowMap(query, values);
 			
-			if( HunterUtility.isCollectionNotEmpty(rowMapList) ){ 
+			if( HunterUtility.isCollNotEmpty(rowMapList) ){ 
 				for(Map<String,Object> rowMap : rowMapList){
 					RegionJsonForDropdowns regionJson = new RegionJsonForDropdowns();
 					regionJson.setRegionId( HunterUtility.getLongFromObject( rowMap.get("COUNTYID") ) );
@@ -779,7 +781,7 @@ public class HunterAdminController extends HunterBaseController{
 			query = hunterJDBCExecutor.getQueryForSqlId("getConstituenciesNameAndIdForSelCounty");
 			rowMapList =  hunterJDBCExecutor.executeQueryRowMap(query, values);
 			
-			if( HunterUtility.isCollectionNotEmpty(rowMapList) ){ 
+			if( HunterUtility.isCollNotEmpty(rowMapList) ){ 
 				for(Map<String,Object> rowMap : rowMapList){
 					RegionJsonForDropdowns regionJson = new RegionJsonForDropdowns();
 					regionJson.setRegionId( HunterUtility.getLongFromObject( rowMap.get("CONSTITUENCY_ID") ) );
@@ -802,7 +804,7 @@ public class HunterAdminController extends HunterBaseController{
 			query = hunterJDBCExecutor.getQueryForSqlId("getConstituencyWardsForSelCons");
 			rowMapList =  hunterJDBCExecutor.executeQueryRowMap(query, values);
 			
-			if( HunterUtility.isCollectionNotEmpty(rowMapList) ){ 
+			if( HunterUtility.isCollNotEmpty(rowMapList) ){ 
 				for(Map<String,Object> rowMap : rowMapList){
 					RegionJsonForDropdowns regionJson = new RegionJsonForDropdowns();
 					regionJson.setRegionId( HunterUtility.getLongFromObject( rowMap.get("WARD_ID") ) );

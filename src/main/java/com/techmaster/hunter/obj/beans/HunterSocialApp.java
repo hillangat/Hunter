@@ -133,7 +133,7 @@ public class HunterSocialApp {
 		return "HunterSocialApp [appId=" + appId + ", appName=" + appName
 				+ ", appDesc=" + appDesc + ", extrnlId=" + extrnlId
 				+ ", extrnalPassCode=" + extrnalPassCode + ", socialType="
-				+ socialType + ", appConfigs=" + HunterUtility.getBlobStr(appConfigs) + ", auditInfo=" 
+				+ socialType + ", appConfigs=" + HunterUtility.getBlobStrFromDB("appConfigs", "appId", Long.toString(appId), this.getClass()) + ", auditInfo=" 
 				+ auditInfo + "]";
 	}
 	

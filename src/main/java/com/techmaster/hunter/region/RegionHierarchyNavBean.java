@@ -160,7 +160,7 @@ public class RegionHierarchyNavBean {
 		Set<County> counties = RegionCache.getInstance().getCountiesForCountryId(countryId);
 		
 		for(County county : counties){
-			 List<RegionHierarchy> cntyRgnHrrchs = RegionHierarchyAdapter.getInstance().getRgnHrrchsUndrCnty(county, true, false);
+			 List<RegionHierarchy> cntyRgnHrrchs = RegionHierarchyAdapter.getInstance().getRgnHrrchsUndrCnty(county, true, true);
 			 rgnHrrchs.addAll(cntyRgnHrrchs);
 		 }
 		

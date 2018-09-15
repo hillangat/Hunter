@@ -70,7 +70,6 @@ public class TaskProcessJobConverter {
 			    objOutputStream.reset();
 			}
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}finally{
 			objOutputStream.close();

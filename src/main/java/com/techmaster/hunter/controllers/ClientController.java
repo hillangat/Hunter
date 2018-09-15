@@ -22,15 +22,17 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.core.JsonGenerationException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
+import com.techmaster.hunter.angular.data.AngularData;
+import com.techmaster.hunter.angular.data.HunterAngularDataHelper;
 import com.techmaster.hunter.constants.HunterConstants;
 import com.techmaster.hunter.constants.HunterDaoConstants;
 import com.techmaster.hunter.dao.types.HunterClientDao;
 import com.techmaster.hunter.json.HunterClientJson;
+import com.techmaster.hunter.json.HunterSelectValue;
 import com.techmaster.hunter.obj.beans.HunterClient;
 import com.techmaster.hunter.obj.converters.HunterClientConverter;
 import com.techmaster.hunter.util.HunterGenericJSONConverter;
@@ -45,7 +47,6 @@ public class ClientController extends HunterBaseController{
 	@Autowired private HunterClientDao hunterClientDao;
 	private Logger logger = Logger.getLogger(ClientController.class);
 	
-	@JsonIgnore
 	@RequestMapping(value="/action/read", method = RequestMethod.GET)
 	@Produces("application/json") 
 	public @ResponseBody String readHunterClientUser(){
@@ -86,7 +87,6 @@ public class ClientController extends HunterBaseController{
 		return "clientCreate";
 	}
 	
-	@JsonIgnore
 	@RequestMapping(value="/action/getClientForUserId", method = RequestMethod.POST)
 	@Produces("application/json") 
 	public @ResponseBody HunterClientJson getClientForUserId(HttpServletRequest request){
@@ -104,7 +104,7 @@ public class ClientController extends HunterBaseController{
 		try {
 			
 			String paramNames = HunterUtility.getParamNamesAsStringsFrmRqst(request);
-			logger.debug("param names " + paramNames); 
+			logger.debug("param names " + paramNames);
 			
 			Long clientId 		= HunterUtility.getLongFromObject(request.getParameter("clientId"));  
 			Float budget 		= Float.parseFloat(request.getParameter("clientTotalBudget").toString());  
@@ -139,7 +139,7 @@ public class ClientController extends HunterBaseController{
 	
 
 	@RequestMapping(value="/action/angular/read", method = RequestMethod.POST)
-	@Produces("application/json") 
+	@Produces("application/json")
 	@Consumes("application/json")
 	public @ResponseBody String getClientsForAngularUI( @RequestBody Map<String, String> reqParams, HttpServletResponse response ){
 		try{			
@@ -148,6 +148,18 @@ public class ClientController extends HunterBaseController{
 			return array.toString();
 		}catch (Exception e) {
 			return HunterUtility.setJSONObjectForFailure(null, "Error occurred while getting clients").toString();
+		}
+	}
+	
+	@RequestMapping(value="/action/angular/selVals", method = RequestMethod.GET)
+	@Produces("application/json")
+	public @ResponseBody Object getClientsSelValsForAngularUI(){
+		try{			
+			AngularData aData = HunterAngularDataHelper.getIntance().getBeanForQuery(HunterSelectValue.class, HunterDaoConstants.GET_ANGULAR_SEL_VALS_FOR_ANG_UI, null, null);
+			return aData;
+		}catch (Exception e) {
+			e.printStackTrace();              
+			return HunterAngularDataHelper.getIntance().getBeanForMsgAndSts( "Error occurred while getting clients", HunterConstants.STATUS_FAILED, null);
 		}
 	}
 	

@@ -102,8 +102,8 @@ public class EmailTemplateObj {
 		return "EmailTemplateObj [templateId=" + templateId + ", templateName="
 				+ templateName + ", templateDescription=" + templateDescription
 				+ ", auditInfo=" + auditInfo
-				+ ", xmlTemplates=" + HunterUtility.getBlobStr(xmlTemplates)
-				+ ", documentMetadata=" + HunterUtility.getBlobStr(documentMetadata)
+				+ ", xmlTemplates=" + HunterUtility.getBlobStrFromDB("xmlTemplates", "templateId", Long.toString(templateId), this.getClass()) 
+				+ ", documentMetadata=" + HunterUtility.getBlobStrFromDB("documentMetadata", "templateId", Long.toString(templateId), this.getClass())
 				+ ", status=" + status
 				+ "]";
 	}

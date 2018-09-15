@@ -31,6 +31,7 @@ public class Task {
 	private int availableReceiverCount;
 	private int confirmedReceiverCount;
 	private String srlzdTskPrcssJbObjsFilLoc;
+	private Long clonedFromTaskId;
 	
 	private String processedBy;
 	private Date processedOn;
@@ -247,63 +248,48 @@ public class Task {
 	public void setSrlzdTskPrcssJbObjsFilLoc(String srlzdTskPrcssJbObjsFilLoc) {
 		this.srlzdTskPrcssJbObjsFilLoc = srlzdTskPrcssJbObjsFilLoc;
 	}
+	public Long getClonedFromTaskId() {
+		return clonedFromTaskId;
+	}
+	public void setClonedFromTaskId(Long clonedFromTaskId) {
+		this.clonedFromTaskId = clonedFromTaskId;
+	}
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + availableReceiverCount;
-		result = prime * result
-				+ ((clientId == null) ? 0 : clientId.hashCode());
+		result = prime * result + ((clientId == null) ? 0 : clientId.hashCode());
+		result = prime * result + ((clonedFromTaskId == null) ? 0 : clonedFromTaskId.hashCode());
 		result = prime * result + confirmedReceiverCount;
-		result = prime * result
-				+ ((createdBy == null) ? 0 : createdBy.hashCode());
-		result = prime * result
-				+ ((cretDate == null) ? 0 : cretDate.hashCode());
-		result = prime * result
-				+ ((description == null) ? 0 : description.hashCode());
+		result = prime * result + ((createdBy == null) ? 0 : createdBy.hashCode());
+		result = prime * result + ((cretDate == null) ? 0 : cretDate.hashCode());
+		result = prime * result + ((description == null) ? 0 : description.hashCode());
 		result = prime * result + desiredReceiverCount;
-		result = prime * result
-				+ ((gateWayClient == null) ? 0 : gateWayClient.hashCode());
-		result = prime * result
-				+ ((lastUpdate == null) ? 0 : lastUpdate.hashCode());
-		result = prime * result
-				+ ((processedBy == null) ? 0 : processedBy.hashCode());
-		result = prime * result
-				+ ((processedOn == null) ? 0 : processedOn.hashCode());
+		result = prime * result + ((gateWayClient == null) ? 0 : gateWayClient.hashCode());
+		result = prime * result + ((lastUpdate == null) ? 0 : lastUpdate.hashCode());
+		result = prime * result + ((processedBy == null) ? 0 : processedBy.hashCode());
+		result = prime * result + ((processedOn == null) ? 0 : processedOn.hashCode());
 		result = prime * result + (recurrentTask ? 1231 : 1237);
+		result = prime * result + ((srlzdTskPrcssJbObjsFilLoc == null) ? 0 : srlzdTskPrcssJbObjsFilLoc.hashCode());
 		result = prime * result + (taskApproved ? 1231 : 1237);
-		result = prime * result
-				+ ((taskApprover == null) ? 0 : taskApprover.hashCode());
+		result = prime * result + ((taskApprover == null) ? 0 : taskApprover.hashCode());
 		result = prime * result + Float.floatToIntBits(taskBudget);
 		result = prime * result + Float.floatToIntBits(taskCost);
-		result = prime * result
-				+ ((taskDateline == null) ? 0 : taskDateline.hashCode());
-		result = prime
-				* result
-				+ ((taskDeliveryStatus == null) ? 0 : taskDeliveryStatus
-						.hashCode());
-		result = prime * result
-				+ ((taskGroups == null) ? 0 : taskGroups.hashCode());
+		result = prime * result + ((taskDateline == null) ? 0 : taskDateline.hashCode());
+		result = prime * result + ((taskDeliveryStatus == null) ? 0 : taskDeliveryStatus.hashCode());
+		result = prime * result + ((taskGroups == null) ? 0 : taskGroups.hashCode());
 		result = prime * result + (int) (taskId ^ (taskId >>> 32));
-		result = prime * result
-				+ ((taskLifeStatus == null) ? 0 : taskLifeStatus.hashCode());
-		result = prime * result
-				+ ((taskMessage == null) ? 0 : taskMessage.hashCode());
-		result = prime * result
-				+ ((taskName == null) ? 0 : taskName.hashCode());
-		result = prime * result
-				+ ((taskObjective == null) ? 0 : taskObjective.hashCode());
-		result = prime * result
-				+ ((taskRegions == null) ? 0 : taskRegions.hashCode());
-		result = prime * result
-				+ ((taskType == null) ? 0 : taskType.hashCode());
-		result = prime * result
-				+ ((tskAgrmntLoc == null) ? 0 : tskAgrmntLoc.hashCode());
-		result = prime * result
-				+ ((tskMsgType == null) ? 0 : tskMsgType.hashCode());
-		result = prime * result
-				+ ((updatedBy == null) ? 0 : updatedBy.hashCode());
+		result = prime * result + ((taskLifeStatus == null) ? 0 : taskLifeStatus.hashCode());
+		result = prime * result + ((taskMessage == null) ? 0 : taskMessage.hashCode());
+		result = prime * result + ((taskName == null) ? 0 : taskName.hashCode());
+		result = prime * result + ((taskObjective == null) ? 0 : taskObjective.hashCode());
+		result = prime * result + ((taskRegions == null) ? 0 : taskRegions.hashCode());
+		result = prime * result + ((taskType == null) ? 0 : taskType.hashCode());
+		result = prime * result + ((tskAgrmntLoc == null) ? 0 : tskAgrmntLoc.hashCode());
+		result = prime * result + ((tskMsgType == null) ? 0 : tskMsgType.hashCode());
+		result = prime * result + ((updatedBy == null) ? 0 : updatedBy.hashCode());
 		return result;
 	}
 
@@ -322,6 +308,11 @@ public class Task {
 			if (other.clientId != null)
 				return false;
 		} else if (!clientId.equals(other.clientId))
+			return false;
+		if (clonedFromTaskId == null) {
+			if (other.clonedFromTaskId != null)
+				return false;
+		} else if (!clonedFromTaskId.equals(other.clonedFromTaskId))
 			return false;
 		if (confirmedReceiverCount != other.confirmedReceiverCount)
 			return false;
@@ -364,6 +355,11 @@ public class Task {
 			return false;
 		if (recurrentTask != other.recurrentTask)
 			return false;
+		if (srlzdTskPrcssJbObjsFilLoc == null) {
+			if (other.srlzdTskPrcssJbObjsFilLoc != null)
+				return false;
+		} else if (!srlzdTskPrcssJbObjsFilLoc.equals(other.srlzdTskPrcssJbObjsFilLoc))
+			return false;
 		if (taskApproved != other.taskApproved)
 			return false;
 		if (taskApprover == null) {
@@ -371,11 +367,9 @@ public class Task {
 				return false;
 		} else if (!taskApprover.equals(other.taskApprover))
 			return false;
-		if (Float.floatToIntBits(taskBudget) != Float
-				.floatToIntBits(other.taskBudget))
+		if (Float.floatToIntBits(taskBudget) != Float.floatToIntBits(other.taskBudget))
 			return false;
-		if (Float.floatToIntBits(taskCost) != Float
-				.floatToIntBits(other.taskCost))
+		if (Float.floatToIntBits(taskCost) != Float.floatToIntBits(other.taskCost))
 			return false;
 		if (taskDateline == null) {
 			if (other.taskDateline != null)
@@ -444,27 +438,20 @@ public class Task {
 
 	@Override
 	public String toString() {
-		return "Task [taskId=" + taskId + ", taskType=" + taskType
-				+ ", taskName=" + taskName + ", taskObjective=" + taskObjective
-				+ ", description=" + description + ", tskAgrmntLoc="
-				+ tskAgrmntLoc + ", tskMsgType=" + tskMsgType + ", taskBudget="
-				+ taskBudget + ", taskCost=" + taskCost + ", recurrentTask="
-				+ recurrentTask + ", taskDateline=" + taskDateline
-				+ ", taskLifeStatus=" + taskLifeStatus
-				+ ", taskDeliveryStatus=" + taskDeliveryStatus
-				+ ", taskApproved=" + taskApproved + ", taskApprover="
-				+ taskApprover + ", gateWayClient=" + gateWayClient
-				+ ", desiredReceiverCount=" + desiredReceiverCount
-				+ ", availableReceiverCount=" + availableReceiverCount
-				+ ", confirmedReceiverCount=" + confirmedReceiverCount
-				+ ", processedBy=" + processedBy + ", processedOn="
-				+ processedOn + ", cretDate=" + cretDate + ", lastUpdate="
-				+ lastUpdate + ", updatedBy=" + updatedBy + ", createdBy="
-				+ createdBy + ", clientId=" + clientId + ", taskMessage="
-				+ taskMessage + ", taskRegions=" + taskRegions
-				+ ", taskGroups=" + taskGroups 
-				+ ", srlzdTskPrcssJbObjsFilLoc=" + srlzdTskPrcssJbObjsFilLoc + "]";
+		return "Task [taskId=" + taskId + ", clientId=" + clientId + ", taskType=" + taskType + ", taskName=" + taskName
+				+ ", taskObjective=" + taskObjective + ", description=" + description + ", tskAgrmntLoc=" + tskAgrmntLoc
+				+ ", tskMsgType=" + tskMsgType + ", taskBudget=" + taskBudget + ", taskCost=" + taskCost
+				+ ", recurrentTask=" + recurrentTask + ", taskDateline=" + taskDateline + ", taskLifeStatus="
+				+ taskLifeStatus + ", taskDeliveryStatus=" + taskDeliveryStatus + ", taskApproved=" + taskApproved
+				+ ", taskApprover=" + taskApprover + ", gateWayClient=" + gateWayClient + ", desiredReceiverCount="
+				+ desiredReceiverCount + ", availableReceiverCount=" + availableReceiverCount
+				+ ", confirmedReceiverCount=" + confirmedReceiverCount + ", srlzdTskPrcssJbObjsFilLoc="
+				+ srlzdTskPrcssJbObjsFilLoc + ", clonedFromTaskId=" + clonedFromTaskId + ", processedBy=" + processedBy
+				+ ", processedOn=" + processedOn + ", cretDate=" + cretDate + ", lastUpdate=" + lastUpdate
+				+ ", updatedBy=" + updatedBy + ", createdBy=" + createdBy + ", taskMessage=" + taskMessage
+				+ ", taskRegions=" + taskRegions + ", taskGroups=" + taskGroups + "]";
 	}
+	
 
 	
 

@@ -93,7 +93,7 @@ private static final Logger logger = Logger.getLogger(HunterHibernateHelper.clas
 			
 			session = sessionFactory.openSession();
 			trans = session.beginTransaction();
-			session.save(obj); 
+			session.saveOrUpdate(obj); 
 			trans.commit();
 			session.flush();
 			closeSession(session);
@@ -508,7 +508,7 @@ private static final Logger logger = Logger.getLogger(HunterHibernateHelper.clas
 		Session session = null;
 		List<?> list = null;
 		try {
-			session = hunterSessionFactory.getSessionFactory().openSession();
+			session = hunterSessionFactory.getSessionFactory().getCurrentSession();
 			Query query = session.createQuery(queryStr);
 			query.setProperties(params);
 			list = query.list();
