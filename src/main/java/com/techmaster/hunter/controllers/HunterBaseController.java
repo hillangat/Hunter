@@ -11,7 +11,7 @@ public class HunterBaseController{
 	protected String getUserName(){
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		String userName = auth.getName();
-		return userName;
+		return userName == null ? "admin" : userName;
 	}
 	
 	protected AuditInfo getAuditInfo(){

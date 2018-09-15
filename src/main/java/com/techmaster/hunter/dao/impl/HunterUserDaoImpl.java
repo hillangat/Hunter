@@ -388,7 +388,7 @@ public class HunterUserDaoImpl implements HunterUserDao{
 		String  query = hunterJDBCExecutor.getQueryForSqlId("getAllClientsDetails");
 		List<Map<String, Object>> rowMapList = hunterJDBCExecutor.executeQueryRowMap(query, null);
 		
-		if( HunterUtility.isCollectionNotEmpty( rowMapList ) ){
+		if( HunterUtility.isCollNotEmpty( rowMapList ) ){
 			for(Map<String,Object> rowMap : rowMapList){
 				HunterUserJson userJson = new HunterUserJson();
 		        userJson.setActive(HunterUtility.getBooleanForYN(rowMap.get("ACTIV")+""));

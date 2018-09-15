@@ -83,8 +83,7 @@ public class TaskConverter {
 				Long groupId = HunterUtility.getLongFromObject(groupIdStr == null ? "0" : groupIdStr);
 				String lastUpdateStr = HunterUtility.getStringOrNullFromJSONObj(groupJson, "lastUpdate");
 				Date lastUpdate = HunterUtility.parseDate(lastUpdateStr+":00", HunterConstants.DATE_FORMAT_STRING);
-				String receiverCountStr = HunterUtility.getStringOrNullFromJSONObj(groupJson, "receiverCount");
-				int receiverCount = Integer.parseInt(receiverCountStr == null ? "0" : receiverCountStr);
+				int receiverCount = HunterUtility.getIntOrZeroFromJsonStr(groupJson, "receiverCount");
 				String ownerUserName = HunterUtility.getStringOrNullFromJSONObj(groupJson, "ownerUserName");
 				String cretDateStr = HunterUtility.getStringOrNullFromJSONObj(groupJson, "cretDate");
 				Date cretDate = HunterUtility.parseDate(cretDateStr+":00", HunterConstants.DATE_FORMAT_STRING);

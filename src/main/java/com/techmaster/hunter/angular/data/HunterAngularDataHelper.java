@@ -43,10 +43,10 @@ public class HunterAngularDataHelper {
 			for( int i = 0; i < properties.getLength(); i++ ) {
 				Node property = properties.item(i);
 				if ( property != null && !property.getNodeName().equals("#text") ) {
-					String key = property.getAttributes().getNamedItem("key").getTextContent().toString();
-					String value = property.getAttributes().getNamedItem("value").getTextContent().toString();
-					value = value.equals("null") ? null : value;
-					if ( key.equals( propKey ) ) {
+					String key = HunterUtility.getNodeAttr(property, "key", String.class);;
+					String value = HunterUtility.getNodeAttr(property, "value", String.class);
+					value = "null".equals(value) ? null : value;
+					if ( HunterUtility.notNullNotEmptyAndEquals(key, propKey) ) {
 						return value;
 					}
 				}
@@ -98,7 +98,7 @@ public class HunterAngularDataHelper {
 			angularData.setStatus(HunterConstants.STATUS_SUCCESS);
 		} catch (Exception e) {
 			e.printStackTrace();
-			angularData.setMessage( "Application error occurred." );
+			angularData.setMessage( HunterUtility.getApplicationErrorMessage() );
 			angularData.setStatus(HunterConstants.STATUS_FAILED);
 		}
 		return angularData;
@@ -111,7 +111,7 @@ public class HunterAngularDataHelper {
 			return getDataBean(data, headersKey);
 		} catch (Exception e) {
 			e.printStackTrace();
-			angularData.setMessage( "Application error occurred." );
+			angularData.setMessage( HunterUtility.getApplicationErrorMessage() );
 			angularData.setStatus(HunterConstants.STATUS_FAILED);
 		}
 		return angularData;
@@ -125,7 +125,7 @@ public class HunterAngularDataHelper {
 			angularData.setStatus( status );
 		} catch (Exception e) {
 			e.printStackTrace();
-			angularData.setMessage( "Application error occurred." );
+			angularData.setMessage( HunterUtility.getApplicationErrorMessage() );
 			angularData.setStatus(HunterConstants.STATUS_FAILED);
 		}
 		return angularData;

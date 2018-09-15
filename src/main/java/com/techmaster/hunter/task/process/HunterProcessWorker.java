@@ -40,7 +40,7 @@ public class HunterProcessWorker extends AbstractTaskProcessWorker{
 		Map<String, String> values = new HashMap<>();
 		values.put(TaskProcessConstants.WORKER_NAME, toString());
 		values.put(TaskProcessConstants.MESSAGE_IDS, getMessageIds(messages));
-		values.put(TaskProcessConstants.ERROR_TYPE, "Application Error");
+		values.put(TaskProcessConstants.ERROR_TYPE, HunterUtility.getApplicationErrorMessage());
 		values.put(TaskProcessConstants.ERROR_TEXT, "There was an exception while making a connection to the client server");
 		Long duration = System.currentTimeMillis();
 		

@@ -1,7 +1,6 @@
 package com.techmaster.hunter.region;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
@@ -22,9 +21,7 @@ import com.techmaster.hunter.constants.HunterConstants;
 import com.techmaster.hunter.dao.impl.HunterDaoFactory;
 import com.techmaster.hunter.dao.types.HunterJDBCExecutor;
 import com.techmaster.hunter.dao.types.HunterMessageReceiverDao;
-import com.techmaster.hunter.dao.types.HunterUserDao;
 import com.techmaster.hunter.dao.types.ReceiverRegionDao;
-import com.techmaster.hunter.dao.types.UserRoleDao;
 import com.techmaster.hunter.enums.HunterUserRolesEnums;
 import com.techmaster.hunter.json.PagedHunterMessageReceiverJson;
 import com.techmaster.hunter.json.ReceiverRegionJson;
@@ -34,11 +31,9 @@ import com.techmaster.hunter.obj.beans.Country;
 import com.techmaster.hunter.obj.beans.County;
 import com.techmaster.hunter.obj.beans.HunterJacksonMapper;
 import com.techmaster.hunter.obj.beans.HunterMessageReceiver;
-import com.techmaster.hunter.obj.beans.HunterUser;
 import com.techmaster.hunter.obj.beans.ReceiverGroupReceiver;
 import com.techmaster.hunter.obj.beans.ReceiverRegion;
 import com.techmaster.hunter.obj.beans.State;
-import com.techmaster.hunter.obj.beans.UserRole;
 import com.techmaster.hunter.task.TaskManager;
 import com.techmaster.hunter.util.HunterLogFactory;
 import com.techmaster.hunter.util.HunterUtility;
@@ -606,6 +601,19 @@ public class RegionServiceImpl extends AbstractRegionService {
 		
 		return new Object[]{uniqueCount, countedRegionsJs};
 	}
+	
+	@Override
+	public void addRegionToTask(Long taskId, List<Object> regionIds) {
+		HunterJDBCExecutor executor = HunterDaoFactory.getObject(HunterJDBCExecutor.class);
+		String query = executor.getQueryForSqlId("addRegionsToTask");
+		List<Object> currList = new ArrayList<>();
+		for( Object regionId : regionIds ) {
+			currList.clear();
+			currList.add(taskId);
+			currList.add(regionId);
+			executor.executeUpdate(query, currList);
+		}
+	}
 
 	@Override
 	public String addRegionToTask(Long taskId, String country, String county, String constituency, String ward) {
@@ -797,6 +805,56 @@ public class RegionServiceImpl extends AbstractRegionService {
 		
 		return regionIds;
 	}
+	
+	@Override
+	public List<Object> getRegionIdsForRegionTypesIds(String type, List<Object> regionTypeIds) {
+		logger.debug("getRegionIdsForRegionTypesIds >>>> Type: " + type);
+		
+		List<Object> regionIds = new ArrayList<>();
+		String csvIds = HunterUtility.getCommaDelimitedStrings(regionTypeIds);
+		
+		logger.debug("Comma delimited region type IDs: " + csvIds);
+		String queryIId = null;
+		
+		switch (type) {
+			case "COUNTRY":
+				queryIId = "getCountryRegioinIdsForCountryIds";
+				break;
+			case "COUNTY":
+				queryIId = "getCountyRegioinIdsForCountyIds";
+				break;
+			case "CONSTITUENCY":
+				queryIId = "getConstituencyRegioinIdsForConstituencyIds";
+				break;
+			case "WARD":
+				queryIId = "getWardsRegioinIdsForWardIds";
+				break;
+			default:
+				break;
+		}
+		
+		HunterJDBCExecutor executor = HunterDaoFactory.getObject(HunterJDBCExecutor.class);
+		String query = executor.getQueryForSqlId(queryIId);
+		
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put(":typeIds", HunterUtility.getCommaDelimitedStrings(regionTypeIds)); 
+		
+		if (queryIId != null) {
+			Map<Integer, List<Object>> rowMap = executor.replaceAndExecuteQueryForRowList(query, params);
+				if (HunterUtility.isMapNotEmpty(rowMap)) {
+					for( Map.Entry<Integer, List<Object>> entry : rowMap.entrySet() ) {
+						Long regionId = Long.valueOf(String.valueOf(entry.getValue().get(0)));
+						regionIds.add(regionId);
+					}
+				} else {
+					logger.debug("No data found for region type ids : " + csvIds);
+				}
+		}		
+				
+		return regionIds;
+	}
+	
+	
 
 	@Override
 	public List<String> editReceiverRegion(Map<String, Object> params, String userName) {
@@ -1033,8 +1091,16 @@ public class RegionServiceImpl extends AbstractRegionService {
 		
 		return pageHunterMessageReceiverJsons;
 	}
-	
-	
-	
+
+	@Override
+	public String removeTaskRegions(Long taskId, List<Long> taskRegionIds) {
+		HunterJDBCExecutor executor = HunterDaoFactory.getDaoObject(HunterJDBCExecutor.class);
+		String query = executor.getQueryForSqlId("removeTaskRegionsFromTask");
+		Map<String, Object> params = new HashMap<>();
+		params.put(":taskId", Long.toString(taskId));
+		params.put(":taskRegionIds", HunterUtility.getCommaDelimitedStrings(taskRegionIds));
+		executor.replaceAndExecuteUpdate(query, params);
+		return null;
+	}
 	
 }

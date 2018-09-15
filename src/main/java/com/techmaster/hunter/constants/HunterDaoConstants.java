@@ -38,6 +38,9 @@ public class HunterDaoConstants {
 	public static final String TASK_GROUPS_HEADERS = "task-groups";
 	public static final String TASK_GROUPS_JSONS_HEADERS = "task-groups-jsons";
 	public static final String SELECT_VALUES_JSON_HEADERS = "selectValues";
+	public static final String TASK_REGIONS_HEADERS = "task-regions";
+	public static final String RECEIVER_REGIONS_HEADERS = "receiver-regions";
+	public static final String COUNTY_JSONS_HEADERS = "county-jsons";
 	
 	
 	// GRID DATA

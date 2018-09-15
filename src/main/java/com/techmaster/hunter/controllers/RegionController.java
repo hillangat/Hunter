@@ -4,6 +4,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -29,8 +30,10 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.techmaster.hunter.angular.data.AngularData;
 import com.techmaster.hunter.angular.data.HunterAngularDataHelper;
+import com.techmaster.hunter.angular.grid.GridQueryHandler;
 import com.techmaster.hunter.cache.HunterCacheUtil;
 import com.techmaster.hunter.constants.HunterConstants;
+import com.techmaster.hunter.constants.HunterDaoConstants;
 import com.techmaster.hunter.dao.impl.HunterDaoFactory;
 import com.techmaster.hunter.dao.proc.ProcedureHandler;
 import com.techmaster.hunter.dao.types.HunterJDBCExecutor;
@@ -44,7 +47,9 @@ import com.techmaster.hunter.json.CountryJson;
 import com.techmaster.hunter.json.CountyJson;
 import com.techmaster.hunter.json.PagedHunterMessageReceiverData;
 import com.techmaster.hunter.json.PagedHunterMessageReceiverJson;
+import com.techmaster.hunter.json.ReceiverGroupJson;
 import com.techmaster.hunter.json.ReceiverRegionJson;
+import com.techmaster.hunter.json.TaskAngular;
 import com.techmaster.hunter.obj.beans.Constituency;
 import com.techmaster.hunter.obj.beans.ConstituencyWard;
 import com.techmaster.hunter.obj.beans.County;
@@ -79,34 +84,39 @@ public class RegionController extends HunterBaseController {
 	}
 	
 	@RequestMapping(value="/action/countries/read", method=RequestMethod.POST) 
-	@ResponseBody public List<CountryJson> getCountries(){
+	@ResponseBody public AngularData getCountries(){
 		List<CountryJson>  jsons = receiverRegionDao.getCountryJsonsForAllCountries();
-		logger.debug("Returning countries >> " + HunterUtility.stringifyList(jsons));  
-		return jsons;
+		return HunterAngularDataHelper.getIntance().getDataBean(jsons, null);
 	}
 	
 	@RequestMapping(value="/action/counties/read/{selCountry}", method=RequestMethod.POST) 
-	@ResponseBody public List<CountyJson> getCounties(@PathVariable("selCountry") String selCounty){
-		if(selCounty == null || selCounty.trim().equals("") || selCounty.trim().equals("undefined") || selCounty.equals("UNSELECTED")){ 
-			return new ArrayList<>(); 
-		}
-		List<CountyJson> countiesJSON = receiverRegionDao.getCountyJsonsForSelCountry(selCounty);
-		return countiesJSON;
+	@ResponseBody public AngularData getCounties(HttpServletRequest request, @PathVariable("selCountry") String selCountry){
+		List<Object> valueList = new ArrayList<>();
+		valueList.add(selCountry);
+		return GridQueryHandler.getInstance().executeForAngularData(CountyJson.class, request, HunterDaoConstants.COUNTY_JSONS_HEADERS, valueList);
+	}
+	
+	@RequestMapping(value="/action/counties/allForCountry/{selCountry}", method=RequestMethod.POST) 
+	@ResponseBody public AngularData getAllForCountry(HttpServletRequest request, @PathVariable("selCountry") String selCountry){
+		List<Object> valueList = new ArrayList<>();
+		valueList.add(selCountry);
+		List<CountyJson>  jsons = receiverRegionDao.getCountyJsonsForSelCountry(selCountry);
+		return HunterAngularDataHelper.getIntance().getDataBean(jsons, null);
 	}
 	
 	@RequestMapping(value="/action/new/counties/read/{selCountry}", method=RequestMethod.POST) 
 	@Produces("application/json") 
-	@ResponseBody public String newGetCounties(@PathVariable("selCountry") String selCounty){
-		if(selCounty == null || selCounty.trim().equals("") || selCounty.trim().equals("undefined") || selCounty.equals("UNSELECTED")){ 
-			return "[]";  
+	@ResponseBody public AngularData newGetCounties(@PathVariable("selCountry") String selCountry){
+		if(selCountry == null || selCountry.trim().equals("") || selCountry.trim().equals("undefined") || selCountry.equals("UNSELECTED")){ 
+			return HunterAngularDataHelper.getIntance().getBeanForMsgAndSts("Selected Country is required", HunterConstants.STATUS_FAILED, null);
 		}
 		Map<String,Long> regionIds = new HashMap<>();
-		Long countryId = HunterUtility.getLongFromObject(selCounty);
+		Long countryId = HunterUtility.getLongFromObject(selCountry);
 		regionIds.put(HunterConstants.RECEIVER_LEVEL_COUNTRY, countryId); 
 		Map<Long,String> country = HunterCacheUtil.getInstance().getNameIdForId(HunterConstants.RECEIVER_LEVEL_COUNTRY, regionIds);
 		String countryName = country.get(countryId);
-		JSONArray array = regionService.getCountiesNameAndIds(countryName);
-		return array.toString();
+		Map<Long,String> counties = HunterCacheUtil.getInstance().getCountiesMapForCountry(countryName);
+		return HunterAngularDataHelper.getIntance().getDataBean(counties, null);
 	}
 	
 	@RequestMapping(value="/action/counties/all/read", method=RequestMethod.POST) 
@@ -117,27 +127,25 @@ public class RegionController extends HunterBaseController {
 			CountyJson json = new CountyJson(county.getCountyName(), county.getCountyId(), county.getCountryId());
 			countiesJSON.add(json);
 		}
-		logger.debug("returning county jsons >> " + HunterUtility.stringifyList(countiesJSON));
 		return countiesJSON;
 	}
 
 
 	@RequestMapping(value="/action/constituencies/read/{selCountyId}", method=RequestMethod.POST) 
-	@ResponseBody public List<ConstituencyJson> getConstituenciesForCounty(@PathVariable("selCountyId") String selCountyId){
+	@ResponseBody public AngularData getConstituenciesForCounty(@PathVariable("selCountyId") String selCountyId){
 		if(selCountyId == null || selCountyId.trim().equals("") || selCountyId.trim().equals("undefined") || selCountyId.equals("UNSELECTED")){ 
-			return new ArrayList<>(); 
+			return HunterAngularDataHelper.getIntance().getBeanForMsgAndSts("Selected County and Country are required", HunterConstants.STATUS_FAILED, null);
 		}
 		List<ConstituencyJson> constituencyJsons = receiverRegionDao.getConstituencyJsonsForSelCounty(selCountyId);
-		logger.debug("Returning constituencies >> " + HunterUtility.stringifyList(constituencyJsons)); 
-		return constituencyJsons;
+		return HunterAngularDataHelper.getIntance().getDataBean(constituencyJsons, null);
 	}
 	
 	@RequestMapping(value="/action/new/constituencies/read/{selCountyId}", method=RequestMethod.POST) 
 	@Produces("application/json") 
-	@ResponseBody public String getNewConstituenciesForCounty(@PathVariable("selCountyId") String selCountyId){
+	@ResponseBody public AngularData getNewConstituenciesForCounty(@PathVariable("selCountyId") String selCountyId){
 		
 		if(selCountyId == null || selCountyId.trim().equals("") || selCountyId.trim().equals("undefined") || selCountyId.equals("UNSELECTED")){ 
-			return "[]";  
+			return HunterAngularDataHelper.getIntance().getBeanForMsgAndSts("Selected County and Country are required", HunterConstants.STATUS_FAILED, null);
 		}
 		
 		String query = hunterJDBCExecutor.getQueryForSqlId("getCountryNameIdAndCodeForCountyId");
@@ -145,38 +153,35 @@ public class RegionController extends HunterBaseController {
 		values.add(selCountyId);
 		
 		Map<String,Object> firstRow = hunterJDBCExecutor.executeQueryFirstRowMap(query, values);
-		JSONArray array = new JSONArray();
+		Map<Long,String> counties = new HashMap<>();
 		
 		if(firstRow != null && !firstRow.isEmpty()){
 			String countryName = HunterUtility.getStringOrNullOfObj(firstRow.get("COUNTRY_NAME"));
 			String countyName = HunterUtility.getStringOrNullOfObj(firstRow.get("CNTY_NAM"));
-			array = regionService.getConsNameAndIds(countryName, countyName);
+			counties = HunterCacheUtil.getInstance().getConstituenciesMapForCounty(countryName, countyName);
 		}
-		
-		return array.toString();
+		return HunterAngularDataHelper.getIntance().getDataBean(counties, null);
 	}
 	
 	@RequestMapping(value="/action/constituencies/all/read", method=RequestMethod.POST) 
-	@ResponseBody public List<ConstituencyJson> getAllConstituencies(){
+	@ResponseBody public AngularData getAllConstituencies(){
 		List<ConstituencyJson> countiesJSON = new ArrayList<>();
 		List<Constituency> constituencies = receiverRegionDao.getAllConstituencies();
 		for(Constituency constituency : constituencies){
 			ConstituencyJson json = new ConstituencyJson(constituency.getCnsttncyName(), constituency.getCnsttncyId(), constituency.getCountyId());
 			countiesJSON.add(json);
 		}
-		logger.debug("returning constituencies jsons >> " + HunterUtility.stringifyList(countiesJSON));
-		return countiesJSON;
+		return HunterAngularDataHelper.getIntance().getDataBean(constituencies, null);
 	}
 	
 	@RequestMapping(value="/action/constituencyWards/read/{selConstituencyId}", method=RequestMethod.POST) 
-	@ResponseBody public List<ConstituencyWardJson> getConstituencyWardForConstituency(@PathVariable("selConstituencyId") String selConstituencyId){
+	@ResponseBody public AngularData getConstituencyWardForConstituency(@PathVariable("selConstituencyId") String selConstituencyId){
 		logger.debug("Selected constituency >> " + selConstituencyId ); 
 		if(selConstituencyId == null || selConstituencyId.trim().equals("") || selConstituencyId.trim().equals("undefined") || selConstituencyId.equals("UNSELECTED")){ 
-			return new ArrayList<>();
+			return HunterAngularDataHelper.getIntance().getBeanForMsgAndSts("Selected Constituency is required", HunterConstants.STATUS_FAILED, null);
 		}
 		List<ConstituencyWardJson> constituencyWardsJson = receiverRegionDao.getAllconsConstituencyWardJsonsForSelCons(selConstituencyId);
-		logger.debug(constituencyWardsJson); 
-		return constituencyWardsJson;
+		return HunterAngularDataHelper.getIntance().getDataBean(constituencyWardsJson, null);
 		
 	}
 	
@@ -380,13 +385,21 @@ public class RegionController extends HunterBaseController {
 	
 
 	@RequestMapping(value="/action/task/regions/read/{taskId}", method=RequestMethod.POST) 
-	@ResponseBody public List<ReceiverRegionJson> getRegionsForTask(@PathVariable("taskId") String taskIdStr){
-		if(taskIdStr == null || taskIdStr.equalsIgnoreCase("null") || !HunterUtility.isNumeric(taskIdStr)){
-			 return new ArrayList<>();
+	@ResponseBody public Object getRegionsForTask(@PathVariable("taskId") String taskIdStr){
+		try {
+			if(taskIdStr == null || taskIdStr.equalsIgnoreCase("null") || !HunterUtility.isNumeric(taskIdStr)){
+				 return HunterAngularDataHelper.getIntance().getBeanForMsgAndSts("Task ID is required", HunterConstants.STATUS_FAILED, Collections.emptyList());
+			}
+			Long taskId = HunterUtility.getLongFromObject(taskIdStr);
+			List<ReceiverRegionJson> receiverRegionsJson = receiverRegionDao.getReceiverRegionsJsonByTaskId(taskId);
+			AngularData data = HunterAngularDataHelper.getIntance().getDataBean(receiverRegionsJson, HunterDaoConstants.TASK_REGIONS_HEADERS);
+			data.setTotal(receiverRegionsJson.size());
+			data.setStatus(HunterConstants.STATUS_SUCCESS);
+			return data;
+		} catch ( Exception e ) {
+			e.printStackTrace(); 
+			return HunterAngularDataHelper.getIntance().getBeanForMsgAndSts(HunterUtility.getApplicationErrorMessage(), HunterConstants.STATUS_FAILED, Collections.emptyList());
 		}
-		Long taskId = HunterUtility.getLongFromObject(taskIdStr);
-		List<ReceiverRegionJson> receiverRegionsJson = receiverRegionDao.getReceiverRegionsJsonByTaskId(taskId);
-		return receiverRegionsJson;
 	}
 	
 	
@@ -583,7 +596,7 @@ public class RegionController extends HunterBaseController {
 		
 		PagedHunterMessageReceiverData data = new PagedHunterMessageReceiverData();
 		
-		if( regionNames[0].equals("RECEIVER_GROUP_ID") ){
+		if ( regionNames[0].equals("RECEIVER_GROUP_ID") ) {
 			
 			Long groupId = Long.valueOf( regionNames[1] );
 			String msgType = regionNames[2];
@@ -605,7 +618,7 @@ public class RegionController extends HunterBaseController {
 			List<Map<String, Object>> rowMapList = hunterJDBCExecutor.executeQueryRowMap(query, values);
 			List<PagedHunterMessageReceiverJson> messageReceiverJsons = new ArrayList<>();
 			
-			if( HunterUtility.isCollectionNotEmpty(rowMapList) ){
+			if( HunterUtility.isCollNotEmpty(rowMapList) ){
 				for(Map<String, Object> rowMap : rowMapList){
 					PagedHunterMessageReceiverJson receiverJson = new PagedHunterMessageReceiverJson();
 					receiverJson.setContact( HunterUtility.getStringOrNullOfObj( rowMap.get("RCVR_CNTCT") ) ); 
@@ -634,73 +647,73 @@ public class RegionController extends HunterBaseController {
 			List<PagedHunterMessageReceiverJson> messageReceiverJsons = null;
 			
 			switch (levelType) {
-			case  HunterConstants.RECEIVER_LEVEL_COUNTRY : 
-				
-				List<Object> values0 = new ArrayList<>();
-				values0.add(regionId);
-				String query = hunterJDBCExecutor.getQueryForSqlId("getCountryNameAndId"); 
-				Map<String, Object> cntryMap = hunterJDBCExecutor.executeQueryFirstRowMap(query, values0);
-				
-				if( HunterUtility.isMapNotEmpty( cntryMap )){ 
-					countryName = HunterUtility.getStringOrNullOfObj(cntryMap.get("CNTRY_NAM"));
-					messageReceiverJsons = regionService.getMessageReceiversForRegion(countryName, countyName, consName, wardName, pageNo, pageSize,null);
-				}
-				
-				break;
-				
-			case HunterConstants.RECEIVER_LEVEL_COUNTY:
-				
-				String query1 = hunterJDBCExecutor.getQueryForSqlId("getCountryNameIdAndCodeForCountyId");
-				List<Object> values = new ArrayList<>();
-				values.add(regionId);
-				
-				Map<String,Object> firstRow = hunterJDBCExecutor.executeQueryFirstRowMap(query1, values);
-				
-				if( HunterUtility.isMapNotEmpty( firstRow )){
-					countryName = HunterUtility.getStringOrNullOfObj(firstRow.get("COUNTRY_NAME"));
-					countyName = HunterUtility.getStringOrNullOfObj(firstRow.get("CNTY_NAM"));
-					messageReceiverJsons = regionService.getMessageReceiversForRegion(countryName, countyName, consName, wardName, pageNo, pageSize,null);
-				}
-				
-				break;
-				
-			case HunterConstants.RECEIVER_LEVEL_CONSITUENCY: 
-				
-				String query2 = hunterJDBCExecutor.getQueryForSqlId("getCountryCountyConsNameIdAndForConsId");
-				List<Object> values2  = new ArrayList<>();
-				values2.add(regionId);
-				Map<String, Object> firstRow2 = hunterJDBCExecutor.executeQueryFirstRowMap(query2, values2);
-				
-				if(HunterUtility.isMapNotEmpty( firstRow2 )){
-					countryName = HunterUtility.getStringOrNullOfObj(firstRow2.get("COUNTRY_NAME"));
-					countyName = HunterUtility.getStringOrNullOfObj(firstRow2.get("CNTY_NAM"));
-					consName = HunterUtility.getStringOrNullOfObj(firstRow2.get("CNSTTNCY_NAM"));
-					messageReceiverJsons = regionService.getMessageReceiversForRegion(countryName, countyName, consName, wardName, pageNo, pageSize,null);
-				}
-				break;
-				
-			case HunterConstants.RECEIVER_LEVEL_WARD : 
-				
-				String getCntryCntyConstyConswardIdCodeNameId = hunterJDBCExecutor.getQueryForSqlId("getCntryCntyConstyConswardIdCodeNameId");
-				List<Object> values3 = new ArrayList<Object>();
-				values3.add(regionId);
-				Map<String, Object> wardMap = hunterJDBCExecutor.executeQueryFirstRowMap(getCntryCntyConstyConswardIdCodeNameId, values3);
-				
-				if( HunterUtility.isMapNotEmpty( wardMap ) ){
-					countryName = HunterUtility.getStringOrNullOfObj(wardMap.get("CNTRY_NAM"));
-					countyName = HunterUtility.getStringOrNullOfObj(wardMap.get("CNTY_NAM"));
-					consName = HunterUtility.getStringOrNullOfObj(wardMap.get("CNSTTNCY_NAM"));
-					wardName = HunterUtility.getStringOrNullOfObj(wardMap.get("WRD_NAM"));
-					messageReceiverJsons = regionService.getMessageReceiversForRegion(countryName, countyName, consName, wardName, pageNo, pageSize,null);
-				}
-				break;
-			default:
-				break;
+				case  HunterConstants.RECEIVER_LEVEL_COUNTRY : 
+					
+					List<Object> values0 = new ArrayList<>();
+					values0.add(regionId);
+					String query = hunterJDBCExecutor.getQueryForSqlId("getCountryNameAndId"); 
+					Map<String, Object> cntryMap = hunterJDBCExecutor.executeQueryFirstRowMap(query, values0);
+					
+					if( HunterUtility.isMapNotEmpty( cntryMap )){ 
+						countryName = HunterUtility.getStringOrNullOfObj(cntryMap.get("CNTRY_NAM"));
+						messageReceiverJsons = regionService.getMessageReceiversForRegion(countryName, countyName, consName, wardName, pageNo, pageSize,null);
+					}
+					
+					break;
+					
+				case HunterConstants.RECEIVER_LEVEL_COUNTY:
+					
+					String query1 = hunterJDBCExecutor.getQueryForSqlId("getCountryNameIdAndCodeForCountyId");
+					List<Object> values = new ArrayList<>();
+					values.add(regionId);
+					
+					Map<String,Object> firstRow = hunterJDBCExecutor.executeQueryFirstRowMap(query1, values);
+					
+					if( HunterUtility.isMapNotEmpty( firstRow )){
+						countryName = HunterUtility.getStringOrNullOfObj(firstRow.get("COUNTRY_NAME"));
+						countyName = HunterUtility.getStringOrNullOfObj(firstRow.get("CNTY_NAM"));
+						messageReceiverJsons = regionService.getMessageReceiversForRegion(countryName, countyName, consName, wardName, pageNo, pageSize,null);
+					}
+					
+					break;
+					
+				case HunterConstants.RECEIVER_LEVEL_CONSITUENCY: 
+					
+					String query2 = hunterJDBCExecutor.getQueryForSqlId("getCountryCountyConsNameIdAndForConsId");
+					List<Object> values2  = new ArrayList<>();
+					values2.add(regionId);
+					Map<String, Object> firstRow2 = hunterJDBCExecutor.executeQueryFirstRowMap(query2, values2);
+					
+					if(HunterUtility.isMapNotEmpty( firstRow2 )){
+						countryName = HunterUtility.getStringOrNullOfObj(firstRow2.get("COUNTRY_NAME"));
+						countyName = HunterUtility.getStringOrNullOfObj(firstRow2.get("CNTY_NAM"));
+						consName = HunterUtility.getStringOrNullOfObj(firstRow2.get("CNSTTNCY_NAM"));
+						messageReceiverJsons = regionService.getMessageReceiversForRegion(countryName, countyName, consName, wardName, pageNo, pageSize,null);
+					}
+					break;
+					
+				case HunterConstants.RECEIVER_LEVEL_WARD : 
+					
+					String getCntryCntyConstyConswardIdCodeNameId = hunterJDBCExecutor.getQueryForSqlId("getCntryCntyConstyConswardIdCodeNameId");
+					List<Object> values3 = new ArrayList<Object>();
+					values3.add(regionId);
+					Map<String, Object> wardMap = hunterJDBCExecutor.executeQueryFirstRowMap(getCntryCntyConstyConswardIdCodeNameId, values3);
+					
+					if( HunterUtility.isMapNotEmpty( wardMap ) ){
+						countryName = HunterUtility.getStringOrNullOfObj(wardMap.get("CNTRY_NAM"));
+						countyName = HunterUtility.getStringOrNullOfObj(wardMap.get("CNTY_NAM"));
+						consName = HunterUtility.getStringOrNullOfObj(wardMap.get("CNSTTNCY_NAM"));
+						wardName = HunterUtility.getStringOrNullOfObj(wardMap.get("WRD_NAM"));
+						messageReceiverJsons = regionService.getMessageReceiversForRegion(countryName, countyName, consName, wardName, pageNo, pageSize,null);
+					}
+					break;
+				default:
+					break;
 			}
 			
 			logger.debug("Retrieving receivers for region hierarcy.CountryId("+ countryId +") and Region Type ( "+ levelType +" ) and region Id ("+ regionId +")");
 			
-			data.setTotal(HunterUtility.isCollectionNotEmpty( messageReceiverJsons ) ? messageReceiverJsons.get(0).getCount() : 0 );
+			data.setTotal(HunterUtility.isCollNotEmpty( messageReceiverJsons ) ? messageReceiverJsons.get(0).getCount() : 0 );
 			data.setData(messageReceiverJsons); 
 			
 			return data;

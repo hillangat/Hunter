@@ -23,10 +23,12 @@ import com.fasterxml.jackson.databind.JsonMappingException;
 import com.techmaster.hunter.cache.HunterCacheUtil;
 import com.techmaster.hunter.constants.HunterConstants;
 import com.techmaster.hunter.constants.UIMessageConstants;
+import com.techmaster.hunter.dao.impl.HunterDaoFactory;
 import com.techmaster.hunter.dao.types.HunterJDBCExecutor;
 import com.techmaster.hunter.dao.types.MessageDao;
 import com.techmaster.hunter.dao.types.ServiceProviderDao;
 import com.techmaster.hunter.dao.types.TaskDao;
+import com.techmaster.hunter.dao.types.TaskHistoryDao;
 import com.techmaster.hunter.enums.HunterUserRolesEnums;
 import com.techmaster.hunter.gateway.beans.CMClientService;
 import com.techmaster.hunter.gateway.beans.GateWayClientHelper;
@@ -301,7 +303,7 @@ public class TaskManagerImpl implements TaskManager{
 		
 		/* At least a social group of given social type must have have a social app */
 		
-		if( HunterUtility.isCollectionNotEmpty(socialGroups) ){
+		if( HunterUtility.isCollNotEmpty(socialGroups) ){
 			
 			Map<String, String> typesBank = new HashMap<>();
 			
@@ -356,7 +358,7 @@ public class TaskManagerImpl implements TaskManager{
 			results.add("Not all social groups are approved");
 		}
 		
-		logger.debug( HunterUtility.isCollectionNotEmpty(results) ? "Social task failed validation( "+ HunterUtility.stringifyList(results) +" )" : "social task passed validations!!"); 
+		logger.debug( HunterUtility.isCollNotEmpty(results) ? "Social task failed validation( "+ HunterUtility.stringifyList(results) +" )" : "social task passed validations!!"); 
 		return results;
 	}
 
@@ -916,8 +918,8 @@ public class TaskManagerImpl implements TaskManager{
 				JSONObject providerJson = new JSONObject(providerStr);
 				providerJson = HunterUtility.selectivelyCopyJSONObject(providerJson, new String[]{"handler","hibernateLazyInitializer"});
 				pvdr = hunterJacksonMapper.readValue(providerJson.toString(), ServiceProvider.class);
-			}else{
-				logger.debug("Provider value is numerice : " + providerStr); 
+			} else {
+				logger.debug("Provider value is numeric : " + providerStr); 
 			}
 		} catch (JsonParseException e) {
 			e.printStackTrace();
@@ -927,16 +929,15 @@ public class TaskManagerImpl implements TaskManager{
 			e.printStackTrace();
 		}
 		
-		Long providerId = null; 
+		Long providerId = HunterUtility.getLongFromObject(providerStr); 
 		ServiceProvider serviceProvider = null;
 		
-		if(pvdr != null){
-			providerId = HunterUtility.getLongFromObject(providerStr);
+		if( providerId != null ){
 			logger.debug("Successfully obtained provider id : " + providerId);
-			serviceProvider = serviceProviderDao.getServiceProviderById(providerId);
-			message.setProvider(serviceProvider); 
+			serviceProvider = serviceProviderDao.getServiceProviderById(providerId); 
 		}
 		
+		message.setProvider(serviceProvider);
 		logger.debug("Successfully created textMessage >> " + message); 
 		
 		
@@ -976,7 +977,7 @@ public class TaskManagerImpl implements TaskManager{
 			}
 		}
 		
-		if ( !HunterUtility.isArrayNotEmpty(notInserted) ) {
+		if ( !HunterUtility.isArrNotEmpty(notInserted) ) {
 			return "All selected groups are already added to this task.";
 		}
 		
@@ -1143,6 +1144,12 @@ public class TaskManagerImpl implements TaskManager{
 	public void setTaskHistoryStatusAndMessage(TaskHistory taskHistory,String eventStatus, String message) {
 		taskHistory.setEventStatus(eventStatus);
 		taskHistory.setEventMessage(message);
+	}
+	
+	@Override
+	public void saveTaskHitory( TaskHistory taskHistory, String message, String status ) {
+		setTaskHistoryStatusAndMessage(taskHistory, status, message);
+		HunterDaoFactory.getObject(TaskHistoryDao.class).insertTaskHistory(taskHistory);
 	}
 
 	@Override

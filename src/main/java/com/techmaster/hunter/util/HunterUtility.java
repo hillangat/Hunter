@@ -74,6 +74,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
@@ -143,11 +144,11 @@ public static  Logger logger = Logger.getLogger(HunterUtility.class);
 	   return params;
    }
    
-   public static boolean isCollectionNotEmpty(Collection<?> collection){
+   public static boolean isCollNotEmpty(Collection<?> collection){
 	   return collection != null && !collection.isEmpty();
    }
    
-   public static <T> boolean isArrayNotEmpty( T[] array ) {
+   public static <T> boolean isArrNotEmpty( T[] array ) {
 	   return array != null && array.length > 0 ;
    }
    
@@ -222,7 +223,7 @@ public static  Logger logger = Logger.getLogger(HunterUtility.class);
    public static Map<String, String> getBlobStrFromDBForList( List<?> objList, String blobField, String idField, Class<?> clzz ) {
 	   List<String> idList = getIdStrListForList(objList, idField);
 	   Map<String, String> blobStrMap = new HashMap<>();
-	   if ( HunterUtility.isCollectionNotEmpty(idList) ) {
+	   if ( HunterUtility.isCollNotEmpty(idList) ) {
 		   blobStrMap = getBlobStrFromDBForList(blobField, idField, idList, clzz);
 		   return blobStrMap;
 	   }
@@ -1244,7 +1245,7 @@ public static  Logger logger = Logger.getLogger(HunterUtility.class);
 		HunterCacheUtil.getInstance();
 		XMLService xmlService =(XMLServiceImpl) HunterCacheUtil.getInstance().getXMLService(HunterConstants.EMAIL_TEMPLATES_CACHED_SERVICE);
 		NodeList nodeList = xmlService.getNodeListForPathUsingJavax("//template[@name='taskpProcessRequestNotification']/context/miscelaneous/*");
-		if(nodeList != null && nodeList.getLength() >= 1){
+		if(HunterUtility.isNodeListNotEmptpy(nodeList)){
 			for(int i=0; i<nodeList.getLength(); i++){
 				Node node = nodeList.item(i);
 				if(node.getNodeName().equals("config")){
@@ -1512,7 +1513,7 @@ public static  Logger logger = Logger.getLogger(HunterUtility.class);
 		HunterJDBCExecutor executor = HunterDaoFactory.getObject(HunterJDBCExecutor.class);
 		String query = executor.getQueryForSqlId( queryId );
 		List<Map<String, Object>> rowMapList =  executor.executeQueryRowMap(query, null);
-		if ( HunterUtility.isCollectionNotEmpty(rowMapList) ) {
+		if ( HunterUtility.isCollNotEmpty(rowMapList) ) {
 			for( Map<String, Object> rowMap : rowMapList ) {
 				HunterSelectValue selValue = new HunterSelectValue();
 				selValue.setText(HunterUtility.getStringOrNullOfObj(rowMap.get("TEXT")));
@@ -1520,6 +1521,55 @@ public static  Logger logger = Logger.getLogger(HunterUtility.class);
 			}
 		}
 		return selVals;
+	}
+	
+	/**
+	 * 
+	 * @param node
+	 * @param key
+	 * @param clzz - Must be one of java types String,Short, Long, Byte, Integer, Character, Float, Double, Boolean
+	 * @return
+	 */
+	@SuppressWarnings("unchecked")
+	public static <T> T getNodeAttr( Node node, String key, Class<T> clzz ) {
+		T t = null;
+		NamedNodeMap map = node.getAttributes();
+		if ( map != null && map.getLength() > 0 ) {
+			Node item = map.getNamedItem(key);
+			if ( null != item ) {
+				String val = item.getTextContent().toString().trim();
+				if ( notNullNotEmpty(val) ) {
+					if ( clzz.equals(Integer.class) ) {
+						Integer integer = Integer.parseInt(val); 
+						return (T)(integer);
+					} else if ( clzz.equals(Long.class) ) {
+						Long longVal = HunterUtility.getLongFromObject(val); 
+						return (T)(longVal);
+					} else if ( clzz.equals(Float.class) ) {
+						Float floatVal = HunterUtility.getFloatFromObject(val); 
+						return (T)(floatVal);
+					} else if ( clzz.equals(Double.class) ) {
+						Double floatVal = Double.valueOf(val); 
+						return (T)(floatVal);
+					} else if ( clzz.equals(Boolean.class) ) {
+						Boolean bool = Boolean.valueOf(val);
+						return (T)(bool);
+					} else if ( clzz.equals(Character.class) ) {
+						Character chr = Character.valueOf(val.toCharArray()[0]);
+						return (T)(chr);
+					} else if ( clzz.equals(Short.class) ) {
+						Short shrt = Short.valueOf(val);
+						return (T)(shrt);
+					} else if ( clzz.equals(Byte.class) ) {
+						Byte byt = Byte.valueOf(val);
+						return (T)(byt);
+					} else {
+						return (T)val;
+					}
+				}
+			}
+		}
+		return t;
 	}
 	
 	

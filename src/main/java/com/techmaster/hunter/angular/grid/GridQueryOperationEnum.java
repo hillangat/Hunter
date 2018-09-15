@@ -17,7 +17,7 @@ public enum GridQueryOperationEnum {
 	isNull( "isNull", "Is Null", " IS NULL " ),
 	isNotNull( "isNotNull", "Is Not Null", " IS NOT NULL " ),
 	isEmpty( "isEmpty", "Is Empty", " IS NULL OR LENGTH( TRIM( :replaceField ) ) = 0 " ),
-	isNotEmpty( "isNotEmpty", "Is Not Empty", " IS NOT NULL AND LENGTH( TRIM( :replaceField ) ) > 0  " ),;
+	isNotEmpty( "isNotEmpty", "Is Not Empty", " IS NOT NULL AND LENGTH( TRIM( :replaceField ) ) > 0  " );
 
 	
 	private GridQueryOperationEnum(String uiName, String uiDesc, String dbName) {
@@ -41,7 +41,7 @@ public enum GridQueryOperationEnum {
 	}
 	
 	public static GridQueryOperationEnum getEnumForName( String uiName ) {
-		return Arrays.stream(values()).filter( g -> g.uiName.equals(uiName) ).findFirst().get();
+		return uiName == null ? null : Arrays.stream(values()).filter( g -> g.uiName.equals(uiName) ).findFirst().get();
 	}
 	
 	public static String getSqlFragment( String fieldAlias, String dbName, String val, String uiName ) {

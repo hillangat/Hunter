@@ -30,12 +30,13 @@ public class HunterCache implements Serializable{
 	
 	private static void loadHunterCache() {
 		logger.debug("Refreshing hunter cache...");
-		HunterCacheUtil.getInstance().refreshAllXMLServices();
-		HunterCacheUtil.getInstance().loadExistentEmailTemplatesNames();
-		HunterCacheUtil.getInstance().loadEmailTemplateBeans();
-		HunterCacheUtil.getInstance().populateUIMessages();
-		HunterCacheUtil.getInstance().loadCountries();
-		HunterCacheUtil.getInstance().loadReceivers();
+		HunterCacheUtil util = HunterCacheUtil.getInstance();
+		util.refreshAllXMLServices();
+		util.loadExistentEmailTemplatesNames();
+		util.loadEmailTemplateBeans();
+		util.populateUIMessages();
+		util.loadCountries();
+		util.loadReceivers();
 		logger.debug("Finished refreshing hunter cache...");
 	}
 

@@ -114,11 +114,10 @@ public class HunterUserAuthenticationService {
 		Node login = loginNodes == null ? null : loginNodes.item(0);
 		Map<String,String> loginBean = getNewLoginBeanData();
 		if( login != null ){
-			NamedNodeMap attrMap = login.getAttributes();
-			loginBean.put("userId", attrMap.getNamedItem("userId").getTextContent());
-			loginBean.put("lastLoginTime", attrMap.getNamedItem("lastLoginTime").getTextContent());
-			loginBean.put("blocked", attrMap.getNamedItem("blocked").getTextContent());
-			loginBean.put("failedLoginCount", attrMap.getNamedItem("failedLoginCount").getTextContent());
+			loginBean.put("userId", HunterUtility.getNodeAttr(login, "userId", String.class));
+			loginBean.put("lastLoginTime", HunterUtility.getNodeAttr(login, "lastLoginTime", String.class));
+			loginBean.put("blocked", HunterUtility.getNodeAttr(login, "blocked", String.class));
+			loginBean.put("failedLoginCount", HunterUtility.getNodeAttr(login, "failedLoginCount", String.class));
 			loginBean.put("loginExist", Boolean.toString(true));
 		}else{
 			loginBean.put("loginExist", Boolean.toString(false));
@@ -185,11 +184,11 @@ public class HunterUserAuthenticationService {
 		
 		String IPAddress = getIPAddress(getHttpServletRequest());
 		
-		
-		Object refPassword =  xmlService.getFirstNodeUsingAjaxByName("loginData").getAttributes().getNamedItem("passCode").getTextContent();
+		Node passwordNode = xmlService.getFirstNodeUsingAjaxByName("loginData");
+		String refPassword =  HunterUtility.getNodeAttr(passwordNode, "passCode", String.class);
 		UserLoginBean userLoginBean = null;
 		
-		if(refPassword == null || !refPassword.toString().equals(password)){
+		if(refPassword == null || !refPassword.equals(password)){
 			userLoginBean = getIncrementedFailureLoginCount(userName, loginBeanData);
 			int newCount = userLoginBean.getFaildedLoginCount();
 			updateLoginDataXMLForLogin(userLoginBean, HunterUtility.formatDate(new Date(), null), isLocked(newCount) ? "Blocked" : HunterConstants.STATUS_FAILED, IPAddress, userName, password, Integer.toString(newCount)); 
@@ -264,7 +263,7 @@ public class HunterUserAuthenticationService {
 			HunterHibernateHelper.closeSession(session); 
 		}
         
-		UserLoginBean userLoginBean = !HunterUtility.isCollectionNotEmpty( userLoginBeans ) ? createUserLoginForUser(userName) : (UserLoginBean) userLoginBeans.get(0);
+		UserLoginBean userLoginBean = !HunterUtility.isCollNotEmpty( userLoginBeans ) ? createUserLoginForUser(userName) : (UserLoginBean) userLoginBeans.get(0);
 		return userLoginBean;
 	}
 	
@@ -292,7 +291,7 @@ public class HunterUserAuthenticationService {
 		for(int i=0; i<nodeList.getLength();i++){
 			Node node = nodeList.item(i);
 			if( node.getNodeName().equalsIgnoreCase("login") ){
-				int currLoginNum = Integer.valueOf( node.getAttributes().getNamedItem("loginNum").getTextContent() );  
+				int currLoginNum = HunterUtility.getNodeAttr(node, "loginNum", Integer.class);  
 				if( currLoginNum > loginNum ){
 					loginNum = currLoginNum;
 				}

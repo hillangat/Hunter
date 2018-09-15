@@ -615,7 +615,7 @@
 		    Returns count of tasks, regions and tsk_regions. If null, returns zero.
 		</description>
 		<statement>
-			select tsk.TSK_COUNT,rgn.RGN_CNT,tsk_rgns.TSK_RGNS_COUNT
+			select tsk.TSK_COUNT, rgn.RGN_CNT, tsk_rgns.TSK_RGNS_COUNT
 			from 
 			(select count(task.TSK_ID) as TSK_COUNT from  task task where task.TSK_ID = ?)tsk, 
 			(select count(RCVR_RGN.RGN_ID) as RGN_CNT from RCVR_RGN RCVR_RGN  where RCVR_RGN.RGN_ID = ? )rgn,
@@ -647,6 +647,22 @@
 		</description>
 		<statement>
 			select distinct rcvr_cntct from hntr_rw_rcvr where gvn_by_usr_nam = ?
+		</statement>
+	</query>
+	<query id="getRegionsAlreadyAddedToTask">
+		<description>
+		    Get regions already added to task for validations.
+		</description>
+		<statement>
+			SELECT RGN_ID FROM TSK_RGNS WHERE TSK_ID = ?
+		</statement>
+	</query>
+	<query id="removeTaskRegionsFromTask">
+		<description>
+		    Get regions already added to task for validations.
+		</description>
+		<statement>
+			DELETE FROM TSK_RGNS WHERE TSK_ID = :taskId and RGN_ID IN (:taskRegionIds)
 		</statement>
 	</query>
 	<query id="getRawReceiverUserData">
@@ -1617,6 +1633,87 @@
 		</description>
 		<statement>
 		  	UPDATE TASK t SET t.TSK_DEL_STS = ? WHERE t.TSK_ID = ?
+		</statement>
+	</query>
+	<query id="addRegionsToTask">
+		<description>
+		    Adds a region to a task
+		</description>
+		<statement>
+		  	INSERT INTO TSK_RGNS (TSK_ID, RGN_ID) VALUES (?, ?)
+		</statement>
+	</query>
+	<query id="getCountryRegioinIdsForCountryIds">
+		<description>
+		    Gets country region IDs for country IDs.
+		</description>
+		<statement>
+		  	SELECT
+		  		rr.RGN_ID
+		  	FROM RCVR_RGN rr
+		  	WHERE rr.CNTRY IN ( SELECT c.CNTRY_NAM FROM CNTRY c WHERE c.CNTRY_ID in (:typeIds) )
+		  	AND rr.CNTY IS NULL
+		  	AND rr.CNSTTNCY IS NULL
+		  	AND rr.WRD IS NULL
+		</statement>
+	</query>
+	<query id="getCountyRegioinIdsForCountyIds">
+		<description>
+		    Gets county region IDs for county IDs.
+		</description>
+		<statement>
+		  	SELECT
+		  		rr.RGN_ID
+		  	FROM RCVR_RGN rr
+		  	WHERE rr.CNTY IN ( SELECT c.CNTY_NAM FROM CNTY c WHERE c.CNTY_ID in (:typeIds) )
+		  	AND rr.CNTY IS NOT NULL
+		  	AND rr.CNSTTNCY IS NULL
+		  	AND rr.WRD IS NULL
+		</statement>
+	</query>
+	<query id="getConstituencyRegioinIdsForConstituencyIds">
+		<description>
+		    Gets constituency region IDs for constituency IDs.
+		</description>
+		<statement>		  	
+			SELECT  
+				rr.RGN_ID 
+			FROM RCVR_RGN rr  
+			WHERE rr.CNSTTNCY IN ( SELECT c.CNSTTNCY_NAM FROM CNSTTNCY c WHERE c.CNSTTNCY_ID in (:typeIds) ) 
+			AND rr.CNTY IS NOT NULL 
+			AND rr.CNSTTNCY IS NOT NULL 
+			AND rr.WRD IS NULL
+		</statement>
+	</query>
+	<query id="getWardsRegioinIdsForWardIds">
+		<description>
+		    Gets ward region IDs for ward IDs.
+		</description>
+		<statement>
+		  	SELECT rr.RGN_ID FROM RCVR_RGN rr WHERE rr.WRD IN ( SELECT c.WRD_NAM FROM CNSTTNCY_WRD c WHERE c.WRD_ID in (:typeIds) )
+		</statement>
+	</query>
+	<query id="getCountyJsons">
+		<description>
+		    Gets county jsons - reused dynamically by other queries
+		</description>
+		<statement>
+		  	SELECT
+				c.CNTY_ID,
+				c.CNTRY_ID,
+				c.STATE_ID,
+				c.CNTY_NAM,
+				c.MAP_DTS,
+				c.HS_STATE,
+				c.HNTR_PPLTN,
+				c.CNTY_CPTL,
+				c.CNTY_CDE,
+				TO_CHAR(c.CRET_DATE, 'yyyy-MM-dd HH:mm:ss')"CRET_DATE",
+				c.CRTD_BY,
+				TO_CHAR(c.LST_UPDT_DATE, 'yyyy-MM-dd HH:mm:ss')"LST_UPDT_DATE",
+				c.LST_UPDTD_BY
+			FROM CNTY c 
+			WHERE c.CNTRY_ID = ? 
 		</statement>
 	</query>
 	<query id="getAllTasksForGridQuery">

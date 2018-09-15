@@ -17,7 +17,7 @@ public enum GridQueryOrderDirEnum {
 	
 	
 	public static GridQueryOrderDirEnum getEnumForName( String name ) {
-		return Arrays.stream(values()).filter( g -> g.name.equals(name) ).findFirst().get();
+		return name == null ? null : Arrays.stream(values()).filter( g -> g.name.equals(name) ).findFirst().get();
 	}
 	
 	public String getName() {

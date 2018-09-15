@@ -43,6 +43,7 @@ public interface TaskManager {
 	public int getTaskGroupTotalNumber(Long taskId);
 	public TaskHistory getNewTaskHistoryForEventName(Long taskId, String evenName, String eventUser);
 	public void setTaskHistoryStatusAndMessage(TaskHistory taskHistory,String eventStatus, String message);
+	public void saveTaskHitory( TaskHistory taskHistory, String message, String status );
 	public boolean userHasRole(String roleName, String userName);
 	public String deleteTask(Long taskId);
 	public TextMessage getDefaultTextMessage(Task task, AuditInfo auditInfo);

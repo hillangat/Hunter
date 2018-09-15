@@ -24,7 +24,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.techmaster.hunter.angular.data.AngularData;
 import com.techmaster.hunter.angular.data.HunterAngularDataHelper;
 import com.techmaster.hunter.angular.grid.GridQueryHandler;
-import com.techmaster.hunter.angular.imports._2017.VoterCountImport2017;
 import com.techmaster.hunter.constants.HunterConstants;
 import com.techmaster.hunter.constants.HunterDaoConstants;
 import com.techmaster.hunter.constants.HunterURLConstants;

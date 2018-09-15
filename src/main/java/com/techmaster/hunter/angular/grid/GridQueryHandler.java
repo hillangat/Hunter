@@ -8,7 +8,6 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.log4j.Logger;
 import org.json.JSONArray;
 import org.json.JSONObject;
-import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
@@ -47,7 +46,7 @@ public class GridQueryHandler {
 		
 		int total = 0;
 		
-		if ( HunterUtility.isCollectionNotEmpty( rowMapList ) && HunterUtility.notNullNotEmpty( rowMapList.get(0).get(HunterDaoConstants.GRID_DATA_COUNT) ) ) {
+		if ( HunterUtility.isCollNotEmpty( rowMapList ) && HunterUtility.notNullNotEmpty( rowMapList.get(0).get(HunterDaoConstants.GRID_DATA_COUNT) ) ) {
 			total = Integer.valueOf(rowMapList.get(0).get(HunterDaoConstants.GRID_DATA_COUNT).toString());
 			if ( req.getPageNo() * req.getPageSize() > total ) {
 				req.setPageNo(1);
@@ -73,10 +72,30 @@ public class GridQueryHandler {
 		return instance;
 	}
 	
+	public String replaceQuestionMarks(String query, Object value) {
+		int index = query.indexOf("?");
+		logger.debug("Replacing next parameter parameter: " + value.toString() + ", on the query: \n " + query);
+		if (index >= 0) {
+			String part1 = query.substring(0,  index - 1);
+			String part2 = query.substring(index + 1,  query.length());
+			String finalQuery = part1 + ( HunterUtility.isNumeric(value) ? value.toString() : " '" + value.toString() + "' " ) + part2;
+			logger.debug("After replacement: \n " + finalQuery);
+			return finalQuery;
+		} else {
+			return query;
+		}
+	}
+	
 	public <T> String createQueryFromReq( HttpServletRequest request, GridDataQueryReq req, List<T> valueList ) {
 		String queryId = getReferenceQueryId( req );
 		String query = HunterDaoFactory.getObject(HunterJDBCExecutor.class).getQueryForSqlId( queryId );
-		String whereAndGroupByClause = createWhereAngGroupClause(req, query );
+		if (HunterUtility.isCollNotEmpty(valueList) && replaceValuesFirst(req)) {
+			for( Object value : valueList ) {
+				query = replaceQuestionMarks(query, value);
+			}
+			valueList.clear(); // so it does not cause invalid column index exception
+		}
+		String whereAndGroupByClause = createWhereAndGroupClause(req, query );
 		query = query + " " + whereAndGroupByClause;
 		String finalQuery = addWithClause(query, valueList, req);
 		this.logger.debug("finalQuery >>> " + finalQuery );
@@ -101,7 +120,7 @@ public class GridQueryHandler {
 			query = query.replaceAll("=\\t", "=");
 			query = query.replaceAll("\\t=", "=");
 		}
-		if ( HunterUtility.isArrayNotEmpty(req.getColSensitiveCols()) ) {
+		if ( HunterUtility.isArrNotEmpty(req.getColSensitiveCols()) ) {
 			for( int i = 0; i < req.getColSensitiveCols().length; i++ ) {
 				String col = req.getColSensitiveCols()[i];
 				String valAndParam = col + "=" + "?";
@@ -143,7 +162,7 @@ public class GridQueryHandler {
 	}
 	
 	private boolean addWhereClause( String query, GridFieldUserInput filters[] ) {
-		if ( !HunterUtility.isArrayNotEmpty(filters) ) {
+		if ( !HunterUtility.isArrNotEmpty(filters) ) {
 			return false;
 		}
 		int whereMarkIndex = query.toLowerCase().lastIndexOf("where");
@@ -160,10 +179,10 @@ public class GridQueryHandler {
 		return true;
 	}
 	
-	public String createWhereAngGroupClause( GridDataQueryReq req, String query ) {
+	public String createWhereAndGroupClause( GridDataQueryReq req, String query ) {
 		StringBuilder builder = new StringBuilder();
 		if ( req != null ) {
-			if ( HunterUtility.isArrayNotEmpty(req.getFilterBy()) ) {
+			if ( HunterUtility.isArrNotEmpty(req.getFilterBy()) ) {
 				boolean addWhereClause =  addWhereClause(query, req.getFilterBy());
 				if ( addWhereClause ) {
 					builder.append(" WHERE ");
@@ -181,7 +200,7 @@ public class GridQueryHandler {
 					}
 				}
 			}
-			if ( HunterUtility.isArrayNotEmpty(req.getOrderBy()) ) {
+			if ( HunterUtility.isArrNotEmpty(req.getOrderBy()) ) {
 				builder.append(" ORDER BY ");
 				for( int i = 0; req.getOrderBy() != null && i < req.getOrderBy().length; i++  ) {
 					GridFieldUserInput orderBy = req.getOrderBy()[i];
@@ -204,10 +223,18 @@ public class GridQueryHandler {
 		NodeList references = getReferences(req);
 		if ( HunterUtility.isNodeListNotEmptpy(references) ) { 
 			Node reference = references.item(0);
-			String queryId = reference.getAttributes().getNamedItem("queryId").getTextContent().toString();
-			return queryId;
+			return HunterUtility.getNodeAttr(reference, "queryId", String.class);
 		}
 		return null;
+	}
+	
+	private boolean replaceValuesFirst( GridDataQueryReq req ) {
+		NodeList references = getReferences(req);
+		if ( HunterUtility.isNodeListNotEmptpy(references) ) { 
+			Node reference = references.item(0);
+			return HunterUtility.getNodeAttr(reference, "replaceValuesFirst", Boolean.class);
+		}
+		return false;
 	}
 	
 	private NodeList getReferences( GridDataQueryReq req ) {
@@ -218,14 +245,8 @@ public class GridQueryHandler {
 	}
 	
 	private void setCntSnstvCols( GridDataQueryReq req, Node reference ) {
-		NamedNodeMap attrs = reference.getAttributes();
-		if ( attrs != null && attrs.getLength() > 0 ) {
-			Node cntSnstvColsNode = attrs.getNamedItem("countSensitiveCols");
-			if ( cntSnstvColsNode != null ) {
-				String cntSnstvColsStr = cntSnstvColsNode.getTextContent().trim();
-				req.setColSensitiveCols( cntSnstvColsStr.split(",") ); 
-			}
-		}
+		String cntSnstvColsStr = HunterUtility.getNodeAttr(reference, "countSensitiveCols", String.class);
+		req.setColSensitiveCols( null == cntSnstvColsStr ? null : cntSnstvColsStr.split(",") ); 
 	}
 	
 	public GridDataQueryReq setDbNamesAndCntSnstvCols( GridDataQueryReq req ) {
@@ -234,16 +255,16 @@ public class GridQueryHandler {
 			for( int i = 0 ; i < references.getLength(); i++ ) {
 				Node reference = references.item(i);
 				setCntSnstvCols(req, reference);
-				String tableName = reference.getAttributes().getNamedItem("table").toString();
-				String alias = reference.getAttributes().getNamedItem("alias").toString();
+				String tableName = HunterUtility.getNodeAttr(reference, "table", String.class);
+				String alias = HunterUtility.getNodeAttr(reference, "alias", String.class);
 				this.logger.debug("tableName = " + tableName + ", alias = " + alias);
 				NodeList fields = reference.getChildNodes();
 				if ( HunterUtility.isNodeListNotEmptpy(references) ) {
 					for( int j = 0 ; j < fields.getLength(); j++ ) {
 						Node field = fields.item(j);
 						if ( !field.getNodeName().equals("#text") ) {
-							String uiName = field.getAttributes().getNamedItem("ui").getTextContent().toString();
-							String dbName = field.getAttributes().getNamedItem("db").getTextContent().toString();
+							String uiName = HunterUtility.getNodeAttr(field, "ui", String.class);
+							String dbName = HunterUtility.getNodeAttr(field, "db", String.class);
 							for ( GridFieldUserInput filter : req.getFilterBy() ) {
 								if ( uiName.equals(filter.getFieldName()) ) {
 									filter.setDbName(dbName);
@@ -327,8 +348,8 @@ public class GridQueryHandler {
 			for( int j= 0 ; fields != null && j < fields.getLength(); j++ ) {
 				Node field = fields.item(j);
 				if ( !field.getNodeName().equals("#text") ) {
-					String uiName = field.getAttributes().getNamedItem("ui").getTextContent().toString();
-					String alias = field.getAttributes().getNamedItem("alias").getTextContent().toString();
+					String uiName = HunterUtility.getNodeAttr(field, "ui", String.class);
+					String alias = HunterUtility.getNodeAttr(field, "alias", String.class);
 					if ( fieldName.equals(uiName) ) {
 						filter.setFieldAlias(alias);
 					}

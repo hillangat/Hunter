@@ -324,7 +324,7 @@ public class GateWayClientHelper {
 			for(int i=0; i<configs.getLength();i++){
 				Node prop = configs.item(i);
 				if(prop.getNodeName().equals("prop")){
-					String name = prop.getAttributes().getNamedItem("name").getTextContent();
+					String name = HunterUtility.getNodeAttr(prop, "name", String.class);;
 					String value = prop.getTextContent();
 					props.setProperty(name, value);
 				}
@@ -374,7 +374,7 @@ public class GateWayClientHelper {
 		for(int i=0; i<props.getLength();i++){
 			Node prop = props.item(i);
 			if(prop.getNodeName().equals("prop")){
-				String name = prop.getAttributes().getNamedItem("name").getTextContent();
+				String name = HunterUtility.getNodeAttr(prop, "name", String.class);
 				String value = prop.getTextContent();
 				propsMap.put(name, value);
 			}
@@ -392,7 +392,7 @@ public class GateWayClientHelper {
 		for(int i=0; i<configs.getLength();i++){
 			Node prop = configs.item(i);
 			if(prop.getNodeName().equals("prop")){
-				String name = prop.getAttributes().getNamedItem("name").getTextContent();
+				String name = HunterUtility.getNodeAttr(prop, "name", String.class);
 				String value = prop.getTextContent();
 				props.put(name, value);
 			}

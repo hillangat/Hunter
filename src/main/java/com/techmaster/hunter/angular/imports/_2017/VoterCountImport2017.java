@@ -10,7 +10,6 @@ import java.util.stream.Collectors;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import com.techmaster.hunter.angular.imports.helper.ImportHelper;
 import com.techmaster.hunter.dao.impl.HunterDaoFactory;
 import com.techmaster.hunter.dao.types.HunterJDBCExecutor;
 import com.techmaster.hunter.obj.beans.Constituency;
@@ -119,7 +118,7 @@ public class VoterCountImport2017 implements ImportHelper {
 		if ( victim.contains(chr) ) {
 			String parts[] = victim.split(chr);
 			StringBuilder builder = new StringBuilder();
-			Arrays.asList(parts).stream().forEach(p -> builder.append(HunterUtility.getFirstUpperCase(p)).append(chr));
+			Arrays.stream(parts).forEach(p -> builder.append(HunterUtility.getFirstUpperCase(p)).append(chr));
 			String finalStr = builder.toString();
 			finalStr = finalStr.substring(0, finalStr.length()-1);
 			finalized = finalStr;

@@ -105,9 +105,13 @@ public class MessageConstroller extends HunterBaseController implements ServletC
 		try {
 			AngularTaskMessage taskMessage = new AngularTaskMessage();
 			Message message = HunterDaoFactory.getObject(MessageDao.class).getMessageById(taskId);
-			if ( null != message )
+			if ( null != message ) {
 				BeanUtils.copyProperties(message, taskMessage);
-			taskMessage.setProvider(message.getProvider());
+				taskMessage.setProvider(message.getProvider());
+				if ( HunterConstants.MESSAGE_TYPE_TEXT.equalsIgnoreCase(taskMessage.getMsgTaskType()) ) {
+					taskMessage.setPageable( ( Boolean.toString(((TextMessage)message).isPageable())));
+				}
+			}
 			List<AngularTaskMessage> messageList = Arrays.asList( new AngularTaskMessage[] { taskMessage } );
 			return HunterAngularDataHelper.getIntance().getDataBean(messageList, null);
 		} catch (Exception e) {
@@ -124,10 +128,13 @@ public class MessageConstroller extends HunterBaseController implements ServletC
 		logger.debug("Creating text message from json...");
 		String requestBody = null;
 		
+		TaskHistory taskHistory = taskManager.getNewTaskHistoryForEventName(taskId, TaskHistoryEventEnum.ADD_MESSAGE.getEventName(), getUserName());
+		
 		try {
 			requestBody = HunterUtility.getRequestBodyAsString(request);
 		} catch (IOException e) {
 			e.printStackTrace();
+			taskManager.saveTaskHitory(taskHistory, e.getMessage(), HunterConstants.STATUS_FAILED);
 		}
 		
 		String tskMsgType = taskDao.getTaskMsgType(taskId);
@@ -139,13 +146,17 @@ public class MessageConstroller extends HunterBaseController implements ServletC
 			message = taskManager.convertTextMessage(requestBody);
 			message.setMsgTaskType(tskMsgType);
 		}else {
-			throw new HunterRunTimeException("No data found for taskId : " + taskId + " and message \n " + message);
+			String error = "Task message type not supported at the moment : " + tskMsgType + " and message";
+			taskManager.saveTaskHitory(taskHistory, error, HunterConstants.STATUS_FAILED);
+			throw new HunterRunTimeException(error);
 		}
 		
 		logger.debug("Task Message obtained >> " + message);
 		Task task = taskDao.getTaskById(taskId);
 		
-		if(task.getTaskMessage() != null){
+		boolean hasMessage = task.getTaskMessage() != null;
+		
+		if(hasMessage){
 			message.setMsgId(taskId); 
 			messageDao.updateMessage(message); 
 		}else{
@@ -156,6 +167,7 @@ public class MessageConstroller extends HunterBaseController implements ServletC
 		
 		List<Message> messages = new ArrayList<>();
 		messages.add(message);
+		taskManager.saveTaskHitory(taskHistory, "Successfully " + ( !hasMessage ? "added" : "updated" ) + " message to task.", HunterConstants.STATUS_SUCCESS);
 		return HunterAngularDataHelper.getIntance().getDataBean(messages, null);
 	}
 	
@@ -539,7 +551,7 @@ public class MessageConstroller extends HunterBaseController implements ServletC
 			
 			String cdetails = hunterJDBCExecutor.getQueryForSqlId("getTaskHunterClientDetails");
 			List<Map<String, Object>> rowMapList = hunterJDBCExecutor.executeQueryRowMap(cdetails, values);
-			String clientName = HunterUtility.getStringOrNullOfObj(HunterUtility.isCollectionNotEmpty(rowMapList) ? rowMapList.get(0).get("USR_NAM") : null); 
+			String clientName = HunterUtility.getStringOrNullOfObj(HunterUtility.isCollNotEmpty(rowMapList) ? rowMapList.get(0).get("USR_NAM") : null); 
 			socialMedia.setClientName(clientName);
 			
 			socialMessage.setUseRemoteMedia( false );

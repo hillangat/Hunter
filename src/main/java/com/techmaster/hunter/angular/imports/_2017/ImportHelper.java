@@ -1,4 +1,4 @@
-package com.techmaster.hunter.angular.imports.helper;
+package com.techmaster.hunter.angular.imports._2017;
 
 public interface ImportHelper {
 	

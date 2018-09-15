@@ -650,4 +650,538 @@
          <prop key="currentOrder" value="false" />
       </field>
    </header>
+   <header name="receiver-regions">
+      <field name="value">
+         <prop key="displayName" value="Value" />
+         <prop key="dataType" value="string" />
+         <prop key="show" value="true" />
+         <prop key="index" value="0" />
+         <prop key="bootstrapIconName" value="null" />
+         <prop key="sortable" value="false" />
+         <prop key="headerId" value="value" />
+         <prop key="dataId" value="value" />
+         <prop key="actionColIconName" value="null" />
+         <prop key="actionCellType" value="text" />
+         <prop key="width" value="80px" />
+         <prop key="checkBox" value="false" />
+         <prop key="actionCol" value="false" />
+         <prop key="currentOrder" value="false" />
+      </field>
+      <field name="text">
+         <prop key="displayName" value="Text" />
+         <prop key="dataType" value="string" />
+         <prop key="show" value="true" />
+         <prop key="index" value="0" />
+         <prop key="bootstrapIconName" value="null" />
+         <prop key="sortable" value="false" />
+         <prop key="headerId" value="text" />
+         <prop key="dataId" value="text" />
+         <prop key="actionColIconName" value="null" />
+         <prop key="actionCellType" value="text" />
+         <prop key="width" value="80px" />
+         <prop key="checkBox" value="false" />
+         <prop key="actionCol" value="false" />
+         <prop key="currentOrder" value="false" />
+      </field>
+   </header>
+   <header name="county-jsons">
+      <field name="countyId">
+         <prop key="displayName" value="ID" />
+         <prop key="dataType" value="string" />
+         <prop key="show" value="true" />
+         <prop key="index" value="0" />
+         <prop key="bootstrapIconName" value="null" />
+         <prop key="sortable" value="" />
+         <prop key="headerId" value="countyId" />
+         <prop key="dataId" value="countyId" />
+         <prop key="actionColIconName" value="null" />
+         <prop key="actionCellType" value="text" />
+         <prop key="width" value="15px" />
+         <prop key="checkBox" value="true" />
+         <prop key="actionCol" value="false" />
+         <prop key="currentOrder" value="false" />
+      </field>
+      <field name="countyName">
+         <prop key="displayName" value="County Name" />
+         <prop key="dataType" value="string" />
+         <prop key="show" value="true" />
+         <prop key="index" value="1" />
+         <prop key="bootstrapIconName" value="null" />
+         <prop key="sortable" value="true" />
+         <prop key="headerId" value="countyName" />
+         <prop key="dataId" value="countyName" />
+         <prop key="actionColIconName" value="null" />
+         <prop key="actionCellType" value="text" />
+         <prop key="width" value="80px" />
+         <prop key="checkBox" value="false" />
+         <prop key="actionCol" value="false" />
+         <prop key="currentOrder" value="false" />
+      </field>
+      <field name="countyPopulation">
+         <prop key="displayName" value="Total Population" />
+         <prop key="dataType" value="number" />
+         <prop key="show" value="true" />
+         <prop key="index" value="2" />
+         <prop key="bootstrapIconName" value="null" />
+         <prop key="sortable" value="true" />
+         <prop key="headerId" value="countyPopulation" />
+         <prop key="dataId" value="countyPopulation" />
+         <prop key="actionColIconName" value="null" />
+         <prop key="actionCellType" value="text" />
+         <prop key="width" value="80px" />
+         <prop key="checkBox" value="false" />
+         <prop key="actionCol" value="false" />
+         <prop key="currentOrder" value="false" />
+      </field>
+      <field name="hunterPopulation">
+         <prop key="displayName" value="Hunter Population" />
+         <prop key="dataType" value="number" />
+         <prop key="show" value="true" />
+         <prop key="index" value="3" />
+         <prop key="bootstrapIconName" value="null" />
+         <prop key="sortable" value="true" />
+         <prop key="headerId" value="hunterPopulation" />
+         <prop key="dataId" value="hunterPopulation" />
+         <prop key="actionColIconName" value="null" />
+         <prop key="actionCellType" value="text" />
+         <prop key="width" value="80px" />
+         <prop key="checkBox" value="false" />
+         <prop key="actionCol" value="false" />
+         <prop key="currentOrder" value="false" />
+      </field>
+      <field name="hasState">
+         <prop key="displayName" value="Has State" />
+         <prop key="dataType" value="boolean" />
+         <prop key="show" value="false" />
+         <prop key="index" value="4" />
+         <prop key="bootstrapIconName" value="null" />
+         <prop key="sortable" value="true" />
+         <prop key="headerId" value="hasState" />
+         <prop key="dataId" value="hasState" />
+         <prop key="actionColIconName" value="null" />
+         <prop key="actionCellType" value="text" />
+         <prop key="width" value="80px" />
+         <prop key="checkBox" value="false" />
+         <prop key="actionCol" value="false" />
+         <prop key="currentOrder" value="false" />
+      </field>
+      <field name="mapDots">
+         <prop key="displayName" value="Map Dots" />
+         <prop key="dataType" value="string" />
+         <prop key="show" value="false" />
+         <prop key="index" value="5" />
+         <prop key="bootstrapIconName" value="null" />
+         <prop key="sortable" value="true" />
+         <prop key="headerId" value="mapDots" />
+         <prop key="dataId" value="mapDots" />
+         <prop key="actionColIconName" value="null" />
+         <prop key="actionCellType" value="text" />
+         <prop key="width" value="80px" />
+         <prop key="checkBox" value="false" />
+         <prop key="actionCol" value="false" />
+         <prop key="currentOrder" value="false" />
+      </field>
+      <field name="stateId">
+         <prop key="displayName" value="State ID" />
+         <prop key="dataType" value="number" />
+         <prop key="show" value="false" />
+         <prop key="index" value="6" />
+         <prop key="bootstrapIconName" value="null" />
+         <prop key="sortable" value="true" />
+         <prop key="headerId" value="stateId" />
+         <prop key="dataId" value="stateId" />
+         <prop key="actionColIconName" value="null" />
+         <prop key="actionCellType" value="text" />
+         <prop key="width" value="80px" />
+         <prop key="checkBox" value="false" />
+         <prop key="actionCol" value="false" />
+         <prop key="currentOrder" value="false" />
+      </field>
+      <field name="countryId">
+         <prop key="displayName" value="Country ID" />
+         <prop key="dataType" value="number" />
+         <prop key="show" value="false" />
+         <prop key="index" value="7" />
+         <prop key="bootstrapIconName" value="null" />
+         <prop key="sortable" value="true" />
+         <prop key="headerId" value="countryId" />
+         <prop key="dataId" value="countryId" />
+         <prop key="actionColIconName" value="null" />
+         <prop key="actionCellType" value="text" />
+         <prop key="width" value="80px" />
+         <prop key="checkBox" value="false" />
+         <prop key="actionCol" value="false" />
+         <prop key="currentOrder" value="false" />
+      </field>
+      <field name="countyCode">
+         <prop key="displayName" value="County Code" />
+         <prop key="dataType" value="string" />
+         <prop key="show" value="true" />
+         <prop key="index" value="8" />
+         <prop key="bootstrapIconName" value="null" />
+         <prop key="sortable" value="true" />
+         <prop key="headerId" value="countyCode" />
+         <prop key="dataId" value="countyCode" />
+         <prop key="actionColIconName" value="null" />
+         <prop key="actionCellType" value="text" />
+         <prop key="width" value="80px" />
+         <prop key="checkBox" value="false" />
+         <prop key="actionCol" value="false" />
+         <prop key="currentOrder" value="false" />
+      </field>
+      <field name="cretDate">
+         <prop key="displayName" value="Created On" />
+         <prop key="dataType" value="string" />
+         <prop key="show" value="true" />
+         <prop key="index" value="9" />
+         <prop key="bootstrapIconName" value="null" />
+         <prop key="sortable" value="true" />
+         <prop key="headerId" value="cretDate" />
+         <prop key="dataId" value="cretDate" />
+         <prop key="actionColIconName" value="null" />
+         <prop key="actionCellType" value="text" />
+         <prop key="width" value="80px" />
+         <prop key="checkBox" value="false" />
+         <prop key="actionCol" value="false" />
+         <prop key="currentOrder" value="false" />
+      </field>
+      <field name="createdBy">
+         <prop key="displayName" value="Created By" />
+         <prop key="dataType" value="string" />
+         <prop key="show" value="true" />
+         <prop key="index" value="10" />
+         <prop key="bootstrapIconName" value="null" />
+         <prop key="sortable" value="true" />
+         <prop key="headerId" value="createdBy" />
+         <prop key="dataId" value="createdBy" />
+         <prop key="actionColIconName" value="null" />
+         <prop key="actionCellType" value="text" />
+         <prop key="width" value="80px" />
+         <prop key="checkBox" value="false" />
+         <prop key="actionCol" value="false" />
+         <prop key="currentOrder" value="false" />
+      </field>
+      <field name="lastUpdate">
+         <prop key="displayName" value="Updated On" />
+         <prop key="dataType" value="string" />
+         <prop key="show" value="true" />
+         <prop key="index" value="11" />
+         <prop key="bootstrapIconName" value="null" />
+         <prop key="sortable" value="true" />
+         <prop key="headerId" value="lastUpdate" />
+         <prop key="dataId" value="lastUpdate" />
+         <prop key="actionColIconName" value="null" />
+         <prop key="actionCellType" value="text" />
+         <prop key="width" value="80px" />
+         <prop key="checkBox" value="false" />
+         <prop key="actionCol" value="false" />
+         <prop key="currentOrder" value="false" />
+      </field>
+      <field name="lastUpdatedBy">
+         <prop key="displayName" value="Updated By" />
+         <prop key="dataType" value="string" />
+         <prop key="show" value="true" />
+         <prop key="index" value="12" />
+         <prop key="bootstrapIconName" value="null" />
+         <prop key="sortable" value="true" />
+         <prop key="headerId" value="lastUpdatedBy" />
+         <prop key="dataId" value="lastUpdatedBy" />
+         <prop key="actionColIconName" value="null" />
+         <prop key="actionCellType" value="text" />
+         <prop key="width" value="80px" />
+         <prop key="checkBox" value="false" />
+         <prop key="actionCol" value="false" />
+         <prop key="currentOrder" value="false" />
+      </field>
+   </header>
+   <header name="task-regions">
+		<field name="regionId">
+			<prop key="displayName" value="ID" />
+			<prop key="dataType" value="string" />
+			<prop key="show" value="true" />
+			<prop key="index" value="0" />
+			<prop key="bootstrapIconName" value="null" />
+			<prop key="sortable" value="true" />
+			<prop key="headerId" value="regionId" />
+			<prop key="dataId" value="regionId" />
+			<prop key="actionColIconName" value="null" />
+			<prop key="actionCellType" value="text" />
+			<prop key="width" value="80px" />
+			<prop key="checkBox" value="true" />
+			<prop key="actionCol" value="false" />
+			<prop key="currentOrder" value="false" />
+		</field>
+		<field name="country">
+			<prop key="displayName" value="Country" />
+			<prop key="dataType" value="string" />
+			<prop key="show" value="true" />
+			<prop key="index" value="1" />
+			<prop key="bootstrapIconName" value="null" />
+			<prop key="sortable" value="true" />
+			<prop key="headerId" value="country" />
+			<prop key="dataId" value="country" />
+			<prop key="actionColIconName" value="null" />
+			<prop key="actionCellType" value="text" />
+			<prop key="width" value="80px" />
+			<prop key="checkBox" value="false" />
+			<prop key="actionCol" value="false" />
+			<prop key="currentOrder" value="false" />
+		</field>
+		<field name="state">
+			<prop key="displayName" value="State" />
+			<prop key="dataType" value="string" />
+			<prop key="show" value="false" />
+			<prop key="index" value="2" />
+			<prop key="bootstrapIconName" value="null" />
+			<prop key="sortable" value="true" />
+			<prop key="headerId" value="state" />
+			<prop key="dataId" value="state" />
+			<prop key="actionColIconName" value="null" />
+			<prop key="actionCellType" value="text" />
+			<prop key="width" value="80px" />
+			<prop key="checkBox" value="false" />
+			<prop key="actionCol" value="false" />
+			<prop key="currentOrder" value="false" />
+		</field>
+		<field name="hasState">
+			<prop key="displayName" value="Has State" />
+			<prop key="dataType" value="boolean" />
+			<prop key="show" value="false" />
+			<prop key="index" value="2" />
+			<prop key="bootstrapIconName" value="null" />
+			<prop key="sortable" value="true" />
+			<prop key="headerId" value="hasState" />
+			<prop key="dataId" value="hasState" />
+			<prop key="actionColIconName" value="null" />
+			<prop key="actionCellType" value="text" />
+			<prop key="width" value="80px" />
+			<prop key="checkBox" value="false" />
+			<prop key="actionCol" value="false" />
+			<prop key="currentOrder" value="false" />
+		</field>
+		<field name="county">
+			<prop key="displayName" value="County" />
+			<prop key="dataType" value="string" />
+			<prop key="show" value="true" />
+			<prop key="index" value="3" />
+			<prop key="bootstrapIconName" value="null" />
+			<prop key="sortable" value="true" />
+			<prop key="headerId" value="county" />
+			<prop key="dataId" value="county" />
+			<prop key="actionColIconName" value="null" />
+			<prop key="actionCellType" value="text" />
+			<prop key="width" value="80px" />
+			<prop key="checkBox" value="false" />
+			<prop key="actionCol" value="false" />
+			<prop key="currentOrder" value="false" />
+		</field>
+		<field name="constituency">
+			<prop key="displayName" value="Constituency" />
+			<prop key="dataType" value="string" />
+			<prop key="show" value="true" />
+			<prop key="index" value="4" />
+			<prop key="bootstrapIconName" value="null" />
+			<prop key="sortable" value="true" />
+			<prop key="headerId" value="constituency" />
+			<prop key="dataId" value="constituency" />
+			<prop key="actionColIconName" value="null" />
+			<prop key="actionCellType" value="text" />
+			<prop key="width" value="80px" />
+			<prop key="checkBox" value="false" />
+			<prop key="actionCol" value="false" />
+			<prop key="currentOrder" value="false" />
+		</field>
+		<field name="city">
+			<prop key="displayName" value="City" />
+			<prop key="dataType" value="string" />
+			<prop key="show" value="true" />
+			<prop key="index" value="5" />
+			<prop key="bootstrapIconName" value="null" />
+			<prop key="sortable" value="true" />
+			<prop key="headerId" value="city" />
+			<prop key="dataId" value="city" />
+			<prop key="actionColIconName" value="null" />
+			<prop key="actionCellType" value="text" />
+			<prop key="width" value="80px" />
+			<prop key="checkBox" value="false" />
+			<prop key="actionCol" value="false" />
+			<prop key="currentOrder" value="false" />
+		</field>
+		<field name="ward">
+			<prop key="displayName" value="Ward" />
+			<prop key="dataType" value="string" />
+			<prop key="show" value="true" />
+			<prop key="index" value="6" />
+			<prop key="bootstrapIconName" value="null" />
+			<prop key="sortable" value="true" />
+			<prop key="headerId" value="ward" />
+			<prop key="dataId" value="ward" />
+			<prop key="actionColIconName" value="null" />
+			<prop key="actionCellType" value="text" />
+			<prop key="width" value="80px" />
+			<prop key="checkBox" value="false" />
+			<prop key="actionCol" value="false" />
+			<prop key="currentOrder" value="false" />
+		</field>
+		<field name="village">
+			<prop key="displayName" value="Village" />
+			<prop key="dataType" value="string" />
+			<prop key="show" value="true" />
+			<prop key="index" value="7" />
+			<prop key="bootstrapIconName" value="null" />
+			<prop key="sortable" value="true" />
+			<prop key="headerId" value="village" />
+			<prop key="dataId" value="village" />
+			<prop key="actionColIconName" value="null" />
+			<prop key="actionCellType" value="text" />
+			<prop key="width" value="80px" />
+			<prop key="checkBox" value="false" />
+			<prop key="actionCol" value="false" />
+			<prop key="currentOrder" value="false" />
+		</field>
+		<field name="longitude">
+			<prop key="displayName" value="Longitude" />
+			<prop key="dataType" value="number" />
+			<prop key="show" value="true" />
+			<prop key="index" value="8" />
+			<prop key="bootstrapIconName" value="null" />
+			<prop key="sortable" value="true" />
+			<prop key="headerId" value="longitude" />
+			<prop key="dataId" value="longitude" />
+			<prop key="actionColIconName" value="null" />
+			<prop key="actionCellType" value="text" />
+			<prop key="width" value="80px" />
+			<prop key="checkBox" value="false" />
+			<prop key="actionCol" value="false" />
+			<prop key="currentOrder" value="false" />
+		</field>
+		<field name="latitude">
+			<prop key="displayName" value="Latitude" />
+			<prop key="dataType" value="number" />
+			<prop key="show" value="true" />
+			<prop key="index" value="9" />
+			<prop key="bootstrapIconName" value="null" />
+			<prop key="sortable" value="true" />
+			<prop key="headerId" value="latitude" />
+			<prop key="dataId" value="latitude" />
+			<prop key="actionColIconName" value="null" />
+			<prop key="actionCellType" value="text" />
+			<prop key="width" value="80px" />
+			<prop key="checkBox" value="false" />
+			<prop key="actionCol" value="false" />
+			<prop key="currentOrder" value="false" />
+		</field>
+		<field name="currentLevel">
+			<prop key="displayName" value="Current Level" />
+			<prop key="dataType" value="number" />
+			<prop key="show" value="true" />
+			<prop key="index" value="10" />
+			<prop key="bootstrapIconName" value="null" />
+			<prop key="sortable" value="true" />
+			<prop key="headerId" value="currentLevel" />
+			<prop key="dataId" value="currentLevel" />
+			<prop key="actionColIconName" value="null" />
+			<prop key="actionCellType" value="text" />
+			<prop key="width" value="80px" />
+			<prop key="checkBox" value="false" />
+			<prop key="actionCol" value="false" />
+			<prop key="currentOrder" value="false" />
+		</field>
+		<field name="borderLongLats">
+			<prop key="displayName" value="Border Coordinates" />
+			<prop key="dataType" value="string" />
+			<prop key="show" value="false" />
+			<prop key="index" value="11" />
+			<prop key="bootstrapIconName" value="null" />
+			<prop key="sortable" value="true" />
+			<prop key="headerId" value="borderLongLats" />
+			<prop key="dataId" value="borderLongLats" />
+			<prop key="actionColIconName" value="null" />
+			<prop key="actionCellType" value="text" />
+			<prop key="width" value="80px" />
+			<prop key="checkBox" value="false" />
+			<prop key="actionCol" value="false" />
+			<prop key="currentOrder" value="false" />
+		</field>
+		<field name="receiverCount">
+			<prop key="displayName" value="Receiver Count" />
+			<prop key="dataType" value="string" />
+			<prop key="show" value="false" />
+			<prop key="index" value="12" />
+			<prop key="bootstrapIconName" value="null" />
+			<prop key="sortable" value="true" />
+			<prop key="headerId" value="receiverCount" />
+			<prop key="dataId" value="receiverCount" />
+			<prop key="actionColIconName" value="null" />
+			<prop key="actionCellType" value="text" />
+			<prop key="width" value="80px" />
+			<prop key="checkBox" value="false" />
+			<prop key="actionCol" value="false" />
+			<prop key="currentOrder" value="false" />
+		</field>
+		<field name="cretDate">
+			<prop key="displayName" value="Created On" />
+			<prop key="dataType" value="dateNumber" />
+			<prop key="show" value="true" />
+			<prop key="index" value="13" />
+			<prop key="bootstrapIconName" value="null" />
+			<prop key="sortable" value="false" />
+			<prop key="headerId" value="cretDate" />
+			<prop key="dataId" value="cretDate" />
+			<prop key="actionColIconName" value="null" />
+			<prop key="actionCellType" value="text" />
+			<prop key="width" value="null" />
+			<prop key="checkBox" value="false" />
+			<prop key="actionCol" value="false" />
+			<prop key="currentOrder" value="false" />
+		</field>
+		<field name="createdBy">
+			<prop key="displayName" value="Created By" />
+			<prop key="dataType" value="string" />
+			<prop key="show" value="true" />
+			<prop key="index" value="14" />
+			<prop key="bootstrapIconName" value="null" />
+			<prop key="sortable" value="false" />
+			<prop key="headerId" value="createdBy" />
+			<prop key="dataId" value="createdBy" />
+			<prop key="actionColIconName" value="null" />
+			<prop key="actionCellType" value="text" />
+			<prop key="width" value="null" />
+			<prop key="checkBox" value="false" />
+			<prop key="actionCol" value="false" />
+			<prop key="currentOrder" value="false" />
+		</field>
+		<field name="lastUpdate">
+			<prop key="displayName" value="Updated On" />
+			<prop key="dataType" value="dateNumber" />
+			<prop key="show" value="false" />
+			<prop key="index" value="15" />
+			<prop key="bootstrapIconName" value="null" />
+			<prop key="sortable" value="false" />
+			<prop key="headerId" value="lastUpdate" />
+			<prop key="dataId" value="lastUpdate" />
+			<prop key="actionColIconName" value="null" />
+			<prop key="actionCellType" value="text" />
+			<prop key="width" value="null" />
+			<prop key="checkBox" value="false" />
+			<prop key="actionCol" value="false" />
+			<prop key="currentOrder" value="false" />
+		</field>
+		<field name="lastUpdatedBy">
+			<prop key="displayName" value="Updated By" />
+			<prop key="dataType" value="string" />
+			<prop key="show" value="false" />
+			<prop key="index" value="16" />
+			<prop key="bootstrapIconName" value="null" />
+			<prop key="sortable" value="false" />
+			<prop key="headerId" value="lastUpdatedBy" />
+			<prop key="dataId" value="lastUpdatedBy" />
+			<prop key="actionColIconName" value="null" />
+			<prop key="actionCellType" value="text" />
+			<prop key="width" value="null" />
+			<prop key="checkBox" value="false" />
+			<prop key="actionCol" value="false" />
+			<prop key="currentOrder" value="false" />
+		</field>
+   </header>
 </headers>

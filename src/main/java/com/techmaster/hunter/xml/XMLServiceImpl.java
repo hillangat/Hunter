@@ -131,7 +131,7 @@ public class XMLServiceImpl implements XMLService{
 		Document xmlTreeDoc = this.xmlTree.getDoc();
 		NodeList nodeList = xmlTreeDoc.getElementsByTagName(tag);
 		
-		if(nodeList.getLength() >= 1){
+		if(HunterUtility.isNodeListNotEmptpy(nodeList)){
 			Node node = nodeList.item(0);
 			if(node != null){
 				NodeList subNodeList = node.getChildNodes();

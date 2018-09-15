@@ -39,7 +39,7 @@ public class UIMessageHandler {
 		for(int i=0; i<messages.getLength(); i++){
 			Node message = messages.item(i);
 			if(message.getNodeName().equals("message")){
-				String id = message.getAttributes().getNamedItem("id").getTextContent(); 
+				String id = HunterUtility.getNodeAttr(message, "id", String.class); 
 				NodeList metadata = message.getChildNodes();
 				String desc = null;
 				String text = null;

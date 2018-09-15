@@ -92,7 +92,7 @@ public class ExcelExtractorUtil {
 	public String[] extractHeaders(String sheetName,Workbook workbook) {
 		Sheet sheet = workbook.getSheet(sheetName); 
 		Row headerRow = sheet.getRow(0);
-		String[] headers = new String[0];;
+		String[] headers = new String[0];
 		int lastRow = headerRow.getLastCellNum();
 		for(int i=0; i<lastRow ; i++){
 			Cell header = headerRow.getCell(i);

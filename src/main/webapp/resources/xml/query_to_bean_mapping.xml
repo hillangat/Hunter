@@ -89,5 +89,20 @@
 	<map id='HunterSelectValue'>
 		<field dbName='VALUE' 	fieldName='value'  yesNo='no' type='java.lang.String' />
 		<field dbName='TEXT' 	fieldName='text' yesNo='no' type='java.lang.String' />
-	</map>		
+	</map>
+	<map id='CountyJson'>
+		<field dbName='CNTY_ID' 	fieldName='countyId'  yesNo='no' type='java.lang.Long' />
+		<field dbName='CNTRY_ID' 	fieldName='countryId'  yesNo='no' type='java.lang.Long' />
+		<field dbName='STATE_ID' 	fieldName='stateId'  yesNo='no' type='java.lang.Long' />
+		<field dbName='CNTY_NAM' 	fieldName='countyName' yesNo='no' type='java.lang.String' />
+		<field dbName='MAP_DTS' 	fieldName='mapDots'  yesNo='no' type='java.lang.String' />
+		<field dbName='HS_STATE' 	fieldName='hasState' yesNo='true' type='java.lang.String' />
+		<field dbName='HNTR_PPLTN' 	fieldName='hunterPopulation'  yesNo='no' type='java.lang.Integer' />
+		<field dbName='CNTY_CPTL' 	fieldName='countyPopulation'  yesNo='no' type='java.lang.Integer' />
+		<field dbName='CNTY_CDE' 	fieldName='countyCode'  yesNo='no' type='java.lang.String' />		
+		<field dbName='CRET_DATE' 	fieldName='cretDate'  yesNo='no' type='java.lang.String' />
+		<field dbName='CRTD_BY' 	fieldName='lastUpdate'  yesNo='no' type='java.lang.String' />
+		<field dbName='LST_UPDT_DATE' 	fieldName='lastUpdate' yesNo='no' type='java.lang.String' />
+		<field dbName='LST_UPDTD_BY' 	fieldName='lastUpdatedBy' yesNo='no' type='java.lang.String' />
+	</map>
 </maps>

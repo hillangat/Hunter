@@ -191,7 +191,7 @@ public class RawReceiverController extends HunterBaseController{
 			rawReceiverJsons = rawReceiverService.getRawReceiverJsonForDbMap(rowMapList);
 			
 			pagedHunterRawReceiverJson.setData(rawReceiverJsons);;
-			pagedHunterRawReceiverJson.setTotal( HunterUtility.isCollectionNotEmpty( rowMapList ) ? Integer.valueOf( rowMapList.get(0).get("CNT") + "" ) : 0 );
+			pagedHunterRawReceiverJson.setTotal( HunterUtility.isCollNotEmpty( rowMapList ) ? Integer.valueOf( rowMapList.get(0).get("CNT") + "" ) : 0 );
 			
 			return pagedHunterRawReceiverJson;
 			
@@ -259,7 +259,7 @@ public class RawReceiverController extends HunterBaseController{
 		rawReceiverJsons = rawReceiverService.getRawReceiverJsonForDbMap(rowMapList);
 		
 		pagedHunterRawReceiverJson.setData(rawReceiverJsons);;
-		pagedHunterRawReceiverJson.setTotal( HunterUtility.isCollectionNotEmpty( rowMapList ) ? Integer.valueOf( rowMapList.get(0).get("CNT") + "" ) : 0 );
+		pagedHunterRawReceiverJson.setTotal( HunterUtility.isCollNotEmpty( rowMapList ) ? Integer.valueOf( rowMapList.get(0).get("CNT") + "" ) : 0 );
 		
 		return pagedHunterRawReceiverJson;
 		

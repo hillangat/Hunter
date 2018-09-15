@@ -305,7 +305,7 @@ public class HunterCacheUtil {
 		Map<String, String> miscelaneousMap = new HashMap<String, String>();
 		
 		NodeList nodeList = xmlService.getNodeListForPathUsingJavax("//template[@name='"+ templateName +"']/context/miscelaneous/*");
-		if(nodeList != null && nodeList.getLength() >= 1){
+		if(HunterUtility.isNodeListNotEmptpy(nodeList)){
 			for(int i=0; i<nodeList.getLength(); i++){
 				Node node = nodeList.item(i);
 				if(node.getNodeName().equals("config")){
@@ -322,11 +322,11 @@ public class HunterCacheUtil {
 		Map<String, String> attachmentsMap = new HashMap<String, String>();
 		List<String> embeddedAttachments  = new ArrayList<>();
 		
-		if(attachments != null && attachments.getLength() >= 1){
+		if(HunterUtility.isNodeListNotEmptpy(attachments)){
 			for(int i=0; i<attachments.getLength(); i++){
 				Node attachment = attachments.item(i);
-				String key = attachment.getAttributes().getNamedItem("key").getTextContent();
-				String type = attachment.getAttributes().getNamedItem("type").getTextContent();
+				String key = HunterUtility.getNodeAttr(attachment, "key", String.class);;
+				String type = HunterUtility.getNodeAttr(attachment, "type", String.class);;
 				if( type != null && "embedded".equalsIgnoreCase(type) ){
 					embeddedAttachments.add(key);
 				}
@@ -366,7 +366,7 @@ public class HunterCacheUtil {
 		for(int i=0; i<messages.getLength(); i++){
 			Node message = messages.item(i);
 			if(message.getNodeName().equals("message")){
-				String id = message.getAttributes().getNamedItem("id").getTextContent(); 
+				String id = HunterUtility.getNodeAttr(message, "id", String.class); 
 				NodeList metadata = message.getChildNodes();
 				String desc = null;
 				String text = null;
@@ -451,7 +451,7 @@ public class HunterCacheUtil {
 		String query = hunterJDBCExecutor.getQueryForSqlId("getAllHunterMessagesForCache");
 		List<Map<String, Object>> rowMapList = hunterJDBCExecutor.executeQueryRowMap(query, null);
 		
-		if( HunterUtility.isCollectionNotEmpty(rowMapList) ){
+		if( HunterUtility.isCollNotEmpty(rowMapList) ){
 			for(Map<String,Object> rowMap : rowMapList){
 				
 				boolean 

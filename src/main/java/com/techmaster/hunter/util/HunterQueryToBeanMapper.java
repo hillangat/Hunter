@@ -63,7 +63,7 @@ public class HunterQueryToBeanMapper {
 		List<T> list = new ArrayList<>();
 		String mapId = clzz.getSimpleName();
 		List<QueryToBeanMapperField> mapperFields = getMapperFields(xmlService, mapId);
-		if ( HunterUtility.isCollectionNotEmpty(rowMapList) && HunterUtility.isCollectionNotEmpty(mapperFields) ) {
+		if ( HunterUtility.isCollNotEmpty(rowMapList) && HunterUtility.isCollNotEmpty(mapperFields) ) {
 			List<T> returnList = new ArrayList<>();
 			for( Map<String, Object> rowMap : rowMapList ) {
 				T t = getBean( clzz, xmlService, mapId, mapperFields, rowMap );
@@ -103,17 +103,17 @@ public class HunterQueryToBeanMapper {
 	private List<QueryToBeanMapperField> getMapperFields( XMLService xmlService, String mapId ) {
 		String xPath = "maps/map[@id='" + mapId + "']/field";
 		NodeList fields = xmlService.getNodeListForPathUsingJavax(xPath);
-		if ( fields != null && fields.getLength() > 0 ) {
+		if ( HunterUtility.isNodeListNotEmptpy(fields) ) {
 			List<QueryToBeanMapperField> mapperFields = new ArrayList<>();
 			for ( int i=0; i<fields.getLength(); i++ ) {
 				Node fieldNode = fields.item(i);
-				String dbName = fieldNode.getAttributes().getNamedItem("dbName").getTextContent();
-				String fieldName = fieldNode.getAttributes().getNamedItem("fieldName").getTextContent();
-				String type = fieldNode.getAttributes().getNamedItem("type").getTextContent();
-				boolean yesNo = Boolean.valueOf(fieldNode.getAttributes().getNamedItem("yesNo").getTextContent());
+				String dbName = HunterUtility.getNodeAttr(fieldNode, "dbName", String.class);
+				String fieldName = HunterUtility.getNodeAttr(fieldNode, "fieldName", String.class);
+				String type = HunterUtility.getNodeAttr(fieldNode, "type", String.class);
+				boolean yesNo = HunterUtility.getNodeAttr(fieldNode, "yesNo", Boolean.class);
 				mapperFields.add( new QueryToBeanMapperField(mapId, dbName, fieldName, yesNo, type) );
 			}
-			if ( HunterUtility.isCollectionNotEmpty(mapperFields) ) {
+			if ( HunterUtility.isCollNotEmpty(mapperFields) ) {
 				return mapperFields;
 			} else {
 				logger.debug("No mapping fields found for mapId = " + mapId);

@@ -1,9 +1,16 @@
 package com.techmaster.hunter.json;
 
+import com.techmaster.hunter.obj.beans.AuditInfo;
+
 public class CountryJson {
 	
 	private String countryName;
 	private Long countryId;
+	private String capital;
+	private boolean hasState;
+	private int hunterPopulation;
+	private int countryPopulation;
+	private String countryCode;
 	
 	public CountryJson() {
 		super();
@@ -30,6 +37,8 @@ public class CountryJson {
 	public void setCountryId(Long countryId) {
 		this.countryId = countryId;
 	}
+	
+		
 
 	@Override
 	public int hashCode() {

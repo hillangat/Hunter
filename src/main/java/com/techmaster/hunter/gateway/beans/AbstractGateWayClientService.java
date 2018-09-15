@@ -171,7 +171,7 @@ public abstract class AbstractGateWayClientService implements GateWayClientServi
 			NodeList configsList = configService.getNodeListForPathUsingJavax(configsPath_);
 			Map<String, String> configs = new HashMap<>();
 			
-			if(configsList != null && configsList.getLength() > 0){
+			if(HunterUtility.isNodeListNotEmptpy(configsList)){
 				for(int i=0; i<configsList.getLength(); i++){
 					Node config = configsList.item(i);
 					String label = config.getChildNodes().item(1).getTextContent();
@@ -187,7 +187,7 @@ public abstract class AbstractGateWayClientService implements GateWayClientServi
 			configsList = configService.getNodeListForPathUsingJavax(configsPath_);
 			Map<String, String> connConfigs = new HashMap<>();
 			
-			if(configsList != null && configsList.getLength() > 0){
+			if(HunterUtility.isNodeListNotEmptpy(configsList)){
 				for(int i=0; i<configsList.getLength(); i++){
 					Node config = configsList.item(i);
 					String label = config.getChildNodes().item(1).getTextContent();

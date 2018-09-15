@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <mappings>
 	<references>
-		<reference name="TASK_GRID" table="TASK" alias="t" queryId="getAllTasksForGridQuery" paramReplacement="ALL, INDICES_1,2,3,4" >
+		<reference name="TASK_GRID" table="TASK" alias="t" queryId="getAllTasksForGridQuery" paramReplacement="ALL, INDICES_1,2,3,4" replaceValuesFirst="false"  >
 			<field db="TSK_ID" ui="taskId"  alias="t"  ></field>
 			<field db="TSK_NAM" ui="taskName"  alias="t"  ></field>
 			<field db="TASK_DESC" ui="taskDesc"  alias="t"  ></field>
@@ -38,7 +38,7 @@
 		</reference>
 	</references>
 	<references>
-		<reference name="TASK_HISTORY" table="TASK" alias="h" queryId="getTaskHistoryJsonsForTaskId" countSensitiveCols="TSK_ID" >
+		<reference name="TASK_HISTORY" table="TASK" alias="h" queryId="getTaskHistoryJsonsForTaskId" countSensitiveCols="TSK_ID" replaceValuesFirst="false"  >
 			<field ui="historyId" db="HSTRY_ID" alias="h" ></field>
 			<field ui="taskId" db="TSK_ID" alias="h" ></field>
 			<field ui="evenName" db="EVNT_NAM" alias="h"  ></field>
@@ -49,7 +49,7 @@
 		</reference>
 	</references>
 	<references>
-		<reference name="TASK_GROUPS" table="TSK_GRPS" alias="h" queryId="getTaskGroupJSONsForTaskIdForGrid"  countSensitiveCols="TSK_ID" >
+		<reference name="TASK_GROUPS" table="TSK_GRPS" alias="h" queryId="getTaskGroupJSONsForTaskIdForGrid"  countSensitiveCols="TSK_ID" replaceValuesFirst="false"  >
 			<field ui="groupId" db="GRP_ID" alias="g" ></field>
 			<field ui="ownerUserName" db="OWNR_USR_NAM" alias="g" ></field>
 			<field ui="firstName" db="FRST_NAM" alias="g" ></field>
@@ -65,7 +65,7 @@
 		</reference>
 	</references>
 	<references>
-		<reference name="AVAIL_RECEIVER_GROUPS" table="TSK_GRPS" alias="h" queryId="getAllAvailReceiverJsons" >
+		<reference name="AVAIL_RECEIVER_GROUPS" table="TSK_GRPS" alias="h" queryId="getAllAvailReceiverJsons" replaceValuesFirst="false"  >
 			<field ui="groupId" 		db="GRP_ID" 		alias="g" ></field>
 			<field ui="ownerUserName" 	db="OWNR_USR_NAM" 	alias="g" ></field>
 			<field ui="groupName" 		db="GRP_NAME" 		alias="g" ></field>
@@ -76,6 +76,37 @@
 			<field ui="createdBy" 		db="CRTD_BY" 		alias="g" ></field>
 			<field ui="lastUpdate" 		db="LST_UPDT_DATE" 	alias="g" ></field>
 			<field ui="lastUpdatedBy" 	db="LST_UPDTD_BY" 	alias="g" ></field>
+		</reference>
+	</references>
+	<references>
+		<reference name="TASK_REGIONS" table="TSK_GRPS" alias="h" queryId="getAllAvailReceiverJsons" replaceValuesFirst="false"  >
+			<field ui="groupId" 		db="GRP_ID" 		alias="g" ></field>
+			<field ui="ownerUserName" 	db="OWNR_USR_NAM" 	alias="g" ></field>
+			<field ui="groupName" 		db="GRP_NAME" 		alias="g" ></field>
+			<field ui="groupDesc" 		db="GRP_DESC" 		alias="g" ></field>
+			<field ui="receiverCount" 	db="RCVR_CNT" 		alias="g" ></field>
+			<field ui="receiverType" 	db="RCVR_TYP" 		alias="g" ></field>
+			<field ui="cretDate" 		db="CRET_DATE" 		alias="g" ></field>
+			<field ui="createdBy" 		db="CRTD_BY" 		alias="g" ></field>
+			<field ui="lastUpdate" 		db="LST_UPDT_DATE" 	alias="g" ></field>
+			<field ui="lastUpdatedBy" 	db="LST_UPDTD_BY" 	alias="g" ></field>
+		</reference>
+	</references>
+	<references>
+		<reference name="COUNTY_JSONS" table="CNTY" alias="c" queryId="getCountyJsons" countSensitiveCols="TSK_ID" replaceValuesFirst="true" >
+			<field ui="countyId" 			db="CNTY_ID" 		alias="c" ></field>
+			<field ui="countryId" 			db="CNTRY_ID" 		alias="c" ></field>
+			<field ui="stateId" 			db="STATE_ID" 		alias="c" ></field>
+			<field ui="countyName" 			db="CNTY_NAM" 		alias="c" ></field>
+			<field ui="mapDots" 			db="MAP_DTS" 		alias="c" ></field>
+			<field ui="hasState" 			db="HS_STATE" 		alias="c" ></field>
+			<field ui="hunterPopulation" 	db="HNTR_PPLTN" 	alias="c" ></field>
+			<field ui="countyPopulation" 	db="CNTY_CPTL" 		alias="c" ></field>
+			<field ui="countyCode" 			db="CNTY_CDE" 		alias="c" ></field>
+			<field ui="cretDate" 			db="CRET_DATE" 		alias="c" ></field>
+			<field ui="createdBy" 			db="CRTD_BY" 		alias="c" ></field>
+			<field ui="lastUpdate" 			db="LST_UPDT_DATE" 	alias="c" ></field>
+			<field ui="lastUpdatedBy" 		db="LST_UPDTD_BY" 	alias="c" ></field>
 		</reference>
 	</references>
 </mappings>

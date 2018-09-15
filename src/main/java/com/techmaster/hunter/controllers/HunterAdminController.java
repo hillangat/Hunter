@@ -350,10 +350,10 @@ public class HunterAdminController extends HunterBaseController{
 			}
 		} catch (JSONException e) {
 			e.printStackTrace();
-			return HunterUtility.setJSONObjectForFailure(jsonObject, "Application error occurred!").toString();
+			return HunterUtility.setJSONObjectForFailure(jsonObject, HunterUtility.getApplicationErrorMessage()).toString();
 		} catch (IOException e) {
 			e.printStackTrace();
-			return HunterUtility.setJSONObjectForFailure(jsonObject, "Application error occurred!").toString();
+			return HunterUtility.setJSONObjectForFailure(jsonObject, HunterUtility.getApplicationErrorMessage()).toString();
 		}
 	}
 	
@@ -377,10 +377,10 @@ public class HunterAdminController extends HunterBaseController{
 			}
 		} catch (JSONException e) {
 			e.printStackTrace();
-			return HunterUtility.setJSONObjectForFailure(jsonObject, "Application error occurred!").toString();
+			return HunterUtility.setJSONObjectForFailure(jsonObject, HunterUtility.getApplicationErrorMessage()).toString();
 		} catch (IOException e) {
 			e.printStackTrace();
-			return HunterUtility.setJSONObjectForFailure(jsonObject, "Application error occurred!").toString();
+			return HunterUtility.setJSONObjectForFailure(jsonObject, HunterUtility.getApplicationErrorMessage()).toString();
 		}
 	}
 	
@@ -734,7 +734,7 @@ public class HunterAdminController extends HunterBaseController{
 			query = hunterJDBCExecutor.getQueryForSqlId("getCountryNameAndId");
 			rowMapList =  hunterJDBCExecutor.executeQueryRowMap(query, null);
 			
-			if( HunterUtility.isCollectionNotEmpty(rowMapList) ){ 
+			if( HunterUtility.isCollNotEmpty(rowMapList) ){ 
 				for(Map<String,Object> rowMap : rowMapList){
 					RegionJsonForDropdowns regionJson = new RegionJsonForDropdowns();
 					regionJson.setRegionId( HunterUtility.getLongFromObject( rowMap.get("COUNTRYID") ) );
@@ -758,7 +758,7 @@ public class HunterAdminController extends HunterBaseController{
 			query = hunterJDBCExecutor.getQueryForSqlId("getCountiesNameAndIdForSelCountry");
 			rowMapList =  hunterJDBCExecutor.executeQueryRowMap(query, values);
 			
-			if( HunterUtility.isCollectionNotEmpty(rowMapList) ){ 
+			if( HunterUtility.isCollNotEmpty(rowMapList) ){ 
 				for(Map<String,Object> rowMap : rowMapList){
 					RegionJsonForDropdowns regionJson = new RegionJsonForDropdowns();
 					regionJson.setRegionId( HunterUtility.getLongFromObject( rowMap.get("COUNTYID") ) );
@@ -781,7 +781,7 @@ public class HunterAdminController extends HunterBaseController{
 			query = hunterJDBCExecutor.getQueryForSqlId("getConstituenciesNameAndIdForSelCounty");
 			rowMapList =  hunterJDBCExecutor.executeQueryRowMap(query, values);
 			
-			if( HunterUtility.isCollectionNotEmpty(rowMapList) ){ 
+			if( HunterUtility.isCollNotEmpty(rowMapList) ){ 
 				for(Map<String,Object> rowMap : rowMapList){
 					RegionJsonForDropdowns regionJson = new RegionJsonForDropdowns();
 					regionJson.setRegionId( HunterUtility.getLongFromObject( rowMap.get("CONSTITUENCY_ID") ) );
@@ -804,7 +804,7 @@ public class HunterAdminController extends HunterBaseController{
 			query = hunterJDBCExecutor.getQueryForSqlId("getConstituencyWardsForSelCons");
 			rowMapList =  hunterJDBCExecutor.executeQueryRowMap(query, values);
 			
-			if( HunterUtility.isCollectionNotEmpty(rowMapList) ){ 
+			if( HunterUtility.isCollNotEmpty(rowMapList) ){ 
 				for(Map<String,Object> rowMap : rowMapList){
 					RegionJsonForDropdowns regionJson = new RegionJsonForDropdowns();
 					regionJson.setRegionId( HunterUtility.getLongFromObject( rowMap.get("WARD_ID") ) );

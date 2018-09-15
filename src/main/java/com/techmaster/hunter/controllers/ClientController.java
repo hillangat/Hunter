@@ -22,7 +22,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.core.JsonGenerationException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -48,7 +47,6 @@ public class ClientController extends HunterBaseController{
 	@Autowired private HunterClientDao hunterClientDao;
 	private Logger logger = Logger.getLogger(ClientController.class);
 	
-	@JsonIgnore
 	@RequestMapping(value="/action/read", method = RequestMethod.GET)
 	@Produces("application/json") 
 	public @ResponseBody String readHunterClientUser(){
@@ -89,7 +87,6 @@ public class ClientController extends HunterBaseController{
 		return "clientCreate";
 	}
 	
-	@JsonIgnore
 	@RequestMapping(value="/action/getClientForUserId", method = RequestMethod.POST)
 	@Produces("application/json") 
 	public @ResponseBody HunterClientJson getClientForUserId(HttpServletRequest request){

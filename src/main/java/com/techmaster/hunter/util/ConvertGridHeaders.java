@@ -48,7 +48,7 @@ public class ConvertGridHeaders {
 			for( int i = 0; i < headers.getLength(); i++ ) {
 				Node header = headers.item(i);
 					if ( !header.getNodeName().equals("#text") ) {
-					String key = header.getAttributes().getNamedItem("name").getTextContent();
+					String key = HunterUtility.getNodeAttr(header, "name", String.class);;
 					if ( HunterUtility.notNullNotEmpty(key) ) {
 						String jsonStr = getJsonStr(key, oldService);
 						JSONArray json = jsonStr != null ? new JSONArray( jsonStr.trim() ) : null;
