@@ -3,7 +3,9 @@ package com.techmaster.hunter.angular.grid;
 import java.util.Arrays;
 
 public enum GridQueryOperationEnum {
-	// gt,lt,equals,before,after,contains,begins,ends;	
+
+	// gt,lt,equals,before,after,contains,begins,ends;
+
 	gt( "gt", "Greater Than", " > " ),
 	lt( "lt", "Less Than", " < " ),
 	equals( "equals", "Equals", " = " ),
