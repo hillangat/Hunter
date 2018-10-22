@@ -1,6 +1,5 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:security="http://www.springframework.org/scehma/security"
-	xmlns:mvc="http://www.springframework.org/schema/mvc" 
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
 	xmlns:context="http://www.springframework.org/schema/context"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="
@@ -13,10 +12,10 @@
         http://www.springframework.org/schema/security/
         http://www.springframework.org/schema/security/spring-security-3.0.xsd">
 
-	<import resource="/application.xml" />
-	<import resource="/hunterDmsBeans.xml" />
-	
-	
+	<import resource="./application.xml" />
+	<import resource="./hunterDmsBeans.xml" />
+
+
 <!-- 	<bean id="statesDao" class="com.kendo.kip.dao.imp.StateDaoImpl">
 	    <constructor-arg>
 	        <ref local="jdbcTemplate" /> 
@@ -161,8 +160,8 @@
 	<mvc:default-servlet-handler /> <!-- Added this default thing because it was failing. -->
 	
 	<context:component-scan base-package="com.techmaster.hunter.controllers" />
-	<context:component-scan base-package="com.techmaster.hunter.beans" />
-	<context:component-scan base-package="com.techmaster.hunter.obj.beans.converters" />
+	<context:component-scan base-package="com.techmaster.hunter.obj.beans" />
+	<context:component-scan base-package="com.techmaster.hunter.obj.converters" />
 	<context:component-scan base-package="com.techmaster.hunter.region" />
 	<context:component-scan base-package="com.techmaster.hunter.security" />
 	

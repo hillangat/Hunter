@@ -630,7 +630,7 @@ public class TaskController extends HunterBaseController{
 	public @ResponseBody Object getTaskHistoriesForTask(@PathVariable("taskId")Long taskId, HttpServletRequest request) {
 		List<Object> valueList = new ArrayList<>();
 		valueList.add(taskId);
-		return GridQueryHandler.getInstance().executeForAngularData(TaskHistoryJson.class, request, HunterDaoConstants.TASK_HISTORY_HEADERS, valueList);			
+		return GridQueryHandler.getInstance().executeForAngularData(TaskHistoryJson.class, request, HunterDaoConstants.TASK_HISTORY_HEADERS, valueList);
 	}
 	
 	@Produces("application/json")

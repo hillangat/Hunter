@@ -1232,13 +1232,11 @@ public static  Logger logger = Logger.getLogger(HunterUtility.class);
 	}
 	
 	public static String getYNForBoolean(boolean boolean_){
-		String yN = boolean_ ? "Y" : "N";
-		return yN;
+		return boolean_ ? "Y" : "N";
 	}
 	
 	public static boolean getBooleanForYN(String yn){
-		boolean ynb = "Y".equalsIgnoreCase(yn) ? true : false;
-		return ynb;
+		return "Y".equalsIgnoreCase(yn);
 	}
 	
 	public static void testMap(){
@@ -1506,6 +1504,10 @@ public static  Logger logger = Logger.getLogger(HunterUtility.class);
 	public static JSONObject getServerSuccess( String message ){
 		JSONObject json = null;
 		return getServerResponse(message, HunterConstants.STATUS_SUCCESS, json);
+	}
+
+	public static boolean isTextNode(Node node) {
+		return node != null && node.getNodeName().equals("#text");
 	}
 	
 	public static List<HunterSelectValue> getSelectValsForQueryId( String queryId ) {

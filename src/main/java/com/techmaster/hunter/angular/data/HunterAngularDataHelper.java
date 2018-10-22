@@ -42,7 +42,7 @@ public class HunterAngularDataHelper {
 		if ( HunterUtility.isNodeListNotEmptpy(properties) ) {
 			for( int i = 0; i < properties.getLength(); i++ ) {
 				Node property = properties.item(i);
-				if ( property != null && !property.getNodeName().equals("#text") ) {
+				if ( property != null && !HunterUtility.isTextNode(property) ) {
 					String key = HunterUtility.getNodeAttr(property, "key", String.class);;
 					String value = HunterUtility.getNodeAttr(property, "value", String.class);
 					value = "null".equals(value) ? null : value;
