@@ -81,7 +81,7 @@ public interface ExcelExtractor  {
 	 * @param errorCellNum : The status cell number
 	 * @param status: The string "Fail" or "Success". 
 	 */
-	public abstract void createStatuCell(String sheetName, Workbook workbook, Integer rowNum, String status);
+	public abstract void createStatusCell(String sheetName, Workbook workbook, Integer rowNum, String status);
 	
 	/**
 	 * @param data : The extracted map of list of cell values of all rows

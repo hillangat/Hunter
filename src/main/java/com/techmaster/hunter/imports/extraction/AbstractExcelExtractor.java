@@ -105,7 +105,7 @@ public abstract class AbstractExcelExtractor<E> implements ExcelExtractor {
 	}
 
 	@Override
-	public void createStatuCell(String sheetName, Workbook workbook, Integer rowNum, String status) {
+	public void createStatusCell(String sheetName, Workbook workbook, Integer rowNum, String status) {
 		if(sheetName == null || sheetName.trim().equalsIgnoreCase(""))
 			throw new IllegalArgumentException("Sheet name provided is not valid. Name >> " + sheetName);
 		Sheet sheet = workbook.getSheet(sheetName); 

@@ -324,7 +324,7 @@ public class GroupReceiversExtractor extends AbstractExcelExtractor<ReceiverGrou
 			
 		}
 		
-		createStatuCell(ExcelExtractor.RECEIVER_GROUP_RECEIVERS, workbook, lastRowNum, status);
+		createStatusCell(ExcelExtractor.RECEIVER_GROUP_RECEIVERS, workbook, lastRowNum, status);
 		
 		/* Save import excel file */
 		logger.debug("Saving excel file to db.."); 

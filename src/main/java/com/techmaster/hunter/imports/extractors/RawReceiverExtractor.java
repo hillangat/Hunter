@@ -408,7 +408,7 @@ public class RawReceiverExtractor extends AbstractExcelExtractor<HunterRawReceiv
 			
 		}
 		
-		createStatuCell(ExcelExtractor.RAW_RECEIVERS_SHEET_NAME, workbook, lastRowNum, status);
+		createStatusCell(ExcelExtractor.RAW_RECEIVERS_SHEET_NAME, workbook, lastRowNum, status);
 		
 		logger.debug("Saving excel file to db.."); 
 		String stsStr = this.isStatus() ? HunterConstants.STATUS_SUCCESS : HunterConstants.STATUS_FAILED;

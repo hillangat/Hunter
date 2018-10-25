@@ -288,7 +288,7 @@ public class RegionExtractor extends AbstractExcelExtractor<ReceiverRegion> {
 			
 		}
 		
-		createStatuCell(ExcelExtractor.REGION_EXTRACTOR, workbook, lastRowNum, status);
+		createStatusCell(ExcelExtractor.REGION_EXTRACTOR, workbook, lastRowNum, status);
 		
 		boolean isStatus = this.isStatus();
 		boolean isSurfaceValid = this.isSurfaceValid();

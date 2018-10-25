@@ -620,7 +620,7 @@ public class HunterMsgReceiverExtractor extends AbstractExcelExtractor<HunterMes
 			
 		}
 		
-		createStatuCell(ExcelExtractor.HUNTER_MSG_EXTRACTOR, workbook, lastRowNum, status);
+		createStatusCell(ExcelExtractor.HUNTER_MSG_EXTRACTOR, workbook, lastRowNum, status);
 		
 		logger.debug("Saving excel file to db.."); 
 		String stsStr = this.isStatus() ? HunterConstants.STATUS_SUCCESS : HunterConstants.STATUS_FAILED;

@@ -262,7 +262,7 @@ public class GridQueryHandler {
 				if ( HunterUtility.isNodeListNotEmptpy(references) ) {
 					for( int j = 0 ; j < fields.getLength(); j++ ) {
 						Node field = fields.item(j);
-						if ( !field.getNodeName().equals("#text") ) {
+						if ( !HunterUtility.isTextNode(field) ) {
 							String uiName = HunterUtility.getNodeAttr(field, "ui", String.class);
 							String dbName = HunterUtility.getNodeAttr(field, "db", String.class);
 							for ( GridFieldUserInput filter : req.getFilterBy() ) {

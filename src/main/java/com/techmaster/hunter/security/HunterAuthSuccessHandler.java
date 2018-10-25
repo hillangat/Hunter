@@ -16,7 +16,7 @@ import org.springframework.security.web.authentication.SavedRequestAwareAuthenti
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class HunterAuthSuccessHandler extends SavedRequestAwareAuthenticationSuccessHandler {
-	
+
 
     private final ObjectMapper mapper;
 
