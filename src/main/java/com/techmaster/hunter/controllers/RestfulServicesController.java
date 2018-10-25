@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.Produces;
 
+import org.apache.commons.dbcp.BasicDataSource;
 import org.apache.log4j.Logger;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -50,6 +51,7 @@ public class RestfulServicesController {
 	@ResponseBody
 	@RequestMapping( value = "sample", method = RequestMethod.POST )
 	public String getSampleService(){
+		BasicDataSource basicDataSource;
 		return HunterUtility.setJSONObjectForSuccess(null, "Successful sample").toString(); 
 	}
 	
@@ -120,13 +122,6 @@ public class RestfulServicesController {
 			e.printStackTrace();
 			return HunterUtility.getServerError("Error occurred while getting workflow trees").toString();
 		}
-	}
-	
-	@RequestMapping(value="/tasks/read/{scope}", method = RequestMethod.POST)
-	@Produces("application/json") 
-	@Consumes("application/json")
-	public @ResponseBody Object getAllAngularTasks( @PathVariable("scope") String scope, HttpServletRequest request ){
-		return GridQueryHandler.getInstance().executeForAngularData(TaskAngular.class, request, HunterDaoConstants.TASK_GRID_HEADERS, null);			
 	}
 	
 	@RequestMapping(value="/users/approvers/selValues", method = RequestMethod.GET)

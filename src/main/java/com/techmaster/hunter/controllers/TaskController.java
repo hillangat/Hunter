@@ -14,6 +14,7 @@ import javax.swing.plaf.synth.Region;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.Produces;
 
+import com.techmaster.hunter.json.*;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.log4j.Logger;
 import org.hibernate.sql.SelectValues;
@@ -21,11 +22,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import com.techmaster.hunter.angular.data.AngularData;
 import com.techmaster.hunter.angular.data.HunterAngularDataHelper;
@@ -43,11 +40,6 @@ import com.techmaster.hunter.dao.types.TaskHistoryDao;
 import com.techmaster.hunter.enums.HunterUserRolesEnums;
 import com.techmaster.hunter.enums.TaskHistoryEventEnum;
 import com.techmaster.hunter.gateway.beans.GateWayClientService;
-import com.techmaster.hunter.json.HunterSelectValue;
-import com.techmaster.hunter.json.HunterUserJson;
-import com.techmaster.hunter.json.ReceiverGroupJson;
-import com.techmaster.hunter.json.TaskHistoryJson;
-import com.techmaster.hunter.json.TaskProcessJobJson;
 import com.techmaster.hunter.obj.beans.AuditInfo;
 import com.techmaster.hunter.obj.beans.HunterJacksonMapper;
 import com.techmaster.hunter.obj.beans.HunterSocialMedia;
@@ -66,6 +58,7 @@ import com.techmaster.hunter.util.HunterLogFactory;
 import com.techmaster.hunter.util.HunterQueryToBeanMapper;
 import com.techmaster.hunter.util.HunterUtility;
 
+@CrossOrigin( origins=HunterConstants.ALLOWED_CORS_ORIGINS, maxAge=3600 )
 @Controller
 @RequestMapping(value = "/task")
 public class TaskController extends HunterBaseController{
@@ -77,6 +70,13 @@ public class TaskController extends HunterBaseController{
 	@Autowired private RegionService regionService;
 	
 	private static final Logger logger = HunterLogFactory.getLog(TaskController.class);
+
+	@RequestMapping(value="/tasks/read/{scope}", method = RequestMethod.POST)
+	@Produces("application/json")
+	@Consumes("application/json")
+	public @ResponseBody Object getAllAngularTasks( @PathVariable("scope") String scope, HttpServletRequest request ){
+		return GridQueryHandler.getInstance().executeForAngularData(TaskAngular.class, request, HunterDaoConstants.TASK_GRID_HEADERS, null);
+	}
 	
 	@RequestMapping(value="/getTask/byId/{taskId}", method = RequestMethod.GET)
 	@Produces("application/json")

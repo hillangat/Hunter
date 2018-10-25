@@ -1,6 +1,5 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:security="http://www.springframework.org/scehma/security"
-	xmlns:mvc="http://www.springframework.org/schema/mvc" 
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
 	xmlns:context="http://www.springframework.org/schema/context"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="
@@ -10,8 +9,7 @@
         http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd
         http://www.springframework.org/schema/context 
         http://www.springframework.org/schema/context/spring-context-3.0.xsd
-        http://www.springframework.org/schema/security/
-        http://www.springframework.org/schema/security/spring-security-3.0.xsd">
+        ">
 
 	<import resource="/application.xml" />
 	<import resource="/hunterDmsBeans.xml" />
@@ -45,7 +43,7 @@
 		</constructor-arg>
 	</bean>
 	
-    <bean id="dataSource" class="org.apache.tomcat.dbcp.dbcp.BasicDataSource" destroy-method="close">
+    <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
         <property name="driverClassName" value="oracle.jdbc.driver.OracleDriver"/>
         <property name="url" value="jdbc:oracle:thin:@localhost:1521:orcl"/>
         <property name="username" value="system"/>
@@ -170,13 +168,13 @@
 	
     <!--   <context:property-placeholder location="jdbc.properties"/>     -->
     
-	<mvc:resources mapping="/static/**" location="/" />
+	<mvc:resources mapping="/static/**" location="/WEB-INF/" />
 	<mvc:annotation-driven />
 	<mvc:default-servlet-handler /> <!-- Added this default thing because it was failing. -->
 	
 	<context:component-scan base-package="com.techmaster.hunter.controllers" />
-	<context:component-scan base-package="com.techmaster.hunter.beans" />
-	<context:component-scan base-package="com.techmaster.hunter.obj.beans.converters" />
+	<context:component-scan base-package="com.techmaster.hunter.obj.beans" />
+	<context:component-scan base-package="com.techmaster.hunter.obj.converters" />
 	<context:component-scan base-package="com.techmaster.hunter.region" />
 	<context:component-scan base-package="com.techmaster.hunter.security" />
 	

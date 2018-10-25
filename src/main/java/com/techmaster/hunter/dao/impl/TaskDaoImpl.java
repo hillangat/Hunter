@@ -217,7 +217,7 @@ public class TaskDaoImpl implements TaskDao{
 	@Override
 	public void updateTaskDelStatus(Long taskId, String toStatus, String updateBy) {
 		logger.debug("Updating status of taskId ( " + taskId + " ) toStatus ( " + toStatus + " )...");
-		String query = "UPDATE task SET TSK_DEL_STS = ?,LST_UPDTD = sysdate,UPDTD_BY = ?, TSK_APPRVD = to_char('Y'), TSK_APPRVR  = ? WHERE tsk_id = ?";
+		String query = hunterJDBCExecutor.getQueryForSqlId("updateTaskDeleteStatus");
 		List<Object> values = new ArrayList<>();
 		values.add(toStatus);
 		values.add(updateBy);
@@ -246,7 +246,7 @@ public class TaskDaoImpl implements TaskDao{
 	public Map<String, String> getTaskStatuses(Long taskId) {
 		logger.debug("Fetching statuses of taskId : " + taskId); 
 		Map<String, String> statuses = new HashMap<String,String>();
-		String query = "select t.TSK_DEL_STS, t.TSK_LF_STS from task t where t.TSK_ID = ?";
+		String query = hunterJDBCExecutor.getQueryForSqlId("getTaskStatuses");
 		List<Object> values = new ArrayList<>();
 		values.add(taskId);
 		Map<Integer, List<Object>> rowMapList = hunterJDBCExecutor.executeQueryRowList(query, values);

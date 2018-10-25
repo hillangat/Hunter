@@ -1761,4 +1761,30 @@
 			FROM TASK t
 		</statement>
 	</query>
+	<query id="updateTaskDeleteStatus">
+		<description>
+			Update Task Delete Status
+		</description>
+		<statement>
+			UPDATE task SET
+				TSK_DEL_STS = ?,
+				LST_UPDTD = sysdate,
+				UPDTD_BY = ?,
+				TSK_APPRVD = to_char('Y'),
+				TSK_APPRVR  = ?
+			WHERE tsk_id = ?
+		</statement>
+	</query>
+	<query id="getTaskStatuses">
+		<description>
+			Get task statuses.
+		</description>
+		<statement>
+			SELECT
+				t.TSK_DEL_STS,
+				t.TSK_LF_STS
+			FROM task t
+			WHERE t.TSK_ID = ?
+		</statement>
+	</query>
 </queries>

@@ -1,4 +1,4 @@
-<!-- <?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 
  <beans:beans xmlns="http://www.springframework.org/schema/security"
     xmlns:beans="http://www.springframework.org/schema/beans"
@@ -47,4 +47,4 @@
 	<authentication-manager>
 		 <authentication-provider ref="customAuthenticationProvider"/>
 	</authentication-manager>
-</beans:beans> -->
+</beans:beans>
