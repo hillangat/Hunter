@@ -101,10 +101,11 @@ public class GateWayClientHelper {
 	/**
 	 * This method locks to pending and unlocks task to any desired status.
 	 * It should only be used while processing task to avoid multiple processing submissions and no where else. 
-	 * @param taskId The id of the task to be locked or unlocked.
+	 * @param task The task to for which the status is changed.
 	 * @param status the status to which the task is to be set to. If left null, system shall lock the task by setting it to pending.
 	 */
-	public void lockTask(Long taskId, String status){
+	public void lockTask(Task task, String status){
+		Long taskId = task.getTaskId();
 		if(status == null || HunterConstants.STATUS_PENDING.equals(status)){ 
 			status = HunterConstants.STATUS_PENDING;
 			logger.debug("Locking task...: " + taskId);
@@ -117,6 +118,7 @@ public class GateWayClientHelper {
 		values.add( status );
 		values.add( taskId );
 		HunterDaoFactory.getObject(HunterJDBCExecutor.class).executeUpdate(lockQ, values);
+		task.setTaskDeliveryStatus(status);
 	}
 	
 	public boolean isTaskLocked(Task task){

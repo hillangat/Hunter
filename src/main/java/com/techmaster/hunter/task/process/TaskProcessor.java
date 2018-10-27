@@ -155,8 +155,7 @@ public class TaskProcessor {
 	public Map<String, Object> process(Task task,TaskClientConfigBean configBean, Set<GateWayMessage> messages, AuditInfo auditInfo) {
 		
 		// lock the task before doing anything else.
-		task.setTaskDeliveryStatus(HunterConstants.STATUS_PENDING);
-		GateWayClientHelper.getInstance().lockTask(task.getTaskId(), HunterConstants.STATUS_PENDING);
+		GateWayClientHelper.getInstance().lockTask(task, HunterConstants.STATUS_PENDING);
 		
 		logger.debug("Sending task process notification email..");
 		sendTaskProcessBusinessEmail(HunterConstants.MAIL_TYPE_TASK_PROCESS_NOTIFICATION, task.getTaskId());
@@ -206,6 +205,7 @@ public class TaskProcessor {
 			errors.add("Error occurred while submitting task for processing");
 			results.put("TASK_PROCESSOR_ERRORS", errors);
 			results.put("TASK_PROCESSOR_STATUS", HunterConstants.STATUS_FAILED);
+            GateWayClientHelper.getInstance().lockTask(task, HunterConstants.STATUS_PENDING);
 			return results;
 		}
 		
